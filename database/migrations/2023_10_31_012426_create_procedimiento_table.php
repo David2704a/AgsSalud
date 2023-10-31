@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreign('idEstadoProcedimiento')->references('idEstadoP')->on('estadoProcedimiento');
 
             $table->unsignedBigInteger('idTipoProcedimiento');
-            $table->foreign('idTipoProcedimiento')->references('idTipoProcedimiento')->on('tipoProcedimiento'); // Corregido el nombre de la tabla relacionada
+            $table->foreign('idTipoProcedimiento')->references('idTipoProcedimiento')->on('tipoProcedimiento'); 
         });
     }
 
