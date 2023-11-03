@@ -9,16 +9,22 @@
 <body>
 
     <h1>Edit Estado Procedimiento</h1>
-
-    <form action="{{route('updateEstadoP', ['id', $estadoProcedimiento->idEstadoP])}}" method="POST">
+   <form action="{{route('updateEstadoP', ['id'=> $estadoProcedimiento->idEstadoP])}}" method="POST">
     @csrf
     @method('PUT')
-    <label for="Estado">Estado</label>
-    <input type="text" name="estado" id="estado" value="{{$estadoProcedimiento->estado}}">
-    <input type="text" name="descripcion" id="descripcion" value="{{$estadoProcedimiento->descripcion}}">
+    <input type="hidden" name="idEstadoP" value="{{$estadoProcedimiento->idEstadoP}}">
+    <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <input type="text" class="form-control" id="estado" name="estado" value="{{$estadoProcedimiento->estado}}">
+    </div>
+    <div class="form-group">
+        <label for="descripcion">Descripcion</label>
+        <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{$estadoProcedimiento->descripcion}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Editar</button>
 
-    <button type="submit">Editar</button>
-</form>
+    </form>
+
 
 </body>
 </html>

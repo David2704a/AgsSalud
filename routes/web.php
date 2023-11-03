@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EstadoProcedimientoController;
+use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,11 @@ Route::post('/estadoProcedimiento/store', [EstadoProcedimientoController::class,
 Route::get('/estadoProcedimiento/{id}/edit', [EstadoProcedimientoController::class, 'edit'])->name('editEstadoP');
 Route::put('/estadoProcedimiento/{id}/update', [EstadoProcedimientoController::class, 'update'])->name('updateEstadoP');
 Route::delete('/estadoProcedimiento/{id}/destroy', [EstadoProcedimientoController::class, 'destroy'])->name('destroyEstadoP');
+
+
+Route::get('/procedimiento', [ProcedimientoController::class, 'index'])->name('mostrarProcedimiento');
+Route::get('/procedimiento/create', [ProcedimientoController::class, 'create'])->name('createProcedimiento');
+Route::post('/procedimiento/store', [ProcedimientoController::class,'store'])->name('storeProcedimiento');
+Route::get('/procedimiento/{id}/edit', [ProcedimientoController::class, 'edit'])->name('editProcedimiento');
+Route::put('/procedimiento/{id}/update', [ProcedimientoController::class, 'update'])->name('updateProcedimiento');
+Route::delete('/procedimiento/{id}/destroy', [ProcedimientoController::class, 'destroy'])->name('destroyProcedimiento');

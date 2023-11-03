@@ -32,7 +32,7 @@
 
             <tr>
                 <td>
-                    {{$estadoProcedimiento->id}}
+                    {{$estadoProcedimiento->idEstadoP}}
                 </td>
                 <td>
                     {{$estadoProcedimiento->estado}}
@@ -42,6 +42,13 @@
                 </td>
                 <td>
                     <a href="{{ route('editEstadoP', ['id' => $estadoProcedimiento->idEstadoP]) }}">Editar</a>
+                </td>
+                <td>
+                    <form action="{{route('destroyEstadoP', ['id' => $estadoProcedimiento->idEstadoP])}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Eliminar</button>
+                </form>
                 </td>
 
             </tr>

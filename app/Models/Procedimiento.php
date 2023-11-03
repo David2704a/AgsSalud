@@ -11,6 +11,8 @@ class Procedimiento extends Model
     use HasFactory;
     protected $table = 'procedimiento';
     protected $primaryKey = 'idProcedimiento';
+    public $timestamps = false;
+
 
     protected $fillable = [
         'fechaInicio',

@@ -89,8 +89,9 @@ class EstadoProcedimientoController extends Controller
         ]);
 
 
-        $estadoProcedimiento -> update($request->all());
-        
+        $estadoProcedimiento -> estado = $request->input("estado");
+        $estadoProcedimiento ->descripcion = $request->input("descripcion");
+
         $estadoProcedimiento ->save();
 
         return redirect()->route("mostrarEstadoP")->with('success', 'Tipo de Procedimiento actualizado correctamente');
