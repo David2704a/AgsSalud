@@ -1,14 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app')
 
-    <h1>Index Procedimientos</h1>
+@section('title', 'Procedimiento')
+    
+
+@section('links')
+    
+<link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
+
+
+@endsection
+
+@section('content')
+
+<div class="content">
+    <h1 class="page-title">Procedimientos</h1>
+    <div class="green-line"></div>
+</div>
+
 
     <a href="{{route('createProcedimiento')}}">Crear</a>
     <a href="{{route('createEstadoP')}}">Crear estadoP</a>
@@ -102,5 +110,4 @@
         </tbody>
     </table>
 
-</body>
-</html>
+@endsection
