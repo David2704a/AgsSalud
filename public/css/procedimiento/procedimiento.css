@@ -8,15 +8,15 @@
 .page-title {
     font-size: 28px;
     color: #343D7C;
-    margin-top: 20px;
+    margin-top: 2rem;
 }
 
 .green-line {
-    width: 220px;
+    width: 17rem;
     height: 4px;
     background-color: #01A497;
     margin: -15px auto;
-    border-radius: 5px;
+    border-radius: 1rem;
 }
 
 
@@ -30,7 +30,7 @@ MENU
 .menu-container {
     text-align: center;
     background-color: #F3F3F3;
-    width: 35rem;
+    width: 36rem;
     height: 2.5rem;
     margin: 2rem auto;
     border-radius: 0.5rem;
@@ -44,7 +44,7 @@ MENU
 }
 
 .menu li {
-    margin: 0.6rem 3rem;
+    margin: 0.6rem 2rem;
 }
 
 .menu a {
@@ -99,7 +99,7 @@ Table
 
 table {
     border-collapse: collapse;
-    width: 70%;
+    width: 100%;
 }
 
 th {

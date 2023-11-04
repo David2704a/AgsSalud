@@ -13,7 +13,7 @@ class ProcedimientoController extends Controller
 {
 
     public function home(){
-        
+
     }
 
     public function index() {
@@ -30,8 +30,9 @@ class ProcedimientoController extends Controller
         $elemento = Elemento::all();
         $estadoProcedimiento = EstadoProcedimiento::all();
         $tipoProcedimiento = TipoProcedimiento::all();
-        $usuario = User::all();
-       return view('procedimientos.procedimiento.create', compact('elemento','estadoProcedimiento','tipoProcedimiento','usuario'));
+        $usuariosEntrega = User::all();
+        $usuariosRecibe = User::all();
+       return view('procedimientos.procedimiento.create', compact('elemento','estadoProcedimiento','tipoProcedimiento','usuariosEntrega','usuariosRecibe'));
     }
 
     /**
@@ -51,11 +52,17 @@ class ProcedimientoController extends Controller
         $procedimiento->idElemento = $request->input('idElemento');
         $procedimiento->idEstadoProcedimiento = $request->input('idEstadoProcedimiento');
         $procedimiento->idTipoProcedimiento = $request->input('idTipoProcedimiento');
+        $procedimiento->idResponsableEntrega = $request->input('idResponsableEntrega');
+        $procedimiento->idResponsableRecibe = $request->input('idResponsableRecibe');
+        $procedimiento->fechaInicio = $request->input('fechaInicio');
+        $procedimiento->fechaFin = $request->input('fechaFin');
+        $procedimiento->hora = $request->input('hora');
+        $procedimiento->fechaReprogramada = $request->input('fechaReprogramada');
 
 
         $procedimiento->save();
 
-        return redirect()->route('mostrarProcedimiento');
+        return redirect()->route('createProcedimiento');
 
     }
 

@@ -25,7 +25,14 @@
         <label for="idResponsableEntrega">Responsable Entrega</label>
         <select name="idResponsableEntrega" id="idResponsableEntrega">
             <option value="">Seleccionar una opción</option>
-            @foreach ($usuario as $usuario)
+            @foreach ($usuariosEntrega as $usuario)
+                <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+            @endforeach
+        </select>
+
+        <select name="idResponsableRecibe" id="idResponsableRecibe">
+            <option value="">Seleccionar una opción</option>
+            @foreach ($usuariosRecibe as $usuario)
                 <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
             @endforeach
         </select>

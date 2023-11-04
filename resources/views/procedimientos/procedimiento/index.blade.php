@@ -13,23 +13,23 @@
 @section('content')
 
 <div class="content">
-    <h1 class="page-title">Procedimientos</h1>
+    <h1 class="page-title">PROCEDIMIENTOS</h1>
     <div class="green-line"></div>
 
     <div class="menu-container">
         <ul class="menu">
             <li>
-                <a href="#">En proceso</a>
-                <div class="linea"></div>
+                <a href="#" data-filtro="Todos">Todos</a>
             </li>
             <li>
-                <a href="#">Terminados</a>
-                <div class="linea"></div>
+                <a href="#" data-filtro="En-proceso">En proceso</a>
+            </li>
+            <li>
+                <a href="#" data-filtro="Terminado">Terminados</a>
 
             </li>
             <li>
-                <a href="#">Pendientes</a>
-                <div class="linea active"></div>
+                <a href="#" data-filtro="Pendiente">Pendientes</a>
             </li>
         </ul>
     </div>
@@ -53,151 +53,95 @@
                 </tr>
             </thead>
             <tbody>
+                <tr class="mensaje-vacio" style="display: none;">
+                    <td colspan="12">No se encontraron registros</td>
+                </tr>
                 @foreach ($procedimiento as $procedimiento)
-            <tr>
-                <td>
-                    {{$procedimiento->idProcedimiento}}
-                </td>
-                <td>
-                    {{$procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->fechaFin ? $procedimiento->fechaFin : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->hora ? $procedimiento->hora : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->fechaReprogramada ? $procedimiento->fechaReprogramada : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->observacion}}
-                </td>
-                <td>
-                    {{$procedimiento->idResponsableEntrega ? $procedimiento->idResponsableEntrega : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->idResponsableRecibe ? $procedimiento->idResponsableRecibe : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->elemento->modelo }}
-                </td>
-                <td>
-                    {{$procedimiento->estadoProcedimiento->estado}}
-                </td>
-                <td>
-                    {{$procedimiento->tipoProcedimiento->tipo}}
-                </td>
-                <td>
-                    <a href="{{route('editProcedimiento', $procedimiento->idProcedimiento)}}">Editar</a>
-
-                    <form action="{{route('destroyProcedimiento', ['id' => $procedimiento->idProcedimiento])}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
+                <tr class="estado-{{ str_replace(' ', '-', $procedimiento->estadoProcedimiento->estado) }}">
+                    <td>
+                        {{ $procedimiento->idProcedimiento }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica' }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'No aplica' }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->hora ? $procedimiento->hora : 'No aplica' }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->fechaReprogramada ? $procedimiento->fechaReprogramada : 'No aplica' }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->observacion }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->elemento->modelo }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->estadoProcedimiento->estado }}
+                    </td>
+                    <td>
+                        {{ $procedimiento->tipoProcedimiento->tipo }}
+                    </td>
+                    <td>
+                        <a href="{{ route('editProcedimiento', $procedimiento->idProcedimiento) }}">Editar</a>
+                        <form action="{{ route('destroyProcedimiento', ['id' => $procedimiento->idProcedimiento]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
-            </tbody>
-        </table>
+        </tbody>
+    </table>
     </div>
 
 </div>
 
 
+{{--
+    ============================================================
+    Funcion de filtrado con los botones
+    ============================================================
+--}}
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const menuItems = document.querySelectorAll('.menu a');
+    const tableRows = document.querySelectorAll('tbody tr');
+    const mensajeVacio = document.querySelector('.mensaje-vacio'); // Obtener la fila de mensaje vacío
 
-    {{-- <a href="{{route('createProcedimiento')}}">Crear</a>
-    <a href="{{route('createEstadoP')}}">Crear estadoP</a>
-    <a href="{{route('createTipoP')}}">Crear tipoP</a>
+    menuItems.forEach(item => {
+        item.addEventListener('click', function (event) {
+            event.preventDefault();
+            const filtro = event.target.getAttribute('data-filtro');
+            let filasVisibles = 0;
 
-    <table>
-        <thead>
-            <th>
-                ID
-            </th>
-            <th>
-                fechaInicio
-            </th>
-            <th>
-                fechaFin
-            </th>
-            <th>
-                hora
-            </th>
-            <th>
-                fechaReprogramada
-            </th>
-            <th>
-                observacion
-            </th>
-            <th>
-                idResponsableEntrega
-            </th>
-            <th>
-                idResponsableRecibe
-            </th>
-            <th>
-                idElemento
-            </th>
-            <th>
-                idEstadoProcedimiento
-            </th>
-            <th>
-                idTipoProcedimiento
-            </th>
-        </thead>
-        <tbody>
-            @foreach ($procedimiento as $procedimiento)
-            <tr>
-                <td>
-                    {{$procedimiento->idProcedimiento}}
-                </td>
-                <td>
-                    {{$procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->fechaFin ? $procedimiento->fechaFin : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->hora ? $procedimiento->hora : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->fechaReprogramada ? $procedimiento->fechaReprogramada : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->observacion}}
-                </td>
-                <td>
-                    {{$procedimiento->idResponsableEntrega ? $procedimiento->idResponsableEntrega : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->idResponsableRecibe ? $procedimiento->idResponsableRecibe : 'No aplica'}}
-                </td>
-                <td>
-                    {{$procedimiento->elemento->modelo }}
-                </td>
-                <td>
-                    {{$procedimiento->estadoProcedimiento->estado}}
-                </td>
-                <td>
-                    {{$procedimiento->tipoProcedimiento->tipo}}
-                </td>
-                <td>
-                    <a href="{{route('editProcedimiento', $procedimiento->idProcedimiento)}}">Editar</a>
-                </td>
-                <td>
-                    <form action="{{route('destroyProcedimiento', ['id' => $procedimiento->idProcedimiento])}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
+            tableRows.forEach(row => {
+                const estado = row.classList[0].replace('estado-', '');
+                console.log(estado);
+                if (filtro === estado || filtro === 'Todos') {
+                    row.style.display = '';
+                    filasVisibles++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
 
-        </tbody>
-    </table> --}}
+            // Mostrar el mensaje de "No se encontraron registros" si no hay filas visibles
+            mensajeVacio.style.display = filasVisibles === 0 ? 'table-row' : 'none';
+        });
+    });
+});
+    </script>
 
 @endsection

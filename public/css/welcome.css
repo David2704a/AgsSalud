@@ -18,7 +18,7 @@ TITLE
 }
 
 .green-line {
-    width: 200px;
+    width: 19rem;
     height: 4px;
     background-color: #01A497;
     margin: -15px auto;
@@ -40,7 +40,7 @@ BUTTONS
     gap:50px 160px;
     justify-content: center;
     align-content: start;
-    margin: 60px 50%;
+    margin: 6rem 50%;
 }
 
 .circle-button img {
