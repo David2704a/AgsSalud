@@ -12,9 +12,119 @@
 }
 
 .green-line {
-    width: 200px;
+    width: 220px;
     height: 4px;
     background-color: #01A497;
     margin: -15px auto;
     border-radius: 5px;
+}
+
+
+/*
+================================================================
+MENU
+================================================================
+
+*/
+
+.menu-container {
+    text-align: center;
+    background-color: #F3F3F3;
+    width: 35rem;
+    height: 2.5rem;
+    margin: 2rem auto;
+    border-radius: 0.5rem;
+    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.078);
+}
+.menu {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.menu li {
+    margin: 0.6rem 3rem;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #858796;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+    position: relative;
+    font-family: 'Lato', sans-serif;
+}
+
+.menu a:hover {
+    color: #21AFA4;
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #21AFA4;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: 0% 50%;
+    transition: transform 0.3s;
+}
+
+.menu a:hover::after {
+    transform: scaleX(1);
+}
+
+
+
+/*
+================================================================
+Table
+================================================================
+
+*/
+
+.table-container {
+    width: 64rem;
+    margin: 0 auto;
+    margin-top: 2rem;
+    background-color: #fff;
+    padding: 20px;
+    overflow: auto;
+    box-shadow: 0px 5px 10px 10px rgba(0, 0, 0, 0.049);
+}
+
+table {
+    border-collapse: collapse;
+    width: 70%;
+}
+
+th {
+    background-color: #3B4480;
+    color: #FFF;
+    text-align: left;
+    padding: 0.5rem;
+    position: relative;
+    border: solid 1px #FFF;
+    font-size: 12px;
+}
+
+th::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -1px;
+    width: 1px;
+    background-color: #FFF;
+}
+
+td {
+    padding: 8px;
+    white-space: nowrap;
+    background-color: #F2F2F2;
+    color: #565E91;
 }

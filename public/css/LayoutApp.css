@@ -1,3 +1,10 @@
+/*
+================================================================
+BODY
+================================================================
+
+*/
+
 body {
     margin: 0;
     padding: 0;
@@ -8,6 +15,7 @@ body {
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
+    font-family: 'Lato', sans-serif;
 }
 
 /*
