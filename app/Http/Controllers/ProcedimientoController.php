@@ -62,7 +62,7 @@ class ProcedimientoController extends Controller
 
         $procedimiento->save();
 
-        return redirect()->route('createProcedimiento');
+        return redirect()->route('mostrarProcedimiento');
 
     }
 

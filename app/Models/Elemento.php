@@ -26,6 +26,15 @@ class Elemento extends Model
         'idFactura',
         'idUsuario',
     ];
+    public $timestamps = true;
 
+
+    public function tipoElemento()  {
+        return $this->belongsTo(TipoElemento::class, 'idTipoElemento');
+    }
+
+    public function categoria() {
+        return $this->belongsTo(Categoria::class, 'idCategoria');
+    }
 
 }

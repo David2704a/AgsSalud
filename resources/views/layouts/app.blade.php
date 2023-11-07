@@ -17,7 +17,7 @@
         </div>
         <div class="user-info">
             <div class="notifications">
-                <img src="notification-icon.png" alt="Ícono de notificaciones">
+                <i class="fas fa-bell"></i>
             </div>
             <div class="user-profile">
                 <img src="user-avatar.jpg" alt="Foto de perfil del usuario" class="user-avatar">
