@@ -17,30 +17,28 @@
 
 <a href="/procedimiento">
     <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet (1) A COLOR .png')}}" alt="alo">
+        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
     </div>
 </a>
 
 <a href="#">
     <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet (1) A COLOR .png')}}" alt="alo">
+        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
     </div>
 </a>
 
 <a href="#">
     <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet (1) A COLOR .png')}}" alt="alo">
+        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
     </div>
 </a>
 
 <a href="#">
     <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet (1) A COLOR .png')}}" alt="alo">
+        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
     </div>
 </a>
 
 </div>
-
-
 
 @endsection

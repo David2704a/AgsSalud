@@ -1,26 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app')
 
-    <h1>Crear un procedimiento</h1>
+@section('links')
+    <link rel="stylesheet" href="{{ asset('/css/procedimiento/procedimiento.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <form action="{{ route('storeProcedimiento') }}" method="POST">
-        @csrf
+
+@endsection
+@section('content')
+
+<div class="button-container">
+    <a href="{{route('mostrarProcedimiento')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+
+</div>
+
+<div class="menu-containers">
+    <ul class="menu">
+        <li>
+            <a href="{{route('createEstadoP')}}">Crear Estado de Procedimiento</a>
+        </li>
+        <li>
+            <a href="{{route('createTipoP')}}">Crear Tipo de Procedimiento</a>
+        </li>
+    </ul>
+</div>
+
+<form class="form" action="{{ route('storeProcedimiento') }}" method="POST">
+    @csrf
+
+    <div class="progress-bar">
+        <div class="progress" id="progress" style="width: 33.33%;"></div>
+        <div class="markers">
+            <span class="marker filled" style="left: 33.33%;">1</span>
+            <span class="marker" style="left: 66.66%;">2</span>
+            <span class="marker" style="left: 100%;">3</span>
+        </div>
+    </div>
+
+    <!-- Parte 1 -->
+    <div class="form-part active" id="parte1">
         <label for="fechaInicio">Fecha Inicio</label>
         <input type="date" name="fechaInicio" id="fechaInicio">
+        <br>
         <label for="fechaFin">Fecha Fin</label>
         <input type="date" name="fechaFin" id="fechaFin">
+        <br>
         <label for="hora">Hora</label>
         <input type="time" name="hora" id="hora">
+        <br>
+        <button type="button" onclick="mostrarParte('parte2')">Siguiente</button>
+    </div>
+
+    <!-- Parte 2 -->
+    <div class="form-part" id="parte2">
         <label for="fechaReprogramada">Fecha Reprogramada</label>
         <input type="date" name="fechaReprogramada" id="fechaReprogramada">
-        <label for="observacion">Observacion</label>
+        <label for="observacion">Observación</label>
         <input type="text" name="observacion" id="observacion">
         <label for="idResponsableEntrega">Responsable Entrega</label>
         <select name="idResponsableEntrega" id="idResponsableEntrega">
@@ -30,19 +65,20 @@
             @endforeach
         </select>
 
+        <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
+        <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
+    </div>
+
+    <!-- Parte 3 -->
+    <div class="form-part" id="parte3">
+        <label for="idResponsableRecibe">Responsable Recibe</label>
         <select name="idResponsableRecibe" id="idResponsableRecibe">
             <option value="">Seleccionar una opción</option>
             @foreach ($usuariosRecibe as $usuario)
                 <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
             @endforeach
         </select>
-        {{-- <label for="idResponsableRecibe">Responsable Recibe</label>
-        <select name="idResponsableRecibe" id="idResponsableRecibe">
-            <option value="">Seleccionar una opción</option>
-            @foreach ($usuario as $usuario)
-                <option value="{{ $usuario->idResponsableRecibe }}">{{ $usuario->name }}</option>
-            @endforeach
-        </select> --}}
+        <br>
         <label for="idElemento">Elemento</label>
         <select name="idElemento" id="idElemento">
             <option value="">Seleccionar una opción</option>
@@ -50,6 +86,7 @@
                 <option value="{{ $elemento->idElemento }}">{{ $elemento->modelo }}</option>
             @endforeach
         </select>
+        <br>
         <label for="idEstadoProcedimiento">Estado Procedimiento</label>
         <select name="idEstadoProcedimiento" id="idEstadoProcedimiento">
             <option value="">Seleccionar una opción</option>
@@ -57,6 +94,7 @@
                 <option value="{{ $estadoProcedimiento->idEstadoP }}">{{ $estadoProcedimiento->estado }}</option>
             @endforeach
         </select>
+        <br>
         <label for="idTipoProcedimiento">Tipo Procedimiento</label>
         <select name="idTipoProcedimiento" id="idTipoProcedimiento">
             <option value="">Seleccionar una opción</option>
@@ -64,8 +102,46 @@
                 <option value="{{ $tipoProcedimiento->idTipoProcedimiento }}">{{ $tipoProcedimiento->tipo }}</option>
             @endforeach
         </select>
-        <button type="submit">Crear</button>
-    </form>
+        <br>
+        <div class="button-container">
+            <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
+            <button type="submit">Crear</button>
+        </div>
+    </div>
+</form>
 
-</body>
-</html>
+
+<script>
+    function mostrarParte(idParte) {
+            const partes = document.querySelectorAll('.form-part');
+            partes.forEach(parte => {
+                parte.classList.remove('active');
+                if (parte.id === idParte) {
+                    parte.classList.add('active');
+                    actualizarProgreso();
+                }
+            });
+        }
+
+        function actualizarProgreso() {
+    const partes = document.querySelectorAll('.form-part');
+    const marcadores = document.querySelectorAll('.marker');
+    const progreso = document.getElementById('progress');
+
+    const numeroParteActual = Array.from(partes).findIndex(parte => parte.classList.contains('active'));
+    const porcentajeProgreso = ((numeroParteActual + 1) / partes.length) * 100;
+
+    progreso.style.width = porcentajeProgreso + '%';
+
+    // Marcar el número de parte actual como lleno
+    marcadores.forEach((marker, index) => {
+        if (index <= numeroParteActual) {
+            marker.classList.add('filled');
+        } else {
+            marker.classList.remove('filled');
+        }
+    });
+}
+
+</script>
+@endsection
