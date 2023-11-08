@@ -51,4 +51,12 @@ class Procedimiento extends Model
     {
         return $this->belongsTo(TipoProcedimiento::class, 'idTipoProcedimiento');
     }
+
+    public function reprogramarFechaMantenimiento()
+    {
+        if ($this->tipoProcedimiento->nombre === 'mantenimiento') {
+            $this->fecha_reprogramada = now()->addMonths(3); 
+            $this->save();
+        }
+    }
 }

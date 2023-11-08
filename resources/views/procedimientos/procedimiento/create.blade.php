@@ -9,6 +9,12 @@
 @endsection
 @section('content')
 
+<div class="content">
+    <h1 class="page-title">CREAR PROCEDIMIENTOS</h1>
+<div class="green-line"></div>
+</div>
+ 
+
 <div class="button-container">
     <a href="{{route('mostrarProcedimiento')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
 

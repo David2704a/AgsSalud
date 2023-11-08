@@ -62,6 +62,8 @@ class ProcedimientoController extends Controller
 
         $procedimiento->save();
 
+        $procedimiento->reprogramarFechaMantenimiento();
+
         return redirect()->route('mostrarProcedimiento');
 
     }
@@ -134,4 +136,13 @@ class ProcedimientoController extends Controller
         return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento eliminado correctamente');
 
     }
+
+    public function listarProcedimientosMantenimiento()
+{
+    $procedimientosMantenimiento = Procedimiento::whereHas('tipoProcedimiento', function ($query) {
+        $query->where('tipo', 'mantenimiento');
+    })->get();
+
+    return view('procedimientos.procedimiento.mantenimiento', compact('procedimientosMantenimiento'));
+}
 }
