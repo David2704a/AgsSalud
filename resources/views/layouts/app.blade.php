@@ -61,6 +61,7 @@
     </footer> --}}
 
 
+    <script src="{{asset('js/layout.js')}}"></script>
 
 </body>
 </html>

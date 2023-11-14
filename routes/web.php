@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\ProcedimientoController;
+use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\TipoProcedimientoController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +45,7 @@ Route::get('/procedimiento/{id}/edit', [ProcedimientoController::class, 'edit'])
 Route::put('/procedimiento/{id}/update', [ProcedimientoController::class, 'update'])->name('updateProcedimiento');
 Route::delete('/procedimiento/{id}/destroy', [ProcedimientoController::class, 'destroy'])->name('destroyProcedimiento');
 Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])->name('buscarProcedimientos');
+
+//rutas para proveedores
+Route::resource('proveedores', ProveedorController::class)->names('proveedores');
 

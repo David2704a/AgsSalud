@@ -21,7 +21,7 @@
     </div>
 </a>
 
-<a href="#">
+<a href="/proveedores">
     <div class="circle-button btn-background-circle">
         <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
     </div>
