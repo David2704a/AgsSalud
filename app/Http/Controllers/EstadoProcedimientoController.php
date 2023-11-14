@@ -12,7 +12,7 @@ class EstadoProcedimientoController extends Controller
      */
     public function index()
     {
-        $estadoProcedimiento = EstadoProcedimiento::all();
+        $estadoProcedimiento = EstadoProcedimiento::paginate(6);
 
         return view("procedimientos.estadoProcedimiento.index", compact("estadoProcedimiento"));
     }
@@ -107,5 +107,17 @@ class EstadoProcedimientoController extends Controller
         $estadoProcedimiento->delete();
 
         return redirect()->route("mostrarEstadoP")->with('success', 'Estado de Procedimiento eliminado correctamente');
+    }
+
+    public function buscar(Request $request)
+    {
+        $filtro = $request->input('filtro');
+
+        $estadoProcedimiento = EstadoProcedimiento::where(function ($query) use ($filtro) {
+            $query->where('estado', 'like', '%'. $filtro. '%')
+                ->orWhere('descripcion', 'like', '%'. $filtro. '%');
+        })->paginate(6);
+
+        return view("procedimientos.partials.estadoProcedimiento.resultados", compact('estadoProcedimiento'));
     }
 }

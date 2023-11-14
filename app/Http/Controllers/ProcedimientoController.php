@@ -7,18 +7,16 @@ use App\Models\EstadoProcedimiento;
 use App\Models\Procedimiento;
 use App\Models\TipoProcedimiento;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 
 class ProcedimientoController extends Controller
 {
+    public function index()
+    {
 
-    public function home(){
-
-    }
-
-    public function index() {
-
-        $procedimiento = Procedimiento::all();
+        $procedimiento = Procedimiento::paginate(6);
 
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }
@@ -88,9 +86,14 @@ class ProcedimientoController extends Controller
      */
     public function edit($id)
     {
-        $procedimiento = Procedimiento::find($id);
 
-        return view('procedimientos.procedimiento.edit');
+        $procedimiento = Procedimiento::find($id);
+        $tipoProcedimiento = TipoProcedimiento::all();
+        $estadoProcedimiento = EstadoProcedimiento::all();
+        $elemento = Elemento::all();
+        $usuariosEntrega = User::all();
+        $usuariosRecibe = User::all();
+        return view('procedimientos.procedimiento.edit', compact('procedimiento','tipoProcedimiento','estadoProcedimiento','elemento','usuariosEntrega','usuariosRecibe'));
     }
 
     /**
@@ -98,29 +101,40 @@ class ProcedimientoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $procedimiento = Procedimiento::find($id);
-        $estadoProcedimiento = EstadoProcedimiento::find($id);
-        $elemento = Elemento::find($id);
-        $tipoProcedimiento = TipoProcedimiento::find($id);
+        try {
+            $procedimiento = Procedimiento::findOrFail($id);
 
-        if(!$procedimiento){
-            return redirect()->route("mostrarProcedimiento")->with('error', 'El procedimiento no existe');
+            $request->validate([
+                "observacion" => "required",
+                "idElemento" => "required",
+                // Add validation rules for other fields as needed
+            ]);
+
+            $idEstadoTerminado = EstadoProcedimiento::where('estado', 'Terminado')->value('idEstadoP');
+            $idTipoMantenimiento = TipoProcedimiento::where('tipo', 'Mantenimiento')->value('idTipoProcedimiento');
+
+            // Use directly from $request instead of finding again
+            $elementoId = $request->input('idElemento');
+
+            $fechaFin = Carbon::parse($procedimiento->fechaFin);
+
+            $procedimiento->update([
+                'fechaInicio' => $request->input('fechaInicio'),
+                'fechaFin' => $request->input('fechaFin'),
+                'hora' => $request->input('hora'),
+                'observacion' => $request->input('observacion'),
+                'idElemento' => $elementoId,
+                'idEstadoProcedimiento' => $idEstadoTerminado,
+                'idTipoProcedimiento' => $idTipoMantenimiento,
+                'idResponsableEntrega' => $request->input('idResponsableEntrega'),
+                'idResponsableRecibe' => $request->input('idResponsableRecibe'),
+                'fechaReprogramada' => $fechaFin->copy()->addMonths(3),
+            ]);
+
+            return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento actualizado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al actualizar el procedimiento: ' . $e->getMessage());
         }
-
-        $request ->validate([
-            "obeservacion"=> "required",
-            "idElemento"=> "required",
-            "idEstadoProcedimiento"=> "required",
-            "idTipoProcedimiento"=> "required",
-        ]);
-
-        $procedimiento ->obeservacion = $request->input('obeservacion');
-        $procedimiento ->idElemento = $tipoProcedimiento->idTipoProcedimiento;
-        $procedimiento ->idEstadoProcedimiento = $estadoProcedimiento->idEstadoProcedimiento;
-        $procedimiento ->idTipoProcedimiento = $tipoProcedimiento->idTipoProcedimiento;
-        $procedimiento ->save();
-
-        return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento actualizado correctamente');
     }
 
     /**
@@ -137,12 +151,40 @@ class ProcedimientoController extends Controller
 
     }
 
-    public function listarProcedimientosMantenimiento()
-{
-    $procedimientosMantenimiento = Procedimiento::whereHas('tipoProcedimiento', function ($query) {
-        $query->where('tipo', 'mantenimiento');
-    })->get();
 
-    return view('procedimientos.procedimiento.mantenimiento', compact('procedimientosMantenimiento'));
-}
+    public function buscar(Request $request)
+    {
+        // Obtén el valor del filtro desde la solicitud
+        $filtro = $request->input('filtro');
+
+        // Realiza la búsqueda en varios campos del modelo
+        $procedimientos = Procedimiento::where(function ($query) use ($filtro) {
+            $query->where('fechaInicio', 'like', '%' . $filtro . '%')
+                ->orWhere('fechaFin', 'like', '%' . $filtro . '%')
+                ->orWhere('hora', 'like', '%' . $filtro . '%')
+                ->orWhere('fechaReprogramada', 'like', '%' . $filtro . '%')
+                ->orWhere('observacion', 'like', '%' . $filtro . '%')
+                ->orWhereHas('responsableEntrega', function ($subquery) use ($filtro) {
+                    $subquery->where('name', 'like', '%' . $filtro . '%');
+                })
+                ->orWhereHas('responsableRecibe', function ($subquery) use ($filtro) {
+                    $subquery->where('name', 'like', '%' . $filtro . '%');
+                })
+                ->orWhereHas('elemento', function ($subquery) use ($filtro) {
+                    $subquery->where('modelo', 'like', '%' . $filtro . '%');
+                })
+                ->orWhereHas('estadoProcedimiento', function ($subquery) use ($filtro) {
+                    $subquery->where('estado', 'like', '%' . $filtro . '%');
+                })
+                ->orWhereHas('tipoProcedimiento', function ($subquery) use ($filtro) {
+                    $subquery->where('tipo', 'like', '%' . $filtro . '%');
+                });
+        })->paginate(6);
+
+
+        // Devuelve la vista parcial con los resultados paginados
+        return view('procedimientos.partials.procedimiento.resultados', compact('procedimientos'))->render();
+
+
+    }
 }

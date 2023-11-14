@@ -12,7 +12,7 @@ class TipoProcedimientoController extends Controller
      */
     public function index()
     {
-        $tipoProcedimiento = TipoProcedimiento::all();
+        $tipoProcedimiento = TipoProcedimiento::paginate(6);
 
         return view("procedimientos.tipoProcedimiento.index", compact("tipoProcedimiento"));
     }
@@ -109,5 +109,17 @@ class TipoProcedimientoController extends Controller
         $tipoProcedimiento->delete();
 
         return redirect()->route("mostrarTipoP")->with('success', 'Tipo de Procedimiento eliminado correctamente');
+    }
+
+    public function buscar(Request $request)
+    {
+        $filtro = $request->input('filtro');
+
+        $tipoProcedimiento = TipoProcedimiento::where(function ($query) use ($filtro) {
+            $query->where('tipo', 'like', '%'. $filtro. '%')
+                ->orWhere('descripcion', 'like', '%'. $filtro. '%');
+        })->paginate(10);
+
+        return view("procedimientos.partials.tipoProcedimiento.resultados", compact('tipoProcedimiento'))->render();
     }
 }

@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('/css/LayoutApp.css')}}">
     <link rel="shortcut icon" href="{{asset('imgs/logos/Ags.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>@yield('title')</title>
 </head>
 <body>
@@ -34,7 +35,7 @@
 
 
 
-
+{{--
      <footer class="footer">
         <div class="left-images">
             <div class="column">
@@ -57,7 +58,7 @@
                 <p>Todos los derechos Reservados</p>
             </div>
         </div>
-    </footer>
+    </footer> --}}
 
 
 

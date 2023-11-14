@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('/css/procedimiento/procedimiento.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{asset('js/prodedimiento/procedimiento.js')}}"></script>
 
 
 @endsection
@@ -13,7 +14,7 @@
     <h1 class="page-title">CREAR PROCEDIMIENTOS</h1>
 <div class="green-line"></div>
 </div>
- 
+
 
 <div class="button-container">
     <a href="{{route('mostrarProcedimiento')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
@@ -85,13 +86,13 @@
             @endforeach
         </select>
         <br>
-        <label for="idElemento">Elemento</label>
-        <select name="idElemento" id="idElemento">
-            <option value="">Seleccionar una opción</option>
-            @foreach ($elemento as $elemento)
-                <option value="{{ $elemento->idElemento }}">{{ $elemento->modelo }}</option>
-            @endforeach
-        </select>
+            <label for="idElemento">Elemento</label>
+            <select name="idElemento" id="idElemento">
+                <option value="">Seleccionar una opción</option>
+                @foreach ($elemento as $elemento)
+                    <option value="{{ $elemento->idElemento }}">{{ $elemento->modelo }}</option>
+                @endforeach
+            </select>
         <br>
         <label for="idEstadoProcedimiento">Estado Procedimiento</label>
         <select name="idEstadoProcedimiento" id="idEstadoProcedimiento">
@@ -116,38 +117,28 @@
     </div>
 </form>
 
+<footer class="footer">
+    <div class="left-images">
+        <div class="column">
+            <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">
+            <img src="{{asset('imgs/logos/ESCUDO COLOMBIA.png')}}" width="45" alt="Imagen 2">
+        </div>
+        <div class="column">
+            <img src="{{asset('imgs/logos/logo_fondo.png')}}" width="130" alt="Imagen 3">
+            <img src="{{asset('imgs/logos/Logo_Enterritorio.png')}}" width="100" alt="Imagen 4">
+        </div>
+    </div>
+    <div class="right-content">
+        <div class="images">
+            <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
+            <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+        </div>
+        <div class="separator"></div>
+        <div class="text">
+            <p>Copyright © 2023 AGS SALUD SAS</p>
+            <p>Todos los derechos Reservados</p>
+        </div>
+    </div>
+</footer>
 
-<script>
-    function mostrarParte(idParte) {
-            const partes = document.querySelectorAll('.form-part');
-            partes.forEach(parte => {
-                parte.classList.remove('active');
-                if (parte.id === idParte) {
-                    parte.classList.add('active');
-                    actualizarProgreso();
-                }
-            });
-        }
-
-        function actualizarProgreso() {
-    const partes = document.querySelectorAll('.form-part');
-    const marcadores = document.querySelectorAll('.marker');
-    const progreso = document.getElementById('progress');
-
-    const numeroParteActual = Array.from(partes).findIndex(parte => parte.classList.contains('active'));
-    const porcentajeProgreso = ((numeroParteActual + 1) / partes.length) * 100;
-
-    progreso.style.width = porcentajeProgreso + '%';
-
-    // Marcar el número de parte actual como lleno
-    marcadores.forEach((marker, index) => {
-        if (index <= numeroParteActual) {
-            marker.classList.add('filled');
-        } else {
-            marker.classList.remove('filled');
-        }
-    });
-}
-
-</script>
 @endsection

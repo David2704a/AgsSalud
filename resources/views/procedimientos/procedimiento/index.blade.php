@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Procedimiento')
+@section('title', 'Procedimientos')
 
 
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
+<script src="{{asset('js/prodedimiento/procedimiento.js')}}"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 
@@ -20,22 +22,17 @@
 
     <div class="button-container">
         <a href="/" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-        <a href="{{route('createProcedimiento')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo procedimiento</a>
+        <a href="{{route('createProcedimiento')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo procedimientos</a>
 
     </div>
 
-
-    <div class="menu-container">
+    <div class="menu-containers">
         <ul class="menu">
             <li>
-                <a href="#" data-filtro="Todos">Todos</a>
+                <a href="{{route('mostrarEstadoP')}}">Estado de Procedimiento</a>
             </li>
             <li>
-                <a href="#" data-filtro="En-proceso">En proceso</a>
-            </li>
-            <li>
-                <a href="#" data-filtro="Terminado">Terminados</a>
-
+                <a href="{{route('mostrarTipoP')}}">Tipo de Procedimiento</a>
             </li>
         </ul>
     </div>
@@ -61,8 +58,8 @@
                    <th>Responsable de Entrega</th>
                    <th>Responsable que Recibe</th>
                    <th>Elemento</th>
-                   <th>Estado del Procedimiento</th>
-                   <th>Tipo de Procedimiento</th>
+                   <th>Estado del procedimientos</th>
+                   <th>Tipo de procedimientos</th>
                    <th>Acciones</th>
                 </tr>
             </thead>
@@ -70,44 +67,44 @@
                 <tr class="mensaje-vacio" style="display: none;">
                     <td colspan="12">No se encontraron registros</td>
                 </tr>
-                @foreach ($procedimiento as $procedimiento)
-                <tr class="estado-{{ str_replace(' ', '-', $procedimiento->estadoProcedimiento->estado) }}">
+                @foreach ($procedimiento as $procedimientos)
+                <tr class="estado-{{ str_replace(' ', '-', $procedimientos->estadoProcedimiento->estado) }}">
                     <td>
-                        {{ $procedimiento->idProcedimiento }}
+                        {{ $procedimientos->idProcedimiento }}
                     </td>
                     <td>
-                        {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica' }}
+                        {{ $procedimientos->fechaInicio ? $procedimientos->fechaInicio : 'No aplica' }}
                     </td>
                     <td>
-                        {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'No aplica' }}
+                        {{ $procedimientos->fechaFin ? $procedimientos->fechaFin : 'No aplica' }}
                     </td>
                     <td>
-                        {{ $procedimiento->hora ? $procedimiento->hora : 'No aplica' }}
+                        {{ $procedimientos->hora ? $procedimientos->hora : 'No aplica' }}
                     </td>
                     <td>
-                        {{ $procedimiento->fechaReprogramada ? $procedimiento->fechaReprogramada : 'No aplica' }}
+                        {{ $procedimientos->fechaReprogramada ? $procedimientos->fechaReprogramada : 'No aplica' }}
                     </td>
                     <td>
-                        {{ $procedimiento->observacion }}
+                        {{ $procedimientos->observacion }}
                     </td>
                     <td>
-                        {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
+                        {{ $procedimientos->responsableEntrega ? $procedimientos->responsableEntrega->name : 'No aplica' }}
                     </td>
                     <td>
-                        {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
+                        {{ $procedimientos->responsableRecibe ? $procedimientos->responsableRecibe->name : 'No aplica' }}
                     </td>
                     <td>
-                        {{ $procedimiento->elemento->modelo }}
+                        {{ $procedimientos->elemento->modelo }}
                     </td>
                     <td>
-                        {{ $procedimiento->estadoProcedimiento->estado }}
+                        {{ $procedimientos->estadoProcedimiento->estado }}
                     </td>
                     <td>
-                        {{ $procedimiento->tipoProcedimiento->tipo }}
+                        {{ $procedimientos->tipoProcedimiento->tipo }}
                     </td>
                     <td>
-                        <a href="{{ route('editProcedimiento', $procedimiento->idProcedimiento) }}">Editar</a>
-                        <form action="{{ route('destroyProcedimiento', ['id' => $procedimiento->idProcedimiento]) }}" method="POST">
+                        <a href="{{ route('editProcedimiento', $procedimientos->idProcedimiento) }}">Editar</a>
+                        <form action="{{ route('destroyProcedimiento', ['id' => $procedimientos->idProcedimiento]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Eliminar</button>
@@ -119,61 +116,37 @@
     </table>
         </div>
     </div>
-
+  <div class="pagination">
+        {{ $procedimiento->links('pagination.custom') }}
+    </div>
 </div>
+<br>
+<br>
+<br>
 
+<footer class="footer">
+    <div class="left-images">
+        <div class="column">
+            <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">
+            <img src="{{asset('imgs/logos/ESCUDO COLOMBIA.png')}}" width="45" alt="Imagen 2">
+        </div>
+        <div class="column">
+            <img src="{{asset('imgs/logos/logo_fondo.png')}}" width="130" alt="Imagen 3">
+            <img src="{{asset('imgs/logos/Logo_Enterritorio.png')}}" width="100" alt="Imagen 4">
+        </div>
+    </div>
+    <div class="right-content">
+        <div class="images">
+            <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
+            <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+        </div>
+        <div class="separator"></div>
+        <div class="text">
+            <p>Copyright © 2023 AGS SALUD SAS</p>
+            <p>Todos los derechos Reservados</p>
+        </div>
+    </div>
+</footer>
 
-{{--
-    ============================================================
-    Funcion de filtrado con los botones
-    ============================================================
---}}
-
-<script>
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const menuItems = document.querySelectorAll('.menu a');
-    const tableRows = document.querySelectorAll('tbody tr');
-    const mensajeVacio = document.querySelector('.mensaje-vacio'); // Obtener la fila de mensaje vacío
-    const searchInput = document.getElementById('search-input'); // Obtener el input de búsqueda
-
-    // Función para aplicar el filtro
-    function applyFilter(filtro) {
-        let filasVisibles = 0;
-
-        tableRows.forEach(row => {
-            const estado = row.classList[0].replace('estado-', '');
-            const contenido = row.textContent.toLowerCase();
-
-            if (filtro === estado || filtro === 'Todos' || contenido.includes(filtro)) {
-                row.style.display = '';
-                filasVisibles++;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-
-        // Mostrar el mensaje de "No se encontraron registros" si no hay filas visibles
-        mensajeVacio.style.display = filasVisibles === 0 ? 'table-row' : 'none';
-    }
-
-    // Evento para aplicar el filtro en tiempo real mientras se escribe en el input
-    searchInput.addEventListener('input', function () {
-        const filtro = searchInput.value.trim().toLowerCase();
-        applyFilter(filtro);
-    });
-
-    // Evento para aplicar el filtro al hacer clic en los elementos del menú
-    menuItems.forEach(item => {
-        item.addEventListener('click', function (event) {
-            event.preventDefault();
-            const filtro = event.target.getAttribute('data-filtro');
-            applyFilter(filtro);
-        });
-    });
-});
-
-    </script>
 
 @endsection

@@ -18,8 +18,6 @@ body {
     font-family: 'Lato', sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; 
-    margin: 0;
 }
 
 /*
@@ -58,76 +56,58 @@ header {
     font-weight: bold;
 }
 
-
-/*
+ /*
 ================================================================
-FOOTER
+PAGINACION
 ================================================================
 */
 
-.footer {
-    margin-top: 10rem;
+.pagination {
+    margin-top: 20px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f3f3f3;
-    color: #fff;
+    justify-content: center;
 }
 
-
-.separator {
-    width: 2px;
-    height: 40px;
-    background-color: #a1a1a1;
-    margin: 0 10px;
-}
-
-.left-images {
-    margin-left: 10rem;
+.pagination ul {
+    list-style: none;
     display: flex;
-    align-items: center;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-}
-
-.footer img {
-    margin: 5px;
-}
-
-.right-content {
-    margin-right: 10rem;
-    display: flex;
-    align-items: center;
-}
-
-.images img {
-    margin-right: 10px;
-}
-
-
-
-.text {
-
-    margin-right: 10px;
-}
-
-.text p {
-    margin: 0;
     padding: 0;
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 400;
-    color: #777777;
-    text-align: center;
-    font-family: 'Lato', sans-serif;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
+.pagination li {
+    margin: 0 5px;
+}
 
+.pagination li a,
+.pagination li span {
+    text-decoration: none;
+    padding: 8px 16px;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
+.pagination li a:hover,
+.pagination li span:hover {
+    background-color: #ddd;
+}
+
+.pagination li.active span {
+    background-color: #01A497;
+    color: #fff;
+    border: 1px solid #01A497;
+}
+
+.pagination li.active span:hover {
+    background-color: rgb(6, 139, 128);
+    color: #fff;
+    border: 1px solid #01A497;
+}
+
+.pagination li.disabled span,
+.pagination li.disabled a {
+    color: #aaa;
+    pointer-events: none;
+    cursor: not-allowed;
+}

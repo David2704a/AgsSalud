@@ -19,7 +19,7 @@ class EstadoProcedimiento extends Model
 
     public function procedimiento() {
 
-        return $this->belongsTo(Procedimiento::class,'idEstadoP');
-        
+        return $this->hasMany(Procedimiento::class,'idEstadoProcedimiento');
+
     }
 }
