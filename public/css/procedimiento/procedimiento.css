@@ -99,17 +99,6 @@ MENU
     font-size: 1.2rem;
 }
 
-/* .button-derecha {
-    position: relative;
-    color: #28A745;
-    border: solid 0.1rem #28A745;
-    padding: 10px 5px;
-    cursor: pointer;
-    border-radius: 0.5rem;
-    z-index: 1;
-    transition: color .5s;
-} */
-
 .button-derecha {
     --color: #28A745;
     line-height: 2.5em;
@@ -222,31 +211,6 @@ table tr:last-child td {
     overflow: auto;
 }
 
-table td a {
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: #007BFF;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-}
-
-table td a:hover {
-    background-color: #0062CC;
-}
-
-table td form button {
-    padding: 5px 10px;
-    background-color: #DC3545;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-}
-
-table td form button:hover {
-    background-color: #FF5722;
-}
 /*
 ================================================================
 FILTRO ICONO
@@ -285,128 +249,6 @@ FILTRO ICONO
 
 .search-container button:hover {
     background-color: #01A497;
-}
-
-
-
-/*
-=================================================================
-VISTA CREATE
-=================================================================
-*/
-
-/*
-=================================================================
-MENU
-=================================================================
-*/
-.menu-containers {
-    text-align: center;
-    background-color: #F3F3F3;
-    width: 45rem;
-    margin: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.078);
-
-}
-
-.form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.078);
-    margin: 2rem auto;
-    width: 40rem;
-}
-
-.form label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.form input[type="text"],
-.form input[type="date"],
-.form input[type="time"],
-.form select {
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-.form button[type="submit"] {
-    background-color: #28A745;
-}
-
-.form-part {
-    display: none;
-}
-
-.form-part.active {
-    display: block;
-}
-
-.button-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.progress-bar {
-    margin-bottom: 2rem;
-    background-color: #ddd;
-    height: 10px;
-    width: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-
-.progress {
-    background-color: #007bff;
-    height: 100%;
-    transition: width 0.3s ease;
-}
-
-.markers {
-    position: absolute;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    top: 4px;
-}
-
-.marker {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #adadad;
-    background-color: white;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 20px;
-    font-size: 14px;
-    position: absolute;
-    transform: translateX(-50%);
-    transition: left 0.3s ease, background-color 0.3s ease;
-    left: 0;
-}
-
-.marker.filled {
-    background-color: #007bff;
-    border: 2px solid #007bff;
-    color: white;
 }
 
 /*
@@ -458,8 +300,6 @@ FOOTER
     margin-right: 10px;
 }
 
-
-
 .text {
 
     margin-right: 10px;
@@ -484,3 +324,13 @@ FOOTER
 
 
 
+
+
+
+.input-message {
+    display: block;
+    margin-top: -30px;
+    padding: 1rem 0;
+    color: red;
+    font-style: italic;
+}

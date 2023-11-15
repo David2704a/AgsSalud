@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 
 class ProcedimientoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
-        $procedimiento = Procedimiento::paginate(6);
+        $procedimiento = Procedimiento::paginate(10);
 
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }
@@ -43,6 +43,11 @@ class ProcedimientoController extends Controller
             "idElemento" => "required",
             "idEstadoProcedimiento" => "required",
             "idTipoProcedimiento" => "required",
+        ],[
+            'observacion.required' => 'El campo Observación es obligatorio',
+            'idElemento.required' => 'El campo Elemento es obligatorio',
+            'idEstadoProcedimiento.required' => 'El campo Estado de Procedimiento es obligatirio',
+            'idTipoProcedimiento.required' => 'El campo Tipo de Procedimiento es obligatorio'
         ]);
 
     $procedimiento = new Procedimiento();
@@ -59,10 +64,7 @@ class ProcedimientoController extends Controller
 
 
         $procedimiento->save();
-
-        $procedimiento->reprogramarFechaMantenimiento();
-
-        return redirect()->route('mostrarProcedimiento');
+        return redirect()->route('mostrarProcedimiento')->with('success', 'Procedimiento creado correctamente');
 
     }
 
@@ -104,17 +106,10 @@ class ProcedimientoController extends Controller
         try {
             $procedimiento = Procedimiento::findOrFail($id);
 
-            $request->validate([
-                "observacion" => "required",
-                "idElemento" => "required",
-                // Add validation rules for other fields as needed
-            ]);
+            $estadoProcedimiento = $request->input("idEstadoProcedimiento");
+            $tipoProcedimiento = $request->input("idTipoProcedimiento");
 
-            $idEstadoTerminado = EstadoProcedimiento::where('estado', 'Terminado')->value('idEstadoP');
-            $idTipoMantenimiento = TipoProcedimiento::where('tipo', 'Mantenimiento')->value('idTipoProcedimiento');
-
-            // Use directly from $request instead of finding again
-            $elementoId = $request->input('idElemento');
+            $elemento = $request->input('idElemento');
 
             $fechaFin = Carbon::parse($procedimiento->fechaFin);
 
@@ -123,9 +118,9 @@ class ProcedimientoController extends Controller
                 'fechaFin' => $request->input('fechaFin'),
                 'hora' => $request->input('hora'),
                 'observacion' => $request->input('observacion'),
-                'idElemento' => $elementoId,
-                'idEstadoProcedimiento' => $idEstadoTerminado,
-                'idTipoProcedimiento' => $idTipoMantenimiento,
+                'idElemento' => $elemento,
+                'idEstadoProcedimiento' => $estadoProcedimiento,
+                'idTipoProcedimiento' => $tipoProcedimiento,
                 'idResponsableEntrega' => $request->input('idResponsableEntrega'),
                 'idResponsableRecibe' => $request->input('idResponsableRecibe'),
                 'fechaReprogramada' => $fechaFin->copy()->addMonths(3),
@@ -179,7 +174,7 @@ class ProcedimientoController extends Controller
                 ->orWhereHas('tipoProcedimiento', function ($subquery) use ($filtro) {
                     $subquery->where('tipo', 'like', '%' . $filtro . '%');
                 });
-        })->paginate(6);
+        })->paginate(10);
 
 
         // Devuelve la vista parcial con los resultados paginados

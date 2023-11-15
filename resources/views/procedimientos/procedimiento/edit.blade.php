@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Editar Procedimientos')
+@section('title', 'Procedimientos')
 
 @section('links')
 <link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
@@ -130,7 +130,7 @@
     <div class="right-content">
         <div class="images">
             <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-            <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
         </div>
         <div class="separator"></div>
         <div class="text">

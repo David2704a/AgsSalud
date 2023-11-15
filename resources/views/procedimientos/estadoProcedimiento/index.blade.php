@@ -17,10 +17,11 @@
         <div class="green-line"></div>
 
         <div class="button-container">
-            <a href="/estadoProcedimiento" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i>
+            <a href="{{ route('mostrarProcedimiento') }}" class="button-izquierda arrow-left"><i
+                    class="fa-solid fa-circle-arrow-left"></i>
                 Regresar</a>
-            <a href="{{ route('createProcedimiento') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de
-                Procedimientos</a>
+            <a href="{{ route('createEstadoP') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Estado de
+                Procedimiento</a>
 
         </div>
 
@@ -36,6 +37,12 @@
                 </li>
             </ul>
         </div>
+
+        @if (session('success'))
+            <div id="alert" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <div class="table-container">
             <div class="search-container">
@@ -71,16 +78,18 @@
                                     {{ $estadoProcedimientos->descripcion }}
                                 </td>
                                 <td>
-                                    <a
-                                        href="{{ route('editEstadoP', ['id' => $estadoProcedimientos->idEstadoP]) }}">Editar</a>
+                                    <a class="edit-button"
+                                        href="{{ route('editEstadoP', ['id' => $estadoProcedimientos->idEstadoP]) }}">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </a>
 
-                                    <br>
-                                    <div class="delete-buttons-container">
-                                        <button type="button" class="delete-button" data-id="{{ $estadoProcedimientos->idEstadoP }}" data-estado="{{ $estadoProcedimientos->estado }}">
-                                            <i class="fas fa-trash-alt" style="pointer-events: none;"></i>
-                                        </button>
-                                    </div>
-
+                                    <button type="button" class="delete-button"
+                                        data-id="{{ $estadoProcedimientos->idEstadoP }}"
+                                        data-name="{{ $estadoProcedimientos->estado }}">
+                                        <i data-id="{{ $estadoProcedimientos->idEstadoP }}"
+                                            data-name="{{ $estadoProcedimientos->estado }}" class="fas fa-trash-alt">
+                                        </i>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -96,19 +105,19 @@
 
 
     <!-- Modal -->
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <p id="modalMessage"></p>
-        <div class="button-container">
-            <button id="cancelButton" class="modal-button">Cancelar</button>
-            <form id="deleteForm" action="{{ route('destroyEstadoP', ['id' => 'REPLACE_ID']) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>
-            </form>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <div class="button-container">
+                <button id="cancelButton" class="modal-button">Cancelar</button>
+                <form id="deleteForm" action="{{ route('destroyEstadoP', ['id' => 'REPLACE_ID']) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
 
     <br>
@@ -129,7 +138,7 @@
         <div class="right-content">
             <div class="images">
                 <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-                <img src="{{ asset('imgs/logos/Logo-IQNet .png') }}" width="75" alt="Imagen 6">
+                <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
             </div>
             <div class="separator"></div>
             <div class="text">

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{asset('/css/LayoutApp.css')}}">
     <link rel="shortcut icon" href="{{asset('imgs/logos/Ags.png')}}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{asset('css/Formulario.css')}}">
     <title>@yield('title')</title>
 </head>
 <body>
@@ -15,6 +16,11 @@
     <header>
         <div class="logo">
             <img src="{{asset('imgs/logos/Ags.png')}}" alt="Logo de la empresa">
+        </div>
+        <div class="home">
+           <a href="/" title="Inicio">
+            <i class="fa-solid fa-house-flag"></i>
+        </a>
         </div>
         <div class="user-info">
             <div class="notifications">
@@ -35,33 +41,11 @@
 
 
 
-{{--
-     <footer class="footer">
-        <div class="left-images">
-            <div class="column">
-                <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">
-                <img src="{{asset('imgs/logos/ESCUDO COLOMBIA.png')}}" width="45" alt="Imagen 2">
-            </div>
-            <div class="column">
-                <img src="{{asset('imgs/logos/logo_fondo.png')}}" width="130" alt="Imagen 3">
-                <img src="{{asset('imgs/logos/Logo_Enterritorio.png')}}" width="100" alt="Imagen 4">
-            </div>
-        </div>
-        <div class="right-content">
-            <div class="images">
-                <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-                <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
-            </div>
-            <div class="separator"></div>
-            <div class="text">
-                <p>Copyright © 2023 AGS SALUD SAS</p>
-                <p>Todos los derechos Reservados</p>
-            </div>
-        </div>
-    </footer> --}}
 
 
-    <script src="{{asset('js/layout.js')}}"></script>
+
+
 
 </body>
+<script src="{{asset('js/layout.js')}}"></script>
 </html>

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','Procedimiento')
+
 @section('links')
     <link rel="stylesheet" href="{{ asset('/css/procedimiento/procedimiento.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,13 +26,23 @@
 <div class="menu-containers">
     <ul class="menu">
         <li>
-            <a href="{{route('createEstadoP')}}">Crear Estado de Procedimiento</a>
+            <a href="{{route('mostrarEstadoP')}}">Estado de Procedimiento</a>
         </li>
         <li>
-            <a href="{{route('createTipoP')}}">Crear Tipo de Procedimiento</a>
+            <a href="{{route('mostrarTipoP')}}">Tipo de Procedimiento</a>
         </li>
     </ul>
 </div>
+
+@if ($errors->any())
+    <div id="alert" class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <form class="form" action="{{ route('storeProcedimiento') }}" method="POST">
     @csrf
@@ -61,9 +73,10 @@
     <!-- Parte 2 -->
     <div class="form-part" id="parte2">
         <label for="fechaReprogramada">Fecha Reprogramada</label>
-        <input type="date" name="fechaReprogramada" id="fechaReprogramada">
+        <input type="date" name="fechaReprogramada" id="fechaReprogramada" value="alo" disabled>
+        <span class="input-message">La fecha reprogramada se asignará automáticamente al terminar el procedimiento.</span>
         <label for="observacion">Observación</label>
-        <input type="text" name="observacion" id="observacion">
+        <input type="text" name="observacion" id="observacion" placeholder="Escriba aqui una observación sobre el procedimiento...">
         <label for="idResponsableEntrega">Responsable Entrega</label>
         <select name="idResponsableEntrega" id="idResponsableEntrega">
             <option value="">Seleccionar una opción</option>
@@ -131,7 +144,7 @@
     <div class="right-content">
         <div class="images">
             <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-            <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
         </div>
         <div class="separator"></div>
         <div class="text">

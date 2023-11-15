@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-
-
-
-
 @if ($estadoProcedimiento->count() > 0)
     <table>
         <tbody>
@@ -27,14 +14,18 @@
                     {{$estadoProcedimientos->descripcion}}
                 </td>
                 <td>
-                    <a href="{{ route('editEstadoP', ['id' => $estadoProcedimientos->idEstadoP]) }}">Editar</a>
-                </td>
-                <td>
-                    <form action="{{route('destroyEstadoP', ['id' => $estadoProcedimientos->idEstadoP])}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Eliminar</button>
-                </form>
+                    <a class="edit-button"
+                    href="{{ route('editEstadoP', ['id' => $estadoProcedimientos->idEstadoP]) }}">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </a>
+
+                <button type="button" class="delete-button"
+                    data-id="{{ $estadoProcedimientos->idEstadoP }}"
+                    data-name="{{ $estadoProcedimientos->estado }}">
+                    <i data-id="{{ $estadoProcedimientos->idEstadoP }}"
+                        data-name="{{ $estadoProcedimientos->estado }}" class="fas fa-trash-alt">
+                    </i>
+                </button>
                 </td>
 
             </tr>
@@ -48,8 +39,3 @@
     <td colspan="12">No se encontraron registros</td>
 </tr>
 @endif
-
-
-
-</body>
-</html>

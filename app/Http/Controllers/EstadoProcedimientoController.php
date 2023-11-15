@@ -12,7 +12,7 @@ class EstadoProcedimientoController extends Controller
      */
     public function index()
     {
-        $estadoProcedimiento = EstadoProcedimiento::paginate(6);
+        $estadoProcedimiento = EstadoProcedimiento::paginate(10);
 
         return view("procedimientos.estadoProcedimiento.index", compact("estadoProcedimiento"));
     }
@@ -36,13 +36,16 @@ class EstadoProcedimientoController extends Controller
         $request ->validate([
             "estado"=> "required",
             "descripcion"=> "required",
+        ],[
+            'estado.required' => 'El campo Estado de Procedimiento es obligatorio.',
+            'descripcion.required' => 'El campo Descripción es obligatorio.',
         ]);
 
         $estadoProcedimiento ->estado = $request->input('estado');
         $estadoProcedimiento ->descripcion = $request->input('descripcion');
         $estadoProcedimiento ->save();
 
-        return redirect()->route("mostrarEstadoP")->with('Success', 'quedo re melo');
+        return redirect()->route("mostrarEstadoP")->with('success', 'Estado de Procedimiento creado correctamente');
 
     }
 
@@ -94,7 +97,7 @@ class EstadoProcedimientoController extends Controller
 
         $estadoProcedimiento ->save();
 
-        return redirect()->route("mostrarEstadoP")->with('success', 'Tipo de Procedimiento actualizado correctamente');
+        return redirect()->route("mostrarEstadoP")->with('success', 'Estado de Procedimiento actualizado correctamente');
     }
 
     /**
@@ -114,9 +117,8 @@ class EstadoProcedimientoController extends Controller
         $filtro = $request->input('filtro');
 
         $estadoProcedimiento = EstadoProcedimiento::where(function ($query) use ($filtro) {
-            $query->where('estado', 'like', '%'. $filtro. '%')
-                ->orWhere('descripcion', 'like', '%'. $filtro. '%');
-        })->paginate(6);
+            $query->where('estado', 'like', '%'. $filtro. '%');
+        })->paginate(10);
 
         return view("procedimientos.partials.estadoProcedimiento.resultados", compact('estadoProcedimiento'));
     }

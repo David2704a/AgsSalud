@@ -10,25 +10,35 @@
 @section('content')
 
 <div class="content">
-    <h1 class="page-title">CREAR PROCEDIMIENTOS</h1>
+    <h1 class="page-title">CREAR TIPO DE PROCEDIMIENTOS</h1>
 <div class="green-line"></div>
 </div>
 
 <div class="button-container">
-    <a href="{{route('mostrarProcedimiento')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="{{route('mostrarTipoP')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
 
 </div>
 
 <div class="menu-containers">
     <ul class="menu">
         <li>
-            <a href="{{route('createEstadoP')}}">Crear Estado de Procedimiento</a>
+            <a href="{{route('mostrarEstadoP')}}">Estado de Procedimiento</a>
         </li>
         <li>
-            <a href="{{route('createProcedimiento')}}">Crear Procedimiento</a>
+            <a href="{{route('mostrarProcedimiento')}}">Procedimiento</a>
         </li>
     </ul>
 </div>
+
+@if ($errors->any())
+    <div id="alert" class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 
     <form class="form" action="{{route('storeTipoP')}}" method="POST">
@@ -36,10 +46,10 @@
 
     <div class="form-part active" id="parte1">
         <label for="tipo">Tipo de Procedimiento</label>
-        <input type="text" name="tipo" id="tipo">
+        <input type="text" name="tipo" id="tipo" value="{{old('tipo')}}">
         <br>
         <label for="descripcion">Descripcion</label>
-        <input type="text" name="descripcion" id="descripcion">
+        <input type="text" name="descripcion" id="descripcion" value="{{old('descripcion')}}">
         <br>
         <div class="button-container">
             <button type="submit">Crear</button>
@@ -62,7 +72,7 @@
         <div class="right-content">
             <div class="images">
                 <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-                <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+                <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
             </div>
             <div class="separator"></div>
             <div class="text">

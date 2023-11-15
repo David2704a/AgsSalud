@@ -1,4 +1,10 @@
-    function mostrarParte(idParte) {
+/*
+================================================
+FUNCION PARA EL CAMBIO DE PARTES DEL FORM
+================================================
+*/
+
+function mostrarParte(idParte) {
             const partes = document.querySelectorAll('.form-part');
             partes.forEach(parte => {
                 parte.classList.remove('active');
@@ -29,6 +35,12 @@
     });
 }
 
+/*
+================================================
+FUNTION FILTRO
+================================================
+*/
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -57,5 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
       updateTable(filtro);
     });
 
-
   });
+
+
+//   document.getElementById('fechaReprogramada').disabled = true;

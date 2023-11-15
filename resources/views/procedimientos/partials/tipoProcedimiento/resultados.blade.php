@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
 
 
 
@@ -26,13 +17,25 @@
                         {{ $tipoProcedimientos->descripcion }}
                     </td>
                     <td>
-                        <a href="{{ route('editTipoP', ['id' => $tipoProcedimientos->idTipoProcedimiento]) }}">Editar</a>
+                        <a
+                        class="edit-button"
+                        href="{{ route('editTipoP',
+                        ['id' => $tipoProcedimientos->idTipoProcedimiento]) }}"
+                        title="Editar"><i class="fa-regular fa-pen-to-square"></i>
+                    </a>
 
-                        <form action="{{ route('destroyTipoP', ['id' => $tipoProcedimientos->idTipoProcedimiento]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-link">Eliminar</button>
-                        </form>
+
+                    <button
+                        type="button" class="delete-button" title="Eliminar"
+                        data-id="{{ $tipoProcedimientos->idTipoProcedimiento }}"
+                        data-name="{{$tipoProcedimientos->tipo}}">
+
+                    <i
+                        data-id="{{ $tipoProcedimientos->idTipoProcedimiento }}"
+                        data-name="{{$tipoProcedimientos->tipo}}"
+                        class="fas fa-trash-alt">
+                    </i>
+                    </button>
                     </td>
                 </tr>
             @endforeach
@@ -45,8 +48,3 @@
     <td colspan="12">No se encontraron registros</td>
 </tr>
 @endif
-
-
-
-</body>
-</html>

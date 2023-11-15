@@ -15,29 +15,33 @@
 
 <div class="button-container">
 
-<a href="/procedimiento">
-    <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
-    </div>
-</a>
+    <a href="/procedimiento" title="Procedimientos" class="button-link">
+        <div class="circle-button btn-background-circle">
+            <img src="{{asset('imgs/icons/process.png')}}" alt="alo">
+        </div>
+        <span>PROCEDIMIENTOS</span>
+    </a>
 
-<a href="/proveedores">
-    <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
-    </div>
-</a>
+    <a href="/proveedores" title="Elementos" class="button-link">
+        <div class="circle-button btn-background-circle">
+            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+        </div>
+        <span>ELEMENTOS</span>
+    </a>
 
-<a href="#">
-    <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
-    </div>
-</a>
+    <a href="#" class="button-link">
+        <div class="circle-button btn-background-circle">
+            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+        </div>
+        <span>USUARIOS</span>
+    </a>
 
-<a href="#">
-    <div class="circle-button btn-background-circle">
-        <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" alt="alo">
-    </div>
-</a>
+    <a href="#" class="button-link">
+        <div class="circle-button btn-background-circle">
+            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+        </div>
+        <span>..</span>
+    </a>
 
 </div>
 
@@ -56,7 +60,7 @@
     <div class="right-content">
         <div class="images">
             <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-            <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
         </div>
         <div class="separator"></div>
         <div class="text">

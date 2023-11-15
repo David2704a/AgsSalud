@@ -17,7 +17,7 @@
 
 <div class="button-container">
     <a href="/procedimiento" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    <a href="{{route('createTipoP')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de Procedimientos</a>
+    <a href="{{route('createTipoP')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de Procedimiento</a>
 
 </div>
 
@@ -32,6 +32,12 @@
         </li>
     </ul>
 </div>
+
+@if(session('success'))
+    <div id="alert" class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
     <div class="table-container">
         <div class="search-container">
@@ -67,15 +73,25 @@
                         {{$tipoProcedimientos->descripcion}}
                     </td>
                     <td>
-                        <a href="{{ route('editTipoP', ['id' => $tipoProcedimientos->idTipoProcedimiento]) }}" title="Editar"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a
+                            class="edit-button"
+                            href="{{ route('editTipoP',
+                            ['id' => $tipoProcedimientos->idTipoProcedimiento]) }}"
+                            title="Editar"><i class="fa-regular fa-pen-to-square"></i>
+                        </a>
 
 
                         <button
-                        type="button" class="delete-button"
-                        data-id="{{ $tipoProcedimientos->idTipoProcedimiento }}"
-                        data-tipo="{{$tipoProcedimientos->tipo}}">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                            type="button" class="delete-button" title="Eliminar"
+                            data-id="{{ $tipoProcedimientos->idTipoProcedimiento }}"
+                            data-name="{{$tipoProcedimientos->tipo}}">
+
+                        <i
+                            data-id="{{ $tipoProcedimientos->idTipoProcedimiento }}"
+                            data-name="{{$tipoProcedimientos->tipo}}"
+                            class="fas fa-trash-alt">
+                        </i>
+                        </button>
                     </td>
 
                     </td>
@@ -125,7 +141,7 @@
         <div class="right-content">
             <div class="images">
                 <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-                <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+                <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
             </div>
             <div class="separator"></div>
             <div class="text">

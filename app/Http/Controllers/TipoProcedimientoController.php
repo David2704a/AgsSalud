@@ -12,7 +12,7 @@ class TipoProcedimientoController extends Controller
      */
     public function index()
     {
-        $tipoProcedimiento = TipoProcedimiento::paginate(6);
+        $tipoProcedimiento = TipoProcedimiento::paginate(10);
 
         return view("procedimientos.tipoProcedimiento.index", compact("tipoProcedimiento"));
     }
@@ -30,9 +30,12 @@ class TipoProcedimientoController extends Controller
      */
     public function store(Request $request)
     {
-        $request ->validate([
-            "tipo"=> "required",
-            "descripcion"=> "required",
+        $request->validate([
+            'tipo' => 'required',
+            'descripcion' => 'required',
+        ], [
+            'tipo.required' => 'El campo Tipo de Procedimiento es obligatorio.',
+            'descripcion.required' => 'El campo Descripción es obligatorio.',
         ]);
 
         $tipoProcedimiento = new TipoProcedimiento();
@@ -41,12 +44,11 @@ class TipoProcedimientoController extends Controller
 
         $tipoProcedimiento ->save();
 
-        return redirect("tipoProcedimiento")->with('Success', 'quedo re melo');
+
+        return redirect()->route("mostrarTipoP")->with('success', 'Tipo de Procedimiento Creado correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show($id)
     {
        $tipoProcedimiento = TipoProcedimiento::find($id);
@@ -59,9 +61,7 @@ class TipoProcedimientoController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id)
     {
         $tipoProcedimiento = TipoProcedimiento::find($id);
@@ -73,9 +73,7 @@ class TipoProcedimientoController extends Controller
         return view("procedimientos.tipoProcedimiento.edit", compact("tipoProcedimiento"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, $id)
     {
 
@@ -99,9 +97,6 @@ class TipoProcedimientoController extends Controller
         return redirect()->route("mostrarTipoP")->with('success', 'Tipo de Procedimiento actualizado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $tipoProcedimiento = TipoProcedimiento::find($id);
@@ -116,8 +111,7 @@ class TipoProcedimientoController extends Controller
         $filtro = $request->input('filtro');
 
         $tipoProcedimiento = TipoProcedimiento::where(function ($query) use ($filtro) {
-            $query->where('tipo', 'like', '%'. $filtro. '%')
-                ->orWhere('descripcion', 'like', '%'. $filtro. '%');
+            $query->where('tipo', 'like', '%'. $filtro. '%');
         })->paginate(10);
 
         return view("procedimientos.partials.tipoProcedimiento.resultados", compact('tipoProcedimiento'))->render();
