@@ -37,6 +37,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('idUsuario');
             $table->foreign('idUsuario')->references('id')->on('users');
+
+            $table->timestamps();
         });
     }
 
