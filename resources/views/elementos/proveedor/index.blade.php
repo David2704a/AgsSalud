@@ -5,7 +5,7 @@
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/tipoProcedimiento/tipoProcedimiento.css')}}">
-<script src="{{asset('js/tipoProcedimiento/tipoProcedimiento.js')}}"></script>
+<script src="{{asset('js/proveedor/proveedor.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 @endsection
@@ -89,7 +89,7 @@
                     </td>
                     <td>
                         <a href="{{ route('proveedores.edit', $proveedor->idProveedor) }}" title="Editar"><i class="fa-regular fa-pen-to-square"></i></a>
-                        <button
+                        <button title="Eliminar"
                         type="button" class="delete-button"
                         data-id="{{ $proveedor->idProveedor }}"
                         data-tipo="{{$proveedor->nombre}}">
@@ -106,7 +106,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{-- {{ $proveedor->links('pagination.custom') }} --}}
+        {{-- {{ $proveedor->links('pagination.custom') }} --}}  
     </div>
     </div>
 
