@@ -20,8 +20,6 @@
     <a href="{{route('proveedores.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Provedor</a>
 
 </div>
-
-
 <div class="menu-container">
     <ul class="menu">
         <li>
@@ -44,59 +42,34 @@
     <div class="table">
     <table>
         <thead>
-            <th>
-                ID
-            </th>
-            <th>
-                Proveedor
-            </th>
-            <th>
-                Nit
-            </th>
-            <th>
-                Telefono
-            </th>
-            <th>
-                Correo Electronico
-            </th>
-            <th>
-                Direccion
-            </th>
-            <th>
-                Acciones
-            </th>
+            <th>ID</th>
+            <th>Proveedor</th>
+            <th>Nit</th>
+            <th>Telefono</th>
+            <th>Correo Electronico</th>
+            <th>Direccion</th>
+            <th>Acciones</th>
         </thead>
         <tbody>
             @foreach ($proveedores as $proveedor)
                 <tr>
+                    <td>{{$proveedor->idProveedor}}</td>
+                    <td>{{$proveedor->nombre}}</td>
+                    <td>{{$proveedor->nit}}</td>
+                    <td>{{$proveedor->telefono}}</td>
+                    <td>{{$proveedor->correoElectronico}}</td>
+                    <td>{{$proveedor->direccion}}</td>
                     <td>
-                        {{$proveedor->idProveedor}}
-                    </td>
-                    <td>
-                        {{$proveedor->nombre}}
-                    </td>
-                    <td>
-                        {{$proveedor->nit}}
-                    </td>
-                    <td>
-                        {{$proveedor->telefono}}
-                    </td>
-                    <td>
-                        {{$proveedor->correoElectronico}}
-                    </td>
-                    <td>
-                        {{$proveedor->direccion}}
-                    </td>
-                    <td>
-                        <a href="{{ route('proveedores.edit', $proveedor->idProveedor) }}" title="Editar"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a class="edit-button"
+                            href="{{ route('proveedores.edit',$proveedor->idProveedor) }}">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
                         <button title="Eliminar"
                         type="button" class="delete-button"
                         data-id="{{ $proveedor->idProveedor }}"
                         data-tipo="{{$proveedor->nombre}}">
                         <i class="fas fa-trash-alt"></i>
                     </button>
-                    </td>
-
                     </td>
                 </tr>
             @endforeach
@@ -106,7 +79,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{-- {{ $proveedor->links('pagination.custom') }} --}}  
+        {{$proveedores->links('pagination.custom') }}  
     </div>
     </div>
 

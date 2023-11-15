@@ -1,26 +1,14 @@
-@if ($proveedor->count() > 0)
+{{-- @if ($proveedores->count() > 0)
     <table>
         <tbody>
             @foreach ($proveedores as $proveedor)
                 <tr>
-                    <td>
-                        {{ $proveedor->idProveedor}}
-                    </td>
-                    <td>
-                        {{ $proveedor->nombre}}
-                    </td>
-                    <td>
-                        {{ $proveedor->nit}}
-                    </td>
-                    <td>
-                        {{ $proveedor->telefono}}
-                    </td>
-                    <td>
-                        {{ $proveedor->correoElectronico}}
-                    </td>
-                    <td>
-                        {{ $proveedor->direccion}}
-                    </td>
+                    <td>{{ $proveedor->idProveedor}}</td>
+                    <td>{{ $proveedor->nombre}}</td>
+                    <td>{{ $proveedor->nit}}</td>
+                    <td>{{ $proveedor->telefono}}</td>
+                    <td>{{ $proveedor->correoElectronico}}</td>
+                    <td>{{ $proveedor->direccion}}</td>
                     <td>
                         <a
                         class="edit-button"
@@ -51,4 +39,5 @@
 <tr class="mensaje-vacio" >
     <td colspan="12">No se encontraron registros</td>
 </tr>
-@endif
+@endif --}}
+<h1>holiiiiii</h1>

@@ -58,7 +58,6 @@ class EstadoProcedimientoController extends Controller
         if (!$estadoProcedimiento) {
             return redirect()->route("mostrarEstadoP")->with('error', 'Estado de Procedimiento no encontrado');
         }
-
         return view("procedimientos.estadoProcedimiento.show", compact("estadoProcedimiento"));
     }
 

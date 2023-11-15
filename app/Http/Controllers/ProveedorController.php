@@ -10,7 +10,6 @@ class ProveedorController extends Controller
     public function index()
     {
         $proveedores = Proveedor::paginate(6);
-
         return view("elementos.proveedor.index", compact("proveedores"));
     }
 
@@ -49,14 +48,12 @@ class ProveedorController extends Controller
 
     public function show($id)
     {
-       $proveedor = Proveedor::find($id);
-
+        $proveedor = Proveedor::find($id);
         if (!$proveedor) {
-            return redirect()->route("mostrarProveedor")->with('error', 'Proveedor no encontrado');
+            return redirect()->route("proveedores.index")->with('error', 'Proveedor no encontrado');
         }
 
         return view("elementos.proveedor.show", compact("proveedor"));
-
     }
 
     /**
@@ -65,11 +62,6 @@ class ProveedorController extends Controller
     public function edit($id)
     {
         $proveedor = Proveedor::find($id);
-
-        if (!$proveedor) {
-            return redirect()->route("mostrarProveedor")->with('error', 'Proveedor no encontrado');
-        }
-
         return view("elementos.proveedor.edit", compact("proveedor"));
     }
 
@@ -82,7 +74,7 @@ class ProveedorController extends Controller
         $proveedor = Proveedor::find($id);
 
         if (!$proveedor) {
-            return redirect()->route("proveedores.index")->with('error', 'Proveedor no encontrado');
+            return redirect()->route("proveedorese.index")->with('error', 'Proveedor no encontrado');
         }
 
         $request ->validate([
@@ -120,9 +112,7 @@ class ProveedorController extends Controller
         $filtro = $request->input('filtro');
 
         $proveedor = Proveedor::where(function ($query) use ($filtro) {
-            $query->where('nombre', 'like', '%'. $filtro. '%')
-                ->orWhere('descripcion', 'like', '%'. $filtro. '%')
-                ->orWhere('nit', 'like', '%'. $filtro. '%');
+            $query->where('telefono', 'like', '%'. $filtro. '%');
         })->paginate(10);
 
         return view("elementos.partials.proveedor.resultados", compact('proveedor'))->render();

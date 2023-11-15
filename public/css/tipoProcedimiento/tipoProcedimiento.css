@@ -261,6 +261,8 @@ FOOTER
     width: 100%;
     display: flex;
     justify-content: space-between;
+    position: absolute;
+    bottom: 0;
     align-items: center;
     background-color: #f3f3f3;
     color: #fff;
