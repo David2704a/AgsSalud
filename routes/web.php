@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EstadoProcedimientoController;
+use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\TipoProcedimientoController;
@@ -51,4 +52,7 @@ Route::resource('proveedores', ProveedorController::class)->names('proveedores')
 Route::get('/proveedores/buscar', [ProveedorController::class, 'buscar'])->name('buscarProveedores');
 Route::get('/proveedor', [EstadoProcedimientoController::class, 'index'])->name('mostrarProveedor');
 
+//rutas para factura
+Route::resource('facturas',FacturaController::class)->names('facturas');
+Route::get('/facturas/buscar', [FacturaController::class, 'buscar'])->name('buscarFacturas');
 

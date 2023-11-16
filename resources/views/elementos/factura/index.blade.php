@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Proveedor')
+@section('title', 'Factura')
 
 @section('links')
 
-<link rel="stylesheet" href="{{asset('/css/tipoProcedimiento/tipoProcedimiento.css')}}">
+<link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
 <script src="{{asset('js/proveedor/proveedor.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -12,12 +12,12 @@
 @section('content')
 
     <div class="content">
-<h1 class="page-title">PROVEEDORES</h1>
+<h1 class="page-title">Facturas</h1>
 <div class="green-line"></div>
 
 <div class="button-container">
-    <a href="/Proveedor" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    <a href="{{route('proveedores.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Provedor</a>
+    <a href="/facturas" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="{{route('facturas.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva Factura</a>
 
 </div>
 <div class="menu-container">
@@ -43,31 +43,35 @@
     <table>
         <thead>
             <th>ID</th>
+            <th>Codigo</th>
+            <th>fecha Compra</th>
             <th>Proveedor</th>
-            <th>Nit</th>
-            <th>Telefono</th>
-            <th>Correo Electronico</th>
-            <th>Direccion</th>
+            <th>Metodo Pago</th>
+            <th>Estado Pago</th>
+            <th>Valor</th>
+            <th>Descripcion</th>
             <th>Acciones</th>
         </thead>
         <tbody>
-            @foreach ($proveedores as $proveedor)
+            @foreach ($facturas as $factura)
                 <tr>
-                    <td>{{$proveedor->idProveedor}}</td>
-                    <td>{{$proveedor->nombre}}</td>
-                    <td>{{$proveedor->nit}}</td>
-                    <td>{{$proveedor->telefono}}</td>
-                    <td>{{$proveedor->correoElectronico}}</td>
-                    <td>{{$proveedor->direccion}}</td>
+                    <td>{{$factura->idFactura}}</td>
+                    <td>{{$factura->codigoFactura}}</td>
+                    <td>{{$factura->fechaCompra}}</td>
+                    <td>{{$factura->proveedor->nombre}}</td>
+                    <td>{{$factura->metodoPago}}</td>
+                    <td>{{$factura->estadoPago}}</td>
+                    <td>{{$factura->valor}}</td>
+                    <td>{{$factura->descripcion}}</td>
                     <td>
                         <a class="edit-button"
-                            href="{{ route('proveedores.edit',$proveedor->idProveedor) }}">
+                            href="{{ route('facturas.edit',$factura->idFactura) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <button title="Eliminar"
                         type="button" class="delete-button"
-                        data-id="{{ $proveedor->idProveedor }}"
-                        data-tipo="{{$proveedor->nombre}}">
+                        data-id="{{$factura->idFactura }}"
+                        data-tipo="{{$factura->codigoFactura}}">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                     </td>
@@ -79,7 +83,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{$proveedores->links('pagination.custom') }}  
+        {{$facturas->links('pagination.custom') }}  
     </div>
     </div>
 
@@ -89,7 +93,7 @@
             <p id="modalMessage"></p>
             <div class="button-container">
                 <button id="cancelButton" class="modal-button">Cancelar</button>
-                <form id="deleteForm" action="{{ route('proveedores.destroy','REPLACE_ID') }}" method="POST">
+                <form id="deleteForm" action="{{ route('facturas.destroy','REPLACE_ID') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>

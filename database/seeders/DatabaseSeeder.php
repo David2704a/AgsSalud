@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ElementoSeeder::class);
         $this->call(ProveedorSeeder::class);
+        $this->call(FacturaSeeder::class);
 
         // \App\Models\User::factory(10)->create();
 
