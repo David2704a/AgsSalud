@@ -112,7 +112,9 @@ class ProveedorController extends Controller
         $filtro = $request->input('filtro');
 
         $proveedor = Proveedor::where(function ($query) use ($filtro) {
-            $query->where('telefono', 'like', '%'. $filtro. '%');
+            $query->where('telefono', 'like', '%'. $filtro. '%')
+            ->orWhere('nombre', 'like', '%'. $filtro. '%')
+            ->orWhere('nit', 'like', '%'. $filtro. '%');
         })->paginate(10);
 
         return view("elementos.partials.proveedor.resultados", compact('proveedor'))->render();

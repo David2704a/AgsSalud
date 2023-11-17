@@ -49,7 +49,7 @@ Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])-
 
 //rutas para proveedores
 Route::resource('proveedores', ProveedorController::class)->names('proveedores');
-Route::get('/proveedores/buscar', [ProveedorController::class, 'buscar'])->name('buscarProveedores');
+Route::get('/proveedoresBuscar', [ProveedorController::class, 'buscar'])->name('buscarProveedores');
 Route::get('/proveedor', [EstadoProcedimientoController::class, 'index'])->name('mostrarProveedor');
 
 //rutas para factura
