@@ -65,8 +65,7 @@
                     <td>{{$factura->valor}}</td>
                     <td>{{$factura->descripcion}}</td>
                     <td>
-                        <a class="show-button" title="Ver"
-                            href="{{ route('facturas.edit',$factura->idFactura) }}">
+                        <a class="show-button" title="Ver" onclick="mostrarArchivo('{{$factura->rutaFactura }}')">
                             <i class="fa-regular fa-eye"></i>
                         </a>
                         <a class="edit-button" title="Editar"
@@ -74,11 +73,11 @@
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <button title="Eliminar"
-                        type="button" class="delete-button"
-                        data-id="{{$factura->idFactura }}"
-                        data-tipo="{{$factura->codigoFactura}}">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                            type="button" class="delete-button"
+                            data-id="{{$factura->idFactura }}"
+                            data-tipo="{{$factura->codigoFactura}}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
                     </td>
                 </tr>
             @endforeach

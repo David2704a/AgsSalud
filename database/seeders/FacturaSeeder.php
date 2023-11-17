@@ -18,7 +18,7 @@ class FacturaSeeder extends Seeder
         $factura->fechaCompra = '2023-01-01';
         $factura->idProveedor = 1;
         $factura->metodoPago = 'Efectivo';
-        $factura->rutaFactura = 'aprovado';
+        $factura->rutaFactura = '';
         $factura->valor = 1000000;
         $factura->descripcion = 'factura por compra de computadores ';
         $factura->save();
@@ -28,7 +28,7 @@ class FacturaSeeder extends Seeder
         $factura->fechaCompra = '2023-01-01';
         $factura->idProveedor = 1;
         $factura->metodoPago = 'Efectivo';
-        $factura->rutaFactura = 'aprovado';
+        $factura->rutaFactura = '';
         $factura->valor = 1000000;
         $factura->descripcion = 'factura por compra de computadores ';
         $factura->save();
@@ -38,7 +38,7 @@ class FacturaSeeder extends Seeder
         $factura->fechaCompra = '2023-01-01';
         $factura->idProveedor = 1;
         $factura->metodoPago = 'Efectivo';
-        $factura->rutaFactura = 'aprovado';
+        $factura->rutaFactura = '';
         $factura->valor = 1000000;
         $factura->descripcion = 'factura por compra de computadores ';
         $factura->save();
@@ -48,7 +48,7 @@ class FacturaSeeder extends Seeder
         $factura->fechaCompra = '2023-01-01';
         $factura->idProveedor = 1;
         $factura->metodoPago = 'Efectivo';
-        $factura->rutaFactura = 'aprovado';
+        $factura->rutaFactura = '';
         $factura->valor = 1000000;
         $factura->descripcion = 'factura por compra de computadores ';
         $factura->save();
@@ -58,7 +58,7 @@ class FacturaSeeder extends Seeder
         $factura->fechaCompra = '2023-01-01';
         $factura->idProveedor = 1;
         $factura->metodoPago = 'Efectivo';
-        $factura->rutaFactura = 'aprovado';
+        $factura->rutaFactura = '';
         $factura->valor = 1000000;
         $factura->descripcion = 'factura por compra de computadores ';
         $factura->save();

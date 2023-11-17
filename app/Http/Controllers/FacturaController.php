@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Factura;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
+use Barryvdh\Snappy\Facades\SnappyImage as Snappy;
 
 class FacturaController extends Controller
 {
@@ -120,4 +121,15 @@ class FacturaController extends Controller
 
         return view("elementos.partials.factura.resultados", compact('facturas'));
     }
+
+    public function showPdf($id)
+    {
+        $rutaArchivo = Factura::find($id)->rutaFactura;
+        $pdfPath = public_path('Facturas/' . $rutaArchivo); // Ruta al archivo PDF
+
+        $pdfUrl = url('Facturas/' . $rutaArchivo);
+
+        return view('mostrar-pdf', compact('pdfUrl'));
+    }
+
 }

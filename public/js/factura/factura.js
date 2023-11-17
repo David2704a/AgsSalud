@@ -73,6 +73,25 @@ function mostrarParte(idParte) {
   
     /*
   ================================================
-  INPUT
+  SHOW PDF
   ================================================
   */
+  function mostrarArchivo(rutaArchivo) {
+    if (!rutaArchivo) {
+        alert("No hay una factura cargada.");
+    } else {
+        const url = `http://localhost:8000/storage/Facturas/${rutaArchivo}`;
+        window.open(url);
+    }
+  }
+
+  /*
+================================================
+ALERT
+================================================
+*/
+setTimeout(function(){
+  document.getElementById('success-alert').style.display = 'none';
+}, 3000);
+
+

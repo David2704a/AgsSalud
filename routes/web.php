@@ -54,4 +54,4 @@ Route::get('/proveedoresBuscar', [ProveedorController::class, 'buscar'])->name('
 //rutas para factura
 Route::resource('facturas',FacturaController::class)->names('facturas');
 Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('buscarFacturas');
-
+Route::get('/mostrar-pdf/{id}', [FacturaController::class, 'showPdf'])->name('verPdf');
