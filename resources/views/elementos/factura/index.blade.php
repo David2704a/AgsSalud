@@ -5,7 +5,7 @@
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
-<script src="{{asset('/public/js/factura/factura.js')}}"></script>
+<script src="{{asset('js/factura/factura.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 @endsection
@@ -65,7 +65,11 @@
                     <td>{{$factura->valor}}</td>
                     <td>{{$factura->descripcion}}</td>
                     <td>
-                        <a class="edit-button"
+                        <a class="show-button" title="Ver"
+                            href="{{ route('facturas.edit',$factura->idFactura) }}">
+                            <i class="fa-regular fa-eye"></i>
+                        </a>
+                        <a class="edit-button" title="Editar"
                             href="{{ route('facturas.edit',$factura->idFactura) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
