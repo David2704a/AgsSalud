@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Factura;
+use App\Models\Proveedor;
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
@@ -21,7 +22,8 @@ class FacturaController extends Controller
      */
     public function create()
     {
-        return view("elementos.factura.create");
+        $proveedores = Proveedor::all();
+        return view("elementos.factura.create",compact('proveedores'));
     }
 
     /**
@@ -29,30 +31,33 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-
-        $factura = new Factura();
-
-        $request ->validate([
-            "codigoFactura"=> "required",
-            "fechaCompra"=> "required",
-            "idProveedor"=> "required",
-            "metodoPago"=> "required",
-            "estadoPago"=> "required",
-            "valor"=> "required",
-            "descripcion"=> "required",
+        $request->validate([
+            "codigoFactura" => "required",
+            "fechaCompra" => "required",
+            "idProveedor" => "required",
+            "metodoPago" => "required",
+            "rutaFactura" => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            "valor" => "required",
+            "descripcion" => "required",
         ]);
 
-        $factura ->codigoFactura = $request->input('codigoFactura');
-        $factura ->fechaCompra = $request->input('fechaCompra');
-        $factura ->idProveedor = $request->input('idProveedor');
-        $factura ->metodoPago = $request->input('metodoPago');
-        $factura ->estadoPago = $request->input('estadoPago');
-        $factura ->valor = $request->input('valor');
-        $factura ->descripcion = $request->input('descripcion');
-        $factura ->save();
+        $factura = new Factura();
+        $factura->codigoFactura = $request->input('codigoFactura');
+        $factura->fechaCompra = $request->input('fechaCompra');
+        $factura->idProveedor = $request->input('idProveedor');
+        $factura->metodoPago = $request->input('metodoPago');
+        $factura->valor = $request->input('valor');
+        $factura->descripcion = $request->input('descripcion');
+
+        if ($request->hasFile('rutaFactura')) {
+            $nombreArchivo = "img_" . time() . "." . $request->file('rutaFactura')->guessExtension();
+            $request->file('Avatar')->storeAs('public/Avatar', $nombreArchivo);
+            $factura->rutaFactura = $nombreArchivo;
+        }    
+
+        $factura->save();
 
         return redirect()->route("facturas.index")->with('success', 'Factura creada correctamente');
-
     }
 
     /**
@@ -96,7 +101,7 @@ class FacturaController extends Controller
             "fechaCompra"=> "required",
             "idProveedor"=> "required",
             "metodoPago"=> "required",
-            "estadoPago"=> "required",
+            "rutaFactura"=> "required",
             "valor"=> "required",
             "descripcion"=> "required",
         ]);
@@ -106,7 +111,7 @@ class FacturaController extends Controller
         $factura ->fechaCompra = $request->input('fechaCompra');
         $factura ->idProveedor = $request->input('idProveedor');
         $factura ->metodoPago = $request->input('metodoPago');
-        $factura ->estadoPago = $request->input('estadoPago');
+        $factura ->rutaFactura = $request->input('rutaFactura');
         $factura ->valor = $request->input('valor');
         $factura ->descripcion = $request->input('descripcion');
 

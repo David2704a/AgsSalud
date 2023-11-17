@@ -23,7 +23,10 @@
 <div class="menu-container">
     <ul class="menu">
         <li>
-            <a href="{{route('facturas.index')}}">Facturas</a>
+            <a href="{{route('proveedores.index')}}">Proveedores</a>
+        </li>
+        <li>
+            <a href="{{route('proveedores.index')}}">Elementos</a>
         </li>
     </ul>
 </div>
@@ -47,7 +50,6 @@
             <th>fecha Compra</th>
             <th>Proveedor</th>
             <th>Metodo Pago</th>
-            <th>Estado Pago</th>
             <th>Valor</th>
             <th>Descripcion</th>
             <th>Acciones</th>
@@ -60,7 +62,6 @@
                     <td>{{$factura->fechaCompra}}</td>
                     <td>{{$factura->proveedor->nombre}}</td>
                     <td>{{$factura->metodoPago}}</td>
-                    <td>{{$factura->estadoPago}}</td>
                     <td>{{$factura->valor}}</td>
                     <td>{{$factura->descripcion}}</td>
                     <td>
@@ -105,8 +106,6 @@
     <br>
     <br>
     <br>
-
-
     <footer class="footer">
         <div class="left-images">
             <div class="column">
@@ -130,5 +129,5 @@
             </div>
         </div>
     </footer>
-
 @endsection
+

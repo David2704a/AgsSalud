@@ -144,7 +144,62 @@ MENU
     background: #296d39;
     transition:  0s;
 }
+/*
+================================================================
+FORM
+================================================================
+*/
+.input{
+    margin-bottom: 1.5rem;
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
+
+.custom-file-input {
+    display: none;
+}
+
+/* Estilos del contenedor */
+.input-group {
+    position: relative;
+    width: 200px;
+    margin: 20px;
+}
+
+/* Estilos del botón personalizado */
+.input-group-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-outline-secondary {
+    color: #495057;
+    background-color: transparent;
+    background-image: none;
+    border-color: #495057;
+}
 
 /*
 ================================================================

@@ -16,7 +16,7 @@ class Factura extends Model
         'fechaCompra',
         'idProveedor',
         'metodoPago',
-        'estadoPago',
+        'rutaFactura',
         'valor',
         'descripcion'
     ];
