@@ -5,7 +5,7 @@
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
-<script src="{{asset('js/proveedor/proveedor.js')}}"></script>
+<script src="{{asset('/public/js/factura/factura.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 @endsection

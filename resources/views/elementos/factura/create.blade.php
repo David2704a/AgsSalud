@@ -29,10 +29,8 @@
 </div>
 
 
-    <form class="form" action="{{route('facturas.store')}}" method="POST">
+    <form class="form" action="{{route('facturas.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
-
-    <div class="form-part active" id="parte1">
         <label for="codigoFactura">Codigo Factura</label>
         <input type="text" name="codigoFactura" id="codigoFactura" class="input">
         <label for="fechaCompra">Fecha de Compra</label>
@@ -46,7 +44,7 @@
         </select>
         <label for="metodoPago">Metodo de Pago</label>
         <input type="text" name="metodoPago" id="metodoPago" class="input">
-        <label for="rutaFactura">Archivo de Factura</label>
+        <label for="rutaFactura">Archivo:</label>
         <input type="file" name="rutaFactura" id="rutaFactura" class="input">
         <label for="valor">Valor</label>
         <input type="number" name="valor" id="valor" step="0.01" class="input">
@@ -55,8 +53,6 @@
         <div class="button-container">
             <button type="submit">Crear</button>
         </div>
-    </div>
-
     </form>
 
     <footer class="footer">

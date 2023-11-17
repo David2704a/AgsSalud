@@ -36,25 +36,17 @@ class FacturaController extends Controller
             "fechaCompra" => "required",
             "idProveedor" => "required",
             "metodoPago" => "required",
-            "rutaFactura" => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            "rutaFactura" => 'required|mimes:pdf,docx|max:10240',
             "valor" => "required",
             "descripcion" => "required",
         ]);
 
-        $factura = new Factura();
-        $factura->codigoFactura = $request->input('codigoFactura');
-        $factura->fechaCompra = $request->input('fechaCompra');
-        $factura->idProveedor = $request->input('idProveedor');
-        $factura->metodoPago = $request->input('metodoPago');
-        $factura->valor = $request->input('valor');
-        $factura->descripcion = $request->input('descripcion');
+        $data = $request->all();
 
-        if ($request->hasFile('rutaFactura')) {
-            $nombreArchivo = "img_" . time() . "." . $request->file('rutaFactura')->guessExtension();
-            $request->file('Avatar')->storeAs('public/Avatar', $nombreArchivo);
-            $factura->rutaFactura = $nombreArchivo;
-        }    
-
+        $factura = new Factura($data);
+        $nombreArchivo = "fac_" . time() . "." . $request->file('rutaFactura')->guessExtension();
+        $request->file('rutaFactura')->storeAs('public/Facturas', $nombreArchivo);
+        $factura->rutaFactura = $nombreArchivo;
         $factura->save();
 
         return redirect()->route("facturas.index")->with('success', 'Factura creada correctamente');
@@ -78,8 +70,9 @@ class FacturaController extends Controller
     public function edit($id)
     {
         $factura = Factura::find($id);
+        $proveedores = Proveedor::all();
 
-        return view("elementos.factura.edit", compact("factura"));
+        return view("elementos.factura.edit", compact('factura','proveedores'));
     }
 
     /**
@@ -87,37 +80,22 @@ class FacturaController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $factura = Factura::find($id);
 
-
-
-        if(!$factura){
-            return redirect()->route("facturas.index")->with('error', 'Factura no encontrada');
-        }
-
-        $request ->validate([
-            "codigoFactura"=> "required",
-            "fechaCompra"=> "required",
-            "idProveedor"=> "required",
-            "metodoPago"=> "required",
-            "rutaFactura"=> "required",
-            "valor"=> "required",
-            "descripcion"=> "required",
+        $request->validate([
+            "codigoFactura" => "required",
+            "fechaCompra" => "required",
+            "idProveedor" => "required",
+            "metodoPago" => "required",
+            "rutaFactura" => 'required|mimes:pdf,docx|max:10240',
+            "valor" => "required",
+            "descripcion" => "required",
         ]);
 
+        $factura->update($request->all());
 
-        $factura ->codigoFactura = $request->input('codigoFactura');
-        $factura ->fechaCompra = $request->input('fechaCompra');
-        $factura ->idProveedor = $request->input('idProveedor');
-        $factura ->metodoPago = $request->input('metodoPago');
-        $factura ->rutaFactura = $request->input('rutaFactura');
-        $factura ->valor = $request->input('valor');
-        $factura ->descripcion = $request->input('descripcion');
-
-        $factura ->save();
-
-        return redirect()->route("factura.index")->with('success', 'Factura actualizada correctamente');
+        return redirect()->route('facturas.index')
+            ->with('success', 'Factura actualizada correctamente');
     }
 
     /**
@@ -136,10 +114,10 @@ class FacturaController extends Controller
     {
         $filtro = $request->input('filtro');
 
-        $factura = Factura::where(function ($query) use ($filtro) {
+        $facturas = Factura::where(function ($query) use ($filtro) {
             $query->where('codigofactura', 'like', '%'. $filtro. '%');
         })->paginate(10);
 
-        return view("elementos.partials.factura.resultados", compact('factura'));
+        return view("elementos.partials.factura.resultados", compact('facturas'));
     }
 }

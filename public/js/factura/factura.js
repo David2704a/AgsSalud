@@ -50,7 +50,7 @@ function mostrarParte(idParte) {
   
     function updateTable(filtro) {
       $.ajax({
-        url: '/proveedores/buscar',
+        url: '/facturas/buscar',
         method: 'GET',
         data: { filtro: filtro },
         success: function (data) {
@@ -76,7 +76,3 @@ function mostrarParte(idParte) {
   INPUT
   ================================================
   */
-  
-document.getElementById('rutaFactura').addEventListener('change', function() {
-    document.getElementById('file-name').textContent = this.files[0].name;
-});
