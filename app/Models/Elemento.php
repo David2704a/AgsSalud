@@ -37,4 +37,15 @@ class Elemento extends Model
         return $this->belongsTo(Categoria::class, 'idCategoria');
     }
 
+    public function estado() {
+        return $this->belongsTo(EstadoElemento::class, 'idEstadoEquipo');
+    }
+    
+    public function factura() {
+        return $this->belongsTo(Factura::class, 'idFactura');
+    }
+
+    public function user() {
+        return $this->belongsTo(user::class, 'idUsuario');
+    }
 }

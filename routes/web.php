@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\ProcedimientoController;
@@ -54,4 +55,7 @@ Route::get('/proveedoresBuscar', [ProveedorController::class, 'buscar'])->name('
 //rutas para factura
 Route::resource('facturas',FacturaController::class)->names('facturas');
 Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('buscarFacturas');
-Route::get('/mostrar-pdf/{id}', [FacturaController::class, 'showPdf'])->name('verPdf');
+
+//rutas para elementos
+Route::resource('elementos',ElementoController::class)->names('elementos');
+Route::get('/elementosBuscar', [ElementoController::class, 'buscar'])->name('buscarElementos');

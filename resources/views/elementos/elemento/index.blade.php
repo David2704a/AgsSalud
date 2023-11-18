@@ -1,32 +1,32 @@
 @extends('layouts.app')
 
-@section('title', 'Proveedor')
+@section('title', 'Elemento')
 
 @section('links')
 
-<link rel="stylesheet" href="{{asset('/css/tipoProcedimiento/tipoProcedimiento.css')}}">
-<script src="{{asset('js/proveedor/proveedor.js')}}"></script>
+<link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
+<script src="{{asset('js/elemento/elemento.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 @endsection
 @section('content')
 
     <div class="content">
-<h1 class="page-title">PROVEEDORES</h1>
+<h1 class="page-title">Elementos</h1>
 <div class="green-line"></div>
 
 <div class="button-container">
-    <a href="/Proveedor" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    <a href="{{route('proveedores.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Provedor</a>
+    <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
 
 </div>
 <div class="menu-container">
     <ul class="menu">
         <li>
-            <a href="{{route('facturas.index')}}">Facturas</a>
+            <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
         <li>
-            <a href="{{route('elementos.index')}}">Elementos</a>
+            <a href="{{route('facturas.index')}}">Facturas</a>
         </li>
     </ul>
 </div>
@@ -46,33 +46,49 @@
     <table>
         <thead>
             <th>ID</th>
-            <th>Proveedor</th>
-            <th>Nit</th>
-            <th>Telefono</th>
-            <th>Correo Electronico</th>
-            <th>Direccion</th>
+            <th>Marca</th>
+            <th>Referencia</th>
+            <th>Serial</th>
+            <th>Especificaciones</th>
+            <th>Modelo</th>
+            <th>Garantia</th>
+            <th>Valor</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+            <th>Tipo</th>
+            <th>Categoria</th>
+            <th>N° Factura</th>
+            <th>Asignado A:</th>
             <th>Acciones</th>
         </thead>
         <tbody>
-            @foreach ($proveedores as $proveedor)
+            @foreach ($elementos as $elemento)
                 <tr>
-                    <td>{{$proveedor->idProveedor}}</td>
-                    <td>{{$proveedor->nombre}}</td>
-                    <td>{{$proveedor->nit}}</td>
-                    <td>{{$proveedor->telefono}}</td>
-                    <td>{{$proveedor->correoElectronico}}</td>
-                    <td>{{$proveedor->direccion}}</td>
+                    <td>{{$elemento->idElemento}}</td>
+                    <td>{{$elemento->marca}}</td>
+                    <td>{{$elemento->referencia}}</td>
+                    <td>{{$elemento->serial}}</td>
+                    <td>{{$elemento->especificaciones}}</td>
+                    <td>{{$elemento->modelo}}</td>
+                    <td>{{$elemento->garantia}}</td>
+                    <td>{{$elemento->valor}}</td>
+                    <td>{{$elemento->descripcion}}</td>
+                    <td>{{$elemento->estado->estado}}</td>
+                    <td>{{$elemento->tipoElemento->tipo}}</td>
+                    <td>{{$elemento->categoria->nombre}}</td>
+                    <td>{{$elemento->factura->codigoFactura}}</td>
+                    <td>{{$elemento->user->name}}</td>
                     <td>
-                        <a class="edit-button"
-                            href="{{ route('proveedores.edit',$proveedor->idProveedor) }}">
+                        <a class="edit-button" title="Editar"
+                            href="{{ route('facturas.edit',$elemento->idElemento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <button title="Eliminar"
-                        type="button" class="delete-button"
-                        data-id="{{ $proveedor->idProveedor }}"
-                        data-tipo="{{$proveedor->nombre}}">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                            type="button" class="delete-button"
+                            data-id="{{$elemento->idElemento}}"
+                            data-tipo="{{$elemento->marca}}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
                     </td>
                 </tr>
             @endforeach
@@ -82,7 +98,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{$proveedores->links('pagination.custom') }}  
+        {{$elementos->links('pagination.custom') }}  
     </div>
     </div>
 
@@ -92,7 +108,7 @@
             <p id="modalMessage"></p>
             <div class="button-container">
                 <button id="cancelButton" class="modal-button">Cancelar</button>
-                <form id="deleteForm" action="{{ route('proveedores.destroy','REPLACE_ID') }}" method="POST">
+                <form id="deleteForm" action="{{ route('elementos.index','REPLACE_ID') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>
@@ -104,8 +120,6 @@
     <br>
     <br>
     <br>
-
-
     <footer class="footer">
         <div class="left-images">
             <div class="column">
@@ -129,5 +143,4 @@
             </div>
         </div>
     </footer>
-
 @endsection

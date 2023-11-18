@@ -121,15 +121,4 @@ class FacturaController extends Controller
 
         return view("elementos.partials.factura.resultados", compact('facturas'));
     }
-
-    public function showPdf($id)
-    {
-        $rutaArchivo = Factura::find($id)->rutaFactura;
-        $pdfPath = public_path('Facturas/' . $rutaArchivo); // Ruta al archivo PDF
-
-        $pdfUrl = url('Facturas/' . $rutaArchivo);
-
-        return view('mostrar-pdf', compact('pdfUrl'));
-    }
-
 }

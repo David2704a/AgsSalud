@@ -26,7 +26,7 @@
             <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
         <li>
-            <a href="{{route('proveedores.index')}}">Elementos</a>
+            <a href="{{route('elementos.index')}}">Elementos</a>
         </li>
     </ul>
 </div>
