@@ -39,10 +39,12 @@
 
         <!-- Opciones de usuario -->
         <div id="user-dropdown" class="dropdown-menu">
-            <a class="perfiledit"  href="{{ route('profile.edit') }}">Perfil</a>
+            <a class="perfiledit"  href="{{ route('ActualizarPerfil') }}">Perfil</a>
+
+            
             <br>
             
-           
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button  class="btonCerrarSe" type="submit">Cerrar sesión</button>

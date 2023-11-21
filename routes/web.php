@@ -65,3 +65,25 @@ Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])-
 //rutas para proveedores
 Route::resource('proveedores', ProveedorController::class)->names('proveedores');
 
+Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('auth');
+
+
+
+
+// persona
+Route::resource('personas', App\Http\Controllers\PersonaController::class)->names('personas');
+
+
+
+
+Route::put('/personas/{id}', [App\Http\Controllers\PersonaController::class, 'update']);
+
+Route::post('Actualizarperfil', [App\Http\Controllers\UserAjustesController::class,'Actualizar'])->name('Actualizar');
+
+Route::resource('actualizarPerfil', App\Http\Controllers\PersonaController::class)->names('actualizarPerfil');
+Route::get('/editar/{id}', [App\Http\Controllers\PersonaController::class, 'edit'])->name('editarPerfil');
+Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil'])->name('perfil');
+
+
+// usuarios 
+Route::resource('usuarios', App\Http\Controllers\Usercontroller::class);
