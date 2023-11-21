@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{{asset('/css/welcome.css')}}">
 @endsection
 
+
 @section('content')
 
 <div class="content">

@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->unsignedInteger('idpersona')->nullable();
+            $table->foreign('idpersona')->references('id')->on('persona');
+            
             $table->rememberToken();
             $table->timestamps();
         });
