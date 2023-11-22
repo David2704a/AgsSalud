@@ -64,23 +64,24 @@
         <tbody>
             @foreach ($elementos as $elemento)
                 <tr>
-                    <td>{{$elemento->idElemento}}</td>
-                    <td>{{$elemento->marca}}</td>
-                    <td>{{$elemento->referencia}}</td>
-                    <td>{{$elemento->serial}}</td>
-                    <td>{{$elemento->especificaciones}}</td>
-                    <td>{{$elemento->modelo}}</td>
-                    <td>{{$elemento->garantia}}</td>
-                    <td>{{$elemento->valor}}</td>
-                    <td>{{$elemento->descripcion}}</td>
-                    <td>{{$elemento->estado->estado}}</td>
-                    <td>{{$elemento->tipoElemento->tipo}}</td>
-                    <td>{{$elemento->categoria->nombre}}</td>
-                    <td>{{$elemento->factura->codigoFactura}}</td>
-                    <td>{{$elemento->user->name}}</td>
+                    <td>{{$elemento->idElemento ? $elemento->idElemento : 'No aplica'}}</td>
+                    <td>{{ $elemento->marca ? $elemento->marca : 'No aplica' }}</td>
+                    <td>{{ $elemento->referencia ? $elemento->referencia : 'No aplica' }}</td>
+                    <td>{{ $elemento->serial ? $elemento->serial : 'No aplica' }}</td>
+                    <td>{{ $elemento->especificaciones ? $elemento->especificaciones : 'No aplica' }}</td>
+                    <td>{{ $elemento->modelo ? $elemento->modelo : 'No aplica' }}</td>
+                    <td>{{ $elemento->garantia ? $elemento->garantia : 'No aplica' }}</td>
+                    <td>{{ $elemento->valor ? $elemento->valor : 'No aplica' }}</td>
+                    <td>{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
+                    <td>{{ $elemento->estado->estado ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->tipoElemento->tipo ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->user->name ?? 'No aplica' }}</td>
+
                     <td>
                         <a class="edit-button" title="Editar"
-                            href="{{ route('facturas.edit',$elemento->idElemento) }}">
+                            href="{{ route('elementos.edit',$elemento->idElemento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <button title="Eliminar"

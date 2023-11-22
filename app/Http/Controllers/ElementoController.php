@@ -36,16 +36,11 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'especificaciones' => 'required',
-            'modelo' => 'required',
-            'garantia' => 'required',
             'valor' => 'required',
-            'descripcion' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
             'idFactura' => 'required',
-            'idUsuario' => 'required',
         ]);
 
         $data = $request->all();
@@ -85,16 +80,11 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'especificaciones' => 'required',
-            'modelo' => 'required',
-            'garantia' => 'required',
             'valor' => 'required',
-            'descripcion' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
             'idFactura' => 'required',
-            'idUsuario' => 'required',
         ]);
 
         $elemento->update($request->all());

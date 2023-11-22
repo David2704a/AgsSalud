@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('marca');
             $table->string('referencia');
             $table->string('serial');
-            $table->longText('especificaciones');
+            $table->longText('especificaciones')->nullable();
 
-            $table->string('modelo');
-            $table->string('garantia');
+            $table->string('modelo')->nullable();
+            $table->string('garantia')->nullable();
             $table->integer('valor');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
 
             $table->unsignedBigInteger('idEstadoEquipo');
             $table->foreign('idEstadoEquipo')->references('idEstadoE')->on('estadoelemento');
@@ -35,16 +35,13 @@ return new class extends Migration
             $table->unsignedBigInteger('idFactura')->nullable();
             $table->foreign('idFactura')->references('idFactura')->on('factura');
 
-            $table->unsignedBigInteger('idUsuario');
+            $table->unsignedBigInteger('idUsuario')->nullable();
             $table->foreign('idUsuario')->references('id')->on('users');
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('elemento');
