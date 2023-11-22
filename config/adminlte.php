@@ -15,7 +15,7 @@ return [
     */
 
     'title' => 'Ags Salud',
-    'title_prefix' => '',
+    'title_prefix' => '', 
     'title_postfix' => '',
 
     /*
