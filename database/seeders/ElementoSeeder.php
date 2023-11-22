@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Elemento;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ElementoSeeder extends Seeder
@@ -20,6 +19,7 @@ class ElementoSeeder extends Seeder
             "idEstadoEquipo"=> 1,
             "idCategoria"=> 1,
             "idUsuario"=> 1,
+            "idFactura"=> 1,
             "descripcion"=> "Asus ROG Strix",
             "serial" => "124789",
             "especificaciones" => "Asus ROG Strix, ryzen 5",
@@ -34,6 +34,7 @@ class ElementoSeeder extends Seeder
             "idEstadoEquipo"=> 2,
             "idCategoria"=> 1,
             "idUsuario"=> 2,
+            "idFactura"=> 1,
             "descripcion"=> "TUF",
             "serial" => "4795qf",
             "especificaciones" => "TUF, ryzen 7",
@@ -47,6 +48,7 @@ class ElementoSeeder extends Seeder
             "idTipoElemento"=> 1,
             "idEstadoEquipo"=> 2,
             "idCategoria"=> 1,
+            "idFactura"=> 1,
             "idUsuario"=> 3,
             "descripcion"=> "Nitro 5",
             "serial" => "7sd8q",
@@ -62,6 +64,7 @@ class ElementoSeeder extends Seeder
             "idEstadoEquipo"=> 2,
             "idCategoria"=> 7,
             "idUsuario"=> 3,
+            "idFactura"=> 1,
             "descripcion"=> "Gamer, silla reclinable",
             "serial" => "7sd8q",
             "especificaciones" => "Gamer, silla reclinable",

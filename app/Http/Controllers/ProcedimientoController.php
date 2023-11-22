@@ -8,7 +8,6 @@ use App\Models\Procedimiento;
 use App\Models\TipoProcedimiento;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 
 class ProcedimientoController extends Controller

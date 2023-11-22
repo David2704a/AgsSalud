@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('idProveedor')->references('idProveedor')->on('proveedor');
 
             $table->string('metodoPago');
-            $table->string('estadoPago');
+            $table->string('rutaFactura')->nullable();
             $table->integer('valor');
             $table->text('descripcion');
             $table->timestamps();

@@ -37,7 +37,7 @@
 
     <div class="form-part active" id="parte1">
         <label for="nombre">Nombre Proveedor</label>
-        <input type="text" name="nombre" id="nombre" value={{$proveedor->nombre}}><br>
+        <input type="text" name="nombre" id="nombre" value="{{$proveedor->nombre}}"><br>
         <label for="telefono">Teléfono</label>
         <input type="text" name="telefono" id="telefono" value={{$proveedor->telefono}}><br>
         <label for="correoElectronico">Correo Electronico</label>

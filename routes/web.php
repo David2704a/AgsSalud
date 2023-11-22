@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
+use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\TipoProcedimientoController;
@@ -64,6 +66,7 @@ Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])-
 
 //rutas para proveedores
 Route::resource('proveedores', ProveedorController::class)->names('proveedores');
+Route::get('/proveedoresBuscar', [ProveedorController::class, 'buscar'])->name('buscarProveedores');
 
 Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('auth');
 
@@ -87,3 +90,10 @@ Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil
 
 // usuarios 
 Route::resource('usuarios', App\Http\Controllers\Usercontroller::class);
+//rutas para factura
+Route::resource('facturas',FacturaController::class)->names('facturas');
+Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('buscarFacturas');
+
+//rutas para elementos
+Route::resource('elementos',ElementoController::class)->names('elementos');
+Route::get('/elementosBuscar', [ElementoController::class, 'buscar'])->name('buscarElementos');

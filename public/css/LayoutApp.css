@@ -173,9 +173,25 @@ BUTTONS EDIT AND DELETE
     margin-bottom: 0.5rem;
 }
 
+.show-button {
+    font-size: 15px;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #01a42f;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+.edit-button:hover {
+    background-color: #045e15;
+}
+
 .edit-button:hover {
     background-color: #037c72;
 }
+
+
 
 .delete-button {
     font-size: 15px;

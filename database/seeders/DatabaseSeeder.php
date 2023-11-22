@@ -18,7 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoElementoSeeder::class);
         $this->call(CategoriaSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ProveedorSeeder::class);
+        $this->call(FacturaSeeder::class);
         $this->call(ElementoSeeder::class);
+        
+        
 
         // \App\Models\User::factory(10)->create();
 
