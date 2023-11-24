@@ -2,7 +2,7 @@
 
 @section('title', 'Procedimientos')
 
-
+ 
 @section('links')
 
     <link rel="stylesheet" href="{{ asset('/css/procedimiento/procedimiento.css') }}">
