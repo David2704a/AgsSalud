@@ -2,6 +2,11 @@
 
 @section('title', 'Editar Perfil')
 
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
+
 @section('content_header')
     <h1 style="margin-left:40%"><span class="pf pf-atm">Actualizar Perfil</span></h1>
 @stop

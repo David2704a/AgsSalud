@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'Ags Salud',
-    'title_prefix' => '', 
+    'title' => 'AdminLTE 3',
+    'title_prefix' => '',
     'title_postfix' => '',
 
     /*

@@ -28,6 +28,9 @@
         <li>
             <a href="{{route('facturas.index')}}">Facturas</a>
         </li>
+        <li>
+            <a href="{{route('tipoElementos.index')}}">Tipo elemento</a>
+        </li>
     </ul>
 </div>
 

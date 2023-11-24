@@ -41,6 +41,5 @@ class PersonaController extends Controller
             'celular' => $request->input('celular'),
             'sexo' => $request->input('sexo'),
         ]);
-return redirect('vansss')->with('success', 'Información de persona actualizada correctamente.');
-}
+        return redirect()->route('persona.index')->with('success', 'Información de persona actualizada correctamente.');}
 }

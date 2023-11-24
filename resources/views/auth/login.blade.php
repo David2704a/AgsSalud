@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{"Vansss"}}</title>
+    <title>Vansss</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -17,22 +17,17 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('fontawesome-free/css/all.min.css') }}">
 
-    <link  rel="icon" href="{{ asset('img/sinfondologo.png') }}" type="image/png" />
+    <link rel="icon" href="{{ asset('img/sinfondologo.png') }}" type="image/png" />
 
     <!-- Styles -->
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <link href="{{ asset('inicio/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('inicio/css/estilos.css') }}" rel="stylesheet">
-
-
 </head>
 <body>
-
     <div class="container">
-
         <div class="row">
             <!-- Sesion izquierda de la pagina-->
             <div class="izqui col-lg-5 col-md-8 mx-auto">
@@ -47,9 +42,9 @@
             <div class="dere col-lg-5 col-md-8 mx-auto">
                 <img class="img-fluid users" src="{{ asset('img/Aly.png')}}" alt="">
                 <div class="mt-4">
-                    @if (Session::has('mensaje'))
+                    @if (session()->has('mensaje'))
                         <div class="alert alert-danger" role="alert">
-                            {{Session::get('mensaje')}}
+                            {{ session('mensaje') }}
                         </div>
                     @endif
                 </div>
@@ -66,7 +61,7 @@
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-12 mx-auto">
                             @error('email')
-                                <div class="alert alert-danger"   style="position: relative;" role="alert">
+                                <div class="alert alert-danger" style="position: relative;" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </div>
                             @enderror
@@ -99,7 +94,6 @@
     </div>
 
     <!-- Pie de pagina -->
-
     <footer style="background-color: #EBEBEB">
         <div class="mt-3 d-flex flex-wrap justify-content-around">
             <div class="mx-auto">
@@ -107,7 +101,6 @@
                 <div class="input-group">
                     <span class="small" style="color: gray">
                         <b>Copyright &copy; 2023 AGS SALUD SAS <br> Todos los derechos reservados</b>
-                        {{-- <div class="lt text-gray">Vansss = Jessica Vanesa Acosta Galindez   <br> DESARROLLADORA</div> --}}
                     </span>
                 </div>
             </div>
@@ -115,8 +108,8 @@
         <br>
     </footer>
 
+    <script src="{{ asset('inicio/js/elojito.js') }}"></script>
+    <script src="{{ asset('inicio/js/jquery.knob.min.js') }}" defer type="text/javascript"></script>
+    <script src="{{ asset('inicio/js/jquery.imagecursorzoom.js') }}" defer type="text/javascript"></script>
 </body>
-<script src="{{ asset('inicio/js/elojito.js') }}"></script>
-<script src="{{ asset('inicio/js/jquery.knob.min.js') }}" defer type="text/javascript"></script>
-<script src="{{ asset('inicio/js/jquery.imagecursorzoom.js') }}" defer type="text/javascript"></script>
 </html>

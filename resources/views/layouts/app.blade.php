@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +36,11 @@
 
     <div class="user-menu">
         <button id="user-menu-button" class="user-menu-button">
-            <div class="user-name" >{{ Auth::user()->name }}</div>
+            <div class="user-name" >
+            @auth
+        {{ Auth::user()->name }}
+    @endauth
+            </div>
             <div class="icon">
             <i class="material-symbols-outlined">expand_more</i>
         </div>

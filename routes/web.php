@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,7 +70,7 @@ Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])-
 Route::resource('proveedores', ProveedorController::class)->names('proveedores');
 Route::get('/proveedoresBuscar', [ProveedorController::class, 'buscar'])->name('buscarProveedores');
 
-Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('auth');
+Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
 
 
 
@@ -76,8 +78,8 @@ Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Mip
 // persona
 Route::resource('personas', App\Http\Controllers\PersonaController::class)->names('personas');
 
-
-
+// ruta redireccion cuando actualizo
+Route::get('/persona', [PersonaController::class, 'index'])->name('persona.index');
 
 Route::put('/personas/{id}', [App\Http\Controllers\PersonaController::class, 'update']);
 
@@ -97,3 +99,31 @@ Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('busca
 //rutas para elementos
 Route::resource('elementos',ElementoController::class)->names('elementos');
 Route::get('/elementosBuscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
+
+
+// categoria
+// Listar todas las categorías
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+// Mostrar el formulario para crear una nueva categoría
+Route::get('/categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
+// Almacenar una nueva categoría
+Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+// Mostrar una categoría específica
+Route::get('/categorias/{idCategoria}', [CategoriaController::class, 'show'])->name('categorias.show');
+// Mostrar el formulario para editar una categoría
+Route::get('/categorias/{idCategoria}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
+// Actualizar una categoría existente
+Route::put('/categorias/{idCategoria}', [CategoriaController::class, 'update'])->name('categorias.update');
+// Eliminar una categoría
+Route::delete('/categorias/{idCategoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+
+
+
+// rutas tipo elemento
+Route::get('/tipoElementos', [TipoElementoController::class, 'index'])->name('tipoElementos.index');
+Route::get('/tipoElementos/create', [TipoElementoController::class, 'create'])->name('tipoElementos.create');
+Route::post('/tipoElementos/store', [TipoElementoController::class, 'store'])->name('tipoElementos.store');
+Route::get('/tipoElementos/{idTipoElemento}', [TipoElementoController::class, 'show'])->name('tipoElementos.show');
+Route::get('/tipoElementos/{idTipoElemento}/edit', [TipoElementoController::class, 'edit'])->name('tipoElementos.edit');
+Route::put('/tipoElementos/{idTipoElemento}/update', [TipoElementoController::class, 'update'])->name('tipoElementos.update');
+Route::delete('/tipoElementos/{idTipoElemento}/destroy', [TipoElementoController::class, 'destroy'])->name('tipoElementos.destroy');

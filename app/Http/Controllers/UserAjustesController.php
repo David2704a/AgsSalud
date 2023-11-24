@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class UserAjustesController extends Controller
 {
      public function Miperfil(){
@@ -34,7 +35,7 @@ class UserAjustesController extends Controller
 
     $user->save();
 
-    return redirect()->route('vanss')->with('success', 'Perfil actualizado exitosamente');
+    return redirect()->route('persona.index')->with('success', 'Información de persona actualizada correctamente.');    
 }
     
 

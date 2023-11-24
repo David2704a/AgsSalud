@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
+
 @section('title','Home')
 @section('links')
 
@@ -30,11 +35,11 @@
         <span>ELEMENTOS</span>
     </a>
 
-    <a href="#" class="button-link">
+    <a href="/categorias" class="button-link">
         <div class="circle-button btn-background-circle">
-            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+            <img style="width: 87px;" src="{{asset('img/categoria.png')}}" alt="alo">
         </div>
-        <span>USUARIOS</span>
+        <span>Categoria</span>
     </a>
 
     <a href="#" class="button-link">

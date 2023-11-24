@@ -15,6 +15,7 @@
 <h1 class="page-title">TIPO DE PROCEDIMIENTOS</h1>
 <div class="green-line"></div>
 
+
 <div class="button-container">
     <a href="/procedimiento" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     <a href="{{route('createTipoP')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de Procedimiento</a>
