@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserAjustesController extends Controller
 {
+
+    public function index()
+{
+    // Puedes poner aquí la lógica que necesites para la página de índice
+    return view('persona.index');
+}
      public function Miperfil(){
         
         return view('persona.index');
