@@ -9,6 +9,7 @@ use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
+use App\Http\Controllers\UserAjustesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,15 +80,19 @@ Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Mip
 Route::resource('personas', App\Http\Controllers\PersonaController::class)->names('personas');
 
 // ruta redireccion cuando actualizo
-Route::get('/persona', [PersonaController::class, 'index'])->name('persona.index');
+Route::get('/persona', [UserAjustesController::class, 'index'])->name('persona.index');
 
-Route::put('/personas/{id}', [App\Http\Controllers\PersonaController::class, 'update']);
+Route::put('/personas/{id}', [App\Http\Controllers\PersonaController::class, 'update'])->name('personas.update');
 
 Route::post('Actualizarperfil', [App\Http\Controllers\UserAjustesController::class,'Actualizar'])->name('Actualizar');
 
 Route::resource('actualizarPerfil', App\Http\Controllers\PersonaController::class)->names('actualizarPerfil');
 Route::get('/editar/{id}', [App\Http\Controllers\PersonaController::class, 'edit'])->name('editarPerfil');
 Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil'])->name('perfil');
+
+
+// usereditar
+Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
 
 
 // usuarios 
@@ -99,6 +104,15 @@ Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('busca
 //rutas para elementos
 Route::resource('elementos',ElementoController::class)->names('elementos');
 Route::get('/elementosBuscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
+
+
+
+
+
+
+
+
+
 
 
 // categoria
