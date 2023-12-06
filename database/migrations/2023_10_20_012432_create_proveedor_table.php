@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('proveedor', function (Blueprint $table) {
             $table->bigIncrements('idProveedor');
             $table->text('nombre');
-            $table->integer('telefono');
-            $table->string('correoElectronico');
-            $table->string('direccion');
-            $table->string('nit');
+            $table->integer('telefono')->nullable();
+            $table->string('correoElectronico')->nullable();
+            $table->string('direccion')->nullable();
+            $table->string('nit')->nullable();
             $table->timestamps();
         });
     }

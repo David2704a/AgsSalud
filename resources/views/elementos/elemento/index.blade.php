@@ -18,6 +18,31 @@
 <div class="button-container">
     <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
+    <h2>Subir Archivo Excel</h2>
+
+    <div>
+        
+    <form action="{{route('excel.import')}}" method="post" enctype="multipart/form-data">
+        @csrf
+        <label for="archivo">Selecciona un archivo:</label>
+        <input type="file" id="archivo" name="archivo" >
+        <br>
+
+        <button type="submit">Cargar Archivo</button>
+    </form>
+    </div>
+
+@if(session('success'))
+    <p style="color: green;">{{ session('success') }}</p>
+@endif
+
+@if($errors->any())
+    <ul style="color: red;">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
 
 </div>
 <div class="menu-container">

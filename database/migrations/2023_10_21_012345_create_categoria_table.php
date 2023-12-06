@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('categoria', function (Blueprint $table) {
             $table->bigIncrements('idCategoria');
-            $table->string('nombre');
-            $table->text('descripcion');
+            $table->string('nombre')->nullable();
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\almacenadoTmpController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElementoController;
@@ -141,3 +142,20 @@ Route::get('/tipoElementos/{idTipoElemento}', [TipoElementoController::class, 's
 Route::get('/tipoElementos/{idTipoElemento}/edit', [TipoElementoController::class, 'edit'])->name('tipoElementos.edit');
 Route::put('/tipoElementos/{idTipoElemento}/update', [TipoElementoController::class, 'update'])->name('tipoElementos.update');
 Route::delete('/tipoElementos/{idTipoElemento}/destroy', [TipoElementoController::class, 'destroy'])->name('tipoElementos.destroy');
+
+
+
+// excel carga NO FUNCIONA ESTE ES CON LIBRERIA ExCEL SALIA ERROR 
+// Route::post('/importar-excel', [almacenadoTmpController::class, 'importarExcel'])->name('importar.excel');
+
+Route::post('/importar-excel', [almacenadoTmpController::class, 'importarExcel'])->name('excel.import');
+
+
+
+// // matwe libreria prueba
+// Route::post('/import', [ElementoController::class, 'import']);
+
+
+// // PRUEBASSS
+// Route::get('/subir-excel', [ElementoController::class, 'mostrarFormulario'])->name('formulario.subir.excel');
+// // Route::post('/importar-excel', [ElementoController::class, 'importarExcel'])->name('importar.excel');

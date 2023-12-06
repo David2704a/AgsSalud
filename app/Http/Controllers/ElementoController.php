@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ElementoImport;
 use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
@@ -10,9 +11,19 @@ use App\Models\TipoElemento;
 use App\Models\User;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
 {
+
+    public function __construct()
+    {
+        // Aplicar el middleware 'web' al controlador
+        $this->middleware('web');
+        $this->middleware('web', ['except' => ['import']]);
+    }
+
     public function index(){
         $elementos = Elemento::paginate(10);
         return view('elementos.elemento.index',compact('elementos'));
@@ -110,5 +121,26 @@ class ElementoController extends Controller
         })->paginate(10);
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));
+    }
+
+
+    // EEXCEL
+
+    public function importarExcel(Request $request)
+    {
+        // Validación del archivo Excel
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx,xls',
+        ]);
+
+        try {
+            // Importar el archivo Excel
+            Excel::import(new ElementoImport, $request->file('archivo'));
+
+            return redirect()->back()->with('success', 'Importación exitosa');
+        } catch (\Exception $e) {
+            // Capturar cualquier excepción durante la importación
+            return redirect()->back()->with('error', 'Error durante la importación: ' . $e->getMessage());
+        }
     }
 }

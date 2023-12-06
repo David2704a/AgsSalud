@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('procesador')->nullable();
             $table->string('ram')->nullable();
             $table->string('disco_duro')->nullable();
-            $table->string('tajeta_grafica')->nullable();
+            $table->string('tarjeta_grafica')->nullable();
             $table->string('documento')->nullable();
             $table->string('nombres_apellidos')->nullable();
             $table->string('fecha_compra')->nullable();
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('valor')->nullable();
             
             $table->timestamps();
-            $table->timestamps();
+        
         });
     }
 
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('almacenado_tmp');
+        Schema::dropIfExists('almacenadoTmp');
     }
 };

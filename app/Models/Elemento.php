@@ -12,10 +12,14 @@ class Elemento extends Model
     protected $table = 'elemento';
     protected $primaryKey = 'idElemento';
     protected $fillable = [
+        'id_dispo',
         'marca',
         'referencia',
         'serial',
-        'especificaciones',
+        'procesador',
+        'ram',
+        'disco_duro',
+        'tarjeta_grafica',
         'modelo',
         'garantia',
         'valor',
