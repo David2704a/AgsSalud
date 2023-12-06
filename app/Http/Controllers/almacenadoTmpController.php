@@ -12,128 +12,65 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class almacenadoTmpController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     
+     * Constructor del controlador.
      */
-    // public function __construct()
-    // {
-    //     // Aplicar el middleware 'web' al controlador
-    //     $this->middleware('web');
-    //     $this->middleware('web', ['except' => ['importarExcel']]);
-    // }
-    
-
-    // public function importarExcel(Request $request)
-    // {
-    //     // Validar si se envió un archivo
-    //     if (!$request->hasFile('excelFile')) {
-    //         return response()->json(['error' => 'No se envió ningún archivo'], 400);
-    //     }
-
-    //     // Obtener el archivo
-    //     $file = $request->file('excelFile');
-
-    //     // Validar el tipo de archivo (puedes personalizar las extensiones permitidas)
-    //     if ($file->getClientOriginalExtension() !== 'xlsx') {
-    //         return response()->json(['error' => 'Extension incompatible. El archivo debe ser de tipo XLSX'], 400);
-    //     }
-
-    //     // Crear una instancia del lector de archivos de Excel
-    //     $reader = IOFactory::createReader('Xlsx');
-
-    //     // Cargar el archivo en un objeto Spreadsheet
-    //     $documento = $reader->load($file->getPathname());
-
-    //     // Obtener la primera hoja del documento
-    //     $hoja = $documento->getSheet(0);
-
-    //     // Obtener el rango de celdas no vacías
-    //     $cellRange = $hoja->calculateWorksheetDimension();
-
-    //     // Iterar por cada fila (empezando desde la fila 8)
-    //     foreach ($hoja->getRowIterator(8) as $fila) {
-    //         $datosFila = [];
-
-    //         // Iterar por cada celda en la fila actual
-    //         foreach ($fila->getCellIterator() as $celda) {
-    //             $datosFila[] = $celda->getValue();
-    //         }
-
-    //         // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
-    //         $almacenadoTmp = new almacenadoTmp();
-    //         $almacenadoTmp->id_dispo = $datosFila[0];
-    //         $almacenadoTmp->dispositivo = $datosFila[1];
-    //         $almacenadoTmp->marca = $datosFila[2];
-    //         $almacenadoTmp->referencia = $datosFila[3];
-    //         $almacenadoTmp->serial = $datosFila[4];
-    //         $almacenadoTmp->procesador = $datosFila[5];
-    //         $almacenadoTmp->ram = $datosFila[6];
-    //         $almacenadoTmp->disco_duro = $datosFila[7];
-    //         $almacenadoTmp->tajeta_grafica = $datosFila[8];
-    //         $almacenadoTmp->documento = $datosFila[9];
-    //         $almacenadoTmp->nombres_apellidos = $datosFila[10];
-    //         $almacenadoTmp->fecha_compra = $datosFila[11];
-    //         $almacenadoTmp->garantia = $datosFila[12];
-    //         $almacenadoTmp->numero_factura = $datosFila[13];
-    //         $almacenadoTmp->proveedor = $datosFila[14];
-    //         $almacenadoTmp->estado = $datosFila[15];
-    //         $almacenadoTmp->observacion = $datosFila[16];
-    //         $almacenadoTmp->valor = $datosFila[17];
-
-    //         $almacenadoTmp->save();
-    //     }
-
-    //     return response()->json(['message' => 'Archivo importado correctamente']);
-    // }}
-
-
-
     public function __construct()
     {
         // Aplicar el middleware 'web' al controlador
         $this->middleware('web');
+        // Excluir el middleware 'web' para el método 'importarExcel'
         $this->middleware('web', ['except' => ['importarExcel']]);
     }
+
+    /**
+     * Método para importar datos desde un archivo Excel.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 
     public function importarExcel(Request $request)
     {
         // Validar si se envió un archivo
-
-        if (/*!$request->hasFile('excelFile')*/!$request->hasFile('archivo')) {
+        if (!$request->hasFile('archivo')) {
             return response()->json(['error' => 'No se envió ningún archivo'], 400);
         }
 
-        // Obtener el archivo
+        // Obtener el archivo enviado
         $file = $request->file('archivo');
-        // Validar el tipo de archivo (puedes personalizar las extensiones permitidas)
+
+        // Validar el tipo de archivo (se espera un archivo XLSX)
         if ($file->getClientOriginalExtension() !== 'xlsx') {
             return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
         }
 
         // Crear una instancia del lector de archivos de Excel
-
         $reader = IOFactory::createReader('Xlsx');
 
         // Cargar el archivo en un objeto Spreadsheet
-        // $documento = $reader->load($file->getPathname());
-        $documento = $reader->load($file);
+        $documento = $reader->load($file->getPathname());
 
-        // Iniciar una transacción
+        // Iniciar una transacción en la base de datos
         DB::beginTransaction();
 
         try {
             $limiteFilasPorBloque = 10; // Establecer el límite de filas por bloque
+            $cambiarOrden = false; // Variable para indicar si se debe cambiar el orden de las columnas
 
-            // Iterar por cada hoja hasta la hoja 13
-            for ($i = 0; $i < min(13, $documento->getSheetCount()); $i++) {
-                
+            // Iterar por cada hoja del documento (máximo 15 hojas)
+            for ($i = 0; $i < min(15, $documento->getSheetCount()); $i++) {
                 $hoja = $documento->getSheet($i);
 
-                // Iterar por cada fila (empezando desde la fila 8)
-                foreach ($hoja->getRowIterator(8) as $fila) {
+                // Verificar si es la hoja 13 para cambiar el orden de las columnas
+                if ($i == 12) {
+                    $cambiarOrden = true;
+                    $filaInicio = 3; // Cambiar la fila de inicio a la fila 3 en la hoja 13
+                } else {
+                    $filaInicio = 8; // Fila de inicio predeterminada para las demás hojas
+                }
+
+                // Iterar por cada fila en la hoja actual
+                foreach ($hoja->getRowIterator($filaInicio) as $fila) {
                     $datosFila = [];
 
                     // Iterar por cada celda en la fila actual
@@ -143,34 +80,53 @@ class almacenadoTmpController extends Controller
 
                     // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
                     $almacenadoTmp = new almacenadoTmp();
-                    $almacenadoTmp->fill([
-                        'id_dispo' => $datosFila[0],
-                        'dispositivo' => $datosFila[1],
-                        'marca' => $datosFila[2],
-                        'referencia' => $datosFila[3],
-                        'serial' => $datosFila[4],
-                        'procesador' => $datosFila[5],
-                        'ram' => $datosFila[6],
-                        'disco_duro' => $datosFila[7],
-                        'tarjeta_grafica' => $datosFila[8],
-                        'documento' => $datosFila[9],
-                        'nombres_apellidos' => $datosFila[10],
-                        'fecha_compra' => $datosFila[11],
-                        'garantia' => $datosFila[12],
-                        'numero_factura' => $datosFila[13],
-                        'proveedor' => $datosFila[14],
-                        'estado' => $datosFila[15],
-                        'observacion' => $datosFila[16],
-                        'valor' => $datosFila[17],
-                    ]);
 
-                    // if($i == 1){
-                    //     dd($hoja, $i,$almacenadoTmp);
-    
-                    // }
+                    // Llenar el modelo AlmacenadoTmp según el orden de las columnas
+                    if ($cambiarOrden) {
+                        $almacenadoTmp->fill([
+                            'dispositivo' => $datosFila[1],
+                            'marca' => $datosFila[2],
+                            'referencia' => $datosFila[3],
+                            'serial' => $datosFila[4],
+                            'procesador' => $datosFila[5],
+                            'ram' => $datosFila[6],
+                            'disco_duro' => $datosFila[7],
+                            'tarjeta_grafica' => $datosFila[8],
+                            'documento' => $datosFila[9],
+                            'nombres_apellidos' => $datosFila[10],
+                            'fecha_compra' => $datosFila[11],
+                            'garantia' => $datosFila[12],
+                            'numero_factura' => $datosFila[13],
+                            'proveedor' => $datosFila[14],
+                            'estado' => $datosFila[15],
+                            'observacion' => $datosFila[16],
+                            'cantidad' => $datosFila[0], // Cambiar la columna 'cantidad' a la posición 0
+                        ]);
+                    } else {
+                        $almacenadoTmp->fill([
+                            'id_dispo' => $datosFila[0],
+                            'dispositivo' => $datosFila[1],
+                            'marca' => $datosFila[2],
+                            'referencia' => $datosFila[3],
+                            'serial' => $datosFila[4],
+                            'procesador' => $datosFila[5],
+                            'ram' => $datosFila[6],
+                            'disco_duro' => $datosFila[7],
+                            'tarjeta_grafica' => $datosFila[8],
+                            'documento' => $datosFila[9],
+                            'nombres_apellidos' => $datosFila[10],
+                            'fecha_compra' => $datosFila[11],
+                            'garantia' => $datosFila[12],
+                            'numero_factura' => $datosFila[13],
+                            'proveedor' => $datosFila[14],
+                            'estado' => $datosFila[15],
+                            'observacion' => $datosFila[16],
+                        ]);
+                    }
+
+                    // Guardar el modelo en la base de datos
                     $almacenadoTmp->save();
                 }
-
 
                 // Hacer un commit después de procesar cada hoja
                 DB::commit();
@@ -179,7 +135,7 @@ class almacenadoTmpController extends Controller
                 DB::beginTransaction();
             }
 
-            // Confirmar la transacción final
+            // Confirmar la transacción final fuera del bucle
             DB::commit();
 
             return response()->json(['message' => 'Archivo importado correctamente']);
@@ -191,11 +147,3 @@ class almacenadoTmpController extends Controller
         }
     }
 }
-
-
-
-
-
-
-
-

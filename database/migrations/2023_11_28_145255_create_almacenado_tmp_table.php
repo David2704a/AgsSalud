@@ -31,7 +31,7 @@ return new class extends Migration
 
             $table->string('estado')->nullable();
             $table->string('observacion')->nullable();
-            $table->string('valor')->nullable();
+            $table->string('cantidad')->nullable();
             
             $table->timestamps();
         

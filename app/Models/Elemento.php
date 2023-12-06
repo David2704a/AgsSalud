@@ -22,7 +22,7 @@ class Elemento extends Model
         'tarjeta_grafica',
         'modelo',
         'garantia',
-        'valor',
+        'cantidad',
         'descripcion',
         'idEstadoEquipo',
         'idTipoElemento',
