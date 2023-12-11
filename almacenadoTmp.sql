@@ -166,3 +166,1000 @@ BEGIN
 
     CLOSE cur;
 END
+
+
+
+
+-- funciona pero duplica algunas cosas
+BEGIN
+INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Busca y agrega nuevos estados si no existen
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+    -- Inserta en la tabla 'elemento'
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad)
+    SELECT a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado);
+
+END
+
+
+-- funciona para cuando vuelva a subir un archivo solo con modificaciones olo agregue las nuevas mas no las que existen
+INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento'
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+    -- Inserta en la tabla 'elemento' evitando duplicados
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad)
+    SELECT a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    LEFT JOIN elemento el ON a.id_dispo = el.id_dispo
+    WHERE el.id_dispo IS NULL
+    AND NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+    );
+
+END
+
+
+
+-- si funciona para todo ahora solo falta user 
+BEGIN
+  DECLARE proveedorId INT;
+
+    -- Inserción en la tabla 'proveedor' evitando duplicados
+    INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Asegurarnos de que no haya duplicados basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Elimina los registros duplicados para NO REGISTRA basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA'
+    AND f1.idProveedor IS NOT NULL
+    AND f1.idFactura > f2.idFactura;
+
+    -- Inserta en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento'
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+    -- Inserta en la tabla 'elemento' evitando duplicados
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura)
+    SELECT a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad, f.idFactura
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+    LEFT JOIN elemento el ON a.id_dispo = el.id_dispo
+    WHERE el.id_dispo IS NULL
+    AND NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+    );
+END
+
+
+
+-- funciona para perosnas y user los crea ADDUser
+ BEGIN
+ DECLARE proveedorId INT;
+   DECLARE usuarioId INT;
+  DECLARE emailCounter INT;
+
+    -- Inserción en la tabla 'proveedor' evitando duplicados
+    INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Asegurarnos de que no haya duplicados basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Elimina los registros duplicados para NO REGISTRA basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA'
+    AND f1.idProveedor IS NOT NULL
+    AND f1.idFactura > f2.idFactura;
+
+    -- Inserta en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento'
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+
+
+
+ INSERT IGNORE INTO persona (nombre1, nombre2, apellido1, apellido2, identificacion)
+SELECT 
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(nombres_apellidos, ' ', 1)
+        ELSE nombres_apellidos
+    END AS nombre1,
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN 
+            CASE 
+                WHEN LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2
+                THEN SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', 2), ' ', -1)
+                ELSE NULL
+            END
+        ELSE NULL
+    END AS nombre2,
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN 
+            CASE 
+                WHEN LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2
+                THEN SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', -2), ' ', 1)
+                ELSE NULL
+            END
+        ELSE NULL
+    END AS apellido1,
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(nombres_apellidos, ' ', -1)
+        ELSE NULL
+    END AS apellido2,
+    documento AS identificacion
+FROM almacenadoTmp
+WHERE nombres_apellidos IS NOT NULL
+AND documento IS NOT NULL;
+
+-- Inserta en la tabla 'users'
+INSERT INTO users (name, email, password, idpersona, created_at, updated_at)
+SELECT 
+    CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+    CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+    PASSWORD('agsadministracionDev123'),
+    p.id,
+    NOW(),
+    NOW()
+FROM persona p;
+  
+    -- Inserta en la tabla 'elemento' evitando duplicados y asignando idFactura
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura)
+    SELECT a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad, f.idFactura
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+    LEFT JOIN elemento el ON a.id_dispo = el.id_dispo
+    WHERE el.id_dispo IS NULL
+    AND NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+    );
+    END
+
+
+
+
+
+BEGIN
+ DECLARE proveedorId INT;
+   DECLARE usuarioId INT;
+  DECLARE emailCounter INT;
+
+    -- Inserción en la tabla 'proveedor' evitando duplicados
+    INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Asegurarnos de que no haya duplicados basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Elimina los registros duplicados para NO REGISTRA basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA'
+    AND f1.idProveedor IS NOT NULL
+    AND f1.idFactura > f2.idFactura;
+
+    -- Inserta en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento'
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+
+
+
+ INSERT IGNORE INTO persona (nombre1, nombre2, apellido1, apellido2, identificacion)
+SELECT 
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(nombres_apellidos, ' ', 1)
+        ELSE nombres_apellidos
+    END AS nombre1,
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN 
+            CASE 
+                WHEN LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2
+                THEN SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', 2), ' ', -1)
+                ELSE NULL
+            END
+        ELSE NULL
+    END AS nombre2,
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN 
+            CASE 
+                WHEN LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2
+                THEN SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', -2), ' ', 1)
+                ELSE NULL
+            END
+        ELSE NULL
+    END AS apellido1,
+    CASE 
+        WHEN nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(nombres_apellidos, ' ', -1)
+        ELSE NULL
+    END AS apellido2,
+    documento AS identificacion
+FROM almacenadoTmp
+WHERE nombres_apellidos IS NOT NULL
+AND documento IS NOT NULL;
+
+-- Inserta en la tabla 'users'
+INSERT INTO users (name, email, password, idpersona, created_at, updated_at)
+SELECT 
+    CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+    CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+    PASSWORD('agsadministracionDev123'),
+    p.id,
+    NOW(),
+    NOW()
+FROM persona p;
+  
+    -- Inserta en la tabla 'elemento' evitando duplicados y asignando idFactura
+  INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
+    SELECT 
+        a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad, f.idFactura, u.id AS idUsuario
+    FROM 
+        almacenadoTmp a
+        JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+        JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+        JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+        LEFT JOIN elemento el ON a.id_dispo = el.id_dispo
+        JOIN persona p ON TRIM(a.nombres_apellidos) = TRIM(CONCAT(p.nombre1, ' ', p.nombre2, ' ', p.apellido1, ' ', p.apellido2)) AND a.documento = p.identificacion
+        JOIN users u ON p.id = u.idpersona
+    WHERE 
+        el.id_dispo IS NULL;
+END
+
+
+
+
+-- fi funciona y me crea todos los registros pero aun user no BEGIN
+ DECLARE proveedorId INT;
+ DECLARE usuarioId INT;
+ DECLARE emailCounter INT;
+
+    -- Inserción en la tabla 'proveedor' evitando duplicados
+    INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Asegurarnos de que no haya duplicados basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Elimina los registros duplicados para NO REGISTRA basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA'
+    AND f1.idProveedor IS NOT NULL
+    AND f1.idFactura > f2.idFactura;
+
+    -- Inserta en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento'
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+
+    -- Inserta en la tabla 'persona'
+    INSERT IGNORE INTO persona (nombre1, nombre2, apellido1, apellido2, identificacion)
+    SELECT 
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', 1)
+            ELSE a.nombres_apellidos
+        END AS nombre1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN 
+                CASE 
+                    WHEN LENGTH(a.nombres_apellidos) - LENGTH(REPLACE(a.nombres_apellidos, ' ', '')) >= 2
+                    THEN SUBSTRING_INDEX(SUBSTRING_INDEX(a.nombres_apellidos, ' ', 2), ' ', -1)
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS nombre2,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN 
+                CASE 
+                    WHEN LENGTH(a.nombres_apellidos) - LENGTH(REPLACE(a.nombres_apellidos, ' ', '')) >= 2
+                    THEN SUBSTRING_INDEX(SUBSTRING_INDEX(a.nombres_apellidos, ' ', -2), ' ', 1)
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS apellido1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', -1)
+            ELSE NULL
+        END AS apellido2,
+        a.documento AS identificacion
+    FROM almacenadoTmp a
+    WHERE a.nombres_apellidos IS NOT NULL
+    AND a.documento IS NOT NULL;
+
+    -- Inserta en la tabla 'users'
+    INSERT INTO users (name, email, password, idpersona, created_at, updated_at)
+    SELECT 
+        CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+        CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+        PASSWORD('agsadministracionDev123'),
+        p.id,
+        NOW(),
+        NOW()
+    FROM persona p;
+
+    -- Inserta en la tabla 'elemento' evitando duplicados y asignando idFactura
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura)
+    SELECT 
+        a.id_dispo,
+        c.idCategoria,
+        e.idEstadoE,
+        a.marca,
+        a.referencia,
+        a.serial,
+        a.procesador,
+        a.ram,
+        a.disco_duro,
+        a.tarjeta_grafica,
+        a.observacion,
+        a.garantia,
+        a.cantidad,
+        COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1)) AS idFactura
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    LEFT JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+    LEFT JOIN elemento el ON a.id_dispo = el.id_dispo
+    WHERE el.id_dispo IS NULL
+    AND NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+    );
+END
+
+
+
+
+
+
+BEGIN
+  DECLARE proveedorId INT;
+    DECLARE usuarioId INT;
+    DECLARE emailCounter INT;
+
+    -- Inserción en la tabla 'proveedor' evitando duplicados
+    INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Asegurarnos de que no haya duplicados basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Elimina los registros duplicados para NO REGISTRA basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA'
+    AND f1.idProveedor IS NOT NULL
+    AND f1.idFactura > f2.idFactura;
+
+    -- Inserta en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento'
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+
+
+
+    -- Inserta en la tabla 'persona' y verifica duplicados
+INSERT IGNORE INTO persona (nombre1, apellido1, apellido2, identificacion)
+SELECT 
+    DISTINCT
+    CASE 
+        WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', 1)
+        ELSE a.nombres_apellidos
+    END AS nombre1,
+    CASE 
+        WHEN a.nombres_apellidos REGEXP ' ' THEN 
+            CASE 
+                WHEN LENGTH(a.nombres_apellidos) - LENGTH(REPLACE(a.nombres_apellidos, ' ', '')) >= 2
+                THEN SUBSTRING_INDEX(SUBSTRING_INDEX(a.nombres_apellidos, ' ', -2), ' ', 1)
+                ELSE NULL
+            END
+        ELSE NULL
+    END AS apellido1,
+    CASE 
+        WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', -1)
+        ELSE NULL
+    END AS apellido2,
+    NULLIF(TRIM(NULLIF(a.documento, '')), '') AS identificacion
+FROM almacenadoTmp a
+WHERE a.nombres_apellidos IS NOT NULL
+AND a.nombres_apellidos != 'LIBRE';
+
+    
+    
+    
+    
+-- Inserta en la tabla 'users'
+INSERT INTO users (name, email, password, idpersona, created_at, updated_at)
+SELECT 
+    CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+    CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+    PASSWORD('agsadministracionDev123'),
+    p.id,
+    NOW(),
+    NOW()
+FROM persona p;
+
+-- Inserta en la tabla 'elemento' evitando duplicados y asignando idFactura
+INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura)
+SELECT 
+    a.id_dispo,
+    c.idCategoria,
+    e.idEstadoE,
+    a.marca,
+    a.referencia,
+    a.serial,
+    a.procesador,
+    a.ram,
+    a.disco_duro,
+    a.tarjeta_grafica,
+    a.observacion,
+    a.garantia,
+    a.cantidad,
+    COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1)) AS idFactura
+FROM almacenadoTmp a
+JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+LEFT JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+LEFT JOIN elemento el ON a.id_dispo = el.id_dispo
+WHERE el.id_dispo IS NULL
+AND NOT EXISTS (
+    SELECT 1
+    FROM elemento el2
+    WHERE el2.id_dispo = a.id_dispo
+);
+END
+
+
+
+
+
+
+
+
+
+
+
+BEGIN
+    DECLARE userId INT;  -- Variable para almacenar el id del usuario
+
+    -- Insertar en la tabla 'persona' si no existe
+    INSERT IGNORE INTO persona (nombre1, apellido1, apellido2, identificacion)
+    SELECT 
+        DISTINCT
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', 1)
+            ELSE a.nombres_apellidos
+        END AS nombre1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN 
+                CASE 
+                    WHEN LENGTH(a.nombres_apellidos) - LENGTH(REPLACE(a.nombres_apellidos, ' ', '')) >= 2
+                    THEN SUBSTRING_INDEX(SUBSTRING_INDEX(a.nombres_apellidos, ' ', -2), ' ', 1)
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS apellido1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', -1)
+            ELSE NULL
+        END AS apellido2,
+        NULLIF(TRIM(NULLIF(a.documento, '')), '') AS identificacion
+    FROM almacenadoTmp a
+    WHERE a.nombres_apellidos IS NOT NULL
+    AND a.nombres_apellidos != ' ';
+
+    -- Obtener el id de la persona recién creada o existente
+    SELECT p.id INTO userId
+    FROM persona p
+    WHERE p.nombre1 = COALESCE(p.nombre1, '') 
+      AND p.apellido1 = COALESCE(p.apellido1, '') 
+      AND p.apellido2 = COALESCE(p.apellido2, '') 
+      AND p.identificacion = COALESCE(p.identificacion, '')
+    LIMIT 1;
+
+    -- Insertar en la tabla 'users' si no existe
+    INSERT IGNORE INTO users (name, email, password, idpersona, created_at, updated_at)
+    SELECT 
+        CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+        CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+        PASSWORD('agsadministracionDev123'),
+        p.id,
+        NOW(),
+        NOW()
+    FROM persona p
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM users u
+        WHERE u.idpersona = p.id
+    );
+
+    -- Obtener el id del usuario recién creado o existente
+    SELECT u.id INTO userId
+    FROM users u
+    JOIN persona p ON u.idpersona = p.id
+    WHERE p.nombre1 = COALESCE(p.nombre1, '') 
+      AND p.apellido1 = COALESCE(p.apellido1, '') 
+      AND p.apellido2 = COALESCE(p.apellido2, '') 
+      AND p.identificacion = COALESCE(p.identificacion, '')
+    LIMIT 1;
+
+    -- Insertar en la tabla 'elemento' evitando duplicados y asignando idFactura e idUsuario
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
+    SELECT
+        a.id_dispo,
+        c.idCategoria,
+        e.idEstadoE,
+        a.marca,
+        a.referencia,
+        a.serial,
+        a.procesador,
+        a.ram,
+        a.disco_duro,
+        a.tarjeta_grafica,
+        a.observacion,
+        a.garantia,
+        a.cantidad,
+        COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1)) AS idFactura,
+        userId AS idUsuario
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    LEFT JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+          AND el2.idCategoria = c.idCategoria
+          AND el2.idEstadoEquipo = e.idEstadoE
+          AND el2.idUsuario = userId
+          AND el2.idFactura = COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1))
+    );
+END;
+
+
+
+
+    INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Eliminar duplicados en 'factura' basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Eliminar duplicados en 'factura' para 'NO REGISTRA' basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA' AND f1.idProveedor IS NOT NULL AND f1.idFactura > f2.idFactura;
+
+    -- Inserción en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento' evitando duplicados
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+    -- Insertar en la tabla 'persona'
+    INSERT IGNORE INTO persona (nombre1, apellido1, apellido2, identificacion)
+    SELECT 
+        DISTINCT
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', 1)
+            ELSE a.nombres_apellidos
+        END AS nombre1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN 
+                CASE 
+                    WHEN LENGTH(a.nombres_apellidos) - LENGTH(REPLACE(a.nombres_apellidos, ' ', '')) >= 2
+                    THEN SUBSTRING_INDEX(SUBSTRING_INDEX(a.nombres_apellidos, ' ', -2), ' ', 1)
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS apellido1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', -1)
+            ELSE NULL
+        END AS apellido2,
+        NULLIF(TRIM(NULLIF(a.documento, '')), '') AS identificacion
+    FROM almacenadoTmp a
+    WHERE a.nombres_apellidos IS NOT NULL AND TRIM(a.nombres_apellidos) != '';
+
+    -- Insertar en la tabla 'users'
+    INSERT IGNORE INTO users (name, email, password, idpersona, created_at, updated_at)
+    SELECT 
+        CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+        CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+        PASSWORD('agsadministracionDev123'),
+        p.id,
+        NOW(),
+        NOW()
+    FROM persona p;
+
+    -- Insertar en la tabla 'elemento' evitando duplicados y asignando idFactura e idUsuario
+    INSERT IGNORE INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
+    SELECT
+        a.id_dispo,
+        c.idCategoria,
+        e.idEstadoE,
+        a.marca,
+        a.referencia,
+        a.serial,
+        a.procesador,
+        a.ram,
+        a.disco_duro,
+        a.tarjeta_grafica,
+        a.observacion,
+        a.garantia,
+        a.cantidad,
+        COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1)) AS idFactura,
+        u.id AS idUsuario
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    LEFT JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+    LEFT JOIN persona p ON TRIM(a.nombres_apellidos) = TRIM(p.nombre1) AND TRIM(a.documento) = TRIM(p.identificacion)
+    LEFT JOIN users u ON p.id = u.idpersona
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+          AND el2.idCategoria = c.idCategoria
+          AND el2.idEstadoEquipo = e.idEstadoE
+          AND el2.idUsuario = u.id
+          AND el2.idFactura = COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1))
+    );
+END;
+
+
+
+
+-- funciona pero aun no agrega el usesr
+BEGIN
+  INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Eliminar duplicados en 'factura' basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Eliminar duplicados en 'factura' para 'NO REGISTRA' basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA' AND f1.idProveedor IS NOT NULL AND f1.idFactura > f2.idFactura;
+
+    -- Inserción en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento' evitando duplicados
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+    -- Insertar en la tabla 'persona'
+    INSERT IGNORE INTO persona (nombre1, apellido1, apellido2, identificacion)
+    SELECT 
+        DISTINCT
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', 1)
+            ELSE a.nombres_apellidos
+        END AS nombre1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN 
+                CASE 
+                    WHEN LENGTH(a.nombres_apellidos) - LENGTH(REPLACE(a.nombres_apellidos, ' ', '')) >= 2
+                    THEN SUBSTRING_INDEX(SUBSTRING_INDEX(a.nombres_apellidos, ' ', -2), ' ', 1)
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS apellido1,
+        CASE 
+            WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', -1)
+            ELSE NULL
+        END AS apellido2,
+        NULLIF(TRIM(NULLIF(a.documento, '')), '') AS identificacion
+    FROM almacenadoTmp a
+    WHERE a.nombres_apellidos IS NOT NULL AND TRIM(a.nombres_apellidos) != '';
+
+    -- Insertar en la tabla 'users'
+    INSERT IGNORE INTO users (name, email, password, idpersona, created_at, updated_at)
+    SELECT 
+        CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+        CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+        PASSWORD('agsadministracionDev123'),
+        p.id,
+        NOW(),
+        NOW()
+    FROM persona p;
+
+    -- Insertar en la tabla 'elemento' evitando duplicados y asignando idFactura e idUsuario
+    INSERT IGNORE INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
+    SELECT
+        a.id_dispo,
+        c.idCategoria,
+        e.idEstadoE,
+        a.marca,
+        a.referencia,
+        a.serial,
+        a.procesador,
+        a.ram,
+        a.disco_duro,
+        a.tarjeta_grafica,
+        a.observacion,
+        a.garantia,
+        a.cantidad,
+        COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1)) AS idFactura,
+        u.id AS idUsuario
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    LEFT JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+    LEFT JOIN persona p ON TRIM(a.nombres_apellidos) = TRIM(p.nombre1) AND TRIM(a.documento) = TRIM(p.identificacion)
+    LEFT JOIN users u ON p.id = u.idpersona
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+          AND el2.idCategoria = c.idCategoria
+          AND el2.idEstadoEquipo = e.idEstadoE
+          AND el2.idUsuario = u.id
+          AND el2.idFactura = COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1))
+    );
+END
+
+
+
+
+
+
+
+-- agrega user perso solo todos con el mismo id 
+
+BEGIN
+
+ DECLARE userId INT;
+
+  INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Eliminar duplicados en 'factura' basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Eliminar duplicados en 'factura' para 'NO REGISTRA' basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA' AND f1.idProveedor IS NOT NULL AND f1.idFactura > f2.idFactura;
+
+    -- Inserción en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento' evitando duplicados
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+    -- Insertar en la tabla 'persona'
+      
+
+       INSERT IGNORE INTO persona (nombre1, apellido1, apellido2, identificacion)
+SELECT 
+    DISTINCT
+    CASE 
+        WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', 1)
+        ELSE a.nombres_apellidos
+    END AS nombre1,
+    CASE 
+        WHEN a.nombres_apellidos REGEXP ' ' THEN 
+            CASE 
+                WHEN LENGTH(a.nombres_apellidos) - LENGTH(REPLACE(a.nombres_apellidos, ' ', '')) >= 2
+                THEN SUBSTRING_INDEX(SUBSTRING_INDEX(a.nombres_apellidos, ' ', -2), ' ', 1)
+                ELSE NULL
+            END
+        ELSE NULL
+    END AS apellido1,
+    CASE 
+        WHEN a.nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(a.nombres_apellidos, ' ', -1)
+        ELSE NULL
+    END AS apellido2,
+    NULLIF(TRIM(NULLIF(a.documento, '')), '') AS identificacion
+FROM almacenadoTmp a
+WHERE a.nombres_apellidos IS NOT NULL
+AND a.nombres_apellidos != ' ';
+
+
+    -- Obtener el id de la persona recién creada o existente
+    SELECT p.id INTO userId
+    FROM persona p
+    WHERE p.nombre1 = COALESCE(p.nombre1, '') 
+      AND p.apellido1 = COALESCE(p.apellido1, '') 
+      AND p.apellido2 = COALESCE(p.apellido2, '') 
+      AND p.identificacion = COALESCE(p.identificacion, '')
+    LIMIT 1;
+
+    -- Insertar en la tabla 'users' si no existe
+
+    INSERT INTO users (name, email, password, idpersona, created_at, updated_at)
+    SELECT 
+        CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+        CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+        PASSWORD('agsadministracionDev123'),
+        p.id,
+        NOW(),
+        NOW()
+    FROM persona p;
+
+
+
+    -- Obtener el id del usuario recién creado o existente
+    SELECT p.id INTO userId
+    FROM persona p
+    WHERE p.id = userId;
+
+    -- Insertar en la tabla 'elemento' evitando duplicados y asignando idFactura e idUsuario
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
+    SELECT
+        a.id_dispo,
+        c.idCategoria,
+        e.idEstadoE,
+        a.marca,
+        a.referencia,
+        a.serial,
+        a.procesador,
+        a.ram,
+        a.disco_duro,
+        a.tarjeta_grafica,
+       a.observacion, -- Cambié a descripcion
+        a.garantia,
+        a.cantidad,
+        COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1)) AS idFactura,
+        userId AS idUsuario
+    FROM almacenadoTmp a
+    JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+    JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+    LEFT JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM elemento el2
+        WHERE el2.id_dispo = a.id_dispo
+          AND el2.idUsuario = userId
+          AND el2.idCategoria = c.idCategoria
+          AND el2.idEstadoEquipo = e.idEstadoE
+          AND el2.marca = a.marca
+          AND el2.referencia = a.referencia
+          AND el2.serial = a.serial
+          AND el2.procesador = a.procesador
+          AND el2.ram = a.ram
+          AND el2.disco_duro = a.disco_duro
+          AND el2.tarjeta_grafica = a.tarjeta_grafica
+          AND el2.descripcion = a.observacion-- Cambié a descripcion
+          AND el2.garantia = a.garantia
+          AND el2.cantidad = a.cantidad
+          AND el2.idFactura = COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1))
+    );
+END

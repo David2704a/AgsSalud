@@ -40,7 +40,7 @@ return new class extends Migration
 
 
 
-            $table->unsignedBigInteger('idCategoria'); // enn el excel esta e la columnna dispositivo 
+            $table->unsignedBigInteger('idCategoria')->nullable(); // enn el excel esta e la columnna dispositivo 
             $table->foreign('idCategoria')->references('idCategoria')->on('categoria');// enn el excel esta e la columnna dispositivo 
 
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('proveedor', function (Blueprint $table) {
             $table->bigIncrements('idProveedor');
-            $table->text('nombre');
+            $table->text('nombre')->nullable();
             $table->integer('telefono')->nullable();
             $table->string('correoElectronico')->nullable();
             $table->string('direccion')->nullable();
