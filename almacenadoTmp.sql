@@ -1161,5 +1161,6 @@ AND a.nombres_apellidos != ' ';
           AND el2.garantia = a.garantia
           AND el2.cantidad = a.cantidad
           AND el2.idFactura = COALESCE(f.idFactura, (SELECT idFactura FROM factura WHERE codigoFactura = 'NO REGISTRA' LIMIT 1))
-    );
+    );   
+    
 END
