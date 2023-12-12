@@ -12,10 +12,10 @@ class Elemento extends Model
     protected $table = 'elemento';
     protected $primaryKey = 'idElemento';
     protected $fillable = [
+        'idElemento',
         'marca',
         'referencia',
         'serial',
-        'especificaciones',
         'modelo',
         'garantia',
         'valor',
@@ -40,7 +40,7 @@ class Elemento extends Model
     public function estado() {
         return $this->belongsTo(EstadoElemento::class, 'idEstadoEquipo');
     }
-    
+
     public function factura() {
         return $this->belongsTo(Factura::class, 'idFactura');
     }

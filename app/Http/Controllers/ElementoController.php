@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ElementoExport;
 use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
@@ -10,16 +11,18 @@ use App\Models\TipoElemento;
 use App\Models\User;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
 {
     public function index(){
         $elementos = Elemento::paginate(10);
-        return view('elementos.elemento.index',compact('elementos'));
+        $estadosEquipos = EstadoElemento::all();
+        return view('elementos.elemento.index',compact('elementos', 'estadosEquipos'));
     }
 
     public function create(){
-        
+
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
@@ -69,7 +72,7 @@ class ElementoController extends Controller
         $facturas = Factura::all();
         $users = User::all();
 
-        return view('elementos.elemento.edit', 
+        return view('elementos.elemento.edit',
         compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
     }
 
@@ -111,4 +114,24 @@ class ElementoController extends Controller
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));
     }
+
+
+
+
+
+    public function excel(Request $request)
+    {
+        // Obtener los valores de los filtros desde la solicitud
+        $filtros = [
+            'idEstadoEquipo' => $request->input('idEstadoEquipo', null),
+            'idTipoElemento' => $request->input('idTipoElemento', null),
+            'fechaInicio' => $request->input('fechaInicio', null),
+            'fechaFin' => $request->input('fechaFin', null),
+            // Agrega más filtros según sea necesario
+        ];
+
+        // Descargar el informe en formato Excel con los filtros aplicados
+        return Excel::download(new ElementoExport($filtros), 'elemento.xlsx');
+    }
+
 }

@@ -34,6 +34,25 @@
     </ul>
 </div>
 
+<form method="get" action="{{ url('/excel') }}" class="mb-3">
+    @csrf
+    <label for="estadoEquipo">Seleccionar Estado de Equipo:</label>
+    <select name="idEstadoEquipo" id="estadoEquipo" class="form-control">
+        <option value="">Todos los Estados</option>
+        @foreach($estadosEquipos as $estadoEquipo)
+            <option value="{{ $estadoEquipo->idEstadoE }}">{{ $estadoEquipo->estado }}</option>
+        @endforeach
+    </select>
+    <button type="submit" class="btn btn-success btn-lg" title="Generar Informe en Excel">
+        <i class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i> Generar Informe
+    </button>
+</form>
+
+{{-- <a href="{{ url('excel?idEstadoEquipo=1') }}" class="btn btn-success btn-lg" target="_blank" title="Ver Excel"><i
+    class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i></a> --}}
+
+
+
 @if(session('success'))
     <div id="success-alert" class="alert alert-success">
         {{ session('success') }}
@@ -102,7 +121,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{$elementos->links('pagination.custom') }}  
+        {{$elementos->links('pagination.custom') }}
     </div>
     </div>
 

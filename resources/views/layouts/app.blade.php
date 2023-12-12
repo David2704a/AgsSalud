@@ -24,6 +24,7 @@
 </head>
 <body>
 
+
 <header>
     <div class="logo">
         <img src="{{asset('imgs/logos/Ags.png')}}" alt="Logo de la empresa">
@@ -63,10 +64,10 @@
     </div>
 </header>
 
-<div class="container">
-    @yield('content')
-    @yield('links')
-</div>
+@yield('content')
+@yield('links')
+
+
 <script src="{{ asset('js/userNav/userbar.js') }}"></script>
 
 

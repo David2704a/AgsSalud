@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProveedorSeeder::class);
         $this->call(FacturaSeeder::class);
         $this->call(ElementoSeeder::class);
-        
-        
+
+
 
         // \App\Models\User::factory(10)->create();
 

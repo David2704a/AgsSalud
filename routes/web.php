@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\InformesController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\TipoElementoController;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-     
+
 Route::get('/', function () {
     return view('auth/login');
 });
@@ -95,7 +96,7 @@ Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil
 Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
 
 
-// usuarios 
+// usuarios
 Route::resource('usuarios', App\Http\Controllers\Usercontroller::class);
 //rutas para factura
 Route::resource('facturas',FacturaController::class)->names('facturas');
@@ -141,3 +142,18 @@ Route::get('/tipoElementos/{idTipoElemento}', [TipoElementoController::class, 's
 Route::get('/tipoElementos/{idTipoElemento}/edit', [TipoElementoController::class, 'edit'])->name('tipoElementos.edit');
 Route::put('/tipoElementos/{idTipoElemento}/update', [TipoElementoController::class, 'update'])->name('tipoElementos.update');
 Route::delete('/tipoElementos/{idTipoElemento}/destroy', [TipoElementoController::class, 'destroy'])->name('tipoElementos.destroy');
+
+
+
+/*
+
+================================================
+REPORTES
+================================================
+
+*/
+
+Route::resource('/reporte', InformesController::class)->names('reporte');
+
+
+Route::get('excel', [ElementoController::class,'excel'])->name('generarInforme');
