@@ -923,6 +923,104 @@ END;
 
 
 
+-- funciona pero solo agrega 5 user a elemento ADDBEGIN
+    -- Inserción en la tabla 'proveedor' evitando duplicados
+    INSERT INTO proveedor (nombre)
+    SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
+    WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
+
+    -- Inserción en la tabla 'factura' evitando duplicados
+    INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
+    SELECT p.idProveedor, a.numero_factura, STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
+    FROM almacenadoTmp a
+    JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
+
+    -- Asegurarnos de que no haya duplicados basados en código de factura y fecha
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.fechaCompra = f2.fechaCompra
+    WHERE f1.idFactura > f2.idFactura;
+
+    -- Elimina los registros duplicados para NO REGISTRA basados en codigoFactura e idProveedor
+    DELETE f1 FROM factura f1
+    JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
+    AND f1.idProveedor = f2.idProveedor
+    WHERE f1.codigoFactura = 'NO REGISTRA'
+    AND f1.idProveedor IS NOT NULL
+    AND f1.idFactura > f2.idFactura;
+
+    -- Inserta en la tabla 'categoria' evitando duplicados
+    INSERT IGNORE INTO categoria (nombre)
+    SELECT DISTINCT TRIM(dispositivo) FROM almacenadoTmp;
+
+    -- Inserción en la tabla 'estadoElemento'
+    INSERT IGNORE INTO estadoElemento (estado)
+    SELECT DISTINCT TRIM(estado) FROM almacenadoTmp;
+
+    -- Inserta en la tabla 'persona' evitando duplicados
+    INSERT IGNORE INTO persona (nombre1, nombre2, apellido1, apellido2, identificacion)
+    SELECT 
+        CASE 
+            WHEN nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(nombres_apellidos, ' ', 1)
+            ELSE nombres_apellidos
+        END AS nombre1,
+        CASE 
+            WHEN nombres_apellidos REGEXP ' ' THEN 
+                CASE 
+                    WHEN LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2
+                    THEN SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', 2), ' ', -1)
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS nombre2,
+        CASE 
+            WHEN nombres_apellidos REGEXP ' ' THEN 
+                CASE 
+                    WHEN LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2
+                    THEN SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', -2), ' ', 1)
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS apellido1,
+        CASE 
+            WHEN nombres_apellidos REGEXP ' ' THEN SUBSTRING_INDEX(nombres_apellidos, ' ', -1)
+            ELSE NULL
+        END AS apellido2,
+        documento AS identificacion
+    FROM almacenadoTmp
+    WHERE nombres_apellidos IS NOT NULL
+    AND documento IS NOT NULL;
+
+    -- Inserta en la tabla 'users'
+    INSERT INTO users (name, email, password, idpersona, created_at, updated_at)
+    SELECT 
+        CONCAT(COALESCE(p.nombre1, ''), ' ', COALESCE(p.apellido1, '')),
+        CONCAT('agssaludgerencia', p.id, '@gmail.com'),
+        PASSWORD('agsadministracionDev123'),
+        p.id,
+        NOW(),
+        NOW()
+    FROM persona p;
+
+    -- Inserta en la tabla 'elemento' evitando duplicados
+    INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
+    SELECT 
+        a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad, f.idFactura, u.id AS idUsuario
+    FROM 
+        almacenadoTmp a
+        JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
+        JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
+        JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') = f.fechaCompra
+        LEFT JOIN elemento el ON a.id_dispo = el.id_dispo
+        JOIN persona p ON TRIM(a.nombres_apellidos) = TRIM(CONCAT(p.nombre1, ' ', p.nombre2, ' ', p.apellido1, ' ', p.apellido2)) AND a.documento = p.identificacion
+        JOIN users u ON p.id = u.idpersona;
+END;
+
+
+
+
+
+
 -- funciona pero aun no agrega el usesr
 BEGIN
   INSERT INTO proveedor (nombre)
