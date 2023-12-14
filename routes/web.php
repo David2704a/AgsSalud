@@ -59,3 +59,11 @@ Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('busca
 //rutas para elementos
 Route::resource('elementos',ElementoController::class)->names('elementos');
 Route::get('/elementosBuscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
+
+
+//rutas para la exportar reportes
+Route::get('/export', [ElementoController::class, 'export'])->name('export');
+
+//ruta para exportar prestamos de equipos 
+
+Route::get('/exportPrestamos', [ElementoController::class, 'exportPrestamos'])->name('exportPrestamos');

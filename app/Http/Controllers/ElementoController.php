@@ -8,8 +8,10 @@ use App\Models\EstadoElemento;
 use App\Models\Factura;
 use App\Models\TipoElemento;
 use App\Models\User;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use App\Exports\ElementosExport;
+use App\Exports\PrestamoExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
 {
@@ -110,5 +112,14 @@ class ElementoController extends Controller
         })->paginate(10);
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));
+    }
+
+
+    public function export(){
+        return Excel::download(new ElementosExport, 'elementos.xlsx');
+    }
+
+    public function exportPrestamos(){
+        return Excel::download(new PrestamoExport, 'RegistroPrestamos.xlsx');
     }
 }

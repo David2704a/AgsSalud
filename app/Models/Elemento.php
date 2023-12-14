@@ -48,4 +48,9 @@ class Elemento extends Model
     public function user() {
         return $this->belongsTo(user::class, 'idUsuario');
     }
+    
+    public function procedimientos()
+    {
+        return $this->hasMany(Procedimiento::class, 'idElemento');
+    }
 }
