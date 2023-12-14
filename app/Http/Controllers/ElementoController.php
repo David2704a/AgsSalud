@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Exports\ElementosExport;
 use App\Exports\PrestamoExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
@@ -121,5 +122,12 @@ class ElementoController extends Controller
 
     public function exportPrestamos(){
         return Excel::download(new PrestamoExport, 'RegistroPrestamos.xlsx');
+    }
+
+
+    //exportar pdf
+    public function pdf(){
+        $elementos = Elemento::all();
+        $pdf = Pdf::loadView('pdf.pdf', compact('elementos'));
     }
 }
