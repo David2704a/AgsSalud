@@ -78,6 +78,7 @@
             <th>Descripcion</th>
             <th>Estado</th>
             <th>Tipo</th>
+            <th>Estado Procedimiento</th>
             <th>Categoria</th>
             <th>N° Factura</th>
             <th>Asignado A:</th>
@@ -97,6 +98,7 @@
                     <td>{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
                     <td>{{ $elemento->estado->estado ?? 'No aplica' }}</td>
                     <td>{{ $elemento->tipoElemento->tipo ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'No aplica'}}</td>
                     <td>{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
                     <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
                     <td>{{ $elemento->user->name ?? 'No aplica' }}</td>

@@ -1,7 +1,8 @@
 .container {
     display: flex;
     width: 80rem;
-    height: 50rem;
+    min-height: 40rem;
+    max-height: 500rem;
     margin: 1rem auto;
     background-color: #ffffff00;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -10,7 +11,10 @@
 
 .main-container {
     width: 100%;
+    min-height: 40rem;
+    max-height: 100rem;
     border: solid 2px #21AFA4;
+    overflow: auto;
 }
 
 /* Menú lateral */
@@ -50,6 +54,7 @@
 
 /* Títulos */
 .titulo {
+    width: 100%;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -66,6 +71,8 @@ hr {
 
 /* Formulario */
 form {
+    width: 60rem;
+    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -126,7 +133,6 @@ a {
 
 
 table {
-    margin-top: 1rem;
     border-collapse: collapse;
     width: 100%;
 
@@ -170,8 +176,8 @@ table tr:last-child td {
 }
 
 .table {
-    width: 64rem;
-    margin: 0 auto;
+    width: 100%;
+    margin: auto;
     padding: 20px;
     overflow: auto;
     background: linear-gradient(rgba(255, 255, 255, 0.789), rgba(255, 255, 255, 0.789)), url(/imgs/logos/Ags.png);
@@ -181,13 +187,14 @@ table tr:last-child td {
 
 }
 
+/*
 
+================================================================
+BOTON DE EXPORTAR PARA ELEMENTOS
+================================================================
+*/
 
-
-
-
-
-.export-button {
+.Options-Exports-Elementos .export-button {
     margin:auto;
     background-color: #21AFA4;
     color: #fff;
@@ -198,13 +205,13 @@ table tr:last-child td {
     position: relative;
 }
 
-.export-options-container {
-    margin: auto;
+.Options-Exports-Elementos {
+    margin: 2rem auto;
     width: 8rem;
     position: relative;
 }
 
-.document-options {
+.Options-Exports-Elementos .document-options {
     display: none;
     position: absolute;
     top: 0;
@@ -215,14 +222,62 @@ table tr:last-child td {
     padding: 5px;
     z-index: 1;
 }
-.button-with-icon {
+.Options-Exports-Elementos .button-with-icon {
     margin-bottom: 5px;
     background: none;
     border: none;
     cursor: pointer;
 }
 
-.button-with-icon i {
+.Options-Exports-Elementos .button-with-icon i {
+    font-size: 25px;
+    margin-right: 5px; /* Ajusta el espacio entre el icono y el texto del botón */
+}
+
+
+/*
+
+================================================================
+BOTON DE EXPORTAR PARA PROCEDIMIENTOS
+================================================================
+*/
+
+.Options-Exports-Procedimientos .export-button {
+    margin:auto;
+    background-color: #21AFA4;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+}
+
+.Options-Exports-Procedimientos {
+    margin: 2rem auto;
+    width: 8rem;
+    position: relative;
+}
+
+.Options-Exports-Procedimientos .document-options {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%; /* Aparecerá justo al lado derecho del botón */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    z-index: 1;
+}
+.Options-Exports-Procedimientos .button-proce {
+    margin-bottom: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Options-Exports-Procedimientos .button-proce i {
     font-size: 25px;
     margin-right: 5px; /* Ajusta el espacio entre el icono y el texto del botón */
 }

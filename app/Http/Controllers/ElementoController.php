@@ -119,14 +119,16 @@ class ElementoController extends Controller
 
 
 
-    public function excel(Request $request)
+    public function excelElemento(Request $request)
     {
         // Obtener los valores de los filtros desde la solicitud
         $filtros = [
             'idEstadoEquipo' => $request->input('idEstadoEquipo', null),
             'idTipoElemento' => $request->input('idTipoElemento', null),
+            'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
             'fechaInicio' => $request->input('fechaInicio', null),
             'fechaFin' => $request->input('fechaFin', null),
+
             // Agrega más filtros según sea necesario
         ];
 

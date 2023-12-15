@@ -27,14 +27,21 @@ class ElementoExport implements  FromView
         // Aplicar los filtros proporcionados
         foreach ($this->filtros as $clave => $valor) {
             if ($valor) {
-                $query->where($clave, $valor);
+                if ($clave === 'idTipoProcedimiento') {
+                    // Si es el filtro por idTipoProcedimiento, aplicar la condición en la relación
+                    $query->whereHas('procedimiento.tipoProcedimiento', function ($subquery) use ($valor) {
+                        $subquery->where('idTipoProcedimiento', $valor);
+                    });
+                } else {
+                    $query->where($clave, $valor);
+                }
             }
         }
 
         // Obtener los resultados
         $elementos = $query->get();
 
-        
+
         return view('elementos.elemento.informes.excel', [
             'elementos' => $elementos,
         ]);
