@@ -128,6 +128,7 @@ class ElementoController extends Controller
             'idEstadoEquipo' => $request->input('idEstadoEquipo', null),
             'idTipoElemento' => $request->input('idTipoElemento', null),
             'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
+            'idCategoria' => $request->input('idCategoria', null),
             'fechaInicio' => $request->input('fechaInicio', null),
             'fechaFin' => $request->input('fechaFin', null),
 
