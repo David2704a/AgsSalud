@@ -51,6 +51,19 @@ class UserAjustesController extends Controller
 
 public function actualizarperfilderegistrouser(Request $request, $id)
     {
+
+        // $usuario = new User();
+        //     dd($request->all());
+        //     $usuario->nombre1 = $request->input('name');
+        //     // $usuario->nombre2 = $nombre[1];
+        //     // $usuario->apellido1 = $apellidos[0];
+        //     // $usuario->apellido2 = $apellidos[1];
+        //     // $usuario->email = $datos['email'];
+        //     // $usuario->password = $password;
+        //     $usuario->save();
+
+
+
         $user = Auth::user();
 
         if ($user->name !== $request->input('name')) {
@@ -73,6 +86,9 @@ public function actualizarperfilderegistrouser(Request $request, $id)
         return redirect()->route('usuarios.edit', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
     }
 
+
+
+    
     public function perfil()
     {
         return view('persona.edit', ['user' => Auth::user()]);
