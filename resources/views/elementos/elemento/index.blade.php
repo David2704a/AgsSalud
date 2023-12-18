@@ -4,7 +4,7 @@
 
 @section('links')
 
-<link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
+<link rel="stylesheet" href="{{asset('/css/elemento/elemento.css')}}">
 <script src="{{asset('js/elemento/elemento.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -15,10 +15,10 @@
 <h1 class="page-title">Elementos</h1>
 <div class="green-line"></div>
 
-<div class="button-container">
-    <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
 
+<div class="button-container">
+    <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
 </div>
 <div class="menu-container">
     <ul class="menu">
@@ -34,19 +34,7 @@
     </ul>
 </div>
 
-<form method="get" action="{{ url('/excel') }}" class="mb-3">
-    @csrf
-    <label for="estadoEquipo">Seleccionar Estado de Equipo:</label>
-    <select name="idEstadoEquipo" id="estadoEquipo" class="form-control">
-        <option value="">Todos los Estados</option>
-        @foreach($estadosEquipos as $estadoEquipo)
-            <option value="{{ $estadoEquipo->idEstadoE }}">{{ $estadoEquipo->estado }}</option>
-        @endforeach
-    </select>
-    <button type="submit" class="btn btn-success btn-lg" title="Generar Informe en Excel">
-        <i class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i> Generar Informe
-    </button>
-</form>
+
 
 {{-- <a href="{{ url('excel?idEstadoEquipo=1') }}" class="btn btn-success btn-lg" target="_blank" title="Ver Excel"><i
     class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i></a> --}}

@@ -29,7 +29,7 @@
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>CATEGORIA</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>FACTURA</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ASIGNADO</b></th>
-        </tr>
+        </tr> 
     </thead>
     <tbody>
         @foreach ($elementos as $elemento)

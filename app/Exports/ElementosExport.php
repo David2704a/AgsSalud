@@ -19,45 +19,18 @@ use PhpOffice\PhpSpreadsheet\Style\BorderStyle;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 
-class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyles
+
+class ElementosExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
 {
-
-
-    protected $filtros;
-
-    public function __construct($filtros)
-    {
-        $this->filtros = $filtros;
-    }
-
+    /**
+    * @return \Illuminate\Support\Collection
+    */
     public function view(): View
     {
-        // Inicializar la consulta sin filtro
-        $query = Elemento::query();
-
-        // Aplicar los filtros proporcionados
-        foreach ($this->filtros as $clave => $valor) {
-            if ($valor) {
-                if ($clave === 'idTipoProcedimiento') {
-                    // Si es el filtro por idTipoProcedimiento, aplicar la condición en la relación
-                    $query->whereHas('procedimiento.tipoProcedimiento', function ($subquery) use ($valor) {
-                        $subquery->where('idTipoProcedimiento', $valor);
-                    });
-                } else {
-                    $query->where($clave, $valor);
-                }
-            }
-        }
-
-        // Obtener los resultados
-        $elementos = $query->get();
-
-
-        return view('elementos.elemento.informes.excel', [
-            'elementos' => $elementos,
+        return view('exports.export', [
+            'elementos' => Elemento::all(),
         ]);
     }
-
 
     public function styles(Worksheet $sheet)
     {
@@ -81,12 +54,10 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
         ];
     }
 
-
-
     public function registerEvents(): array
     {
 
-
+        
         Image::make(public_path('imgs/logos/Ags.png'))->resize(330, 130)->save(public_path('imgs/logos/ags-export.png'));
         Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
         Image::make(public_path('imgs/logos/logo-IQNet.png'))->resize(100, 100)->save(public_path('imgs/logos/iqnet-export.png'));
@@ -95,7 +66,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
         Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
         Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
 
-
+        
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $fechaActual = Carbon::now()->format('d/m/Y');
@@ -107,7 +78,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                 $event->sheet->getRowDimension(4)->setRowHeight(25);
                 $event->sheet->getRowDimension(7)->setRowHeight(38);
                 $event->sheet->setTitle('Inventario');
-
+                
                 //combinacion de celdas
                 $event->sheet->mergeCells('A1:B5');
                 $event->sheet->mergeCells('C1:H2');
@@ -147,7 +118,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                         ],
                     ],
                 ]);
-
+    
                 $event->sheet->getStyle('C1:H2')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -163,7 +134,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                         ],
                     ],
                 ]);
-
+    
                 $event->sheet->getStyle('C3:H4')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -179,7 +150,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                         ],
                     ],
                 ]);
-
+    
                 $event->sheet->getStyle('C5:E5')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -195,7 +166,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                         ],
                     ],
                 ]);
-
+    
                 $event->sheet->getStyle('F5:H5')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -211,7 +182,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                         ],
                     ],
                 ]);
-
+    
                 $event->sheet->getStyle('I1:I5')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,

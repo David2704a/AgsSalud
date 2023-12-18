@@ -9,8 +9,10 @@ use App\Models\EstadoElemento;
 use App\Models\Factura;
 use App\Models\TipoElemento;
 use App\Models\User;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use App\Exports\ElementosExport;
+use App\Exports\PrestamoExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller

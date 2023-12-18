@@ -5,6 +5,7 @@
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/elemento/elemento.css')}}">
+<script src="{{asset('js/elemento/elemento.js')}}"></script>
 
 @endsection
 @section('content')
@@ -34,6 +35,17 @@
     <form class="form" action="{{route('elementos.update', $elemento->idElemento)}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
+
+    <div class="progress-bar">
+        <div class="progress" id="progress" style="width: 33.33%;"></div>
+        <div class="markers">
+            <span class="marker filled" style="left: 33.33%;">1</span>
+            <span class="marker" style="left: 66.66%;">2</span>
+            <span class="marker" style="left: 100%;">3</span>
+        </div>
+    </div>
+
+    <div class="form-part active" id="parte1">
         <label for="marca">Marca del producto</label>
         <input type="text" name="marca" id="marca" class="input" value="{{$elemento->marca}}">
         <label for="referencia">Referencia del producto</label>
@@ -42,6 +54,11 @@
         <input type="text" name="serial" id="serial" class="input" value="{{$elemento->serial}}">
         <label for="especificaciones">Especificaciones del producto</label>
         <input type="text" name="especificaciones" id="especificaciones" class="input" value="{{$elemento->especificaciones}}">
+
+        <button type="button" onclick="mostrarParte('parte2')">Siguiente</button>
+    </div>
+
+    <div class="form-part" id="parte2">
         <label for="modelo">Modelo del producto</label>
         <input type="text" name="modelo" id="modelo" class="input"value="{{$elemento->modelo}}">
         <label for="garantia">Tiempo de garantia (meses)</label>
@@ -50,6 +67,13 @@
         <input type="number" name="valor" id="valor" class="input" value="{{$elemento->valor}}">
         <label for="descripcion">Descripcion del producto</label>
         <input type="text" name="descripcion" id="descripcion" class="input" value="{{$elemento->descripcion}}">
+
+        <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
+        <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
+    </div>
+
+    <div class="form-part" id="parte3">
+
         <label for="idEstadoEquipo">Estado del producto</label>
         <select name="idEstadoEquipo" id="idEstadoEquipo" class="input">
             @foreach ($estados as $estado)
@@ -82,6 +106,7 @@
             <option value="">Seleccione una opcion</option>
         </select>
 
+
         <label for="idUsuario">Asignado A:</label>
         <select name="idUsuario" id="idUsuario" class="input">
             @foreach ($users as $user)
@@ -90,8 +115,10 @@
             <option value="">Seleccione una opcion</option>
         </select>
         <div class="button-container">
+            <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
             <button type="submit">Actualizar</button>
         </div>
+    </div>
 
     </form>
 

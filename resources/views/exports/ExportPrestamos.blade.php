@@ -21,44 +21,36 @@
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>RECIBE</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>OBSERVACION</b></th>
 
-        </tr>
+        </tr> 
     </thead>
     <tbody>
-        @foreach ($procedimientos as $procedimiento)
+        @foreach ($elementos as $elemento)
                 <tr>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica'}}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->elemento->categoria->nombre }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        1
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->elemento->idElemento }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->elemento->estado->estado}}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->fechaFin }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->observacion }}
-                    </td>
+                    @foreach ($elemento->procedimientos as $procedimiento)
+                        <td>{{ $procedimiento->fechaInicio }}</td>
+                    @endforeach
+                    <td style="border: 1px solid black;">{{ $elemento->categoria->nombre ? $elemento->categoria->nombre : 'No aplica' }}</td>
+                    <td style="border: 1px solid black;">1</td>
+                    <td style="border: 1px solid black;">{{ $elemento->id ? $elemento->id : 'No aplica' }}</td>
+                    <td style="border: 1px solid black;">{{ $elemento->estado->estado ? $elemento->estado->estado : 'No aplica' }}</td>
+                    @foreach ($elemento->procedimientos as $procedimiento)
+                        <td>{{ $procedimiento->responsableEntrega->name }}</td>
+                    @endforeach
+                    @foreach ($elemento->procedimientos as $procedimiento)
+                        <td>{{ $procedimiento->responsableRecibe->name }}</td>
+                    @endforeach
+                    @foreach ($elemento->procedimientos as $procedimiento)
+                        <td>{{ $procedimiento->fechaFin}}</td>
+                    @endforeach
+                    @foreach ($elemento->procedimientos as $procedimiento)
+                        <td>{{ $procedimiento->responsableRecibe->name }}</td>
+                    @endforeach
+                    @foreach ($elemento->procedimientos as $procedimiento)
+                        <td>{{ $procedimiento->responsableEntrega->name }}</td>
+                    @endforeach
+                    @foreach ($elemento->procedimientos as $procedimiento)
+                        <td>{{ $procedimiento->observacion }}</td>
+                    @endforeach
                 </tr>
             @endforeach
             <tr>

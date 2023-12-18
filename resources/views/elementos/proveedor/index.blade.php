@@ -16,7 +16,7 @@
 <div class="green-line"></div>
 
 <div class="button-container">
-    <a href="/Proveedor" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     <a href="{{route('proveedores.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Provedor</a>
 
 </div>
@@ -82,7 +82,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{$proveedores->links('pagination.custom') }}  
+        {{$proveedores->links('pagination.custom') }}
     </div>
     </div>
 

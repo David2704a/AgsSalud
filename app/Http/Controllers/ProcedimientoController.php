@@ -198,6 +198,8 @@ class ProcedimientoController extends Controller
             'idEstadoProcedimiento' => $request->input('idEstadoProcedimiento', null),
         ];
 
+
+
         // Descargar el informe en formato Excel con los filtros aplicados
         return Excel::download(new ProcedimientoExport($filtros), 'procedimiento.xlsx');
     }

@@ -10,8 +10,8 @@
 <div class="container">
 
     <div class="menu-container">
-        <div class="menu-item " onclick="cambiarContenido('elemento')" >Elementos</div>
-        <div class="menu-item active" onclick="cambiarContenido('procedimiento')">Procedimientos</div>
+        <div class="menu-item active" onclick="cambiarContenido('elemento')" >Elementos</div>
+        <div class="menu-item " onclick="cambiarContenido('procedimiento')">Prestamos</div>
         {{-- Agrega más opciones según tus necesidades --}}
     </div>
 
@@ -27,14 +27,14 @@
                  Contenido específico para el módulo "Elementos"
                 ============================================================
             --}}
-            <div class="containers hidden" id="elementos">
+            <div class="containers " id="elementos">
                 <div class="titulo">
-                    <h1>Informes de Elementos</h1>
+                    <h1>Informes para Elementos</h1>
                     <hr>
                 </div>
 
 
-                <form method="get" action="{{ url('/excel/elementos') }}" id="exportFormE" onsubmit="return preSubmitAction()" >
+                <form class="alo" method="get" action="{{ url('/excel/elementos') }}" id="exportFormE" onsubmit="return preSubmitAction()" >
                     @csrf
 
 
@@ -86,15 +86,7 @@
                     </div>
 
 
-                    <div class="form-group" id="rangoFechasContainer">
-                        <label for="fechaInicio">Fecha de Inicio:</label>
-                        <input type="date" name="fechaInicio" id="fechaInicio">
-                    </div>
 
-                    <div class="form-group" id="rangoFechasContainer">
-                        <label for="fechaFin">Fecha de Fin:</label>
-                        <input type="date" name="fechaFin" id="fechaFin">
-                    </div>
 
                 </div>
 
@@ -151,9 +143,9 @@
                                 <i class="fa-solid fa-file-excel fa-lg" style="color: #178a13; font-size: 25px;"></i>
                             </button>
 
-                            <button type="submit" class="button-with-icon" onclick="cambioDeRutasElemento('pdf')" >
+                            {{-- <button type="submit" class="button-with-icon" onclick="cambioDeRutasElemento('pdf')" >
                                 <i class="fa-solid fa-file-pdf fa-lg" style="color: #ec3d02; font-size: 25px;"></i>
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                     <input type="hidden" name="exportFormat" id="exportFormat">
@@ -170,49 +162,16 @@
                 ============================================================
             --}}
 
-            <div class="containers" id="procedimientos">
+            <div class="containers hidden" id="procedimientos">
                 <div class="titulo">
-                    <h1>Informes de Procedimientos</h1>
+                    <h1>Informes para Prestamos</h1>
                     <hr>
                 </div>
 
 
-                <form method="get" action="{{ url('/excel/procedimiento') }}" id="exportFormP" onsubmit="return preSubmitAction()" >
+                <form class="alo" method="get" action="{{ url('/excel/procedimiento') }}" id="exportFormP" onsubmit="return preSubmitAction()" >
                     @csrf
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="tipoProcedimiento">Seleccionar Procedimiento:</label>
-                        <select name="idTipoProcedimiento" id="tipoProcedimiento">
-                            <option value="">Todos los Procedimientos</option>
-                            @foreach ($tipoProcedimientos as $tipoProcedimiento)
-                            <option value="{{$tipoProcedimiento->idTipoProcedimiento}}">{{$tipoProcedimiento->tipo}}</option>
-                            @endforeach
-
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="estadoEquipo">Seleccionar Estado de Procedimiento:</label>
-                        <select name="idEstadoProcedimiento" id="estadoEquipo" class="form-control">
-                            <option value="">Todos los Estados</option>
-                            @foreach ($estadoProcedimientos as $estadosProcedimiento)
-                                <option value="{{ $estadosProcedimiento->idEstadoP }}">{{ $estadosProcedimiento->estado }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="idElemento">Seleccionar Elemento:</label>
-                        <select name="idElemento" id="idElemento" class="form-control">
-                            <option value="">Todos los Elementos</option>
-                            @foreach ($elementos as $elemento)
-                                <option value="{{ $elemento->idElemento }}">{{ $elemento->modelo }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                </div>
 
                 <div class="form-row">
 
@@ -228,15 +187,16 @@
                     </div>
 
 
-                    <div class="form-group" id="rangoFechasContainer">
+                    <div class="form-group" id="fechaInicioContainer">
                         <label for="fechaInicio">Fecha de Inicio:</label>
                         <input type="date" name="fechaInicio" id="fechaInicio">
                     </div>
 
-                    <div class="form-group" id="rangoFechasContainer">
+                    <div class="form-group" id="fechaFinContainer">
                         <label for="fechaFin">Fecha de Fin:</label>
                         <input type="date" name="fechaFin" id="fechaFin">
                     </div>
+
 
                 </div>
 
@@ -247,58 +207,61 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Hora</th>
-                                <th>Fecha Reprogramada</th>
-                                <th>Observación</th>
-                                <th>Responsable de Entrega</th>
-                                <th>Responsable que Recibe</th>
-                                <th>Elemento</th>
-                                <th>Estado del procedimientos</th>
-                                <th>Tipo de procedimientos</th>
+                                <th>FECHA DE PRESTAMO</th>
+                                <th>DISPOSITIV</th>
+                                <th>CANTIDAD</th>
+                                <th>CARACTERISTICAS</th>
+                                <th>ESTADO</th>
+                                <th>ENTREGA</th>
+                                <th>RECIBE</th>
+                                <th>FECHA DE DEVOLUCIO</th>
+                                <th>ENTREGA</th>
+                                <th>RECIBE</th>
+                                <th>OBSERVACION</th>
                             </tr>
                         </thead>
                         <tbody>
 
                 @foreach ($procedimientos as $procedimiento)
+                @if ($procedimiento->idTipoProcedimiento == 3)
                     <tr>
-                        <td>
-                            {{ $procedimiento->idProcedimiento }}
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica'}}
                         </td>
-                        <td>
-                            {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica' }}
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->elemento->categoria->nombre }}
                         </td>
-                        <td>
-                            {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'No aplica' }}
+                        <td style="border: 1px solid black;">
+                            1
                         </td>
-                        <td>
-                            {{ $procedimiento->hora ? $procedimientos->hora : 'No aplica' }}
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->elemento->idElemento }}
                         </td>
-                        <td>
-                            {{ $procedimiento->fechaReprogramada ? $procedimientos->fechaReprogramada : 'No aplica' }}
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->elemento->estado->estado}}
                         </td>
-                        <td>
-                            {{ $procedimiento->observacion }}
-                        </td>
-                        <td>
+                        <td style="border: 1px solid black;">
                             {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
                         </td>
-                        <td>
+                        <td style="border: 1px solid black;">
                             {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
                         </td>
-                        <td>
-                            {{ $procedimiento->elemento->modelo }}
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'No aplica' }}
                         </td>
-                        <td>
-                            {{ $procedimiento->estadoProcedimiento->estado }}
+
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
                         </td>
-                        <td>
-                            {{ $procedimiento->tipoProcedimiento->tipo }}
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
+                        </td>
+                        <td style="border: 1px solid black;">
+                            {{ $procedimiento->observacion }}
                         </td>
 
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>
@@ -315,9 +278,9 @@
                 <i class="fa-solid fa-file-excel fa-lg" style="color: #178a13; font-size: 25px;"></i>
             </button>
 
-            <button type="submit" class="button-proce" onclick="cambioDeRutasProcedimiento('pdf')" >
+            {{-- <button type="submit" class="button-proce" onclick="cambioDeRutasProcedimiento('pdf')" >
                 <i class="fa-solid fa-file-pdf fa-lg" style="color: #ec3d02; font-size: 25px;"></i>
-            </button>
+            </button> --}}
         </div>
     </div>
 

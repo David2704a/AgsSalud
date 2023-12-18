@@ -28,7 +28,7 @@
         <span>PROCEDIMIENTOS</span>
     </a>
 
-    <a href="/proveedores" title="Elementos" class="button-link">
+    <a href="/elementos" title="Elementos" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
         </div>

@@ -70,7 +70,7 @@ hr {
 }
 
 /* Formulario */
-form {
+.alo {
     width: 60rem;
     position: relative;
     display: flex;
@@ -95,7 +95,7 @@ label {
     margin-bottom: 0.5rem; /* Espacio entre la etiqueta y el elemento */
 }
 
-select, input[type="text"], input[type="date"] {
+.form-group select, input[type="text"], input[type="date"] {
     width: 100%; /* Ocupa todo el ancho disponible */
     padding: 0.5rem; /* Espaciado interno */
     box-sizing: border-box; /* Incluye el relleno en el ancho y alto total */
