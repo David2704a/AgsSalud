@@ -23,7 +23,15 @@ return new class extends Migration
             $table->string('disco_duro')->nullable();
             $table->string('tarjeta_grafica')->nullable();
             $table->string('documento')->nullable();
+
+
+            
             $table->string('nombres_apellidos')->nullable();
+
+
+
+
+
             $table->string('fecha_compra')->nullable();
             $table->string('garantia')->nullable();
             $table->string('numero_factura')->nullable();

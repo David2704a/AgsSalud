@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
+use Illuminate\Support\Facades\Session;
 
 class almacenadoTmpController extends Controller
 {
@@ -31,6 +31,20 @@ class almacenadoTmpController extends Controller
      * @return \Illuminate\Http\Response
      * @author Vanesa Galindez
      */
+
+
+     public function ejecutarProcedimiento()
+     {
+         DB::select('CALL almacenadoTmp()');
+
+        // Muestra una notificación utilizando toastr
+    // Muestra una notificación utilizando la sesión
+    Session::flash('success', 'Operación realizada con éxito!');
+
+    // Redirige a la vista o ruta que desees
+    return redirect()->route('elementos.index'); // Cambia 'nombre_de_la_ruta' por tu ruta deseada
+}
+
 
      public function importarExcel(Request $request)
      {
@@ -157,12 +171,12 @@ class almacenadoTmpController extends Controller
              // Confirmar la transacción final fuera del bucle
              DB::commit();
  
-             return response()->json(['message' => 'Archivo importado correctamente']);
+             return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
          } catch (\Exception $e) {
              // Revertir la transacción en caso de error
              DB::rollBack();
  
-             return response()->json(['error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
+             return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
          }
      }
  }

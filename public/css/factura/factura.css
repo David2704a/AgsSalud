@@ -379,3 +379,47 @@ FOOTER
 }
 
 
+
+input[type="file"] {
+    display: none;
+}
+
+/* 
+
+
+.button-derecha {
+    text-align: right;
+} */
+
+.folder_open {
+    display: inline-block;
+    background-color: #ffffff; /* Color verde */
+    color: #28A745; /* Color de texto blanco */
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    
+}
+
+.folder_open i {
+    margin-right: 5px; /* Espacio entre el icono y el texto */
+}
+
+.file-input-container {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.cargarbutton {
+    background-color: #4CAF50; /* Color verde */
+    color: white;
+    border-radius: 5px;
+    padding: 7px;
+    position: relative;
+    outline: none;
+    
+}
+

@@ -14,7 +14,6 @@ class PersonaSeeder extends Seeder
     public function run(): void
     { 
         Persona::create([
-    
             "nombre1"=> "vanesa",
             "nombre2"=> "vanesa",
             "apellido1"=> "vanesa",

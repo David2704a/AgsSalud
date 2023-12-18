@@ -32,9 +32,7 @@ class UserSeeder extends Seeder
             "name"=> "vanesa",
             "email"=> "admin@gmail.com",
             "password"=> bcrypt("123456789Vane"),
-
-          
-
+            "idpersona"=>1
         ]);
     }
 }

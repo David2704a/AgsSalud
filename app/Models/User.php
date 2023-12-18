@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'idPersona'
     ];
 
     /**
@@ -40,7 +41,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
     
     public function adminlte_profile_url()
@@ -48,4 +48,7 @@ class User extends Authenticatable
         return asset('/Miperfil');
     }
     
+    public function persona(){
+        return $this->belongsTo(Persona::class, 'id');
+    }    
 }

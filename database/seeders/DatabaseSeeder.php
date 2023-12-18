@@ -17,11 +17,12 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadoElementoSeeder::class);
         $this->call(TipoElementoSeeder::class);
         $this->call(CategoriaSeeder::class);
+        $this->call(PersonaSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(ProveedorSeeder::class);
         $this->call(FacturaSeeder::class);
         $this->call(ElementoSeeder::class);
-        $this->call(PersonaSeeder::class);
+        
         
         
 

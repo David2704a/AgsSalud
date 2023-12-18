@@ -11,6 +11,7 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -93,11 +94,7 @@ Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil
 
 
 // usereditar
-Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
 
-
-// usuarios 
-Route::resource('usuarios', App\Http\Controllers\Usercontroller::class);
 //rutas para factura
 Route::resource('facturas',FacturaController::class)->names('facturas');
 Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('buscarFacturas');
@@ -152,10 +149,15 @@ Route::post('/importar-excel', [almacenadoTmpController::class, 'importarExcel']
 
 
 
-// // matwe libreria prueba
-// Route::post('/import', [ElementoController::class, 'import']);
+Route::get('ejecutarProcedimiento', [almacenadoTmpController::class, 'ejecutarProcedimiento'])->name('procedureTmp');
 
 
-// // PRUEBASSS
-// Route::get('/subir-excel', [ElementoController::class, 'mostrarFormulario'])->name('formulario.subir.excel');
-// // Route::post('/importar-excel', [ElementoController::class, 'importarExcel'])->name('importar.excel');
+// usuarios 
+Route::get('usuarios', [UserController::class,'index'])->name('users.index');
+Route::get('/user/{id}/edit', [UserAjustesController::class, 'actualizarUsuarioVista'])->name('usuarios.edit');
+
+Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
+Route::delete('/user/{id}/destroy', [UserController::class, 'destroy'])->name('destroyUser');
+
+
+Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizarperfilderegistrouser'])->name('editarPerfilusersR');

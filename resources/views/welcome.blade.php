@@ -42,11 +42,11 @@
         <span>Categoria</span>
     </a>
 
-    <a href="#" class="button-link">
+    <a href="/usuarios" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
         </div>
-        <span>..</span>
+        <span>Usuarios</span>
     </a>
 
 </div>

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('fechaNac')->nullable();
             $table->char('sexo', 1)->nullable();
             $table->string('direccion')->nullable();
-            $table->string('email')->nullable();
+           
             $table->string('celular')->nullable();
 
             $table->timestamps();

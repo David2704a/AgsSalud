@@ -6,6 +6,10 @@
 
 <link rel="stylesheet" href="{{asset('/css/factura/factura.css')}}">
 <script src="{{asset('js/elemento/elemento.js')}}"></script>
+<script src="{{asset('js/elemento/cargaExcel.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="{{asset('js/layouts.js')}}"></script>
+
 
 @endsection
 @section('content')
@@ -18,6 +22,36 @@
 
 <div class="button-container">
     <a href="{{route('elementos.index')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+
+<div>
+    <form id="formularioImportar" action="{{ route('excel.import') }}" method="post" enctype="multipart/form-data" class="button-derecha">
+    @csrf
+    <label for="archivo" class="folder_open" id="archivoLabel">
+        <i class="fas fa-file-excel"></i> Selecciona un archivo:
+    </label>
+    <div class="file-input-container">
+        <input type="file" id="archivo" name="archivo" onchange="mostrarBotonCargar()">
+    </div>
+    <button type="submit" class="cargarbutton" id="cargarBtn" style="display:none;">
+        <i class="fas fa-upload"></i> Cargar Archivo
+    </button>
+</form>
+
+    </div>
+    <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva">
+    <i class="fas fa-arrow-up"></i>
+</a>
+    
+
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+
+
+
 
 </div>
 
@@ -94,6 +128,9 @@
             <button type="submit">Crear</button>
         </div>
     </form>
+
+
+
 
     <footer class="footer">
         <div class="left-images">
