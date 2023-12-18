@@ -11,7 +11,7 @@
 @endsection
 @section('content')
 
-    <div class="content">
+    <div class="contents">
 <h1 class="page-title">Elementos</h1>
 <div class="green-line"></div>
 
@@ -59,10 +59,12 @@
             <th>Marca</th>
             <th>Referencia</th>
             <th>Serial</th>
-            <th>Especificaciones</th>
+            <th>Procesador</th>
+            <th>Ram</th>
+            <th>Disco duro</th>
+            <th>Tarjeta gráfica</th>
             <th>Modelo</th>
             <th>Garantia</th>
-            <th>Valor</th>
             <th>Descripcion</th>
             <th>Estado</th>
             <th>Tipo</th>
@@ -79,28 +81,30 @@
                     <td>{{ $elemento->marca ? $elemento->marca : 'No aplica' }}</td>
                     <td>{{ $elemento->referencia ? $elemento->referencia : 'No aplica' }}</td>
                     <td>{{ $elemento->serial ? $elemento->serial : 'No aplica' }}</td>
-                    <td>{{ $elemento->especificaciones ? $elemento->especificaciones : 'No aplica' }}</td>
+                    <td>{{ $elemento->procesador ? $elemento->procesador : 'No aplica'}}</td>
+                    <td>{{ $elemento->ram ? $elemento->ram : 'No aplica'}}</td>
+                    <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'No aplica'}}</td>
+                    <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'No aplica'}}</td>
                     <td>{{ $elemento->modelo ? $elemento->modelo : 'No aplica' }}</td>
                     <td>{{ $elemento->garantia ? $elemento->garantia : 'No aplica' }}</td>
-                    <td>{{ $elemento->valor ? $elemento->valor : 'No aplica' }}</td>
                     <td>{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
                     <td>{{ $elemento->estado->estado ?? 'No aplica' }}</td>
                     <td>{{ $elemento->tipoElemento->tipo ?? 'No aplica' }}</td>
                     <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'No aplica'}}</td>
                     <td>{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
                     <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
-                    <td>{{ $elemento->user->name ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
 
                     <td>
                         <a class="edit-button" title="Editar"
                             href="{{ route('elementos.edit',$elemento->idElemento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
-                        <button title="Eliminar"
-                            type="button" class="delete-button"
-                            data-id="{{$elemento->idElemento}}"
-                            data-tipo="{{$elemento->marca}}">
-                            <i class="fas fa-trash-alt"></i>
+                        <button type="button" class="delete-button" title="Eliminar"
+                        data-id="{{ $elemento->idElemento }}"
+                         data-name="{{ $elemento->modelo }}">
+
+                            <i data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                         </button>
                     </td>
                 </tr>
@@ -121,7 +125,7 @@
             <p id="modalMessage"></p>
             <div class="button-container">
                 <button id="cancelButton" class="modal-button">Cancelar</button>
-                <form id="deleteForm" action="{{ route('elementos.index','REPLACE_ID') }}" method="POST">
+                <form id="deleteForm" action="{{ route('elementos.destroy','REPLACE_ID') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>

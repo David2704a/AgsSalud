@@ -29,7 +29,6 @@ return new class extends Migration
 
             $table->string('modelo')->nullable(); //este se deja en blanco
             $table->string('garantia')->nullable(); //hace referencia a mi columna garantia de mi excel a cargar
-            $table->integer('valor')->nullable(); //este se deja vacio
             $table->text('descripcion')->nullable(); //hace referencia a la columna observacion de i excel que quiero cargar
 
             $table->unsignedBigInteger('idEstadoEquipo')->nullable(); //este atributo se conecta con la tabla estado la cual contiene una descripcion que quiero poder llenar con mi carga del excel con la columna estado

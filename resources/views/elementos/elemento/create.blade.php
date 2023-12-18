@@ -37,11 +37,12 @@
 
 
     <div class="progress-bar">
-        <div class="progress" id="progress" style="width: 33.33%;"></div>
+        <div class="progress" id="progress" style="width: 25%;"></div>
         <div class="markers">
-            <span class="marker filled" style="left: 33.33%;">1</span>
-            <span class="marker" style="left: 66.66%;">2</span>
-            <span class="marker" style="left: 100%;">3</span>
+            <span class="marker filled" style="left: 25%;">1</span>
+            <span class="marker" style="left: 50%;">2</span>
+            <span class="marker" style="left: 75%;">3</span>
+            <span class="marker" style="left: 100%;">4</span>
         </div>
     </div>
 
@@ -61,10 +62,24 @@
     <div class="form-part" id="parte2">
         <label for="garantia">Tiempo de garantia (meses)</label>
         <input type="text" name="garantia" id="garantia" class="input">
-        <label for="valor">Valor del producto</label>
-        <input type="number" name="valor" id="valor" class="input">
+        <label for="ram">Ram del elemento</label>
+        <input type="text" name="ram" id="ram" class="input">
         <label for="descripcion">Descripcion del producto</label>
         <input type="text" name="descripcion" id="descripcion" class="input">
+        <label for="procesador">Procesador del elemento</label>
+        <input type="text" name="procesador" id="procesador" class="input">
+
+        <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
+        <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
+
+    </div>
+
+    <div class="form-part" id="parte3">
+        <label for="disco_duro">Disco duro del elemento</label>
+        <input type="text" name="disco_duro" id="disco_duro" class="input">
+        <label for="tarjeta_grafica">Tarjeta gráfica del elemento</label>
+        <input type="text" name="tarjeta_grafica" id="tarjeta_grafica" class="input">
+
         <label for="idEstadoEquipo">Estado del producto</label>
         <select name="idEstadoEquipo" id="idEstadoEquipo" class="input">
             <option value="">Seleccionar el estado</option>
@@ -73,12 +88,12 @@
             @endforeach
         </select>
 
-        <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
-        <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
-
+        <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
+        <button type="button" onclick="mostrarParte('parte4')">Siguiente</button>
     </div>
 
-    <div class="form-part" id="parte3">
+    <div class="form-part" id="parte4">
+
 
         <label for="idTipoElemento">Tipo de elemento</label>
         <select name="idTipoElemento" id="idTipoElemento" class="input">
@@ -113,11 +128,11 @@
         </select>
 
         <div class="button-container">
-            <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
+            <button type="button" onclick="mostrarParte('parte3')">Anterior</button>
             <button type="submit">Crear</button>
         </div>
     </div>
-        
+
     </form>
 
     <footer class="footer">

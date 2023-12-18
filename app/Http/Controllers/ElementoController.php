@@ -41,7 +41,6 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'valor' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
@@ -85,7 +84,6 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'valor' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
@@ -129,8 +127,6 @@ class ElementoController extends Controller
             'idTipoElemento' => $request->input('idTipoElemento', null),
             'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
             'idCategoria' => $request->input('idCategoria', null),
-            'fechaInicio' => $request->input('fechaInicio', null),
-            'fechaFin' => $request->input('fechaFin', null),
 
             // Agrega más filtros según sea necesario
         ];
