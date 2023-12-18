@@ -44,7 +44,7 @@
 
     <a href="/reporte" class="button-link">
         <div class="circle-button btn-background-circle">
-            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+            <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
         </div>
         <span>Reportes</span>
     </a>

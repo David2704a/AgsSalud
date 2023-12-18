@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Vansss</title>
+    <title>Inicio de Sesión</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -83,6 +83,8 @@
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-primary btn-block mt-4 col-lg-7 col-md-11 col-11 mx-auto">INICIAR SESION</button>
+
+                        <a style="margin: auto; position:relative; left:15rem" href="/register">Crea una cuenta</a>
                     </form>
                     <!-- Final del formulario de iniciar sesion -->
                 </div>

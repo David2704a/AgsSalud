@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <title>Registro</title>
     <link rel="shortcut icon" href="img/Logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -19,7 +19,7 @@
 <body class="hold-transition login-page">
     <!-- <img class="wave" src="{{ asset('img/sinfondologo.png') }}" style="width: 35%; height: 75%; border-radius: 20%; object-fit: cover;margin:6%"> -->
 
-    
+
 
 </body>
 
@@ -32,7 +32,7 @@
             <!-- <img src="{{ asset('inicio/img/bg.svg') }}"> -->
             <img  src="{{ asset('img/sinfondologo.png') }}"  >
 
-            
+
         </div>
         <div class="login-content">
 
@@ -49,11 +49,11 @@
 
         </div>
         <br>
-    
 
-        
 
-        
+
+
+
                 <h3 class="title">Registro</h3>
 
                 @csrf
@@ -65,7 +65,7 @@
                     </div>
                     <div class="div">
                         <h5>Nombre</h5>
-                        <input type="text" for="name" class="input" name="name" value="{{ old('name') }}"required autocomplete="username"  
+                        <input type="text" for="name" class="input" name="name" value="{{ old('name') }}"required autocomplete="username"
                             title="ingrese su correo">
                     </div>
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -80,7 +80,7 @@
                     </div>
                     <div class="div">
                         <h5>Correo</h5>
-                        <input type="email" for="email" class="input" name="email" value="{{ old('email') }}" required autocomplete="username" 
+                        <input type="email" for="email" class="input" name="email" value="{{ old('email') }}" required autocomplete="username"
                             title="ingrese su correo">
                     </div>
 
@@ -105,7 +105,7 @@
                     <div class="fas fa-eye verPassword" onclick="vista()" id="verPassword"></div>
                 </div>
 
-                
+
                 <div class="input-div pass">
                     <div class="i">
                         <i class="fas fa-lock"></i>
@@ -123,7 +123,7 @@
                     <div class="fas fa-eye verPassword" onclick="vista()" id="verPassword"></div>
                 </div>
 
-       
+
 
 
 
@@ -148,7 +148,7 @@
 
 
 </form>
-            
+
         </div>
     </div>
 
@@ -156,7 +156,7 @@
 
 
 
-    
+
 
     <script type="text/javascript" src="{{ asset('inicio/js/main.js') }}"></script>
     <script type="text/javascript" src="{{ asset('inicio/js/main2.js') }}"></script>
