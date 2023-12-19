@@ -18,19 +18,19 @@
 
 <div class="button-container">
     <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-        @if(auth()->user()->hasRole(['superAdmin','admin']))
+        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
             <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
         @endif
 
 </div>
 <div class="menu-container">
     <ul class="menu">
-        @if(auth()->user()->hasRole(['superAdmin','admin']))
+        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
         <li>
             <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
         @endif
-        @if(auth()->user()->hasRole(['superAdmin','admin']))
+        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
         <li>
             <a href="{{route('facturas.index')}}">Facturas</a>
         </li>

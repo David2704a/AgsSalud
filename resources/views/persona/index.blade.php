@@ -62,7 +62,9 @@
                 <br>
                 <div class="row text-center mb-4 mt-5">
                     <div class="cold-md-12">
+                        @if(auth()->user()->hasRole(['superAdmin','admin']))
                         <button type="submit" href="{{ route('editarPerfiluser', ['id' => Auth::user()->id]) }}" class=" btn btn-danger" id="formSubmit">Guardar cambios</button>
+                        @endif
                         <a href="{{ route('personas.update', ['id' => Auth::user()->id]) }}" class="btn btn-primary">Actualizar Información</a>
                 </div>
             </form>

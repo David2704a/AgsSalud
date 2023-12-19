@@ -22,16 +22,20 @@
 
 <div class="button-container">
     <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
     <a href="{{route('tipoElementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo tipo Elemento</a>
+    @endif
 
 </div>
 
 
 <div class="menu-container">
     <ul class="menu">
+        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
         <li>
             <a href="{{route('elementos.index')}}">Elemento</a>
         </li>
+        @endif
     </ul>
 </div>
 
@@ -71,20 +75,21 @@
                         <td>{{ $tipoElementos->descripcion }}</td>
                         <td>
 
-
+                            @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
                             <a class="edit-button" method="POST"
                              href="{{ route('tipoElementos.edit', ['idTipoElemento' => $tipoElementos->idTipoElemento]) }}"
                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                             </a>
+                            @endif
 
-
-
+                            @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
                             <button type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $tipoElementos->idTipoElemento }}"
                              data-name="{{ $tipoElementos->tipo }}">
 
                                 <i data-id="{{ $tipoElementos->idTipoElemento }}" data-name="{{ $tipoElementos->tipo }}" class="fas fa-trash-alt"></i>
                             </button>
+                            @endif
 
                         </td>
 

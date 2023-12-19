@@ -143,6 +143,7 @@
 
 
 
+                    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
                     <div class="Options-Exports-Elementos">
                         <a class="export-button" onclick="OptionsDocumentsElementos()">Exportar Como</a>
 
@@ -156,6 +157,7 @@
                             </button> --}}
                         </div>
                     </div>
+                    @endif
                     <input type="hidden" name="exportFormat" id="exportFormat">
 
 
@@ -277,6 +279,7 @@
 
 
 
+    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
 
     <div class="Options-Exports-Procedimientos">
         <a class="export-button" onclick="OptionsDocumentsProcedimientos()">Exportar Como</a>
@@ -291,6 +294,7 @@
             </button> --}}
         </div>
     </div>
+    @endif
 
 
 

@@ -17,27 +17,25 @@
 
 
 <div class="button-container">
-    @role(['superAdmin','administrador'])
     <a href="/procedimiento" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    @endrole
-    @role(['superAdmin','administrador'])
+    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
     <a href="{{route('createTipoP')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de Procedimiento</a>
-    @endrole
+    @endif
 </div>
 
 
 <div class="menu-container">
     <ul class="menu">
-        @role(['superAdmin','administrador'])
+        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
         <li>
             <a href="{{route('mostrarProcedimiento')}}">Procedimiento</a>
         </li>
-        @endrole
-        @role(['superAdmin','administrador'])
+        @endif
+        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
         <li>
             <a href="{{route('mostrarEstadoP')}}">Estado de Procedimiento</a>
         </li>
-        @endrole
+        @endif
     </ul>
 </div>
 
@@ -81,15 +79,15 @@
                         {{$tipoProcedimientos->descripcion}}
                     </td>
                     <td>
-                        @role(['superAdmin','administrador'])
+                        @if(auth()->user()->hasRole(['superAdmin','admin']))
                         <a
                             class="edit-button"
                             href="{{ route('editTipoP',
                             ['id' => $tipoProcedimientos->idTipoProcedimiento]) }}"
                             title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                         </a>
-                        @endrole
-                        @role(['superAdmin','administrador'])
+                        @endif
+                        @if(auth()->user()->hasRole(['superAdmin','admin']))
                         <button
                             type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $tipoProcedimientos->idTipoProcedimiento }}"
@@ -101,7 +99,7 @@
                             class="fas fa-trash-alt">
                         </i>
                         </button>
-                        @endrole
+                        @endif
                     </td>
 
                     </td>

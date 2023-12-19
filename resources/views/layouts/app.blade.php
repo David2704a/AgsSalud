@@ -53,12 +53,6 @@
 
 
             <br>
-
-            @role('superAdmin')
-            <a class="perfiledit"  href="{{ route('register') }}">Registrar usuarios</a>
-            <br>
-            @endrole
-
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button  class="btonCerrarSe" type="submit">Cerrar sesión</button>

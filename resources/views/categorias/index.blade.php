@@ -22,8 +22,9 @@
 
 <div class="button-container">
     <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
     <a href="{{route('categorias.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva categoria</a>
-
+    @endif
 </div>
 
 
@@ -66,19 +67,21 @@
                         <td>
 
 
+                            @if(auth()->user()->hasRole(['superAdmin','admin']))
                             <a class="edit-button" method="POST"
                              href="{{ route('categorias.edit', ['idCategoria' => $categoria->idCategoria]) }}" 
                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                             </a>
+                            @endif
 
-
-
+                            @if(auth()->user()->hasRole(['superAdmin','admin']))
                             <button type="button" class="delete-button" title="Eliminar" 
                             data-id="{{ $categoria->idCategoria }}"
                              data-name="{{ $categoria->nombre }}">
 
                                 <i data-id="{{ $categoria->idCategoria }}" data-name="{{ $categoria->nombre }}" class="fas fa-trash-alt"></i>
                             </button>
+                            @endif
 
                         </td>
 
