@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Exports\ElementosExport;
 use App\Exports\PrestamoExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
@@ -20,6 +21,7 @@ class ElementoController extends Controller
     public function index(){
         $elementos = Elemento::paginate(10);
         $estadosEquipos = EstadoElemento::all();
+
         return view('elementos.elemento.index',compact('elementos', 'estadosEquipos'));
     }
 

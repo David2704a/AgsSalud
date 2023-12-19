@@ -18,27 +18,28 @@
 
 <div class="button-container">
     <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    @role(['superAdmin','administrador'])
-    <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
-    @endrole
+        @if(auth()->user()->hasRole(['superAdmin','admin']))
+            <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
+        @endif
+
 </div>
 <div class="menu-container">
     <ul class="menu">
-        @role(['superAdmin','administrador'])
+        @if(auth()->user()->hasRole(['superAdmin','admin']))
         <li>
             <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
-        @endrole
-        @role(['superAdmin','administrador'])
+        @endif
+        @if(auth()->user()->hasRole(['superAdmin','admin']))
         <li>
-            <a href="{{route('facturas.index')}}">Facturas</a>
+            <a href="{{route(['superAdmin','admin'])}}">Facturas</a>
         </li>
-        @endrole
-        @role(['superAdmin','administrador'])
+        @endif
+        @if(auth()->user()->hasRole(['superAdmin','admin']))
         <li>
             <a href="{{route('tipoElementos.index')}}">Tipo elemento</a>
         </li>
-        @endrole
+        @endif
     </ul>
 </div>
 
@@ -104,20 +105,20 @@
                     <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
 
                     <td>
-                        @role(['superAdmin','administrador'])
+                        @if(auth()->user()->hasRole(['superAdmin','admin']))
                         <a class="edit-button" title="Editar"
                             href="{{ route('elementos.edit',$elemento->idElemento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
-                        @endrole
-                        @role(['superAdmin','administrador'])
+                        @endif
+                        @if(auth()->user()->hasRole(['superAdmin','admin']))
                         <button type="button" class="delete-button" title="Eliminar"
                         data-id="{{ $elemento->idElemento }}"
                          data-name="{{ $elemento->modelo }}">
 
                             <i data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                         </button>
-                        @endrole
+                        @endif
                     </td>
                 </tr>
             @endforeach

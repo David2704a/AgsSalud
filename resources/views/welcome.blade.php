@@ -22,7 +22,7 @@
 <div class="button-container">
 
 
-    @role(['superAdmin','admin'])
+    @role(['superAdmin','administrador'])
     <a href="/procedimiento" title="Procedimientos" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/process.png')}}" alt="alo">
