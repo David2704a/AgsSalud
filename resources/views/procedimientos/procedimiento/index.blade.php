@@ -21,20 +21,27 @@
         <div class="green-line"></div>
 
         <div class="button-container">
+            @role(['superAdmin','administrador'])
             <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+            @endrole
+            @role(['superAdmin','administrador'])
             <a href="{{ route('createProcedimiento') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
                 procedimiento</a>
-
+            @endrole
         </div>
 
         <div class="menu-containers">
             <ul class="menu">
+                @role(['superAdmin','administrador'])
                 <li>
                     <a href="{{ route('mostrarEstadoP') }}">Estado de Procedimiento</a>
                 </li>
+                @endrole
+                @role(['superAdmin','administrador'])
                 <li>
                     <a href="{{ route('mostrarTipoP') }}">Tipo de Procedimiento</a>
                 </li>
+                @endrole
             </ul>
         </div>
 
@@ -115,11 +122,13 @@
                                     {{ $procedimientos->tipoProcedimiento->tipo }}
                                 </td>
                                 <td>
+                                    @role(['superAdmin','administrador'])
                                     <a class="edit-button"
                                         href="{{ route('editProcedimiento', $procedimientos->idProcedimiento) }}">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-
+                                    @endrole
+                                    @role(['superAdmin','administrador'])
                                     <button type="button" class="delete-button"
                                         data-id="{{ $procedimientos->idProcedimiento }}"
                                         data-name="{{ $procedimientos->elemento->modelo }}
@@ -132,6 +141,7 @@
                                             class="fas fa-trash-alt">
                                         </i>
                                     </button>
+                                    @endrole
                                 </td>
                             </tr>
                         @endforeach

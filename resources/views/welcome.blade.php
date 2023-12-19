@@ -21,33 +21,46 @@
 
 <div class="button-container">
 
+
+    @role(['superAdmin','admin'])
     <a href="/procedimiento" title="Procedimientos" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/process.png')}}" alt="alo">
         </div>
         <span>PROCEDIMIENTOS</span>
     </a>
+    @endrole
 
+
+    @role(['superAdmin','administrador'])
     <a href="/elementos" title="Elementos" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
         </div>
         <span>ELEMENTOS</span>
     </a>
+    @endrole
+    
 
+    @role(['superAdmin','administrador'])
     <a href="/categorias" class="button-link">
         <div class="circle-button btn-background-circle">
             <img style="width: 87px;" src="{{asset('img/categoria.png')}}" alt="alo">
         </div>
         <span>Categoria</span>
     </a>
+    @endrole
+    
 
+
+    @role(['superAdmin','administrador','contador'])
     <a href="/reporte" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
         </div>
         <span>Reportes</span>
     </a>
+    @endrole
 
 </div>
 

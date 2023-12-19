@@ -17,17 +17,23 @@
 
 <div class="button-container">
     <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    <a href="{{route('facturas.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva Factura</a>
 
+    @role(['superAdmin','administrador'])
+    <a href="{{route('facturas.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva Factura</a>
+    @endrole
 </div>
 <div class="menu-container">
     <ul class="menu">
+        @role(['superAdmin','administrador'])
         <li>
             <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
+        @endrole
+        @role(['superAdmin','administrador'])
         <li>
             <a href="{{route('elementos.index')}}">Elementos</a>
         </li>
+        @endrole
     </ul>
 </div>
 
@@ -68,16 +74,21 @@
                         <a class="show-button" title="Ver" onclick="mostrarArchivo('{{$factura->rutaFactura }}')">
                             <i class="fa-regular fa-eye"></i>
                         </a>
+                        @role(['superAdmin','administrador'])
                         <a class="edit-button" title="Editar"
                             href="{{ route('facturas.edit',$factura->idFactura) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
+                        @endrole
+
+                        @role(['superAdmin','administrador'])
                         <button title="Eliminar"
                             type="button" class="delete-button"
                             data-id="{{$factura->idFactura }}"
                             data-tipo="{{$factura->codigoFactura}}">
                             <i class="fas fa-trash-alt"></i>
                         </button>
+                        @endrole
                     </td>
                 </tr>
             @endforeach

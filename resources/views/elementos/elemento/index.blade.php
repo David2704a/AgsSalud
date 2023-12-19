@@ -18,19 +18,27 @@
 
 <div class="button-container">
     <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    @role(['superAdmin','administrador'])
     <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
+    @endrole
 </div>
 <div class="menu-container">
     <ul class="menu">
+        @role(['superAdmin','administrador'])
         <li>
             <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
+        @endrole
+        @role(['superAdmin','administrador'])
         <li>
             <a href="{{route('facturas.index')}}">Facturas</a>
         </li>
+        @endrole
+        @role(['superAdmin','administrador'])
         <li>
             <a href="{{route('tipoElementos.index')}}">Tipo elemento</a>
         </li>
+        @endrole
     </ul>
 </div>
 
@@ -96,16 +104,20 @@
                     <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
 
                     <td>
+                        @role(['superAdmin','administrador'])
                         <a class="edit-button" title="Editar"
                             href="{{ route('elementos.edit',$elemento->idElemento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
+                        @endrole
+                        @role(['superAdmin','administrador'])
                         <button type="button" class="delete-button" title="Eliminar"
                         data-id="{{ $elemento->idElemento }}"
                          data-name="{{ $elemento->modelo }}">
 
                             <i data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                         </button>
+                        @endrole
                     </td>
                 </tr>
             @endforeach

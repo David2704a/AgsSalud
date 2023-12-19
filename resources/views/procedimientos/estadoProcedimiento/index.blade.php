@@ -17,24 +17,33 @@
         <div class="green-line"></div>
 
         <div class="button-container">
+            @role(['superAdmin','administrador'])
             <a href="{{ route('mostrarProcedimiento') }}" class="button-izquierda arrow-left"><i
                     class="fa-solid fa-circle-arrow-left"></i>
                 Regresar</a>
+                @endrole
+
+                @role(['superAdmin','administrador'])
             <a href="{{ route('createEstadoP') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Estado de
                 Procedimiento</a>
+                @endrole
 
         </div>
 
 
         <div class="menu-container">
             <ul class="menu">
+                @role(['superAdmin','administrador'])
                 <li>
                     <a href="{{ route('mostrarProcedimiento') }}">Procedimiento</a>
 
                 </li>
+                @endrole
+                @role(['superAdmin','administrador'])
                 <li>
                     <a href="{{ route('mostrarTipoP') }}">Tipo de Procedimiento</a>
                 </li>
+                @endrole
             </ul>
         </div>
 
@@ -78,11 +87,13 @@
                                     {{ $estadoProcedimientos->descripcion }}
                                 </td>
                                 <td>
+                                    @role(['superAdmin','administrador'])
                                     <a class="edit-button"
                                         href="{{ route('editEstadoP', ['id' => $estadoProcedimientos->idEstadoP]) }}">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-
+                                    @endrole
+                                    @role(['superAdmin','administrador'])
                                     <button type="button" class="delete-button"
                                         data-id="{{ $estadoProcedimientos->idEstadoP }}"
                                         data-name="{{ $estadoProcedimientos->estado }}">
@@ -90,6 +101,7 @@
                                             data-name="{{ $estadoProcedimientos->estado }}" class="fas fa-trash-alt">
                                         </i>
                                     </button>
+                                    @endrole
                                 </td>
                             </tr>
                         @endforeach
