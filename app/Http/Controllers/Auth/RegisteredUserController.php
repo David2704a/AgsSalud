@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Display the registration view.
+     * Display the registration view. 
      */
    
 
@@ -36,52 +36,68 @@ class RegisteredUserController extends Controller
 
      public function __construct()
      {
-         $this->middleware('guest');
+        $this->middleware('auth');
      }
 
-     protected function validator(array $data)
+     function validator(array $data)
      {
          return Validator::make($data, [
              'name' => ['required', 'string', 'max:255'],
              'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-             'password' => ['required', 'string', 'min:5', 'confirmed'],
+             'password' => ['required', 'string', 'min:5'],
          ]);
      }
 
      protected function create(array $data)
     {
-        // Crea una nueva persona
-        $persona = new Persona([
-        ]);
+        try {
+            // Divide el nombre en partes
+            list($nombre1, $nombre2, $apellido1, $apellido2) = explode(' ', $data['name']) + [null, null, null, null];
 
-        // Guarda la persona y obtén su ID
-        $persona->save();
+            // Crea una nueva persona y asigna los valores
+            $persona = new Persona([
+                'nombre1' => $nombre1,
+                'nombre2' => $nombre2,
+                'apellido1' => $apellido1,
+                'apellido2' => $apellido2,
+            ]);
 
-        // Crea un nuevo usuario y asigna el idPersona
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'idPersona' => $persona->id,
-        ]);
-        
+            // Guarda la persona
+            $persona->save();
 
-        return $user;
-    }
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
+            // Crea un nuevo usuario sin iniciar sesión y asigna el idPersona
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'idPersona' => $persona->id,
+            ]);
+
+            return $user;
+        } catch (\Exception $e) {
+            // Manejar la excepción según tus necesidades
+            dd($e->getMessage(), $e->getTrace());
+            return null;
+        }
     }
 
     public function register(Request $request)
     {
-        // Aquí puedes agregar la lógica de redirección o manejar el registro de manera personalizada
+        // Valida los datos del formulario
         $this->validator($request->all())->validate();
 
+        // Crea el usuario y la persona
         $user = $this->create($request->all());
 
-        return $this->registered($request, $user)
-            ?: redirect()->route('usuarios.index');
-    }
+        if ($user) {
+            // Evento de usuario registrado
+            event(new Registered($user));
 
+            // Redirigir después del registro (puedes cambiar la URL según tus necesidades)
+            return redirect()->back()->with('success', 'Usuario creado exitosamente.');
+        } else {
+            // Manejar el error en caso de que la creación falle
+            return redirect()->back()->withInput()->withErrors(['name' => 'Error al registrar el usuario.']);
+        }
+    }
 }

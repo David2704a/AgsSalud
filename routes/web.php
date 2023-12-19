@@ -16,6 +16,7 @@ use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,7 +59,22 @@ Route::get('/editar/{id}', [PersonaController::class, 'edit'])->name('editarPerf
 
 
 
+Route::get('register/vista', [UserController::class, 'showRegistrationForm'])->name('auth.register');
+
+
+Route::post('register/create', [RegisteredUserController::class, 'register'])->name('register.create');
+
+
+
+Route::post('register', [RegisteredUserController::class, 'register'])
+    ->middleware('guest');
+
+
+
+    
+
 });
+
 
 Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.update');
 
