@@ -32,10 +32,10 @@
         @endif
         @if(auth()->user()->hasRole(['superAdmin','admin']))
         <li>
-            <a href="{{route(['superAdmin','admin'])}}">Facturas</a>
+            <a href="{{route('facturas.index')}}">Facturas</a>
         </li>
         @endif
-        @if(auth()->user()->hasRole(['superAdmin','admin']))
+        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
         <li>
             <a href="{{route('tipoElementos.index')}}">Tipo elemento</a>
         </li>
@@ -105,13 +105,13 @@
                     <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
 
                     <td>
-                        @if(auth()->user()->hasRole(['superAdmin','admin']))
+                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
                         <a class="edit-button" title="Editar"
                             href="{{ route('elementos.edit',$elemento->idElemento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         @endif
-                        @if(auth()->user()->hasRole(['superAdmin','admin']))
+                        @if(auth()->user()->hasRole('superAdmin','administrador'))
                         <button type="button" class="delete-button" title="Eliminar"
                         data-id="{{ $elemento->idElemento }}"
                          data-name="{{ $elemento->modelo }}">
