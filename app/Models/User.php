@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'idPersona'
     ];
 
     /**
@@ -41,7 +42,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 
     public function adminlte_profile_url()
@@ -51,7 +51,7 @@ class User extends Authenticatable
 
 
     public function persona(){
-        return $this->hasOne(Persona::class, 'id');
+        return $this->belongsTo(Persona::class, 'id');
     }
 
 }

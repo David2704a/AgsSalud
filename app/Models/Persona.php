@@ -20,7 +20,6 @@ class Persona extends Model
         "fechaNac",
         "sexo",
         "direccion",
-        "email",
         "celular",
 
     ];

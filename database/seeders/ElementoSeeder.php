@@ -68,7 +68,7 @@ class ElementoSeeder extends Seeder
             "modelo"=> "Gamer",
             "idTipoElemento"=> 2,
             "idEstadoEquipo"=> 2,
-            "idCategoria"=> 7,
+            "idCategoria"=> 4,
             "idUsuario"=> 3,
             "idFactura"=> 1,
             "descripcion"=> "Gamer, silla reclinable",
@@ -76,5 +76,6 @@ class ElementoSeeder extends Seeder
             "garantia"=> "3 meses",
             "referencia"=> "Gamer, silla reclinable",
         ]);
+
     }
 }

@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('factura', function (Blueprint $table) {
             $table->bigIncrements('idFactura');
-            $table->integer('codigoFactura');
-            $table->date('fechaCompra');
+            $table->string('codigoFactura')->nullable();
+            $table->date('fechaCompra')->nullable();
 
             $table->unsignedBigInteger('idProveedor');
             $table->foreign('idProveedor')->references('idProveedor')->on('proveedor');
 
-            $table->string('metodoPago');
+            $table->string('metodoPago')->nullable();
             $table->string('rutaFactura')->nullable();
-            $table->integer('valor');
-            $table->text('descripcion');
+            $table->integer('valor') ->nullable();
+            $table->text('descripcion') ->nullable();
             $table->timestamps();
         });
     }

@@ -19,11 +19,13 @@ return new class extends Migration
             $table->string('apellido2')->nullable();
             $table->unsignedInteger('idTipoIdentificacion')->nullable();
             $table->foreign('idTipoIdentificacion')->references('id')->on('tipoIdentificacion');
+            // $table->foreign('idTipo')->references('idTipo')->on('tipoIdentficacion');// enn el excel esta e la columnna dispositivo
+
+
             $table->string('identificacion')->unique()->nullable();
             $table->date('fechaNac')->nullable();
             $table->char('sexo', 1)->nullable();
             $table->string('direccion')->nullable();
-            $table->string('email')->nullable();
             $table->string('celular')->nullable();
 
             $table->timestamps();

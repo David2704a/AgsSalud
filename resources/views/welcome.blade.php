@@ -62,6 +62,16 @@
     </a>
     @endif
 
+    @if(auth()->user()->hasRole(['superAdmin','administrador']))
+
+    <a href="/usuarios" class="button-link">
+        <div class="circle-button btn-background-circle">
+            <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
+        </div>
+        <span>Usuarios</span>
+    </a>
+    @endif
+
 </div>
 
 
