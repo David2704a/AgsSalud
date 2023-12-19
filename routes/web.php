@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\TipoElementoController;
@@ -39,7 +40,34 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+
+
+// funciona y visualiza a uno como usuario su perfil
+Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
+
+    // Ruta para procesar el formulario de actualización
+Route::post('/actualizar-perfil/{id}', [UserAjustesController::class, 'actualizar'])->name('Actualizar');
+
+
+// redirecciona persona.edit vista 
+Route::get('/editar/{id}', [PersonaController::class, 'edit'])->name('editarPerfil');
+
+// actualiazr datos de persona
+// Route::put('/personas/{id}', [App\Http\Controllers\PersonaController::class, 'update'])->name('personas.update');
+
+// Route::get('/editar/{id}', [UserAjustesController::class, 'perfil'])->name('editarPerfil');
+
+
+
+
 });
+
+Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.update');
+
+
+
 
 require __DIR__.'/auth.php';
 
@@ -73,8 +101,6 @@ Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])-
 Route::resource('proveedores', ProveedorController::class)->names('proveedores');
 Route::get('/proveedoresBuscar', [ProveedorController::class, 'buscar'])->name('buscarProveedores');
 
-Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
-
 
 
 
@@ -83,13 +109,24 @@ Route::resource('personas', App\Http\Controllers\PersonaController::class)->name
 
 // ruta redireccion cuando actualizo
 Route::get('/persona', [UserAjustesController::class, 'index'])->name('persona.index');
+Route::get('/persona/editv', [PersonaController::class, 'mostrarVista'])->name('persona.edit');
 
-Route::put('/personas/{id}', [App\Http\Controllers\PersonaController::class, 'update'])->name('personas.update');
 
-Route::post('Actualizarperfil', [App\Http\Controllers\UserAjustesController::class,'Actualizar'])->name('Actualizar');
 
+
+
+// Route::post('Actualizarperfil', [App\Http\Controllers\UserAjustesController::class,'actualizar'])->name('Actualizar');
+
+
+
+
+// 
 Route::resource('actualizarPerfil', App\Http\Controllers\PersonaController::class)->names('actualizarPerfil');
-Route::get('/editar/{id}', [App\Http\Controllers\PersonaController::class, 'edit'])->name('editarPerfil');
+
+
+
+
+
 Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil'])->name('perfil');
 
 
@@ -152,11 +189,12 @@ Route::post('/importar-excel', [almacenadoTmpController::class, 'importarExcel']
 Route::get('ejecutarProcedimiento', [almacenadoTmpController::class, 'ejecutarProcedimiento'])->name('procedureTmp');
 
 
-// usuarios 
+// usuarios  desde regisro normal ya funcional 
 Route::get('usuarios', [UserController::class,'index'])->name('users.index');
 Route::get('/user/{id}/edit', [UserAjustesController::class, 'actualizarUsuarioVista'])->name('usuarios.edit');
 
-Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
+// Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
+
 Route::delete('/user/{id}/destroy', [UserController::class, 'destroy'])->name('destroyUser');
 
 

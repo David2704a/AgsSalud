@@ -17,9 +17,13 @@ return new class extends Migration
             $table->string('nombre2')->nullable();
             $table->string('apellido1')->nullable();
             $table->string('apellido2')->nullable();
-            $table->unsignedInteger('idTipoIdentificacion')->nullable();
-            // $table->foreign('idTipo')->references('idTipo')->on('tipoIdentficacion');// enn el excel esta e la columnna dispositivo 
- 
+        
+            
+            // $table->unsignedInteger('idTipoIdentificacion')->nullable();
+
+            $table->unsignedBigInteger('idTipoIdentificacion')->nullable();
+            $table->foreign('idTipoIdentificacion')->references('id')->on('tipoIdentificacion');
+         
 
             $table->string('identificacion')->unique()->nullable();
             $table->date('fechaNac')->nullable();

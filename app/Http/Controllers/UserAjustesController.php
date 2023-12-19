@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Persona;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class UserAjustesController extends Controller
 {
@@ -22,78 +24,85 @@ class UserAjustesController extends Controller
     }
 
 
-    public function actualizar(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        
-    ]);
-
-
-
-    $user = Auth::user();
-
-
-
-    if ($user->name !== $request->input('name')) {
-        $user->name = $request->input('name');
-    }
-
-    if ($user->email !== $request->input('email')) {
-        $user->email = $request->input('email');
-    }
-
-    $user->save();
-
-    return redirect()->route('persona.index')->with('success', 'Información de persona actualizada correctamente.');    
-}
-
-public function actualizarperfilderegistrouser(Request $request, $id)
+    public function actualizar(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+    
+        $user = User::find($id);
+    
+        if (!$user) {
+            return redirect()->route("users.index")->with('error', 'Usuario no encontrado');
+        }
+    
 
-        // $usuario = new User();
-        //     dd($request->all());
-        //     $usuario->nombre1 = $request->input('name');
-        //     // $usuario->nombre2 = $nombre[1];
-        //     // $usuario->apellido1 = $apellidos[0];
-        //     // $usuario->apellido2 = $apellidos[1];
-        //     // $usuario->email = $datos['email'];
-        //     // $usuario->password = $password;
-        //     $usuario->save();
+        $nombreC = explode(' ',$request->input('name'));
+    
 
-
-
-        $user = Auth::user();
-
-        if ($user->name !== $request->input('name')) {
-            $user->name = $request->input('name');
-            $nombres = explode(' ', $user->name);
-            $user->persona()->update([
-                'nombre1' => $nombres[0] ?? null,
-                'nombre2' => $nombres[1] ?? null,
-                'apellido1'=> $nombres[2] ?? null,
-                'apellido2'=> $nombres[3] ?? null,
+        try {
+            // Obtener la instancia de Persona asociada al usuario
+            $rta = $user->persona;
+    
+            // Si no existe la instancia, no hacemos nada
+            $rta = Persona::where('id',$id)
+            ->update([
+                'nombre1' => isset($nombreC[0]) ? $nombreC[0] : NULL,
+                'nombre2' => isset($nombreC[1]) ? $nombreC[1] : NULL,
+                'apellido1' => isset($nombreC[2]) ? $nombreC[2] : NULL,
+                'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
+                'updated_at' => Carbon::now(),
             ]);
+    
+            // Actualizar datos del usuario
+            $user->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+            ]);
+    
+            return redirect()->route('ActualizarPerfil', ['id' => $user->id])->with('success', 'Perfil actualizado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('ActualizarPerfil', ['id' => $user->id])->with('error', 'Error al actualizar el perfil.');
         }
-
-        if ($user->email !== $request->input('email')) {
-            $user->email = $request->input('email');
-        }
-
-        $user->save();
-
-        return redirect()->route('usuarios.edit', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
     }
 
 
 
+
+    public function actualizarperfilderegistrouser(Request $request, $id)
+    {
+    $rta = User::where('id',$id)
+    ->update([
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'updated_at' => Carbon::now(),
+    ]);
     
+    $nombreC = explode(' ',$request->input('name'));
+    
+    $rta = Persona::where('id',$id)
+    ->update([
+        'nombre1' => isset($nombreC[0]) ? $nombreC[0] : NULL,
+        'nombre2' => isset($nombreC[1]) ? $nombreC[1] : NULL,
+        'apellido1' => isset($nombreC[2]) ? $nombreC[2] : NULL,
+        'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
+        'updated_at' => Carbon::now(),
+    ]);
+    return redirect()->route('usuarios.edit', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
+    
+    }
+    
+    
+
+
     public function perfil()
     {
         return view('persona.edit', ['user' => Auth::user()]);
     }
 
+
+    
     public function actualizarUsuarioVista($id)
     {
         $usuario = User::find($id);

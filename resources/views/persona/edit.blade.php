@@ -1,154 +1,143 @@
-@extends('adminlte::page')
+@extends('layouts.app')
 
-@section('title', 'Editar Perfil')
-
+@section('title', 'Editar perfil')
 @php
-    use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 @endphp
 
 
-@section('content_header')
-    <h1 style="margin-left:40%"><span class="pf pf-atm">Actualizar Perfil</span></h1>
-@stop
+@section('links')
+<link rel="stylesheet" href="{{ asset('/css/categoria/categoria.css') }}">
+@endsection
+
+
+
 
 @section('content')
-    <div class="card" style="width:50%; margin-left:25%">
-        <div class="card-body">
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100"></div>
-            </div>
+<div class="content">
+    <h1 class="page-title">Editar Usuario</h1>
+    <div class="green-line"></div>
+</div>
 
-            @if($usuario && $usuario->persona)
-            <form id="multiStepForm" action="{{ route('personas.update', $usuario->persona->id) }}" method="POST"
-                role="form" enctype="multipart/form-data">
-                {{ method_field('PATCH') }}
-                @csrf
-                <div class="form-group step step-1" data-step="1">
-                    <h3 class="titulo">Datos Personales</h3>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ Form::label('Primer Nombre') }}
-                            {{ Form::text('nombre1', $persona->nombre1, ['class' => 'form-control' . ($errors->has('nombre1') ? ' is-invalid' : ''), 'placeholder' => 'Primer Nombre']) }}
-                            {!! $errors->first('nombre1', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>
-                        <div class="col-md-6">
-                            {{ Form::label('Segundo Nombre') }}
-                            {{ Form::text('nombre2', $persona->nombre2, ['class' => 'form-control' . ($errors->has('nombre2') ? ' is-invalid' : ''), 'placeholder' => 'Segundo Nombre']) }}
-                            {!! $errors->first('nombre2', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ Form::label('Primer Apellido') }}
-                            {{ Form::text('apellido1', $persona->apellido1, ['class' => 'form-control' . ($errors->has('apellido1') ? ' is-invalid' : ''), 'placeholder' => 'Primer Apellido']) }}
-                            {!! $errors->first('apellido1', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>
-                        <div class="col-md-6">
-                            {{ Form::label('Segundo Apellido') }}
-                            {{ Form::text('apellido2', $persona->apellido2, ['class' => 'form-control' . ($errors->has('apellido2') ? ' is-invalid' : ''), 'placeholder' => 'Segundo Apellido']) }}
-                            {!! $errors->first('apellido2', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ Form::label('Tipo Identificacion') }}
-                            {{ Form::select('tipoIdentificacion', $tiposIdentificacion, $persona->idTipoIdentificacion, ['class' => 'form-control' . ($errors->has('tipoIdentificacion') ? ' is-invalid' : '')]) }}
-                            {!! $errors->first('tipoIdentificacion', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>
-                        <div class="col-md-6">
-                            {{ Form::label('Numero Identificacion') }}
-                            {{ Form::text('identificacion', $persona->identificacion, ['class' => 'form-control' . ($errors->has('identificacion') ? ' is-invalid' : ''), 'placeholder' => 'Numero Identificacion']) }}
-                            {!! $errors->first('identificacion', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ Form::label('Fecha de Nacimiento') }}
-                            {{ Form::date('fechaNac', $persona->fechaNac, ['class' => 'form-control' . ($errors->has('fechaNac') ? ' is-invalid' : '')]) }}
-                            {!! $errors->first('fechaNac', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{ Form::label('Sexo') }}
-                            {{ Form::select('sexo', ['M' => 'Masculino', 'F' => 'Femenino', 'O' => '39 Tipos de gays'], $persona->sexo, ['class' => 'form-control' . ($errors->has('sexo') ? ' is-invalid' : ''), 'placeholder' => 'Seleccione el sexo']) }}
-                            {!! $errors->first('sexo', '<div class="invalid-feedback">:message</div>') !!}
-                        </div>                                             
-                    </div>
-                    <button class="btn btn-primary next-btn" style="margin-top: 2rem" type="button">Siguiente</button>
-                </div>
-
-                <div class="form-group step step-2" data-step="2">
-                    <h3 class="titulo">Datos Contacto</h3>
-                    <div class="form-group">
-                        {{ Form::label('Direccion') }}
-                        {{ Form::text('direccion', $persona->direccion, ['class' => 'form-control' . ($errors->has('direccion') ? ' is-invalid' : ''), 'placeholder' => 'Direccion']) }}
-                        {!! $errors->first('direccion', '<div class="invalid-feedback">:message</div>') !!}
-                    </div>
-                    <div class="form-group">
-                        {{ Form::label('Correo Electronico') }}
-                        {{ Form::text('email', $persona->usuario->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Correo Electronico']) }}
-                        {!! $errors->first('email', '<div class="invalid-feedback">:message</div>') !!}
-                    </div>
-                    
-                    <div class="form-group">
-                        {{ Form::label('Celular') }}
-                        {{ Form::text('celular', $persona->celular, ['class' => 'form-control' . ($errors->has('celular') ? ' is-invalid' : ''), 'placeholder' => 'Celular']) }}
-                        {!! $errors->first('celular', '<div class="invalid-feedback">:message</div>') !!}
-                    </div>
-                    <button class="btn btn-primary prev-btn" type="button">Anterior</button>
-                    <button class="btn btn-primary next-btn" type="button">Siguiente</button>
-                </div>
-
-            </form>
-            @else
-    <p>El objeto usuario o persona es nulo.</p>
+<div class="button-container">
+    <a href="{{ route('users.index') }}" class="button-izquierda arrow-left">
+        <i class="fa-solid fa-circle-arrow-left"></i> Regresar
+    </a>
+</div>
+@if (session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
 @endif
+
+<form class="form" action="{{ route('personas.update', $usuario->persona->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+
+    <div class="form-part active" id="parte1">
+
+        <div class="mb-3">
+            <label for="nombre1" class="form-label">Primer Nombre</label>
+            <input type="text" class="form-control" id="nombre1" name="nombre1" value="{{ old('nombre1', optional(Auth::user()->persona)->nombre1) }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="nombre2" class="form-label">Segundo Nombre</label>
+            <input type="text" class="form-control" id="nombre2" name="nombre2" value="{{ old('nombre2', optional(Auth::user()->persona)->nombre2) }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido1" class="form-label">Primer Apellido</label>
+            <input type="text" class="form-control" id="apellido1" name="apellido1" value="{{ old('apellido1', optional(Auth::user()->persona)->apellido1) }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido2" class="form-label">Segundo Apellido</label>
+            <input type="text" class="form-control" id="apellido2" name="apellido2" value="{{ old('apellido2', $usuario->persona->apellido2) }}">
+        </div>
+
+        <select class="form-select" id="idTipoIdentificacion" name="idTipoIdentificacion">
+    @foreach($tiposIdentificacion as $tipo)
+        <option value="{{ $tipo->id }}" {{ old('idTipoIdentificacion', $usuario->persona->idTipoIdentificacion) == $tipo->id ? 'selected' : '' }}>
+            {{ $tipo->Detalle }}
+        </option>
+    @endforeach
+</select>
+
+
+<div class="mb-3">
+    <label for="identificacion" class="form-label">Número de Identificación</label>
+    <input type="text" class="form-control" id="identificacion" name="identificacion" value="{{ old('identificacion', $usuario->persona->identificacion) }}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+</div>
+
+
+        <div class="mb-3">
+            <label for="fechaNac" class="form-label">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" id="fechaNac" name="fechaNac" value="{{ old('fechaNac', $usuario->persona->fechaNac) }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="sexo" class="form-label">Sexo</label>
+            <select class="form-select" id="sexo" name="sexo">
+                <option value="M" {{ old('sexo', $usuario->persona->sexo) === 'M' ? 'selected' : '' }}>Masculino</option>
+                <option value="F" {{ old('sexo', $usuario->persona->sexo) === 'F' ? 'selected' : '' }}>Femenino</option>
+                <option value="O" {{ old('sexo', $usuario->persona->sexo) === 'O' ? 'selected' : '' }}>Otro</option>
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" value="{{ old('direccion', $usuario->persona->direccion) }}">
+        </div>
+
+
+        <div class="mb-3">
+    <label for="celular" class="form-label">Número de Celular</label>
+    <input type="text" class="form-control" id="celular" name="celular" 
+           value="{{ old('celular', $usuario->persona->celular) }}"
+           pattern="[0-9]*" 
+           title="Por favor, introduce solo números"
+    >
+    @if($errors->has('celular'))
+        <div class="invalid-feedback">
+            {{ $errors->first('celular') }}
+        </div>
+    @endif
+</div>
+
+
+
+
+        <div class="button-container">
+            <button type="submit" class="btn-link modal-button">Guardar Cambios</button>
         </div>
     </div>
-@stop
+</form>
+</div>
 
-<style>
-    .titulo {
-        padding-top: 2rem;
-        font-family: sans-serif;
-        text-align: center;
-        transform: translateY(-25%);
-    }
-         
-    .progress {
-        margin-bottom: 30px;
-      }
-      
-      .progress-bar {
-        transition: width 0.3s;
-      }
-</style>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Oculta todos los pasos excepto el primero
-        $(".step").not("[data-step='1']").hide();
-        
-        var currentStep = 1;
+<footer class="footer">
+    <div class="left-images">
+        <div class="column">
+            <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
+            <img src="{{ asset('imgs/logos/ESCUDO COLOMBIA.png') }}" width="45" alt="Imagen 2">
+        </div>
+        <div class="column">
+            <img src="{{ asset('imgs/logos/logo_fondo.png') }}" width="130" alt="Imagen 3">
+            <img src="{{ asset('imgs/logos/Logo_Enterritorio.png') }}" width="100" alt="Imagen 4">
+        </div>
+    </div>
+    <div class="right-content">
+        <div class="images">
+            <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
+            <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+        </div>
+        <div class="separator"></div>
+        <div class="text">
+            <p>Copyright © 2023 AGS SALUD SAS</p>
+            <p>Todos los derechos Reservados</p>
+        </div>
+    </div>
+</footer>
 
-        $(".next-btn").click(function() {
-            $(".step[data-step='" + currentStep + "']").hide();
-            currentStep++;
-            $(".step[data-step='" + currentStep + "']").show();
-            var progress = (currentStep - 1) * 25; // Calcula el progreso
-            $(".progress-bar").css("width", progress + "%");
-        });
-
-        $(".prev-btn").click(function() {
-            $(".step[data-step='" + currentStep + "']").hide();
-            currentStep--;
-            $(".step[data-step='" + currentStep + "']").show();
-            var progress = (currentStep - 1) * 25; // Calcula el progreso
-            $(".progress-bar").css("width", progress + "%");
-        });
-    });
-</script>
+@endsection
