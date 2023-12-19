@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ElementoExport;
 use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
@@ -18,11 +19,12 @@ class ElementoController extends Controller
 {
     public function index(){
         $elementos = Elemento::paginate(10);
-        return view('elementos.elemento.index',compact('elementos'));
+        $estadosEquipos = EstadoElemento::all();
+        return view('elementos.elemento.index',compact('elementos', 'estadosEquipos'));
     }
 
     public function create(){
-        
+
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
@@ -39,7 +41,6 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'valor' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
@@ -72,7 +73,7 @@ class ElementoController extends Controller
         $facturas = Factura::all();
         $users = User::all();
 
-        return view('elementos.elemento.edit', 
+        return view('elementos.elemento.edit',
         compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
     }
 
@@ -83,7 +84,6 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'valor' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
@@ -116,20 +116,23 @@ class ElementoController extends Controller
     }
 
 
-    public function export(){
-        return Excel::download(new ElementosExport, 'elementos.xlsx');
+
+
+
+    public function excelElemento(Request $request)
+    {
+        // Obtener los valores de los filtros desde la solicitud
+        $filtros = [
+            'idEstadoEquipo' => $request->input('idEstadoEquipo', null),
+            'idTipoElemento' => $request->input('idTipoElemento', null),
+            'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
+            'idCategoria' => $request->input('idCategoria', null),
+
+            // Agrega más filtros según sea necesario
+        ];
+
+        // Descargar el informe en formato Excel con los filtros aplicados
+        return Excel::download(new ElementoExport($filtros), 'elemento.xlsx');
     }
 
-    public function exportPrestamos(){
-        return Excel::download(new PrestamoExport, 'RegistroPrestamos.xlsx');
-    }
-
-
-    //exportar pdf
-    public function pdf(){
-        $elementos = Elemento::all();
-        $pdf = Pdf::loadView('pdf.pdf', compact('elementos'));
-
-        return $pdf->stream();
-    }
 }

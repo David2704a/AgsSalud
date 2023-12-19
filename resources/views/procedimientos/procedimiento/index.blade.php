@@ -21,7 +21,7 @@
         <div class="green-line"></div>
 
         <div class="button-container">
-            <a href="/" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+            <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
             <a href="{{ route('createProcedimiento') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
                 procedimiento</a>
 

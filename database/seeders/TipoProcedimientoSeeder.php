@@ -29,7 +29,7 @@ class TipoProcedimientoSeeder extends Seeder
         ]);
 
         TipoProcedimiento::create([
-            'tipo' => 'Manetemiento',
+            'tipo' => 'Mantenimiento',
             'descripcion' => 'Procedimiento de mantenimiento'
         ]);
 

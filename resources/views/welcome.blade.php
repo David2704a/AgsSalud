@@ -1,10 +1,16 @@
 @extends('layouts.app')
 
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
+
 @section('title','Home')
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/welcome.css')}}">
 @endsection
+
 
 @section('content')
 
@@ -22,25 +28,25 @@
         <span>PROCEDIMIENTOS</span>
     </a>
 
-    <a href="/proveedores" title="Elementos" class="button-link">
+    <a href="/elementos" title="Elementos" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
         </div>
         <span>ELEMENTOS</span>
     </a>
 
-    <a href="#" class="button-link">
+    <a href="/categorias" class="button-link">
         <div class="circle-button btn-background-circle">
-            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+            <img style="width: 87px;" src="{{asset('img/categoria.png')}}" alt="alo">
         </div>
-        <span>USUARIOS</span>
+        <span>Categoria</span>
     </a>
 
-    <a href="#" class="button-link">
+    <a href="/reporte" class="button-link">
         <div class="circle-button btn-background-circle">
-            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+            <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
         </div>
-        <span>..</span>
+        <span>Reportes</span>
     </a>
 
 </div>

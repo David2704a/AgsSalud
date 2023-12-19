@@ -4,28 +4,20 @@
 
 @section('links')
 
-<link rel="stylesheet" href="{{asset('/css/procedimiento/procedimiento.css')}}">
+<link rel="stylesheet" href="{{asset('/css/elemento/elemento.css')}}">
 <script src="{{asset('js/elemento/elemento.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 @endsection
 @section('content')
 
-    <div class="content">
+    <div class="contents">
 <h1 class="page-title">Elementos</h1>
 <div class="green-line"></div>
 
+
 <div class="button-container">
-    <a href="{{route('export')}}" class="button-derecha"><i class="fa-solid fa-file-excel"></i> Reporte</a>
-</div>
-<div class="button-container">
-    <a href="{{route('exportPrestamos')}}" class="button-derecha"><i class="fa-solid fa-file-excel"></i> Prestamos</a>
-</div>
-<div class="button-container">
-    <a href="{{route('elementos.pdf')}}" class="button-derecha"><i class="fa-solid fa-file-excel"></i> Pdf</a>
-</div>
-<div class="button-container">
-    <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
 </div>
 <div class="menu-container">
@@ -36,8 +28,18 @@
         <li>
             <a href="{{route('facturas.index')}}">Facturas</a>
         </li>
+        <li>
+            <a href="{{route('tipoElementos.index')}}">Tipo elemento</a>
+        </li>
     </ul>
 </div>
+
+
+
+{{-- <a href="{{ url('excel?idEstadoEquipo=1') }}" class="btn btn-success btn-lg" target="_blank" title="Ver Excel"><i
+    class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i></a> --}}
+
+
 
 @if(session('success'))
     <div id="success-alert" class="alert alert-success">
@@ -57,13 +59,16 @@
             <th>Marca</th>
             <th>Referencia</th>
             <th>Serial</th>
-            <th>Especificaciones</th>
+            <th>Procesador</th>
+            <th>Ram</th>
+            <th>Disco duro</th>
+            <th>Tarjeta gráfica</th>
             <th>Modelo</th>
             <th>Garantia</th>
-            <th>Valor</th>
             <th>Descripcion</th>
             <th>Estado</th>
             <th>Tipo</th>
+            <th>Estado Procedimiento</th>
             <th>Categoria</th>
             <th>N° Factura</th>
             <th>Asignado A:</th>
@@ -76,27 +81,30 @@
                     <td>{{ $elemento->marca ? $elemento->marca : 'No aplica' }}</td>
                     <td>{{ $elemento->referencia ? $elemento->referencia : 'No aplica' }}</td>
                     <td>{{ $elemento->serial ? $elemento->serial : 'No aplica' }}</td>
-                    <td>{{ $elemento->especificaciones ? $elemento->especificaciones : 'No aplica' }}</td>
+                    <td>{{ $elemento->procesador ? $elemento->procesador : 'No aplica'}}</td>
+                    <td>{{ $elemento->ram ? $elemento->ram : 'No aplica'}}</td>
+                    <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'No aplica'}}</td>
+                    <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'No aplica'}}</td>
                     <td>{{ $elemento->modelo ? $elemento->modelo : 'No aplica' }}</td>
                     <td>{{ $elemento->garantia ? $elemento->garantia : 'No aplica' }}</td>
-                    <td>{{ $elemento->valor ? $elemento->valor : 'No aplica' }}</td>
                     <td>{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
                     <td>{{ $elemento->estado->estado ?? 'No aplica' }}</td>
                     <td>{{ $elemento->tipoElemento->tipo ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'No aplica'}}</td>
                     <td>{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
                     <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
-                    <td>{{ $elemento->user->name ?? 'No aplica' }}</td>
+                    <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
 
                     <td>
                         <a class="edit-button" title="Editar"
                             href="{{ route('elementos.edit',$elemento->idElemento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
-                        <button title="Eliminar"
-                            type="button" class="delete-button"
-                            data-id="{{$elemento->idElemento}}"
-                            data-tipo="{{$elemento->marca}}">
-                            <i class="fas fa-trash-alt"></i>
+                        <button type="button" class="delete-button" title="Eliminar"
+                        data-id="{{ $elemento->idElemento }}"
+                         data-name="{{ $elemento->modelo }}">
+
+                            <i data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                         </button>
                     </td>
                 </tr>
@@ -107,7 +115,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{$elementos->links('pagination.custom') }}  
+        {{$elementos->links('pagination.custom') }}
     </div>
     </div>
 
@@ -117,7 +125,7 @@
             <p id="modalMessage"></p>
             <div class="button-container">
                 <button id="cancelButton" class="modal-button">Cancelar</button>
-                <form id="deleteForm" action="{{ route('elementos.index','REPLACE_ID') }}" method="POST">
+                <form id="deleteForm" action="{{ route('elementos.destroy','REPLACE_ID') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>

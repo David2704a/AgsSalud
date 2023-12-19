@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,45 +12,66 @@
     <link rel="stylesheet" href="{{asset('/css/LayoutApp.css')}}">
     <link rel="shortcut icon" href="{{asset('imgs/logos/Ags.png')}}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="{{asset('css/Formulario.css')}}">
+    <link rel="stylesheet" href="{{asset('css/userNav/userbar.css')}}">
     <title>@yield('title')</title>
+
+
+
+
+
 </head>
 <body>
 
 
-    <header>
-        <div class="logo">
-            <img src="{{asset('imgs/logos/Ags.png')}}" alt="Logo de la empresa">
-        </div>
-        <div class="home">
-           <a href="/" title="Inicio">
+<header>
+    <div class="logo">
+        <img src="{{asset('imgs/logos/Ags.png')}}" alt="Logo de la empresa">
+    </div>
+    <div class="home">
+        <a href="/dashboard" title="Inicio">
             <i class="fa-solid fa-house-flag"></i>
         </a>
-        </div>
-        <div class="user-info">
-            <div class="notifications">
-                <i class="fas fa-bell"></i>
+    </div>
+
+    <div class="user-menu">
+        <button id="user-menu-button" class="user-menu-button">
+            <div class="user-name" >
+            @auth
+        {{ Auth::user()->name }}
+    @endauth
             </div>
-            <div class="user-profile">
-                <img src="user-avatar.jpg" alt="Foto de perfil del usuario" class="user-avatar">
-                <span class="user-name">Nombre de Usuario</span>
-            </div>
+            <div class="icon">
+            <i class="material-symbols-outlined">expand_more</i>
         </div>
-    </header>
+        </button>
+
+        <!-- Opciones de usuario -->
+        <div id="user-dropdown" class="dropdown-menu">
+            <a class="perfiledit"  href="{{ route('ActualizarPerfil') }}">Perfil</a>
 
 
-    <div class="container">
-        @yield('content')
-        @yield('links')
-     </div>
+            <br>
 
 
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button  class="btonCerrarSe" type="submit">Cerrar sesión</button>
+            </form>
+
+        </div>
+    </div>
+</header>
+
+@yield('content')
+@yield('links')
 
 
+<script src="{{ asset('js/userNav/userbar.js') }}"></script>
 
 
-
+<script src="{{asset('js/layout.js')}}"></script>
 
 </body>
-<script src="{{asset('js/layout.js')}}"></script>
 </html>
