@@ -129,5 +129,7 @@ class ElementoController extends Controller
     public function pdf(){
         $elementos = Elemento::all();
         $pdf = Pdf::loadView('pdf.pdf', compact('elementos'));
+
+        return $pdf->stream();
     }
 }

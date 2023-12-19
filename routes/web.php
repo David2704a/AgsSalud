@@ -69,4 +69,4 @@ Route::get('/export', [ElementoController::class, 'export'])->name('export');
 Route::get('/exportPrestamos', [ElementoController::class, 'exportPrestamos'])->name('exportPrestamos');
 
 //rutas para exportar pdf
-Route::get('elementos/pdf', [ElementoController::class, 'pdf'])->name('elementos.pdf');
+Route::get('pdf', [ElementoController::class, 'pdf'])->name('elementos.pdf');

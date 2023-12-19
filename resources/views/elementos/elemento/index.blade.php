@@ -22,6 +22,9 @@
     <a href="{{route('exportPrestamos')}}" class="button-derecha"><i class="fa-solid fa-file-excel"></i> Prestamos</a>
 </div>
 <div class="button-container">
+    <a href="{{route('elementos.pdf')}}" class="button-derecha"><i class="fa-solid fa-file-excel"></i> Pdf</a>
+</div>
+<div class="button-container">
     <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
 </div>
