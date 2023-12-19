@@ -64,6 +64,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($data['password']),
             'idPersona' => $persona->id,
         ]);
+        
 
         return $user;
     }

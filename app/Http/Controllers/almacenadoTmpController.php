@@ -109,6 +109,11 @@ class almacenadoTmpController extends Controller
                              $datosFila[] = $valorCelda;
                          }
                      }
+
+                     if (empty($datosFila[1])) {
+                        // Omitir la fila si 'dispositivo' está vacío y pasar a la siguiente iteración del bucle
+                        continue;
+                     }
  
                      // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
                      $almacenadoTmp = new almacenadoTmp();
@@ -119,21 +124,9 @@ class almacenadoTmpController extends Controller
                              'dispositivo' => $datosFila[1],
                              'marca' => $datosFila[2],
                              'referencia' => $datosFila[3],
-                             'serial' => $datosFila[4],
-                             'procesador' => $datosFila[5],
-                             'ram' => $datosFila[6],
-                             'disco_duro' => $datosFila[7],
-                             'tarjeta_grafica' => $datosFila[8],
-                             'documento' => $datosFila[9],
-                             'nombres_apellidos' => $datosFila[10],
-                             'fecha_compra' => $datosFila[11],
-                             'garantia' => $datosFila[12],
-                             'numero_factura' => $datosFila[13],
-                             'proveedor' => $datosFila[14],
-                             'estado' => $datosFila[15],
-                             'observacion' => $datosFila[16],
+                             'observacion' => $datosFila[4],
                              'cantidad' => $datosFila[0], // Cambiar la columna 'cantidad' a la posición 0
-                         ]);
+                          ]);
                      } else {
                          $almacenadoTmp->fill([
                              'id_dispo' => $datosFila[0],

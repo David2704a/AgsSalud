@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 </div>
 
 <div class="button-container">
-    <a href="{{ route('users.index') }}" class="button-izquierda arrow-left">
+    <a href="{{ route('persona.index') }}" class="button-izquierda arrow-left">
         <i class="fa-solid fa-circle-arrow-left"></i> Regresar
     </a>
 </div>
