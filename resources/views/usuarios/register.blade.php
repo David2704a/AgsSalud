@@ -20,20 +20,27 @@
         <div class="green-line"></div>
     </div>
 
+    
+
     <div class="button-container">
         <a href="{{ route('users.index') }}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     </div>
 
-
-    @if ($errors->any())
-        <div id="alert" class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    @if(session('success'))
+            <div id="alert" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        
+        @if($errors->any())
+    <div id="error-alert" class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
     <form class="form" action="{{ route('register.create') }}" method="POST">
         @csrf

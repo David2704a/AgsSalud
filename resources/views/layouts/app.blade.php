@@ -29,7 +29,7 @@
         <img src="{{asset('imgs/logos/Ags.png')}}" alt="Logo de la empresa">
     </div>
     <div class="home">
-        <a href="/" title="Inicio">
+        <a href="/dashboard" title="Inicio">
             <i class="fa-solid fa-house-flag"></i>
         </a>
     </div>

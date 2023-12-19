@@ -94,7 +94,7 @@ class RegisteredUserController extends Controller
             event(new Registered($user));
 
             // Redirigir después del registro (puedes cambiar la URL según tus necesidades)
-            return redirect()->back()->with('success', 'Usuario creado exitosamente.');
+            return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
         } else {
             // Manejar el error en caso de que la creación falle
             return redirect()->back()->withInput()->withErrors(['name' => 'Error al registrar el usuario.']);

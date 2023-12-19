@@ -89,7 +89,7 @@ class UserAjustesController extends Controller
         'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
         'updated_at' => Carbon::now(),
     ]);
-    return redirect()->route('usuarios.edit', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
+    return redirect()->route('users.index', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
     
     }
     

@@ -16,7 +16,7 @@
 <div class="green-line"></div>
 
 <div class="button-container">
-    <a href="/facturas" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="/proveedores" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     <a href="{{route('facturas.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva Factura</a>
 
 </div>

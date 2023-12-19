@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Elemento')
-
+ 
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/factura/factura.css')}}">
@@ -27,7 +27,7 @@
     <form id="formularioImportar" action="{{ route('excel.import') }}" method="post" enctype="multipart/form-data" class="button-derecha">
     @csrf
     <label for="archivo" class="folder_open" id="archivoLabel">
-        <i class="fas fa-file-excel"></i> Selecciona un archivo:
+        <i class="fas fa-file-excel"></i> Selecciona un archivo
     </label>
     <div class="file-input-container">
         <input type="file" id="archivo" name="archivo" onchange="mostrarBotonCargar()">
@@ -41,17 +41,6 @@
     <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva">
     <i class="fas fa-arrow-up"></i>
 </a>
-    
-
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-
-
-
 
 </div>
 
@@ -65,6 +54,17 @@
         </li>
     </ul>
 </div>
+@if(session('success'))
+            <div id="alert" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        
+        @if(session('error'))
+    <div id="error-alert" class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
 
     <form class="form" action="{{route('elementos.store')}}" method="POST" enctype="multipart/form-data">

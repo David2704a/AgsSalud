@@ -71,6 +71,12 @@ Route::post('register', [RegisteredUserController::class, 'register'])
 
 
 
+
+
+
+
+    Route::get('/usuariosBuscar', [UserController::class, 'buscar'])->name('usuarios.search');
+
     
 
 });
@@ -150,6 +156,9 @@ Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('busca
 
 //rutas para elementos
 Route::resource('elementos',ElementoController::class)->names('elementos');
+
+
+
 Route::get('/elementosBuscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
 
 

@@ -58,8 +58,11 @@ class almacenadoTmpController extends Controller
  
          // Validar el tipo de archivo (se espera un archivo XLSX)
          if ($file->getClientOriginalExtension() !== 'xlsx') {
-             return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
-         }
+            //  return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
+            return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
+
+        
+            }
  
          // Crear una instancia del lector de archivos de Excel
          $reader = IOFactory::createReader('Xlsx');
@@ -164,12 +167,20 @@ class almacenadoTmpController extends Controller
              // Confirmar la transacción final fuera del bucle
              DB::commit();
  
-             return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
+            //  return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
+
+             
+             return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente');
+
+
+
          } catch (\Exception $e) {
              // Revertir la transacción en caso de error
              DB::rollBack();
  
-             return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
+
+             return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
+            //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
          }
      }
  }

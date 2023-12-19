@@ -17,9 +17,20 @@
             <i class="fa-solid fa-circle-arrow-left"></i> Regresar
         </a>
     </div>
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+    
+    @if(session('success'))
+            <div id="alert" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        
+        @if($errors->any())
+    <div id="error-alert" class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
 @endif
 

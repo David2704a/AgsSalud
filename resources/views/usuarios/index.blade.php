@@ -39,13 +39,14 @@
     </div>
 @endif
 
-        @if ($users->count() > 0)
-            <div class="table-container">
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="Buscar...">
-                    <button><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-                <div class="table">
+       
+
+          <div class="table-container">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Buscar...">
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    <div class="table">
                     <table>
                         <thead>
                             <th>
@@ -58,7 +59,7 @@
                                 Correo
                             </th>
                             <th>
-                                Contraseña
+                                Acciones
                             </th>
                         </thead>
                         <tbody>
@@ -85,14 +86,44 @@
                     </table>
                 </div>
             </div>
-        @else
-            <p>No hay usuarios disponibles.</p>
-        @endif
+       
 
         <div class="pagination">
             {{ $users->links('pagination.custom') }}
         </div>
     </div>
+
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+    const mensajeVacio = document.querySelector('.mensaje-vacio');
+    const searchInput = document.getElementById('search-input');
+    const usersTableBody = document.getElementById('users-table-body');
+
+    function updateTable(filtro) {
+        $.ajax({
+            url: '/usuariosBuscar',
+            method: 'GET',
+            data: { filtro: filtro },
+            success: function (data) {
+                // Verifica que la respuesta contiene la variable users
+                if (data.users) {
+                    usersTableBody.innerHTML = data.users;
+                }
+            },
+            error: function (error) {
+                console.error('Error al realizar la búsqueda:', error);
+            },
+        });
+    }
+
+    searchInput.addEventListener('input', function () {
+        const filtro = searchInput.value.trim().toLowerCase();
+        updateTable(filtro);
+    });
+});
+
+    </script>
 
     <div id="myModal" class="modal">
         <div class="modal-content">

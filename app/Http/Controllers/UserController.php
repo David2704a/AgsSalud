@@ -86,8 +86,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         $users = User::find($id)->delete();
-        return redirect()->route('usuarios.index')
-        ->with('success', 'usuario deleted successfully');
+        return redirect()->route('users.index')
+        ->with('success', 'usuario eliminado correctamente');
     }
 
 
@@ -98,4 +98,19 @@ class UserController extends Controller
         return view('usuarios.register');
     }
 
+
+
+
+    public function buscar(Request $request)
+    {
+        $filtro = $request->input('filtro');
+    
+        $users = User::where('name', 'like', '%' . $filtro . '%')
+                     ->orWhere('email', 'like', '%' . $filtro . '%')
+                     ->paginate(10);
+    
+        return view('usuarios.partials.usuario.resultados', compact('users'));
+    }
+    
 }
+
