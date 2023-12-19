@@ -19,6 +19,10 @@ class UserController extends Controller
         return view ('usuarios.index', compact('users'));
     }
 
+
+
+
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -86,5 +90,12 @@ class UserController extends Controller
         ->with('success', 'usuario deleted successfully');
     }
 
-    
+
+
+
+     public function showRegistrationForm()
+    {
+        return view('usuarios.register');
+    }
+
 }

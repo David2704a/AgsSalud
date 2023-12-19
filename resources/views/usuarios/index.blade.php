@@ -18,7 +18,7 @@
             <a href="/dashboard" class="button-izquierda arrow-left">
                 <i class="fa-solid fa-circle-arrow-left"></i> Regresar
             </a>
-            <a href="{{ route('register') }}" class="button-derecha">
+            <a href="{{ route('auth.register') }}" class="button-derecha">
                 <i class="fas fa-file"></i> Nuevo usuario
             </a>
         </div>

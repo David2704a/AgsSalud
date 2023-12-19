@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
          $this->middleware('guest');
      }
 
-     protected function validator(array $data)
+     function validator(array $data)
      {
          return Validator::make($data, [
              'name' => ['required', 'string', 'max:255'],
@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
          ]);
      }
 
-     protected function create(array $data)
+     function create(array $data)
     {
         // Crea una nueva persona
         $persona = new Persona([
@@ -68,10 +68,6 @@ class RegisteredUserController extends Controller
 
         return $user;
     }
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
-    }
 
     public function register(Request $request)
     {
@@ -81,7 +77,7 @@ class RegisteredUserController extends Controller
         $user = $this->create($request->all());
 
         return $this->registered($request, $user)
-            ?: redirect()->route('usuarios.index');
+            ?: redirect()->route('users.index');
     }
 
 }
