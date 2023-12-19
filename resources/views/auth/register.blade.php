@@ -76,7 +76,7 @@
 
                 <div class="input-div one">
                     <div class="i">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-envelope"></i>
                     </div>
                     <div class="div">
                         <h5>Correo</h5>
@@ -86,6 +86,22 @@
 
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
+                </div>
+
+                <div class="input-div one" style="display: grid; grid-template-rows: auto auto;">
+                    <div class="i">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="div select">
+                        <select class="input" name="role" required>
+                            <option value="">Asignar rol</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                
+                    <x-input-error :messages="$errors->get('role')" class="mt-2" />
                 </div>
 
 
