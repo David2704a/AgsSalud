@@ -13,33 +13,24 @@ class CategoriaSeeder extends Seeder
      */
     public function run(): void
     {
+
+
         Categoria::create([
-            'nombre' => 'Portatil',
-            'descripcion' => 'Portatil',
-        ]);
-        Categoria::create([
-            'nombre' => 'Movil',
-            'descripcion' => 'Movil',
-        ]);
-        Categoria::create([
-            'nombre' => 'Impresora',
+            'nombre' => 'IMPRESORA',
             'descripcion' => 'Impresora',
         ]);
         Categoria::create([
-            'nombre' => 'Mouse',
+            'nombre' => 'MOUSE',
             'descripcion' => 'Mouse',
         ]);
         Categoria::create([
-            'nombre' => 'Teclado',
+            'nombre' => 'TECLADO',
             'descripcion' => 'Teclado',
         ]);
         Categoria::create([
-            'nombre' => 'Monitor',
+            'nombre' => 'MONITOR',
             'descripcion' => 'Monitor',
         ]);
-        Categoria::create([
-            'nombre' => 'Silla',
-            'descripcion' => 'Silla',
-        ]);
+
     }
 }

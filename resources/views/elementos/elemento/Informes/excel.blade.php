@@ -58,7 +58,7 @@
                     <td style="border: 1px solid black;">{{ $elemento->procedimiento->tipoProcedimiento->tipo ?? 'No aplica'}}</td>
                     <td style="border: 1px solid black;">{{ $elemento->factura->fechaCompra ?? 'No aplica'}}</td>
                     <td style="border: 1px solid black;">{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
-                    <td style="border: 1px solid black;">{{ $elemento->factura->proveedor->nombre}}</td>
+                    <td style="border: 1px solid black;">{{ $elemento->factura->proveedor->nombre ?? 'No aplica'}}</td>
                     <td style="border: 1px solid black;">{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
                 </tr>
             @endforeach

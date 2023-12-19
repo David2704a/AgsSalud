@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ElementoExport;
+use App\Imports\ElementoImport;
 use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
@@ -10,8 +11,6 @@ use App\Models\Factura;
 use App\Models\TipoElemento;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Exports\ElementosExport;
-use App\Exports\PrestamoExport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -134,5 +133,25 @@ class ElementoController extends Controller
         // Descargar el informe en formato Excel con los filtros aplicados
         return Excel::download(new ElementoExport($filtros), 'elemento.xlsx');
     }
+
+     // EEXCEL
+
+     public function importarExcel(Request $request)
+     {
+         // Validación del archivo Excel
+         $request->validate([
+             'archivo' => 'required|mimes:xlsx,xls',
+         ]);
+
+         try {
+             // Importar el archivo Excel
+             Excel::import(new ElementoImport, $request->file('archivo'));
+
+             return redirect()->back()->with('success', 'Importación exitosa');
+         } catch (\Exception $e) {
+             // Capturar cualquier excepción durante la importación
+             return redirect()->back()->with('error', 'Error durante la importación: ' . $e->getMessage());
+         }
+     }
 
 }

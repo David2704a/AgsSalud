@@ -17,7 +17,7 @@ class PersonaSeeder extends Seeder
             'nombre1' => 'Juan',
             'apellido1' => 'Pérez',
             'idTipoIdentificacion' => 1, // Reemplaza con el ID correcto del tipo de identificación
-            'identificacion' => '123456789',
+            'identificacion' => '12345789',
             'fechaNac' => '1990-01-01',
             'sexo' => 'M',
             'direccion' => 'Calle 123',
@@ -28,7 +28,7 @@ class PersonaSeeder extends Seeder
             'nombre1' => 'Andres',
             'apellido1' => 'Galindez',
             'idTipoIdentificacion' => 1, // Reemplaza con el ID correcto del tipo de identificación
-            'identificacion' => '1234567891',
+            'identificacion' => '987654321',
             'fechaNac' => '1990-01-01',
             'sexo' => 'M',
             'direccion' => 'Calle 123',
@@ -39,7 +39,7 @@ class PersonaSeeder extends Seeder
             'nombre1' => 'Juan',
             'apellido1' => 'Orozco',
             'idTipoIdentificacion' => 1, // Reemplaza con el ID correcto del tipo de identificación
-            'identificacion' => '1234567892',
+            'identificacion' => '09876567329',
             'fechaNac' => '1990-01-01',
             'sexo' => 'M',
             'direccion' => 'Calle 123',
@@ -58,5 +58,6 @@ class PersonaSeeder extends Seeder
             'celular' => '1234567890',
         ]);
 
-    }
+
+}
 }

@@ -20,7 +20,8 @@ return new class extends Migration
 
         DB::table('tipoIdentificacion')->insert([
             ['Detalle' => 'Cedula Ciudadania'],
-
+            ['Detalle' => 'Cedula Extrangera '],
+            ['Detalle' => 'nit'],
 
         ]);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Persona;
 use App\Models\TipoIdentificacion;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,59 +31,65 @@ class PersonaController extends Controller
     {
         $usuario = User::find($id);
         $persona = $usuario->persona;
-        $tipoIdentificacion = TipoIdentificacion::pluck('Detalle', 'id');
-
-        return view('persona.edit', compact('usuario', 'persona','tipoIdentificacion'));
+        $tiposIdentificacion = TipoIdentificacion::all(); // Asegúrate de obtener una colección de objetos aquí
+    
+        return view('persona.edit', compact('usuario', 'persona', 'tiposIdentificacion'));
     }
 
 
     public function update(Request $request, $id)
-{
-    // Validación de datos
-    $request->validate([
-        'nombre1' => 'required|string|max:255',
-        'nombre2' => 'nullable|string|max:255',
-        'apellido1' => 'required|string|max:255',
-        'apellido2' => 'nullable|string|max:255',
-        'identificacion' => 'required|string|max:255|unique:personas,identificacion,' . $id,
-        'fechaNac' => 'nullable|date',
-        'direccion' => 'nullable|string|max:255',
-        'email' => 'nullable|email|max:255',
-        'celular' => 'nullable|string|max:255',
-        'sexo' => 'nullable|string|max:255',
-    ]);
-
-    $user = User::find($id);
-
-    if (!$user) {
-        return redirect()->route('persona.index')->with('error', 'Usuario no encontrado.');
-    }
-
-    // Verificar si la relación persona existe
-    if (!$user->persona) {
-        return redirect()->route('persona.index')->with('error', 'La persona asociada al usuario no existe.');
-    }
-
-    try {
-        // Actualizar datos de la persona
+    {
+        // Encuentra al usuario por ID
+        $user = User::find($id);
+    
+        // Actualiza la información en la tabla 'persona'
         $user->persona()->update([
-            'nombre1' => strtoupper($request->input('nombre1')),
-            'nombre2' => strtoupper($request->input('nombre2')),
-            'apellido1' => strtoupper($request->input('apellido1')),
-            'apellido2' => strtoupper($request->input('apellido2')),
-            'idTipoIdentificacion' => $request->input('identificacion'),
+            'nombre1' => $request->input('nombre1') ? ucwords(strtolower($request->input('nombre1'))) : null,
+            'nombre2' => $request->input('nombre2') ? ucwords(strtolower($request->input('nombre2'))) : null,
+            'apellido1' => $request->input('apellido1') ? ucwords(strtolower($request->input('apellido1'))) : null,
+            'apellido2' => $request->input('apellido2') ? ucwords(strtolower($request->input('apellido2'))) : null,
+            'idTipoIdentificacion' => $request->input('idTipoIdentificacion'),
             'identificacion' => $request->input('identificacion'),
             'fechaNac' => $request->input('fechaNac'),
-            'direccion' => strtoupper($request->input('direccion')),
-            'email' => $request->input('email'),
+            'direccion' => $request->input('direccion') ? ucwords(strtolower($request->input('direccion'))) : null,
             'celular' => $request->input('celular'),
             'sexo' => $request->input('sexo'),
         ]);
-
-        return redirect()->route('persona.index')->with('success', 'Información de persona actualizada correctamente.');
-    } catch (\Exception $e) {
-        // Manejar errores de actualización
-        return redirect()->route('persona.index')->with('error', 'Error al actualizar la información de la persona.');
+    
+        // Verifica si el usuario existe
+        if (!$user) {
+            return redirect()->route('persona.index')->with('error', 'Usuario no encontrado.');
+        }
+    
+        // Verifica si la relación 'persona' existe
+        if (!$user->persona) {
+            return redirect()->route('persona.index')->with('error', 'La persona asociada al usuario no existe.');
+        }
+    
+        // Actualiza el 'name' en la tabla 'users'
+        $user->update([
+            'name' => ucfirst(strtolower($request->input('nombre1'))) . ' ' .
+                       ucfirst(strtolower($request->input('nombre2'))) . ' ' .
+                       ucfirst(strtolower($request->input('apellido1'))) . ' ' .
+                       ucfirst(strtolower($request->input('apellido2'))),
+        ]);
+    
+        // Redirige con mensaje de éxito
+        return redirect()->route('persona.index')->with('success', 'Información de persona y usuario actualizada correctamente.');
     }
+
+
+public function mostrarVista($id)
+{
+    $persona = Persona::find($id);
+
+    if (!$persona) {
+        return redirect()->route("persona.index")->with('error', 'Persona no encontrada');
+    }
+
+    return view("persona.edit", compact("persona"));
 }
+
+
+
 }

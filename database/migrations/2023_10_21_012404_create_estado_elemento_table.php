@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('estadoElemento', function (Blueprint $table) {
             $table->bigIncrements('idEstadoE');
             $table->string('estado');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

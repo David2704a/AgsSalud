@@ -134,7 +134,7 @@
                                     <td>{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
                                     <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
                                     <td>{{ $elemento->factura->proveedor->nombre ?? 'No aplica'}}</td>
-                                    <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
+                                    <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1 ?? 'No aplica'}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

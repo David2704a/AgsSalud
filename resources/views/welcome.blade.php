@@ -48,6 +48,12 @@
         </div>
         <span>Reportes</span>
     </a>
+    <a href="/usuarios" class="button-link">
+        <div class="circle-button btn-background-circle">
+            <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
+        </div>
+        <span>Reportes</span>
+    </a>
 
 </div>
 

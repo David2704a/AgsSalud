@@ -13,6 +13,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // User::create([
+        //     "name"=> "Johan",
+        //     "email"=> "johan@gmail.com",
+        //     "password"=> bcrypt("123")
+        // ]);
+        // User::create([
+        //     "name"=> "Juan",
+        //     "email"=> "juan@gmail.com",
+        //     "password"=> bcrypt("123")
+        // ]);
+        // User::create([
+        //     "name"=> "Pedro",
+        //     "email"=> "pedro@gmail.com",
+        //     "password"=> bcrypt("123")
+        // ]);
         User::create([
             "name"=> "Johan",
             "email"=> "johan@gmail.com",
@@ -29,6 +44,13 @@ class UserSeeder extends Seeder
             "name"=> "Pedro",
             "email"=> "pedro@gmail.com",
             "password"=> bcrypt("123")
+        ]);
+
+        User::created([
+            "name"=> "vanesa",
+            "email"=> "admin@gmail.com",
+            "password"=> bcrypt("123456789Vane"),
+            "idpersona"=>1
         ]);
     }
 }
