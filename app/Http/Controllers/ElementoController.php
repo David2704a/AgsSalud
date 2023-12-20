@@ -131,9 +131,14 @@ class ElementoController extends Controller
 
             // Agrega más filtros según sea necesario
         ];
-
+        
+        try {
+            // Importar el archivo Excel
+            Excel::import(new ElementoImport, $request->file('archivo'));
+        }catch (\Exception $e){
         // Descargar el informe en formato Excel con los filtros aplicados
         return Excel::download(new ElementoExport($filtros), 'elemento.xlsx');
+        }
     }
 
      // EEXCEL

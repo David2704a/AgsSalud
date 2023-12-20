@@ -17,18 +17,18 @@
 
 <div class="button-container">
     <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+    @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
     <a href="{{route('proveedores.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Provedor</a>
     @endif
 </div>
 <div class="menu-container">
     <ul class="menu">
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('facturas.index')}}">Facturas</a>
         </li>
         @endif
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))        <li>
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))        <li>
             <a href="{{route('elementos.index')}}">Elementos</a>
         </li>
         @endif
@@ -55,7 +55,9 @@
             <th>Telefono</th>
             <th>Correo Electronico</th>
             <th>Direccion</th>
+            @if(auth()->user()->hasRole(['superAdmin','administrador'])) 
             <th>Acciones</th>
+            @endif
         </thead>
         <tbody>
             @foreach ($proveedores as $proveedor)
@@ -66,13 +68,14 @@
                     <td>{{$proveedor->telefono}}</td>
                     <td>{{$proveedor->correoElectronico}}</td>
                     <td>{{$proveedor->direccion}}</td>
+                    @if(auth()->user()->hasRole(['superAdmin','administrador'])) 
                     <td>
-                        @if(auth()->user()->hasRole(['superAdmin','admin']))                        <a class="edit-button"
+                        @if(auth()->user()->hasRole(['superAdmin','administrador']))                        <a class="edit-button"
                             href="{{ route('proveedores.edit',$proveedor->idProveedor) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         @endif
-                        @if(auth()->user()->hasRole(['superAdmin','admin']))                        <button title="Eliminar"
+                        @if(auth()->user()->hasRole(['superAdmin']))                        <button title="Eliminar"
                         type="button" class="delete-button"
                         data-id="{{ $proveedor->idProveedor }}"
                         data-tipo="{{$proveedor->nombre}}">
@@ -80,6 +83,7 @@
                         </button>
                         @endif
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

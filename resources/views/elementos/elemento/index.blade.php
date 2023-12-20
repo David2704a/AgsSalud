@@ -18,24 +18,24 @@
 
 <div class="button-container">
     <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
             <a href="{{route('elementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Elemento</a>
         @endif
 
 </div>
 <div class="menu-container">
     <ul class="menu">
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
         @endif
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('facturas.index')}}">Facturas</a>
         </li>
         @endif
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('tipoElementos.index')}}">Tipo elemento</a>
         </li>
@@ -81,7 +81,9 @@
             <th>Categoria</th>
             <th>N° Factura</th>
             <th>Asignado A:</th>
+            @if(auth()->user()->hasRole(['superAdmin','administrador'])) 
             <th>Acciones</th>
+            @endif
         </thead>
         <tbody>
             @foreach ($elementos as $elemento)
@@ -104,6 +106,7 @@
                     <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
                     <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
 
+                    @if(auth()->user()->hasRole(['superAdmin','administrador'])) 
                     <td>
                         @if(auth()->user()->hasRole(['superAdmin','administrador']))
                         <a class="edit-button" title="Editar"
@@ -111,7 +114,7 @@
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         @endif
-                        @if(auth()->user()->hasRole('superAdmin','administrador'))
+                        @if(auth()->user()->hasRole('superAdmin'))
                         <button type="button" class="delete-button" title="Eliminar"
                         data-id="{{ $elemento->idElemento }}"
                          data-name="{{ $elemento->modelo }}">
@@ -120,6 +123,7 @@
                         </button>
                         @endif
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

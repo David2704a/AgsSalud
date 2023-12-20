@@ -18,20 +18,20 @@
 
 <div class="button-container">
     <a href="/procedimiento" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
-    <a href="{{route('createTipoP')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de Procedimiento</a>
+    @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
+        <a href="{{route('createTipoP')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de Procedimiento</a>
     @endif
 </div>
 
 
 <div class="menu-container">
     <ul class="menu">
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('mostrarProcedimiento')}}">Procedimiento</a>
         </li>
         @endif
-        @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('mostrarEstadoP')}}">Estado de Procedimiento</a>
         </li>
@@ -62,9 +62,11 @@
             <th>
                 Descripcion
             </th>
+            @if(auth()->user()->hasRole(['superAdmin','administador']))
             <th>
                 Acciones
             </th>
+            @endif
         </thead>
         <tbody>
             @foreach ($tipoProcedimiento as $tipoProcedimientos)
@@ -78,8 +80,9 @@
                     <td>
                         {{$tipoProcedimientos->descripcion}}
                     </td>
+                    @if(auth()->user()->hasRole(['superAdmin','administador']))
                     <td>
-                        @if(auth()->user()->hasRole(['superAdmin','admin']))
+                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
                         <a
                             class="edit-button"
                             href="{{ route('editTipoP',
@@ -87,7 +90,7 @@
                             title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         @endif
-                        @if(auth()->user()->hasRole(['superAdmin','admin']))
+                        @if(auth()->user()->hasRole(['superAdmin']))
                         <button
                             type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $tipoProcedimientos->idTipoProcedimiento }}"
@@ -101,8 +104,7 @@
                         </button>
                         @endif
                     </td>
-
-                    </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

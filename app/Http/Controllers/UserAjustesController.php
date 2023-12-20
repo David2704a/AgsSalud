@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserAjustesController extends Controller
 {
@@ -60,6 +61,7 @@ class UserAjustesController extends Controller
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
             ]);
+
     
             return redirect()->route('ActualizarPerfil', ['id' => $user->id])->with('success', 'Perfil actualizado correctamente.');
         } catch (\Exception $e) {
@@ -72,26 +74,35 @@ class UserAjustesController extends Controller
 
     public function actualizarperfilderegistrouser(Request $request, $id)
     {
-    $rta = User::where('id',$id)
-    ->update([
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-        'updated_at' => Carbon::now(),
-    ]);
-    
-    $nombreC = explode(' ',$request->input('name'));
-    
-    $rta = Persona::where('id',$id)
-    ->update([
-        'nombre1' => isset($nombreC[0]) ? $nombreC[0] : NULL,
-        'nombre2' => isset($nombreC[1]) ? $nombreC[1] : NULL,
-        'apellido1' => isset($nombreC[2]) ? $nombreC[2] : NULL,
-        'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
-        'updated_at' => Carbon::now(),
-    ]);
-    return redirect()->route('usuarios.edit', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
-    
+        // Actualizar datos del usuario
+        User::where('id', $id)
+            ->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'updated_at' => Carbon::now(),
+            ]);
+
+        // Actualizar datos de la persona
+        $nombreC = explode(' ', $request->input('name'));
+        Persona::where('id', $id)
+            ->update([
+                'nombre1' => isset($nombreC[0]) ? $nombreC[0] : NULL,
+                'nombre2' => isset($nombreC[1]) ? $nombreC[1] : NULL,
+                'apellido1' => isset($nombreC[2]) ? $nombreC[2] : NULL,
+                'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
+                'updated_at' => Carbon::now(),
+            ]);
+
+        // Obtener el usuario actualizado
+        $user = User::find($id);
+
+        // Sincronizar los roles del usuario con los roles seleccionados
+        $roles = $request->input('role');
+        $user->syncRoles($roles);
+
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
     }
+
     
     
 
@@ -106,11 +117,12 @@ class UserAjustesController extends Controller
     public function actualizarUsuarioVista($id)
     {
         $usuario = User::find($id);
+        $roles = Role::all();
 
         if (!$usuario) {
             return redirect()->route("users.index")->with('error', 'Usuario no encontrado');
         }
 
-        return view("usuarios.edit", compact("usuario"));
+        return view("usuarios.edit", compact('usuario','roles'));
     }
 }

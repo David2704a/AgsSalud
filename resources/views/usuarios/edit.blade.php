@@ -36,6 +36,14 @@
             <input type="text" name="email" id="email" value="{{ $usuario->email }}">
             <br>
 
+            <label for="role">Asignar Rol</label>
+            <select class="input" name="role[]" required>
+                <option value="">Selecccione una Opcion</option>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                    @endforeach
+            </select>
+
             <!-- Agrega los campos adicionales que desees editar para el usuario -->
 
             <div class="button-container">

@@ -18,7 +18,7 @@
             <a href="/dashboard" class="button-izquierda arrow-left">
                 <i class="fa-solid fa-circle-arrow-left"></i> Regresar
             </a>
-            <a href="{{ route('register') }}" class="button-derecha">
+            <a href="{{ route('auth.register') }}" class="button-derecha">
                 <i class="fas fa-file"></i> Nuevo usuario
             </a>
         </div>
@@ -58,7 +58,10 @@
                                 Correo
                             </th>
                             <th>
-                                Contraseña
+                                Rol
+                            </th>
+                            <th>
+                                Acciones
                             </th>
                         </thead>
                         <tbody>
@@ -68,16 +71,25 @@
                                     <td>{{ $usuario->name }}</td>
                                     <td>{{ $usuario->email }}</td>
                                     <td>
+                                        @foreach ($usuario->roles as $rol)
+                                            {{ $rol->name }}
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @if(auth()->user()->hasRole(['superAdmin','administador']))
                                         <a class="edit-button" method="POST"
                                             href="{{ route('usuarios.edit', ['id' => $usuario->id]) }}"
                                             title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                                         </a>
+                                        @endif
 
+                                        @if(auth()->user()->hasRole(['superAdmin']))
                                         <button type="button" class="delete-button" title="Eliminar"
                                             data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}">
                                             <i data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}"
                                                 class="fas fa-trash-alt"></i>
                                         </button>
+                                        @endif
                                     </td>
                                 </tr> 
                             @endforeach

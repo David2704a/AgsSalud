@@ -22,7 +22,7 @@
 
         <div class="button-container">
             <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-            @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+            @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
             <a href="{{ route('createProcedimiento') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
                 procedimiento</a>
             @endif
@@ -30,12 +30,12 @@
 
         <div class="menu-containers">
             <ul class="menu">
-                @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
                 <li>
                     <a href="{{ route('mostrarEstadoP') }}">Estado de Procedimiento</a>
                 </li>
                 @endif
-                @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
+                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
                 <li>
                     <a href="{{ route('mostrarTipoP') }}">Tipo de Procedimiento</a>
                 </li>
@@ -119,14 +119,15 @@
                                 <td>
                                     {{ $procedimientos->tipoProcedimiento->tipo }}
                                 </td>
+                                @if(auth()->user()->hasRole(['superAdmin','administador']))
                                 <td>
-                                    @if(auth()->user()->hasRole(['superAdmin','admin']))
+                                    @if(auth()->user()->hasRole(['superAdmin','administador']))
                                     <a class="edit-button"
                                         href="{{ route('editProcedimiento', $procedimientos->idProcedimiento) }}">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     @endif
-                                    @if(auth()->user()->hasRole(['superAdmin','admin']))
+                                    @if(auth()->user()->hasRole(['superAdmin']))
                                     <button type="button" class="delete-button"
                                         data-id="{{ $procedimientos->idProcedimiento }}"
                                         data-name="{{ $procedimientos->elemento->modelo }}
@@ -141,6 +142,7 @@
                                     </button>
                                     @endif
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

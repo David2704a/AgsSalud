@@ -48,36 +48,15 @@ use Illuminate\Support\Facades\Auth;
             <div class="card-body">
                 <form id="updateProfileForm" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
-                    <div class="mb-3">
-                        <h4>{{ Auth::user()->name }}</h4>
-                    </div>
 
                     <div class="mb-3">
                         <label class="col-lg-8 control-label" for="name">Nombre de Usuario</label>
                         <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control">
                     </div>
-                </div>
-                <div>
-                    <div class="form-group ">
-                        <label for="name">correo</label>
-                        <input style="align:center" type="email" name="email"
-                            value="{{ Auth::user()->email}}" class="form-control">
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="row text-center mb-4 mt-5">
-                    <div class="cold-md-12">
-                        @if(auth()->user()->hasRole(['superAdmin','admin']))
-                        <button type="submit" href="{{ route('editarPerfiluser', ['id' => Auth::user()->id]) }}" class=" btn btn-danger" id="formSubmit">Guardar cambios</button>
-                        @endif
-                        <a href="{{ route('personas.update', ['id' => Auth::user()->id]) }}" class="btn btn-primary">Actualizar Información</a>
-                </div>
-            </form>
-
+                    
                     <div class="mb-3">
                         <label for="name">Correo</label>
-                        <input style="align:center" type="email" name="email" value="{{ Auth::user()->email }}" class="form-control">
+                        <input style="margin-top: 15px;" type="email" name="email" value="{{ Auth::user()->email }}" class="form-control">
                     </div>
 
                     <br>
@@ -85,8 +64,9 @@ use Illuminate\Support\Facades\Auth;
 
                     <div class="row text-center mb-4 mt-5">
                         <div class="col-md-12">
+                            @if(auth()->user()->hasRole(['superAdmin','admin']))
                             <button type="submit" class="btn btn-danger" href="{{ route('ActualizarPerfil') }}">Guardar cambios</button>
-
+                            @endif
                             <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }} class="btn btn-primary">Actualizar Información</button>
                         </div>
                     </div>

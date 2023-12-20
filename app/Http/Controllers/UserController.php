@@ -19,6 +19,10 @@ class UserController extends Controller
         return view ('usuarios.index', compact('users'));
     }
 
+
+
+
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -82,9 +86,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         $users = User::find($id)->delete();
-        return redirect()->route('usuarios.index')
+        return redirect()->route('users.index')
         ->with('success', 'usuario deleted successfully');
     }
 
-    
+
+
+
+     public function showRegistrationForm()
+    {
+        $roles = Role::all();
+        return view('usuarios.register',compact('roles'));
+    }
+
 }

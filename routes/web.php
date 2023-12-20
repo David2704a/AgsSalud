@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\almacenadoTmpController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElementoController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -116,13 +117,22 @@ Route::post('/actualizar-perfil/{id}', [UserAjustesController::class, 'actualiza
 // redirecciona persona.edit vista
 Route::get('/editar/{id}', [PersonaController::class, 'edit'])->name('editarPerfil');
 
-// actualiazr datos de persona
-// Route::put('/personas/{id}', [App\Http\Controllers\PersonaController::class, 'update'])->name('personas.update');
-
-// Route::get('/editar/{id}', [UserAjustesController::class, 'perfil'])->name('editarPerfil');
 
 
 
+Route::get('register/vista', [UserController::class, 'showRegistrationForm'])->name('auth.register');
+
+
+Route::post('register/create', [RegisteredUserController::class, 'register'])->name('register.create');
+
+
+
+Route::post('register', [RegisteredUserController::class, 'register'])
+    ->middleware('guest');
+
+
+
+    
 
 
 
@@ -181,6 +191,7 @@ Route::get('/editar/{id}', [PersonaController::class, 'edit'])->name('editarPerf
 
 
 });
+
 
 Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.update');
 

@@ -1883,7 +1883,7 @@ END
 
 -- si funciona para todo producto final ADDBEGIN
 
- 
+BEGIN 
 INSERT INTO proveedor (nombre)
     SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
     WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
@@ -2129,3 +2129,4 @@ END
 
 
 
+-
