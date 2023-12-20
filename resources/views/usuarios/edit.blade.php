@@ -37,7 +37,7 @@
     </div>
 @endif
 
-    <form class="form" action="{{ route('editarPerfiluser', ['id' => $usuario->id]) }}" method="POST">
+    <form class="form" action="{{ route('editarPerfilusersR', ['id' => $usuario->id]) }}" method="POST">
         @csrf
         @method('PUT')
 

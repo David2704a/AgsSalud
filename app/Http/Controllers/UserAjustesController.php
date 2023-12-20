@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserAjustesController extends Controller
@@ -27,7 +28,7 @@ class UserAjustesController extends Controller
 
     public function actualizar(Request $request, $id)
     {
-        dd($request->all());
+        
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -60,23 +61,11 @@ class UserAjustesController extends Controller
             ]);
     
             // Actualizar datos del usuario
-
-            if (auth()->user()->hasRole(['superAdmin','administrador'])) {
-                # code...
-                $user->update([ 
-                    'name' => $request->input('name'),
-                    'email' => $request->input('email'),
-                    'password' => $request->input('password'),
-                ]);
-                
-            }
-            else {
-                # code...
-                $user->update([
-                    'name' => $request->input('name'),
-                    'email' => $request->input('email'),
-                ]);
-            }
+            $user->update([ 
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+               
+            ]);
 
 
     
@@ -91,14 +80,59 @@ class UserAjustesController extends Controller
 
     public function actualizarperfilderegistrouser(Request $request, $id)
     {
+        
+    // try {
 
-        // Actualizar datos del usuario
-        User::where('id', $id)
-            ->update([
+        if (auth()->user()->hasRole(['superAdmin','administrador'])) {
+            $user = User::find($id);
+
+            $user->update([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
-                'updated_at' => Carbon::now(),
+                
+                'password' => Hash::make($request->input('password')), 
             ]);
+           $act = DB::table('model_has_roles')->select('model_id')->where('model_id',$id)->first();
+
+
+                if( isset($act)){
+        
+                    $roles = $request->input('role');
+                    $user->syncRoles($roles);
+                
+                    }
+                    else{
+                     
+            $idRol=DB::table('roles')->select('id')->where('name',$request->input('role')[0])->first();
+                    DB::table('model_has_roles')->
+                insert([[
+                    'role_id' => $idRol->id,
+                    'model_type' => 'App\Models\User',
+                    'model_id' => $id
+                ]
+                ]);
+
+
+
+
+            //     $idRol= $request->input('role');
+            //     DB::table('model_has_roles')->
+            // insert([[
+            //     'role_id' => $idRol[0],
+            //     'model_type' => 'App\Models\User',
+            //     'model_id' => $id
+            // ]
+            // ]);
+                
+            }
+
+        }
+        else {
+            User::where('id', $id )->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+            ]);
+        }
 
         // Actualizar datos de la persona
         $nombreC = explode(' ', $request->input('name'));
@@ -110,15 +144,14 @@ class UserAjustesController extends Controller
                 'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
                 'updated_at' => Carbon::now(),
             ]);
-
-        // Obtener el usuario actualizado
-        $user = User::find($id);
-
-        // Sincronizar los roles del usuario con los roles seleccionados
-        $roles = $request->input('role');
-        $user->syncRoles($roles);
+         
 
         return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+
+    // } catch (\Throwable $th) {
+    //     return $th->getCode();
+    // }
+
     }
 
     

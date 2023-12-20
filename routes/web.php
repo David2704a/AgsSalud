@@ -93,9 +93,8 @@ Route::middleware('auth')->group(function () {
     Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil'])->name('perfil');
 
 
-    // usereditar
-    Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizar'])->name('editarPerfiluser');
-
+    // usereditar 
+    Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizarperfilderegistrouser'])->name('editarPerfilusersR');
 
     // usuarios
     Route::resource('usuarios', App\Http\Controllers\Usercontroller::class);
@@ -112,6 +111,8 @@ Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Mip
 
     // Ruta para procesar el formulario de actualización
 Route::post('/actualizar-perfil/{id}', [UserAjustesController::class, 'actualizar'])->name('Actualizar');
+
+
 
 
 // redirecciona persona.edit vista
