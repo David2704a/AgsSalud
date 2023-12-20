@@ -47,7 +47,7 @@
         <div class="circle-button btn-background-circle">
             <img style="width: 87px;" src="{{asset('img/categoria.png')}}" alt="alo">
         </div>
-        <span>Categoria</span>
+        <span>CATEGORIAS</span>
     </a>
     @endif
     
@@ -58,7 +58,7 @@
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
         </div>
-        <span>Reportes</span>
+        <span>REPORTES</span>
     </a>
     @endif
 
@@ -68,7 +68,7 @@
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/users.svg')}}" alt="alo">
         </div>
-        <span>Usuarios</span>
+        <span>USUARIOS</span>
     </a>
     @endif
 
