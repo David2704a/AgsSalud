@@ -37,7 +37,7 @@
     </div>
 @endif
 
-    <form class="form" action="{{ route('editarPerfilusersR', ['id' => $usuario->id]) }}" method="POST">
+    <form class="form" action="{{ route('editarPerfiluser', ['id' => $usuario->id]) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -57,6 +57,13 @@
                         <option value="{{ $role->name }}">{{ $role->name }}</option>
                     @endforeach
             </select>
+
+            <br>
+    
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" value="{{ old('password') }}">
+            <br>
+
 
             <!-- Agrega los campos adicionales que desees editar para el usuario -->
 

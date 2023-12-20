@@ -27,11 +27,14 @@ class UserAjustesController extends Controller
 
     public function actualizar(Request $request, $id)
     {
+        dd($request->all());
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
         ]);
-    
+
+
         $user = User::find($id);
     
         if (!$user) {
@@ -57,10 +60,24 @@ class UserAjustesController extends Controller
             ]);
     
             // Actualizar datos del usuario
-            $user->update([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-            ]);
+
+            if (auth()->user()->hasRole(['superAdmin','administrador'])) {
+                # code...
+                $user->update([ 
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => $request->input('password'),
+                ]);
+                
+            }
+            else {
+                # code...
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                ]);
+            }
+
 
     
             return redirect()->route('ActualizarPerfil', ['id' => $user->id])->with('success', 'Perfil actualizado correctamente.');
@@ -74,6 +91,7 @@ class UserAjustesController extends Controller
 
     public function actualizarperfilderegistrouser(Request $request, $id)
     {
+
         // Actualizar datos del usuario
         User::where('id', $id)
             ->update([

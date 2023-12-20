@@ -94,7 +94,7 @@ Route::middleware('auth')->group(function () {
 
 
     // usereditar
-    Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
+    Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizar'])->name('editarPerfiluser');
 
 
     // usuarios
