@@ -64,22 +64,15 @@ Route::get('register/vista', [UserController::class, 'showRegistrationForm'])->n
 
 Route::post('register/create', [RegisteredUserController::class, 'register'])->name('register.create');
 
-
-
 Route::post('register', [RegisteredUserController::class, 'register'])
     ->middleware('guest');
-
-
-
-
-
-
 
     Route::get('/usuariosBuscar', [UserController::class, 'buscar'])->name('usuarios.search');
     Route::get('/categoriaBuscar', [CategoriaController::class, 'buscarCategorias'])->name('categorias.search');
 
 
     
+
 
 });
 
