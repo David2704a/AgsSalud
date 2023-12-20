@@ -13,6 +13,7 @@ use App\Models\User;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class InformesController extends Controller
 {
@@ -35,47 +36,78 @@ class InformesController extends Controller
 
 
 
+    public function filtrarTablaElementos(Request $request) {
+        $query = Elemento::query();
 
-//     public function filtrar(Request $request)
-// {
-//     // Obtén los datos de los filtros desde la solicitud
-//     $idResponsableEntrega = $request->input('idResponsableEntrega');
-//     $idResponsableRecibe = $request->input('idResponsableRecibe');
-//     $fechaInicio = $request->input('fechaInicio');
-//     $fechaFin = $request->input('fechaFin');
-//     $idProcedimiento = $request->input('idProcedimiento');
+        // Aplicar filtros si existen
+        if ($request->filled('idTipoProcedimiento')) {
+            $query->whereHas('procedimiento.tipoProcedimiento', function ($q) use ($request) {
+                $q->where('idTipoProcedimiento', $request->input('idTipoProcedimiento'));
+            });
+        }
 
-//     // Inicia la consulta con el modelo correspondiente
-//     $query = Procedimiento::query();
+        if ($request->filled('idEstadoEquipo')) {
+            $query->whereHas('estado', function ($q) use ($request) {
+                $q->where('idEstadoE', $request->input('idEstadoEquipo'));
+            });
+        }
 
-//     // Aplica los filtros según los valores recibidos
-//     if ($idResponsableEntrega) {
-//         $query->where('idResponsableEntrega', $idResponsableEntrega);
-//     }
+        if ($request->filled('idTipoElemento')) {
+            $query->whereHas('tipoElemento', function ($q) use ($request) {
+                $q->where('idTipoElemento', $request->input('idTipoElemento'));
+            });
+        }
 
-//     if ($idResponsableRecibe) {
-//         $query->where('idResponsableRecibe', $idResponsableRecibe);
-//     }
+        if ($request->filled('idCategoria')) {
+            $query->whereHas('categoria', function ($q) use ($request) {
+                $q->where('idCategoria', $request->input('idCategoria'));
+            });
+        }
 
-//     if ($fechaInicio) {
-//         $query->whereDate('fechaInicio', '>=', $fechaInicio);
-//     }
+        if ($request->filled('idElemento')) {
+            $query->where('idElemento', $request->input('idElemento'));
+        }
 
-//     if ($fechaFin) {
-//         $query->whereDate('fechaFin', '<=', $fechaFin);
-//     }
+        // Obtener resultados paginados
+        $elementos = $query->paginate(10);
 
-//     if ($idProcedimiento) {
-//         $query->where('idProcedimiento', $idProcedimiento);
-//     }
-
-//     // Ejecuta la consulta
-//     $resultados = $query->get();
-
-//     // Devuelve los resultados, puedes retornar una vista o en formato JSON según tus necesidades
-//     return response()->json(['resultados' => $resultados]);
-// }
+        // Devolver la vista parcial con los resultados
+        return view('reportes.partial.resultado', compact('elementos'));
+    }
 
 
+    public function filtrarTablaPrestamos(Request $request)
+    {
+
+        $query = Procedimiento::query();
+
+
+        if ($request->filled('idResponsableEntrega')) {
+            $query->whereHas('responsableEntrega', function ($q) use ($request) {
+                $q->where('id', $request->input('idResponsableEntrega'));
+            });
+        }
+
+        if ($request->filled('idResponsableRecibe')) {
+            $query->whereHas('responsableRecibe', function ($q) use ($request) {
+                $q->where('id', $request->input('idResponsableRecibe'));
+            });
+        }
+
+        if ($request->filled('idProcedimiento')) {
+            $query->where('idProcedimiento', $request->input('idProcedimiento'));
+        }
+
+        if ($request->filled('fechaInicio')) {
+            $query->where('fechaInicio', $request->input('fechaInicio'));
+        }
+
+        if ($request->filled('fechaFin')) {
+            $query->where('fechaFin', $request->input('fechaFin'));
+        }
+
+        $procedimientos = $query->paginate(10);
+        return view('reportes.partial.resultadoP', compact('procedimientos'));
+    }
 
 }

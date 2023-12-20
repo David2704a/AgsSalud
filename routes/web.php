@@ -132,10 +132,11 @@ Route::post('register', [RegisteredUserController::class, 'register'])
     Route::get('/categoriaBuscar', [CategoriaController::class, 'buscarCategorias'])->name('categorias.search');
 
 
-    
 
 
-Route::get('/reportes/filtro', [InformesController::class, 'filtrar']);
+
+Route::get('/reportes/filtro', [InformesController::class, 'filtrarTablaElementos']);
+Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestamos']);
 
 
 
