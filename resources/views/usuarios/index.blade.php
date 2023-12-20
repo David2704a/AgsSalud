@@ -64,14 +64,14 @@
                                         @endforeach
                                     </td>
                                     <td>
-                                        @if(auth()->user()->hasRole(['superAdmin','administador']))
+                                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
                                             <a class="edit-button" method="POST"
                                                 href="{{ route('usuarios.edit', ['id' => $usuario->id]) }}"
                                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                         @endif
 
-                                        @if(auth()->user()->hasRole(['superAdmin']))
+                                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
                                             <button type="button" class="delete-button" title="Eliminar"
                                                 data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}">
                                                 <i data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}"
