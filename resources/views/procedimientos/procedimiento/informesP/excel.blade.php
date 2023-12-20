@@ -9,6 +9,7 @@
         <tr></tr>
         <tr></tr>
         <tr>
+            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ID</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>FECHA DE PRESTAMO</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>DISPOSITIVO</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>CANTIDAD</b></th>
@@ -26,6 +27,9 @@
     <tbody>
         @foreach ($procedimientos as $procedimiento)
                 <tr>
+                    <td style="border: 1px solid black;">
+                        {{ $procedimiento->idProcedimiento}}
+                    </td>
                     <td style="border: 1px solid black;">
                         {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica'}}
                     </td>

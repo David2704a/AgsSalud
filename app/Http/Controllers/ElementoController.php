@@ -128,6 +128,7 @@ class ElementoController extends Controller
             'idTipoElemento' => $request->input('idTipoElemento', null),
             'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
             'idCategoria' => $request->input('idCategoria', null),
+            'idElemento' => $request->input('idElemento', null),
 
             // Agrega más filtros según sea necesario
         ];

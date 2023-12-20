@@ -86,6 +86,11 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label for="idElemento">ID Elemento</label>
+                        <input type="text" name="idElemento" id="idElemento">
+                    </div>
+
 
 
 
@@ -117,24 +122,24 @@
                         <tbody>
                             @foreach ($elementos as $elemento)
                                 <tr>
-                                    <td>{{$elemento->idElemento ? $elemento->idElemento : 'No aplica'}}</td>
-                                    <td>{{ $elemento->marca ? $elemento->marca : 'No aplica' }}</td>
-                                    <td>{{ $elemento->referencia ? $elemento->referencia : 'No aplica' }}</td>
-                                    <td>{{ $elemento->serial ? $elemento->serial : 'No aplica' }}</td>
-                                    <td>{{ $elemento->procesador ? $elemento->procesador : 'No aplica'}}</td>
-                                    <td>{{ $elemento->ram ? $elemento->ram : 'No aplica'}}</td>
-                                    <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'No aplica'}}</td>
-                                    <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'No aplica'}}</td>
-                                    <td>{{ $elemento->modelo ? $elemento->modelo : 'No aplica' }}</td>
-                                    <td>{{ $elemento->garantia ? $elemento->garantia : 'No aplica' }}</td>
-                                    <td>{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
-                                    <td>{{ $elemento->estado->estado ?? 'No aplica' }}</td>
-                                    <td>{{ $elemento->tipoElemento->tipo ?? 'No aplica' }}</td>
-                                    <td>{{ $elemento->procedimiento->tipoProcedimiento->tipo ?? 'No aplica'}}</td>
-                                    <td>{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
-                                    <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
-                                    <td>{{ $elemento->factura->proveedor->nombre ?? 'No aplica'}}</td>
-                                    <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1 ?? 'No aplica'}}</td>
+                                    <td>{{$elemento->idElemento ? $elemento->idElemento : 'NO APLICA'}}</td>
+                                    <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->procesador ? $elemento->procesador : 'NO APLICA'}}</td>
+                                    <td>{{ $elemento->ram ? $elemento->ram : 'NO APLICA'}}</td>
+                                    <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'NO APLICA'}}</td>
+                                    <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'NO APLICA'}}</td>
+                                    <td>{{ $elemento->modelo ? $elemento->modelo : 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->garantia ? $elemento->garantia : 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->descripcion ? $elemento->descripcion : 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->estado->estado ?? 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->tipoElemento->tipo ?? 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->procedimiento->tipoProcedimiento->tipo ?? 'NO APLICA'}}</td>
+                                    <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
+                                    <td>{{ $elemento->factura->proveedor->nombre ?? 'NO APLICA'}}</td>
+                                    <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }} {{ $elemento->user->persona->apellido1 ?? 'NO APLICA'}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -208,6 +213,11 @@
                         <input type="date" name="fechaFin" id="fechaFin">
                     </div>
 
+                    <div class="form-group">
+                        <label for="idProcedimiento">ID Procedimiento</label>
+                        <input type="text" name="idProcedimiento" id="idProcedimiento">
+                    </div>
+
 
                 </div>
 
@@ -218,6 +228,7 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>FECHA DE PRESTAMO</th>
                                 <th>DISPOSITIV</th>
                                 <th>CANTIDAD</th>
@@ -236,8 +247,11 @@
                 @foreach ($procedimientos as $procedimiento)
                 @if ($procedimiento->idTipoProcedimiento == 3)
                     <tr>
+                        <td>
+                            {{ $procedimiento->idProcedimiento}}
+                        </td>
                         <td style="border: 1px solid black;">
-                            {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica'}}
+                            {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'NO APLICA'}}
                         </td>
                         <td style="border: 1px solid black;">
                             {{ $procedimiento->elemento->categoria->nombre }}
@@ -252,20 +266,20 @@
                             {{ $procedimiento->elemento->estado->estado}}
                         </td>
                         <td style="border: 1px solid black;">
-                            {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
+                            {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'NO APLICA' }}
                         </td>
                         <td style="border: 1px solid black;">
-                            {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
+                            {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'NO APLICA' }}
                         </td>
                         <td style="border: 1px solid black;">
-                            {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'No aplica' }}
+                            {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'NO APLICA' }}
                         </td>
 
                         <td style="border: 1px solid black;">
-                            {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
+                            {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'NO APLICA' }}
                         </td>
                         <td style="border: 1px solid black;">
-                            {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
+                            {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'NO APLICA' }}
                         </td>
                         <td style="border: 1px solid black;">
                             {{ $procedimiento->observacion }}
