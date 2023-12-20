@@ -35,7 +35,7 @@
     @if(auth()->user()->hasRole(['superAdmin','administrador','colaborador','tecnico']))
     <a href="/elementos" title="Elementos" class="button-link">
         <div class="circle-button btn-background-circle">
-            <img src="{{asset('imgs/icons/elemento.png')}}" alt="alo">
+            <img src="{{asset('imgs/icons/elemento.svg')}}" alt="alo">
         </div>
         <span>ELEMENTOS</span>
     </a>
@@ -66,7 +66,7 @@
 
     <a href="/usuarios" class="button-link">
         <div class="circle-button btn-background-circle">
-            <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
+            <img src="{{asset('imgs/icons/users.svg')}}" alt="alo">
         </div>
         <span>Usuarios</span>
     </a>
