@@ -95,18 +95,95 @@ class ElementoController extends Controller
             return $numeroEquipo;
         }
 
-        if ($categoria ==  3) {
+        if ($categoria == 3) {
             $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.P'%"]])
+                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'TCL'%"]])
+                ->orderBy('id_dispo','DESC')
+                ->first();
+                
+            $numeroEquipo = null;
+        
+            if (isset($ultimoId->id_dispo)) {
+                $numeroEquipoArray = explode("900237674'7'TCL'", $ultimoId->id_dispo);
+        
+                // Verifica si el array resultante tiene al menos 2 elementos antes de acceder a [1]
+                if (count($numeroEquipoArray) >= 2) {
+                    $numeroEquipo = $numeroEquipoArray[1];
+                }
+            }
+        
+            if ($numeroEquipo === null) {
+                $numeroEquipo = "900237674'7'TCL'". 1;
+            } else {
+                $numeroEquipo = "900237674'7'TCL'".($numeroEquipo + 1);
+            }
+        
+            return $numeroEquipo;
+        }
+
+        if ($categoria ==  2) {
+            $ultimoId = Elemento::select('id_dispo')
+                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MS'%"]])
                 ->orderBy('id_dispo','DESC')
                 ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7''",$ultimoId->id_dispo)[1] : null;
+            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MS'",$ultimoId->id_dispo)[1] : null;
 
             if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'E.P'". 1;
+                $numeroEquipo = "900237674'7'MS'". 1;
             } else {
-                $numeroEquipo = "900237674'7'E.P'".($numeroEquipo + 1);
+                $numeroEquipo = "900237674'7'MS'".($numeroEquipo + 1);
+            }
+
+            return $numeroEquipo;
+        }
+
+        if ($categoria ==  4) {
+            $ultimoId = Elemento::select('id_dispo')
+                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MNT'%"]])
+                ->orderBy('id_dispo','DESC')
+                ->first();
+
+            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MNT'",$ultimoId->id_dispo)[1] : null;
+
+            if ($numeroEquipo === null) {
+                $numeroEquipo = "900237674'7'MNT'". 1;
+            } else {
+                $numeroEquipo = "900237674'7'MNT'".($numeroEquipo + 1);
+            }
+
+            return $numeroEquipo;
+        }
+
+        if ($categoria ==  6) {
+            $ultimoId = Elemento::select('id_dispo')
+                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'C'E'%"]])
+                ->orderBy('id_dispo','DESC')
+                ->first();
+
+            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'C'E'",$ultimoId->id_dispo)[1] : null;
+
+            if ($numeroEquipo === null) {
+                $numeroEquipo = "900237674'7'C'E'". 1;
+            } else {
+                $numeroEquipo = "900237674'7'C'E'".($numeroEquipo + 1);
+            }
+
+            return $numeroEquipo;
+        }
+
+        if ($categoria ==  8) {
+            $ultimoId = Elemento::select('id_dispo')
+                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.T.U'%"]])
+                ->orderBy('id_dispo','DESC')
+                ->first();
+
+            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.T.U'",$ultimoId->id_dispo)[1] : null;
+
+            if ($numeroEquipo === null) {
+                $numeroEquipo = "900237674'7'E.T.U'". 1;
+            } else {
+                $numeroEquipo = "900237674'7'E.T.U'".($numeroEquipo + 1);
             }
 
             return $numeroEquipo;
