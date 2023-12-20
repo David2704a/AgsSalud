@@ -32,15 +32,21 @@ BUTTONS
 ================================================================
 
 */
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Otra opción es usar justify-content: space-between; según tus necesidades */
+}
+
 
 .button-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(50px, auto);
-    gap: 50px 160px;
+    gap: 100px; /* Ajusta este valor según sea necesario */
     justify-content: center;
     align-content: start;
-    margin: 6rem 50%;
+    margin: 6rem auto; /* En lugar de 50%, usa auto para centrar */
 }
 
 .circle-button img {
@@ -55,6 +61,7 @@ BUTTONS
 }
 
 .circle-button {
+    z-index: -100;
     width: 10rem;
     height: 10rem;
     border: 4px solid #333C7B;
@@ -132,9 +139,8 @@ FOOTER
     align-items: center;
     background-color: #f3f3f3;
     color: #fff;
-    position: absolute;
-    bottom: 0;
 }
+
 
 
 .separator {
@@ -189,4 +195,16 @@ FOOTER
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+
+@media (max-width: 980px) {
+    .button-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 760px) {
+    .button-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

@@ -6,6 +6,9 @@
 
 @section('links')
     <link rel="stylesheet" href="{{ asset('css/reportes/index.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
 @endsection
 
 <div class="container">
@@ -41,8 +44,8 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="tipoProcedimiento">Seleccionar Procedimiento:</label>
-                        <select name="idTipoProcedimiento" id="tipoProcedimiento">
+                        <label for="idTipoProcedimiento">Seleccionar Procedimiento:</label>
+                        <select name="idTipoProcedimiento" id="idTipoProcedimiento">
                             <option value="">Todos los Procedimientos</option>
                             @foreach ($tipoProcedimientos as $tipoProcedimiento)
                             <option value="{{$tipoProcedimiento->idTipoProcedimiento}}">{{$tipoProcedimiento->tipo}}</option>
@@ -52,8 +55,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="estadoEquipo">Seleccionar Estado de Equipo:</label>
-                        <select name="idEstadoEquipo" id="estadoEquipo" class="form-control">
+                        <label for="idEstadoEquipo">Seleccionar Estado de Equipo:</label>
+                        <select name="idEstadoEquipo" id="idEstadoEquipo" class="form-control">
                             <option value="">Todos los Estados</option>
                             @foreach ($estadosElementos as $estadoEquipo)
                                 <option value="{{ $estadoEquipo->idEstadoE }}">{{ $estadoEquipo->estado }}</option>
@@ -77,8 +80,8 @@
 
 
                     <div class="form-group">
-                        <label for="categoria">Seleccionar una Categoria:</label>
-                        <select name="idCategoria" id="categoria" class="form-control">
+                        <label for="idCategoria">Seleccionar una Categoria:</label>
+                        <select name="idCategoria" id="idCategoria" class="form-control">
                             <option value="">Todos las Categorias</option>
                             @foreach ($categorias as $categoria)
                                 <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre }}</option>
@@ -88,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="idElemento">ID Elemento</label>
-                        <input type="text" name="idElemento" id="idElemento">
+                        <input type="number" name="idElemento" id="idElemento">
                     </div>
 
 
@@ -98,7 +101,7 @@
 
 
                 <div class="table">
-                    <table>
+                    <table id="miTabla">
                         <thead>
                             <th>ID</th>
                             <th>Marca</th>
@@ -121,7 +124,14 @@
                         </thead>
                         <tbody>
                             @foreach ($elementos as $elemento)
-                                <tr>
+                                <tr
+                                data-idtipoprocedimiento="{{ $elemento->procedimiento && $elemento->procedimiento->tipoProcedimiento ? $elemento->procedimiento->tipoProcedimiento->idTipoProcedimiento : '' }}"
+                                data-idestadoequipo="{{ $elemento->estado ? $elemento->estado->idEstadoE : '' }}"
+                                data-idtipoelemento="{{ $elemento->tipoElemento ? $elemento->tipoElemento->idTipoElemento : ''}}"
+                                data-idcategoria="{{ $elemento->categoria ? $elemento->categoria->idCategoria : '' }}"
+                                data-idelemento="{{ $elemento->idElemento ? $elemento->idElemento : ''}}"
+
+                                >
                                     <td>{{$elemento->idElemento ? $elemento->idElemento : 'NO APLICA'}}</td>
                                     <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
                                     <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
@@ -147,7 +157,9 @@
 
                     </div>
 
-
+                    <div class="pagination">
+                        {{$elementos->links('pagination.custom') }}
+                    </div>
 
                     <div class="Options-Exports-Elementos">
                         <a class="export-button" onclick="OptionsDocumentsElementos()">Exportar Como</a>
@@ -191,8 +203,8 @@
 
 
                     <div class="form-group">
-                        <label for="categoria">Seleccionar Persona:</label>
-                        <select name="idCategoria" id="categoria" class="form-control">
+                        <label for="idResponsableEntrega">Responsable de Entrega:</label>
+                        <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control">
                             <option value="">Todos las Personas</option>
                             @foreach ($usuarios as $usuario)
                                 <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
@@ -200,6 +212,27 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label for="idResponsableRecibe">Responsable que Recibe:</label>
+                        <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control">
+                            <option value="">Todos las Personas</option>
+                            @foreach ($usuarios as $usuario)
+                                <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idProcedimiento">ID Procedimiento</label>
+                        <input type="number" name="idProcedimiento" id="idProcedimiento">
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="form-row">
 
                     <div class="form-group" id="fechaInicioContainer">
                         <label for="fechaInicio">Fecha de Inicio:</label>
@@ -211,24 +244,18 @@
                         <input type="date" name="fechaFin" id="fechaFin">
                     </div>
 
-                    <div class="form-group">
-                        <label for="idProcedimiento">ID Procedimiento</label>
-                        <input type="text" name="idProcedimiento" id="idProcedimiento">
-                    </div>
-
-
                 </div>
 
 
                 <div class="table">
 
-
-                    <table>
+                    @if ($procedimientos->count() > 0)
+                    <table id="miTabla">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>FECHA DE PRESTAMO</th>
-                                <th>DISPOSITIV</th>
+                                <th>DISPOSITIVO</th>
                                 <th>CANTIDAD</th>
                                 <th>CARACTERISTICAS</th>
                                 <th>ESTADO</th>
@@ -244,7 +271,12 @@
 
                 @foreach ($procedimientos as $procedimiento)
                 @if ($procedimiento->idTipoProcedimiento == 3)
-                    <tr>
+                <tr
+                data-idprocedimiento="{{ $procedimiento->idProcedimiento }}"
+                data-fechainicio="{{ $procedimiento->fechaInicio ?: '' }}"
+                data-idresponsableentrega="{{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->id : '' }}"
+                data-idresponsablerecibe="{{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->id : '' }}"
+            >
                         <td>
                             {{ $procedimiento->idProcedimiento}}
                         </td>
@@ -258,7 +290,7 @@
                             1
                         </td>
                         <td style="border: 1px solid black;">
-                            {{ $procedimiento->elemento->idElemento }}
+                            {{ $procedimiento->elemento->modelo }}
                         </td>
                         <td style="border: 1px solid black;">
                             {{ $procedimiento->elemento->estado->estado}}
@@ -288,9 +320,14 @@
                 @endforeach
             </tbody>
         </table>
+        @else
+    <p>No hay procedimientos que cumplan con los criterios de filtro.</p>
+@endif
     </div>
 
-
+    <div class="pagination">
+        {{$procedimientos->links('pagination.custom') }}
+    </div>
 
 
     <div class="Options-Exports-Procedimientos">
@@ -318,6 +355,41 @@
 
 
     </div>
+
+
+
+
+</div>
+
+
+<footer class="footer">
+    <div class="left-images">
+        <div class="column">
+            <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">
+            <img src="{{asset('imgs/logos/ESCUDO COLOMBIA.png')}}" width="45" alt="Imagen 2">
+        </div>
+        <div class="column">
+            <img src="{{asset('imgs/logos/logo_fondo.png')}}" width="130" alt="Imagen 3">
+            <img src="{{asset('imgs/logos/Logo_Enterritorio.png')}}" width="100" alt="Imagen 4">
+        </div>
+    </div>
+    <div class="right-content">
+        <div class="images">
+            <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
+            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
+        </div>
+        <div class="separator"></div>
+        <div class="text">
+            <p>Copyright © 2023 AGS SALUD SAS</p>
+            <p>Todos los derechos Reservados</p>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
 <script>
     // Mostrar u ocultar campos según el tipo de informe seleccionado
     function cambiarContenido(tipoModulo) {
@@ -361,20 +433,6 @@
     }
 
 
-//     function tipoDocumentos($tipoDocumento, event) {
-//     var pdf = document.getElementById('pdf');
-//     var excel = document.getElementById('excel');
-
-//     pdf.classList.add('hidden');
-//     excel.classList.add('hidden');
-
-//     if ($tipoDocumento === 'pdf') {
-//         pdf.classList.remove('hidden');
-//     } else if ($tipoDocumento === 'excel') {
-//         excel.classList.remove('hidden');
-//     }
-// }
-
 function preSubmitAction() {
         // Realiza el filtrado u otras acciones aquí
         console.log('Realizando acción antes del envío del formulario');
@@ -414,6 +472,149 @@ function preSubmitAction() {
         // Completa el formulario y lo envía
         form.submit();
     }
+
+
+    /*
+===================
+PARA EL REPORTE DE PRESTAMOS
+===================
+*/
+
+    document.getElementById('idResponsableEntrega').addEventListener('change', actualizarTabla);
+    document.getElementById('idResponsableRecibe').addEventListener('change', actualizarTabla);
+document.getElementById('fechaInicio').addEventListener('change', actualizarTabla);
+document.getElementById('fechaFin').addEventListener('change', actualizarTabla);
+document.getElementById('idProcedimiento').addEventListener('change', actualizarTabla);
+
+
+
+/*
+===================
+PARA EL REPORTE DE ELEMENTOS
+===================
+*/
+
+document.getElementById('idTipoProcedimiento').addEventListener('change', actualizarTabla);
+document.getElementById('idEstadoEquipo'),addEventListener('change', actualizarTabla);
+document.getElementById('idTipoElemento'),addEventListener('change', actualizarTabla);
+document.getElementById('idCategoria'),addEventListener('change', actualizarTabla);
+document.getElementById('idElemento'),addEventListener('change', actualizarTabla);
+
+// Función para actualizar la tabla
+function actualizarTabla() {
+
+    /*
+===================
+PARA EL REPORTE DE PRESTAMOS
+===================
+*/
+
+    var idResponsableEntrega = document.getElementById('idResponsableEntrega').value;
+    var idResponsableRecibe = document.getElementById('idResponsableRecibe').value;
+    var fechaInicio = document.getElementById('fechaInicio').value;
+    var fechaFin = document.getElementById('fechaFin').value;
+    var idProcedimiento = document.getElementById('idProcedimiento').value;
+
+
+    /*
+===================
+PARA EL REPORTE DE ELEMENTOS
+===================
+*/
+
+var idTipoProcedimiento = document.getElementById('idTipoProcedimiento').value;
+var idEstadoEquipo = document.getElementById('idEstadoEquipo').value;
+var idTipoElemento = document.getElementById('idTipoElemento').value;
+var idCategoria = document.getElementById('idCategoria').value;
+var idElemento = document.getElementById('idElemento').value;
+
+
+
+    // Recorre las filas de la tabla
+    var filas = document.querySelectorAll('#miTabla tbody tr');
+    filas.forEach(function(fila) {
+        var cumpleFiltro = true;
+
+        /*
+===================
+PARA EL REPORTE DE PRESTAMOS
+===================
+*/
+        // Obtén los valores de los atributos y proporciona valores predeterminados si son nulos
+        var idProcedimientoFila = fila.dataset.idprocedimiento || '';
+        var fechaInicioFila = fila.dataset.fechainicio || '';
+        var idResponsableEntregaFila = fila.dataset.idresponsableentrega || '';
+        var idResponsableRecibeFila = fila.dataset.idresponsablerecibe || '';
+
+/*
+===================
+PARA EL REPORTE DE ELEMENTOS
+===================
+*/
+        var idTipoProcedimientoFila = fila.dataset.idtipoprocedimiento || '';
+        var idEstadoEquipoFila = fila.dataset.idestadoequipo || '';
+        var idTipoElementoFila = fila.dataset.idtipoelemento || '';
+        var idCategoriaFila = fila.dataset.idcategoria || '';
+        var idElementoFila = fila.dataset.idelemento || '';
+
+
+/*
+===================
+PARA EL REPORTE DE PRESTAMOS
+===================
+*/
+        // Lógica de filtrado según los valores seleccionados
+        if (idProcedimiento && idProcedimientoFila !== idProcedimiento) {
+            cumpleFiltro = false;
+        }
+        if (fechaInicio && fechaInicioFila < fechaInicio) {
+            cumpleFiltro = false;
+        }
+        if (idResponsableEntrega && idResponsableEntregaFila !== idResponsableEntrega) {
+            cumpleFiltro = false;
+        }
+        if (idResponsableRecibe && idResponsableRecibeFila !== idResponsableRecibe) {
+            cumpleFiltro = false;
+        }
+
+
+/*
+===================
+PARA EL REPORTE DE ELEMENTOS
+===================
+*/
+
+
+        if (idTipoProcedimiento && idTipoProcedimientoFila !== idTipoProcedimiento)
+        {
+            cumpleFiltro = false;
+        }
+
+        if (idEstadoEquipo && idEstadoEquipoFila !== idEstadoEquipo)
+        {
+            cumpleFiltro = false;
+        }
+        if (idTipoElemento && idTipoElementoFila !== idTipoElemento)
+        {
+            cumpleFiltro = false;
+        }
+        if (idCategoria && idCategoriaFila !== idCategoria)
+        {
+            cumpleFiltro = false;
+        }
+        if (idElemento && idElementoFila !== idElemento)
+        {
+            cumpleFiltro = false;
+        }
+
+        // Mostrar u ocultar la fila según si cumple o no con los filtros
+        fila.style.display = cumpleFiltro ? '' : 'none';
+    });
+}
+
+
+
+
 
 
 </script>

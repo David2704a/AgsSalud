@@ -95,7 +95,7 @@ label {
     margin-bottom: 0.5rem; /* Espacio entre la etiqueta y el elemento */
 }
 
-.form-group select, input[type="text"], input[type="date"] {
+.form-group select, input[type="text"], input[type="date"], input[type="number"] {
     width: 100%; /* Ocupa todo el ancho disponible */
     padding: 0.5rem; /* Espaciado interno */
     box-sizing: border-box; /* Incluye el relleno en el ancho y alto total */
@@ -280,4 +280,103 @@ BOTON DE EXPORTAR PARA PROCEDIMIENTOS
 .Options-Exports-Procedimientos .button-proce i {
     font-size: 25px;
     margin-right: 5px; /* Ajusta el espacio entre el icono y el texto del botón */
+}
+
+
+  /*
+================================================================
+FOOTER
+================================================================
+*/
+
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f3f3;
+    color: #fff;
+}
+
+
+
+.separator {
+    width: 2px;
+    height: 40px;
+    background-color: #a1a1a1;
+    margin: 0 10px;
+}
+
+.left-images {
+    margin-left: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer img {
+    margin: 5px;
+}
+
+.right-content {
+    margin-right: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+.images img {
+    margin-right: 10px;
+}
+
+
+
+.text {
+
+    margin-right: 10px;
+}
+
+.text p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #777777;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+
+
+@media (max-width: 1200px) {
+    .container {
+        width: 70rem;
+    }
+
+    .menu-container {
+        width: 150px;
+    }
+}
+@media (max-width: 1100px) {
+    .container {
+        width: 60rem;
+    }
+
+    .menu-container {
+        width: 120px;
+    }
+}
+@media (max-width: 760px) {
+    .button-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

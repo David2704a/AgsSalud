@@ -52,18 +52,32 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents ,WithS
     // }
 
 
-
     foreach ($this->filtros as $clave => $valor) {
+        // Verificar si el valor del filtro no es nulo
         if ($valor !== null) {
-            if ($clave === 'fechaInicio') {
+            if  ($clave === 'idResponsableEntrega') {
+                // Si es el filtro por idResponsableEntrega, aplicar la condición en la relación
+                $query->whereHas('responsableEntrega', function ($subquery) use ($valor) {
+                    $subquery->where('id', $valor);
+                });
+            } elseif ($clave === 'idResponsableRecibe') {
+                // Si es el filtro por idResponsableEntrega, aplicar la condición en la relación
+                $query->whereHas('responsableRecibe', function ($subquery) use ($valor) {
+                    $subquery->where('id', $valor);
+                });
+            } elseif ($clave === 'fechaInicio') {
+                // Filtro por fechaInicio
                 $fechaInicio = date('Y-m-d', strtotime($valor));
                 $query->whereDate('fechaInicio', '>=', $fechaInicio);
             } elseif ($clave === 'fechaFin') {
+                // Filtro por fechaFin
                 $fechaFin = date('Y-m-d', strtotime($valor));
                 $query->whereDate('fechaFin', '<=', $fechaFin);
-            }elseif ($clave === 'idProcedimiento') {
-                $query->where('idProcedimiento', 'like', "%$valor%");
-             } else {
+            } elseif ($clave === 'idProcedimiento') {
+                // Filtro por idProcedimiento
+                $query->where('idProcedimiento', '=', $valor);
+            } else {
+                // Otros filtros
                 $query->where($clave, $valor);
             }
         }

@@ -19,6 +19,9 @@
     <div class="green-line"></div>
 </div>
 
+<div class="contenedor">
+
+
 <div class="button-container">
 
     <a href="/procedimiento" title="Procedimientos" class="button-link">
@@ -52,11 +55,12 @@
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/reportes.svg')}}" alt="alo">
         </div>
-        <span>Reportes</span>
+        <span>Usuarios</span>
     </a>
 
 </div>
 
+</div>
 
 <footer class="footer">
     <div class="left-images">

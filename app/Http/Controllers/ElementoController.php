@@ -108,7 +108,8 @@ class ElementoController extends Controller
             ->orWhere('referencia', 'like', '%' . $filtro . '%')
             ->orWhere('serial', 'like', '%' . $filtro . '%')
             ->orWhere('modelo', 'like', '%' . $filtro . '%')
-            ->orWhere('descripcion', 'like', '%' . $filtro . '%');
+            ->orWhere('descripcion', 'like', '%' . $filtro . '%')
+            ->orWhere('idElemento', 'like', '%' . $filtro . '%');
         })->paginate(10);
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));

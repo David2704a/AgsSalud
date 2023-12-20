@@ -21,7 +21,6 @@ class PersonaSeeder extends Seeder
             'fechaNac' => '1990-01-01',
             'sexo' => 'M',
             'direccion' => 'Calle 123',
-            'email' => 'juan@example.com',
             'celular' => '1234567890',
         ]);
         Persona::create([
@@ -32,7 +31,6 @@ class PersonaSeeder extends Seeder
             'fechaNac' => '1990-01-01',
             'sexo' => 'M',
             'direccion' => 'Calle 123',
-            'email' => 'juan@example.com',
             'celular' => '1234567890',
         ]);
         Persona::create([
@@ -43,7 +41,6 @@ class PersonaSeeder extends Seeder
             'fechaNac' => '1990-01-01',
             'sexo' => 'M',
             'direccion' => 'Calle 123',
-            'email' => 'Juan@gmail.com',
             'celular' => '1234567890',
         ]);
         Persona::create([
@@ -54,7 +51,6 @@ class PersonaSeeder extends Seeder
             'fechaNac' => '1990-01-01',
             'sexo' => 'M',
             'direccion' => 'Calle 123',
-            'email' => 'johan@gmail.com',
             'celular' => '1234567890',
         ]);
 
