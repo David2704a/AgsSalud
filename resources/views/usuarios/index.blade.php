@@ -71,7 +71,7 @@
                                             </a>
                                         @endif
 
-                                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
+                                        @if(auth()->user()->hasRole(['superAdmin']))
                                             <button type="button" class="delete-button" title="Eliminar"
                                                 data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}">
                                                 <i data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}"
