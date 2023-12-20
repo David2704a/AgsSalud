@@ -60,11 +60,17 @@ use Illuminate\Support\Facades\Auth;
             <br>
             <br>
          
-            <button type="button" class="edit-button" title="Guardar cambios" href="{{ route('ActualizarPerfil') }}" >Guardar cambios <i class="fas fa-sync-alt"></i>
+            <button type="botton"  class="edit-button" href="{{ route('ActualizarPerfil') }} "title="Guardar cambios"  >Guardar cambios <i class="fas fa-sync-alt"></i>
             </button>
+
+            <!-- <button type="submit" class="button-container" href="{{ route('ActualizarPerfil') }}">Guardar cambios</button> -->
+
 
             <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}" title="Actualizar Información">Actualizar Información<i class="fa-regular fa-pen-to-square"></i>
             </a>
+
+
+
 
             <br>
             <br>
@@ -79,80 +85,6 @@ use Illuminate\Support\Facades\Auth;
 </div>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="actualizarModalLabel" tabindex="-1" aria-labelledby="actualizarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="actualizarModalLabel">Actualizar Información</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Formulario para actualizar información de Persona -->
-                <form action=" " method="POST" id="actualizarModalForm">
-                    @csrf
-                    @method('PUT')
-                    <!-- Campos del formulario de Persona -->
-                    <div class="mb-3">
-                        <label for="nombre1" class="form-label">Primer Nombre</label>
-                        <input type="text" class="form-control" id="nombre1" name="nombre1" value="{{ old('nombre1', optional(Auth::user()->persona)->nombre1) }}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="nombre2" class="form-label">Segundo Nombre</label>
-                        <input type="text" class="form-control" id="nombre2" name="nombre2" value="{{ old('nombre2', optional(Auth::user()->persona)->nombre2) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="apellido1" class="form-label">Primer Apellido</label>
-                        <input type="text" class="form-control" id="apellido1" name="apellido1" value="{{ old('apellido1', optional(Auth::user()->persona)->apellido1) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="apellido2" class="form-label">Segundo Apellido</label>
-                        <input type="text" class="form-control" id="apellido2" name="apellido2" value="{{ old('apellido2', optional(Auth::user()->persona)->apellido2) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="idTipoIdentificacion" class="form-label">Tipo de Identificación</label>
-                        <!-- Aquí puedes poner tu lógica para seleccionar el tipo de identificación -->
-                        <input type="text" class="form-control" id="idTipoIdentificacion" name="idTipoIdentificacion" value="{{ old('idTipoIdentificacion', optional(Auth::user()->persona)->idTipoIdentificacion) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="identificacion" class="form-label">Número de Identificación</label>
-                        <input type="text" class="form-control" id="identificacion" name="identificacion" value="{{ old('identificacion', optional(Auth::user()->persona)->identificacion) }}" unique>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="fechaNac" class="form-label">Fecha de Nacimiento</label>
-                        <input type="date" class="form-control" id="fechaNac" name="fechaNac" value="{{ old('fechaNac', optional(Auth::user()->persona)->fechaNac) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="sexo" class="form-label">Sexo</label>
-                        <input type="text" class="form-control" id="sexo" name="sexo" value="{{ old('sexo', optional(Auth::user()->persona)->sexo) }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="direccion" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="direccion" name="direccion" value="{{ old('direccion', optional(Auth::user()->persona)->direccion) }}">
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="celular" class="form-label">Número de Celular</label>
-                        <input type="text" class="form-control" id="celular" name="celular" value="{{ old('celular', optional(Auth::user()->persona)->celular) }}">
-                    </div>
-                    <!-- Agrega los demás campos del formulario de persona -->
-
-                    <button type="submit" class="btn btn-primary">Actualizar Persona</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     // Script para capturar el ID del usuario y pasarlo al formulario del modal

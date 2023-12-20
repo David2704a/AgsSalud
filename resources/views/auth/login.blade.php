@@ -40,7 +40,7 @@
 
             <!-- Sesion derecha de la pagina-->
             <div class="dere col-lg-5 col-md-8 mx-auto">
-                <img class="img-fluid users" src="{{ asset('img/Aly.png')}}" alt="">
+                <img class="img-fluid users" style="width: 250px;height: 180px;" src="{{ asset('img/Sage.png')}}" alt="">
                 <div class="mt-4">
                     @if (session()->has('mensaje'))
                         <div class="alert alert-danger" role="alert">

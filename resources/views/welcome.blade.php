@@ -44,7 +44,7 @@
 
     <a href="/usuarios" class="button-link">
         <div class="circle-button btn-background-circle">
-            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" alt="alo">
+            <img style="width: 95px;height: 95px;"  src="{{asset('img/usuario.png')}}" alt="alo">
         </div>
         <span>Usuarios</span>
     </a>
