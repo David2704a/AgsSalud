@@ -11,18 +11,32 @@ use App\Models\Factura;
 use App\Models\TipoElemento;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
 {
     public function index(){
-        $elementos = Elemento::paginate(10);
-        $estadosEquipos = EstadoElemento::all();
+    // Obtener el usuario autenticado
+    $user = Auth::user();
 
-        return view('elementos.elemento.index',compact('elementos', 'estadosEquipos'));
+    // Inicializar la variable $elementos
+    $elementos = null;
+
+    // Verificar el rol del usuario
+    if ($user->hasRole('colaborador')) {
+        // Si el usuario tiene el rol de "colaborador", obtener solo los elementos asignados a ese usuario
+        $elementos = $user->elementos()->paginate(10);
+    } else {
+        // Si el usuario no tiene el rol de "colaborador", obtener todos los elementos
+        $elementos = Elemento::paginate(10);
     }
+
+    // Obtener estados de elementos
+    $estadosEquipos = EstadoElemento::all();
+
+    return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
+}
 
     public function create(){
 

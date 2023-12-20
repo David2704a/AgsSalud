@@ -54,4 +54,8 @@ class User extends Authenticatable
         return $this->belongsTo(Persona::class, 'id');
     }
 
+    public function elementos()
+    {
+        return $this->hasMany(Elemento::class, 'idUsuario'); // 'idUsuario' es la clave foránea en la tabla elementos
+    }
 }
