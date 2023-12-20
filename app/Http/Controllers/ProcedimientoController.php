@@ -196,9 +196,10 @@ class ProcedimientoController extends Controller
             'fechaInicio' => $request->input('fechaInicio', null),
             'fechaFin' => $request->input('fechaFin', null),
             'idEstadoProcedimiento' => $request->input('idEstadoProcedimiento', null),
-            'idProcedimiento' => $request->input('idProcedimiento', null)
+            'idProcedimiento' => $request->input('idProcedimiento', null),
+            'idResponsableEntrega' => $request->input('idResponsableEntrega', null),
+            'idResponsableRecibe' => $request->input('idResponsableRecibe', null)
         ];
-
 
 
         // Descargar el informe en formato Excel con los filtros aplicados

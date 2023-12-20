@@ -19,6 +19,9 @@
     <div class="green-line"></div>
 </div>
 
+<div class="contenedor">
+
+
 <div class="button-container">
 
 
@@ -40,7 +43,7 @@
         <span>ELEMENTOS</span>
     </a>
     @endif
-    
+
 
     @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
     <a href="/categorias" class="button-link">
@@ -50,7 +53,7 @@
         <span>CATEGORIAS</span>
     </a>
     @endif
-    
+
 
 
     @if(auth()->user()->hasRole(['superAdmin','administrador','colaborador','tecnico']))
@@ -74,6 +77,7 @@
 
 </div>
 
+</div>
 
 <footer class="footer">
     <div class="left-images">

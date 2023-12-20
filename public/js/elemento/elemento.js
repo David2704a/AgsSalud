@@ -14,17 +14,17 @@ function mostrarParte(idParte) {
         }
     });
   }
-  
+
   function actualizarProgreso() {
   const partes = document.querySelectorAll('.form-part');
   const marcadores = document.querySelectorAll('.marker');
   const progreso = document.getElementById('progress');
-  
+
   const numeroParteActual = Array.from(partes).findIndex(parte => parte.classList.contains('active'));
   const porcentajeProgreso = ((numeroParteActual + 1) / partes.length) * 100;
-  
+
   progreso.style.width = porcentajeProgreso + '%';
-  
+
   // Marcar el número de parte actual como lleno
   marcadores.forEach((marker, index) => {
   if (index <= numeroParteActual) {
@@ -34,23 +34,23 @@ function mostrarParte(idParte) {
   }
   });
   }
-  
+
   /*
   ================================================
   FILTRO
   ================================================
   */
-  
+
   document.addEventListener('DOMContentLoaded', function () {
     const mensajeVacio = document.querySelector('.mensaje-vacio');
     const searchInput = document.getElementById('search-input');
     const tableBody = document.querySelector('tbody');
-  
-  
-  
+
+
+
     function updateTable(filtro) {
       $.ajax({
-        url:'/elementosBuscar',
+        url:'/elemento/buscar',
         method: 'GET',
         data: { filtro: filtro },
         success: function (data) {
@@ -61,15 +61,15 @@ function mostrarParte(idParte) {
         },
       });
     }
-  
+
     searchInput.addEventListener('input', function () {
       const filtro = searchInput.value.trim().toLowerCase();
       updateTable(filtro);
     });
-  
-  
+
+
   });
-  
+
 
   /*
 ================================================
@@ -81,7 +81,7 @@ setTimeout(function(){
 }, 3000);
 
 
-// excel booton 
+// excel booton
 
 function mostrarBotonCargar() {
     var archivoInput = document.getElementById('archivo');
