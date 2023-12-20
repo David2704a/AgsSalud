@@ -52,6 +52,15 @@
             <input type="text" id="search-input" placeholder="Buscar...">
             <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
+
+            {{--
+        ===================================
+        TABLA PARA UN SOLO ROL
+        ===================================
+    --}}
+
+
+        @role('colaborador')
     <div class="table">
     <table>
         <thead>
@@ -77,23 +86,23 @@
         <tbody>
             @foreach ($elementos as $elemento)
                 <tr>
-                    <td>{{$elemento->idElemento ? $elemento->idElemento : 'No aplica'}}</td>
-                    <td>{{ $elemento->marca ? $elemento->marca : 'No aplica' }}</td>
-                    <td>{{ $elemento->referencia ? $elemento->referencia : 'No aplica' }}</td>
-                    <td>{{ $elemento->serial ? $elemento->serial : 'No aplica' }}</td>
-                    <td>{{ $elemento->procesador ? $elemento->procesador : 'No aplica'}}</td>
-                    <td>{{ $elemento->ram ? $elemento->ram : 'No aplica'}}</td>
-                    <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'No aplica'}}</td>
-                    <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'No aplica'}}</td>
-                    <td>{{ $elemento->modelo ? $elemento->modelo : 'No aplica' }}</td>
-                    <td>{{ $elemento->garantia ? $elemento->garantia : 'No aplica' }}</td>
-                    <td>{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
-                    <td>{{ $elemento->estado->estado ?? 'No aplica' }}</td>
-                    <td>{{ $elemento->tipoElemento->tipo ?? 'No aplica' }}</td>
-                    <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'No aplica'}}</td>
-                    <td>{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
-                    <td>{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
-                    <td>{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1}}</td>
+                    <td>{{$elemento->idElemento ? $elemento->idElemento : 'NO APLICA'}}</td>
+                    <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
+                    <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
+                    <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>
+                    <td>{{ $elemento->procesador ? $elemento->procesador : 'NO APLICA'}}</td>
+                    <td>{{ $elemento->ram ? $elemento->ram : 'NO APLICA'}}</td>
+                    <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'NO APLICA'}}</td>
+                    <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'NO APLICA'}}</td>
+                    <td>{{ $elemento->modelo ? $elemento->modelo : 'NO APLICA' }}</td>
+                    <td>{{ $elemento->garantia ? $elemento->garantia : 'NO APLICA' }}</td>
+                    <td>{{ $elemento->descripcion ? $elemento->descripcion : 'NO APLICA' }}</td>
+                    <td>{{ $elemento->estado->estado ?? 'NO APLICA' }}</td>
+                    <td>{{ $elemento->tipoElemento->tipo ?? 'NO APLICA' }}</td>
+                    <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'NO APLICA'}}</td>
+                    <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
+                    <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
+                    <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }} {{ $elemento->user->persona->apellido1 ?? 'NO APLICA'}}</td>
 
                     <td>
                         <a class="edit-button" title="Editar"
@@ -113,6 +122,81 @@
     </table>
 
     </div>
+
+    @else
+
+
+    {{--
+        ===================================
+        TABLA PARA UN SOLO ROL
+        ===================================
+    --}}
+
+
+    <div class="table">
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Marca</th>
+                <th>Referencia</th>
+                <th>Serial</th>
+                <th>Procesador</th>
+                <th>Ram</th>
+                <th>Disco duro</th>
+                <th>Tarjeta gráfica</th>
+                <th>Modelo</th>
+                <th>Garantia</th>
+                <th>Descripcion</th>
+                <th>Estado</th>
+                <th>Tipo</th>
+                <th>Estado Procedimiento</th>
+                <th>Categoria</th>
+                <th>N° Factura</th>
+                <th>Asignado A:</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                @foreach ($elementos as $elemento)
+                    <tr>
+                        <td>{{$elemento->idElemento ? $elemento->idElemento : 'NO APLICA'}}</td>
+                        <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
+                        <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
+                        <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>
+                        <td>{{ $elemento->procesador ? $elemento->procesador : 'NO APLICA'}}</td>
+                        <td>{{ $elemento->ram ? $elemento->ram : 'NO APLICA'}}</td>
+                        <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'NO APLICA'}}</td>
+                        <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'NO APLICA'}}</td>
+                        <td>{{ $elemento->modelo ? $elemento->modelo : 'NO APLICA' }}</td>
+                        <td>{{ $elemento->garantia ? $elemento->garantia : 'NO APLICA' }}</td>
+                        <td>{{ $elemento->descripcion ? $elemento->descripcion : 'NO APLICA' }}</td>
+                        <td>{{ $elemento->estado->estado ?? 'NO APLICA' }}</td>
+                        <td>{{ $elemento->tipoElemento->tipo ?? 'NO APLICA' }}</td>
+                        <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'NO APLICA'}}</td>
+                        <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
+                        <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
+                        <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }} {{ $elemento->user->persona->apellido1 ?? 'NO APLICA'}}</td>
+
+                        <td>
+                            <a class="edit-button" title="Editar"
+                                href="{{ route('elementos.edit',$elemento->idElemento) }}">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                            <button type="button" class="delete-button" title="Eliminar"
+                            data-id="{{ $elemento->idElemento }}"
+                             data-name="{{ $elemento->modelo }}">
+
+                                <i data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        </div>
+
+        @endrole
+
     </div>
     <div class="pagination">
         {{$elementos->links('pagination.custom') }}

@@ -141,7 +141,7 @@
             </div>
         </div>
         <div class="pagination">
-            {{ $procedimiento->links('pagination.custom') }}
+            {{$procedimiento->links('pagination.custom') }}
         </div>
     </div>
 

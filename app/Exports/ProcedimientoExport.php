@@ -61,7 +61,9 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents ,WithS
             } elseif ($clave === 'fechaFin') {
                 $fechaFin = date('Y-m-d', strtotime($valor));
                 $query->whereDate('fechaFin', '<=', $fechaFin);
-            } else {
+            }elseif ($clave === 'idProcedimiento') {
+                $query->where('idProcedimiento', 'like', "%$valor%");
+             } else {
                 $query->where($clave, $valor);
             }
         }

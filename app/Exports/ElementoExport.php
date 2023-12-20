@@ -43,6 +43,9 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                     $query->whereHas('procedimiento.tipoProcedimiento', function ($subquery) use ($valor) {
                         $subquery->where('idTipoProcedimiento', $valor);
                     });
+                } elseif ($clave === 'idElemento') {
+                    // Si es el filtro por nombreProcedimiento, aplicar la condición en el modelo principal
+                    $query->where('idElemento', 'like', "%$valor%");
                 } else {
                     $query->where($clave, $valor);
                 }

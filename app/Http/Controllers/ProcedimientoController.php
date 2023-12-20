@@ -196,6 +196,7 @@ class ProcedimientoController extends Controller
             'fechaInicio' => $request->input('fechaInicio', null),
             'fechaFin' => $request->input('fechaFin', null),
             'idEstadoProcedimiento' => $request->input('idEstadoProcedimiento', null),
+            'idProcedimiento' => $request->input('idProcedimiento', null)
         ];
 
 
