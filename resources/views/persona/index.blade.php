@@ -21,65 +21,62 @@ use Illuminate\Support\Facades\Auth;
     <div class="green-line"></div>
 
 
-  
+
 
     <div class="button-container">
         <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     </div>
 
     @if(session('success'))
-            <div id="alert" class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        
-        @if($errors->any())
+    <div id="alert" class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if($errors->any())
     <div id="error-alert" class="alert alert-danger">
         <ul>
             @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
 
-    <div class="table-container">
-        <div class="card" style="width:50%; margin-left:25%">
-            <div class="card-body">
-                <form id="updateProfileForm" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}" method="POST" role="form" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <h4>{{ Auth::user()->name }}</h4>
-                    </div>
+  
+    <form id="updateProfileForm" class="form" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}" method="POST">
+        @csrf
+        <!-- <h6 class="page-title">{{  Auth::user()->name }}</h6> -->
 
-                    <div class="mb-3">
-                        <label class="col-lg-8 control-label" for="name">Nombre de Usuario</label>
-                        <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control">
-                    </div>
+            <label for="name">Nombre usuario</label>
+            <br>
+            <input type="text" name="name" id="name" value="{{  Auth::user()->name }}">
+            <br>
 
-                    <div class="mb-3">
-                        <label for="name">Correo</label>
-                        <input style="align:center" type="email" name="email" value="{{ Auth::user()->email }}" class="form-control">
-                    </div>
+            <label for="email">Correo</label>
+            <br>
+            <input type="text" name="email" id="email" value="{{ Auth::user()->email }}">
+            <br>
+            <br>
+            <br>
+         
+            <button type="button" class="edit-button" title="Guardar cambios" href="{{ route('ActualizarPerfil') }}" >Guardar cambios <i class="fas fa-sync-alt"></i>
+            </button>
 
-                    <br>
-                    <br>
+            <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}" title="Actualizar Información">Actualizar Información<i class="fa-regular fa-pen-to-square"></i>
+            </a>
 
-                    <div class="row text-center mb-4 mt-5">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-danger" href="{{ route('ActualizarPerfil') }}">Guardar cambios</button>
+            <br>
+            <br>
+            <br>
+    </form>
 
-                            <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }} class="btn btn-primary">Actualizar Información</button>
-                        </div>
-                    </div>
-                </form>
-
-                <br>
-                <br>
-                <br>
-            </div>
-        </div>
-    </div>
+    <br>
+    <br>
+    <br>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -94,8 +91,8 @@ use Illuminate\Support\Facades\Auth;
             <div class="modal-body">
                 <!-- Formulario para actualizar información de Persona -->
                 <form action=" " method="POST" id="actualizarModalForm">
-    @csrf
-    @method('PUT')
+                    @csrf
+                    @method('PUT')
                     <!-- Campos del formulario de Persona -->
                     <div class="mb-3">
                         <label for="nombre1" class="form-label">Primer Nombre</label>
@@ -159,11 +156,11 @@ use Illuminate\Support\Facades\Auth;
 
 <script>
     // Script para capturar el ID del usuario y pasarlo al formulario del modal
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var actualizarModalButton = document.getElementById('actualizarModalButton');
         var actualizarModalForm = document.getElementById('actualizarModalForm');
 
-        actualizarModalButton.addEventListener('click', function () {
+        actualizarModalButton.addEventListener('click', function() {
             var userId = this.getAttribute('data-user-id');
             document.getElementById('userIdInput').value = userId;
         });

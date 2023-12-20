@@ -8,9 +8,12 @@
 
 @section('content')
     <div class="content">
-        <h1 class="page-title">Editar Usuario</h1>
+        <h1 class="page-title">Editar Usuario Perfil</h1>
         <div class="green-line"></div>
     </div>
+
+
+    
 
     <div class="button-container">
         <a href="{{ route('users.index') }}" class="button-izquierda arrow-left">
@@ -47,7 +50,6 @@
             <input type="text" name="email" id="email" value="{{ $usuario->email }}">
             <br>
 
-            <!-- Agrega los campos adicionales que desees editar para el usuario -->
 
             <div class="button-container">
                 <button type="submit" class="btn-link modal-button">Guardar Cambios</button>

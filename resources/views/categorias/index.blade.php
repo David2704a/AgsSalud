@@ -8,6 +8,7 @@
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/categoria/categoria.css')}}">
+<script src="{{asset('js/categoria/categoria.js')}}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -35,7 +36,7 @@
     </div>
 @endif
 
-    @if ($categorias->count() > 0)
+
     <div class="table-container">
         <div class="search-container">
             <input type="text" id="search-input" placeholder="Buscar...">
@@ -91,9 +92,39 @@
         </div>
 
     </div>
-    @else
-            <p>No hay categorías disponibles.</p>
-        @endif
+    <script>
+
+        
+document.addEventListener('DOMContentLoaded', function () {
+    const mensajeVacio = document.querySelector('.mensaje-vacio');
+    const searchInput = document.getElementById('search-input');
+    const tableBody = document.querySelector('tbody');
+  
+  
+  
+    function updateTable(filtro) {
+      $.ajax({
+        url:'/categoriaBuscar',
+        method: 'GET',
+        data: { filtro: filtro },
+        success: function (data) {
+          tableBody.innerHTML = data;
+        },
+        error: function (error) {
+          console.error('Error al realizar la búsqueda:', error);
+        },
+      });
+    }
+  
+    searchInput.addEventListener('input', function () {
+      const filtro = searchInput.value.trim().toLowerCase();
+      updateTable(filtro);
+    });
+  
+  
+  });
+    </script>
+    
 
 
 

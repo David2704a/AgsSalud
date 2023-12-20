@@ -120,4 +120,20 @@ class CategoriaController extends Controller
 
         return redirect()->route("categorias.index")->with('success', 'Categoría eliminada correctamente');
     }
+
+
+    public function buscarCategorias(Request $request)
+    {
+        $filtro = $request->input('filtro');
+    
+        $categorias = Categoria::where('nombre', 'like', '%' . $filtro . '%')
+            ->orWhere('descripcion', 'like', '%' . $filtro . '%')
+            ->paginate(10);
+    
+        // Devuelve la vista con la variable $categorias
+        return view('categorias.partials.resultados', compact('categorias'));
+    }
+
+
+
 }

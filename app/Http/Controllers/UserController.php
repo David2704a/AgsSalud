@@ -105,10 +105,14 @@ class UserController extends Controller
     {
         $filtro = $request->input('filtro');
     
-        $users = User::where('name', 'like', '%' . $filtro . '%')
-                     ->orWhere('email', 'like', '%' . $filtro . '%')
-                     ->paginate(10);
+
+        $users = User::where(function ($query) use ($filtro) {
+            $query->where('name', 'like', '%'. $filtro. '%')
+            ->orWhere('email', 'like', '%' . $filtro . '%');
+         
+        })->paginate(10);
     
+        // Devuelve la vista con la variable $users
         return view('usuarios.partials.usuario.resultados', compact('users'));
     }
     

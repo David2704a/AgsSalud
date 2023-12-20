@@ -76,6 +76,8 @@ Route::post('register', [RegisteredUserController::class, 'register'])
 
 
     Route::get('/usuariosBuscar', [UserController::class, 'buscar'])->name('usuarios.search');
+    Route::get('/categoriaBuscar', [CategoriaController::class, 'buscarCategorias'])->name('categorias.search');
+
 
     
 

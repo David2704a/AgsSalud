@@ -9,7 +9,7 @@
 
 @endsection
 @section('content')
-
+ 
 <div class="content">
     <h1 class="page-title">CREAR NUEVA FACTURA</h1>
 <div class="green-line"></div>

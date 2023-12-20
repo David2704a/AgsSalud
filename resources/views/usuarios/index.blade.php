@@ -6,8 +6,11 @@
 
 @section('links')
     <link rel="stylesheet" href="{{ asset('/css/categoria/categoria.css') }}">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @endsection
+
+
 
 @section('content')
     <div class="content">
@@ -39,36 +42,36 @@
     </div>
 @endif
 
-       
 
-          <div class="table-container">
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Buscar...">
-            <button><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
-    <div class="table">
-                    <table>
-                        <thead>
-                            <th>
-                                Id
-                            </th>
-                            <th>
-                                Usuario
-                            </th>
-                            <th>
-                                Correo
-                            </th>
-                            <th>
-                                Acciones
-                            </th>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $usuario)
-                                <tr>
-                                    <td>{{ $usuario->id }}</td>
-                                    <td>{{ $usuario->name }}</td>
-                                    <td>{{ $usuario->email }}</td>
-                                    <td>
+<div class="table-container">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Buscar...">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+            <div class="table">
+                <table id="userTable">
+                    <thead>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Usuario
+                        </th>
+                        <th>
+                            Correo
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </thead>
+                    <tbody>
+                        <!-- Contenido de la tabla generado por Blade -->
+                        @foreach ($users as $usuario)
+                            <tr>
+                                <td>{{ $usuario->id }}</td>
+                                <td>{{ $usuario->name }}</td>
+                                <td>{{ $usuario->email }}</td>
+                                <td>
                                         <a class="edit-button" method="POST"
                                             href="{{ route('usuarios.edit', ['id' => $usuario->id]) }}"
                                             title="Editar"><i class="fa-regular fa-pen-to-square"></i>
@@ -86,42 +89,42 @@
                     </table>
                 </div>
             </div>
-       
-
         <div class="pagination">
             {{ $users->links('pagination.custom') }}
         </div>
     </div>
-
     
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
+
+  document.addEventListener('DOMContentLoaded', function () {
     const mensajeVacio = document.querySelector('.mensaje-vacio');
     const searchInput = document.getElementById('search-input');
-    const usersTableBody = document.getElementById('users-table-body');
-
+    const tableBody = document.querySelector('tbody');
+  
+  
+  
     function updateTable(filtro) {
-        $.ajax({
-            url: '/usuariosBuscar',
-            method: 'GET',
-            data: { filtro: filtro },
-            success: function (data) {
-                // Verifica que la respuesta contiene la variable users
-                if (data.users) {
-                    usersTableBody.innerHTML = data.users;
-                }
-            },
-            error: function (error) {
-                console.error('Error al realizar la búsqueda:', error);
-            },
-        });
+      $.ajax({
+        url:'/usuariosBuscar',
+        method: 'GET',
+        data: { filtro: filtro },
+        success: function (data) {
+          tableBody.innerHTML = data;
+        },
+        error: function (error) {
+          console.error('Error al realizar la búsqueda:', error);
+        },
+      });
     }
-
+  
     searchInput.addEventListener('input', function () {
-        const filtro = searchInput.value.trim().toLowerCase();
-        updateTable(filtro);
+      const filtro = searchInput.value.trim().toLowerCase();
+      updateTable(filtro);
     });
-});
+  
+  
+  });
+  
 
     </script>
 
