@@ -16,18 +16,24 @@
 <div class="green-line"></div>
 
 <div class="button-container">
-    <a href="/proveedores" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    <a href="{{route('facturas.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva Factura</a>
+    <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
 
+    @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
+    <a href="{{route('facturas.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva Factura</a>
+    @endif
 </div>
 <div class="menu-container">
     <ul class="menu">
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('proveedores.index')}}">Proveedores</a>
         </li>
+        @endif
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('elementos.index')}}">Elementos</a>
         </li>
+        @endif
     </ul>
 </div>
 
@@ -51,8 +57,10 @@
             <th>Proveedor</th>
             <th>Metodo Pago</th>
             <th>Valor</th>
-            <th>Descripcion</th>
-            <th>Acciones</th>
+            <th>Descripción</th>
+            @if(auth()->user()->hasRole(['superAdmin','administrador'])) 
+                <th>Acciones</th>
+            @endif
         </thead>
         <tbody>
             @foreach ($facturas as $factura)
@@ -64,21 +72,28 @@
                     <td>{{$factura->metodoPago}}</td>
                     <td>{{$factura->valor}}</td>
                     <td>{{$factura->descripcion}}</td>
+                    @if(auth()->user()->hasRole(['superAdmin','administrador']))
                     <td>
                         <a class="show-button" title="Ver" onclick="mostrarArchivo('{{$factura->rutaFactura }}')">
                             <i class="fa-regular fa-eye"></i>
                         </a>
+                        @if(auth()->user()->hasRole(['superAdmin','admin']))
                         <a class="edit-button" title="Editar"
                             href="{{ route('facturas.edit',$factura->idFactura) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
+                        @endif
+
+                        @if(auth()->user()->hasRole(['superAdmin']))
                         <button title="Eliminar"
                             type="button" class="delete-button"
                             data-id="{{$factura->idFactura }}"
                             data-tipo="{{$factura->codigoFactura}}">
                             <i class="fas fa-trash-alt"></i>
                         </button>
+                        @endif
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>
@@ -87,7 +102,7 @@
     </div>
     </div>
     <div class="pagination">
-        {{$facturas->links('pagination.custom') }}  
+        {{$facturas->links('pagination.custom') }}
     </div>
     </div>
 

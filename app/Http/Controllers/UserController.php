@@ -95,7 +95,8 @@ class UserController extends Controller
 
      public function showRegistrationForm()
     {
-        return view('usuarios.register');
+        $roles = Role::all();
+        return view('usuarios.register',compact('roles'));
     }
 
 

@@ -2,7 +2,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'List')
+@section('title', 'Categorias')
 
 
 @section('links')
@@ -23,8 +23,9 @@
 
 <div class="button-container">
     <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
     <a href="{{route('categorias.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nueva categoria</a>
-
+    @endif
 </div>
 
 
@@ -54,9 +55,11 @@
                     <th>
                         Descripcion
                     </th>
+                    @if(auth()->user()->hasRole(['superAdmin','administador']))
                     <th>
                         Acciones
                     </th>
+                    @endif
                 </thead>
                 <tbody>
                     @foreach ($categorias as $categoria)
@@ -64,26 +67,27 @@
                         <td>{{ $categoria->idCategoria }}</td>
                         <td>{{ $categoria->nombre }}</td>
                         <td>{{ $categoria->descripcion }}</td>
+                        @if(auth()->user()->hasRole(['superAdmin','administador']))
                         <td>
 
 
+                            @if(auth()->user()->hasRole(['superAdmin','administrador']))
                             <a class="edit-button" method="POST"
                              href="{{ route('categorias.edit', ['idCategoria' => $categoria->idCategoria]) }}" 
                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                             </a>
+                            @endif
 
-
-
+                            @if(auth()->user()->hasRole(['superAdmin']))
                             <button type="button" class="delete-button" title="Eliminar" 
                             data-id="{{ $categoria->idCategoria }}"
                              data-name="{{ $categoria->nombre }}">
 
                                 <i data-id="{{ $categoria->idCategoria }}" data-name="{{ $categoria->nombre }}" class="fas fa-trash-alt"></i>
                             </button>
-
+                            @endif
                         </td>
-
-                        </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>

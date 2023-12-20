@@ -21,17 +21,21 @@
 <div class="green-line"></div>
 
 <div class="button-container">
-    <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
     <a href="{{route('tipoElementos.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo tipo Elemento</a>
+    @endif
 
 </div>
 
 
 <div class="menu-container">
     <ul class="menu">
+        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <li>
             <a href="{{route('elementos.index')}}">Elemento</a>
         </li>
+        @endif
     </ul>
 </div>
 
@@ -59,9 +63,12 @@
                     <th>
                         Descripcion
                     </th>
+                    @if(auth()->user()->hasRole(['superAdmin','administrador']))
+
                     <th>
                         Acciones
                     </th>
+                    @endif
                 </thead>
                 <tbody>
                     @foreach ($tipoElementos as $tipoElementos)
@@ -69,25 +76,27 @@
                     <td>{{ $tipoElementos->idTipoElemento }}</td>
                         <td>{{ $tipoElementos->tipo }}</td>
                         <td>{{ $tipoElementos->descripcion }}</td>
+                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
                         <td>
 
-
+                            @if(auth()->user()->hasRole(['superAdmin','administrador']))
                             <a class="edit-button" method="POST"
-                             href="{{ route('tipoElementos.edit', ['idTipoElemento' => $tipoElementos->idTipoElemento]) }}" 
+                             href="{{ route('tipoElementos.edit', ['idTipoElemento' => $tipoElementos->idTipoElemento]) }}"
                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                             </a>
+                            @endif
 
-
-
-                            <button type="button" class="delete-button" title="Eliminar" 
+                            @if(auth()->user()->hasRole(['superAdmin','administrador']))
+                            <button type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $tipoElementos->idTipoElemento }}"
                              data-name="{{ $tipoElementos->tipo }}">
 
                                 <i data-id="{{ $tipoElementos->idTipoElemento }}" data-name="{{ $tipoElementos->tipo }}" class="fas fa-trash-alt"></i>
                             </button>
+                            @endif
 
                         </td>
-
+                        @endif
                         </td>
                     </tr>
                     @endforeach

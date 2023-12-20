@@ -1,0 +1,283 @@
+.container {
+    display: flex;
+    width: 80rem;
+    min-height: 40rem;
+    max-height: 500rem;
+    margin: 1rem auto;
+    background-color: #ffffff00;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.main-container {
+    width: 100%;
+    min-height: 40rem;
+    max-height: 100rem;
+    border: solid 2px #21AFA4;
+    overflow: auto;
+}
+
+/* Menú lateral */
+.menu-container {
+    width: 200px;
+    background-color: #3B4480;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.menu-item {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Ocupar todo el ancho disponible */
+    box-sizing: border-box;
+}
+
+/* Cambios al pasar el mouse */
+.menu-item:hover {
+    background-color: #21AFA4;
+}
+
+.menu-item.active {
+    background-color: #21AFA4;
+}
+
+/* Formulario y contenido dinámico */
+.containers {
+    width: 100%;
+    margin: -10px auto;
+}
+
+/* Títulos */
+.titulo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.titulo h1 {
+    color: #333;
+}
+
+/* Línea separadora */
+hr {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Formulario */
+.alo {
+    width: 60rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem; /* Espacio entre las filas */
+}
+
+.form-group {
+    flex: 1;
+    margin-right: 1rem; /* Espacio entre los elementos en una fila */
+    margin-bottom: 1rem; /* Espacio entre las filas */
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem; /* Espacio entre la etiqueta y el elemento */
+}
+
+.form-group select, input[type="text"], input[type="date"] {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    padding: 0.5rem; /* Espaciado interno */
+    box-sizing: border-box; /* Incluye el relleno en el ancho y alto total */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Botón para generar el informe */
+.button {
+    background-color: #21AFA4;
+    color: #fff;
+    cursor: pointer;
+    width: auto; /* Ajusta el ancho según el contenido */
+    margin: 10px 50px; /* Ajusta el margen superior para separarlo de los otros elementos */
+}
+
+a {
+    cursor: pointer;
+}
+
+
+.hidden {
+    display: none;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+
+}
+
+th {
+    background-color: #3B4480;
+    color: #FFF;
+    text-align: center;
+    padding: 0.2rem;
+    position: relative;
+    border: solid 1px #FFF;
+    font-size: 12px;
+}
+
+th::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -1px;
+    width: 1px;
+    background-color: #FFF;
+}
+
+/* Estilos para filas impares */
+tr:nth-child(odd) {
+    background-color: #f2f2f26e; /* Color gris claro */
+}
+
+table td {
+    border: solid 1px #333 !important;
+    text-align: center;
+    border: solid 1px rgba(255, 255, 255, 0);
+    padding: 10px;
+    word-wrap: break-word; /* Agregar esta línea */
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+.table {
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    overflow: auto;
+    background: linear-gradient(rgba(255, 255, 255, 0.789), rgba(255, 255, 255, 0.789)), url(/imgs/logos/Ags.png);
+    background-size: auto !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+
+}
+
+/*
+
+================================================================
+BOTON DE EXPORTAR PARA ELEMENTOS
+================================================================
+*/
+
+.Options-Exports-Elementos .export-button {
+    margin:auto;
+    background-color: #21AFA4;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+}
+
+.Options-Exports-Elementos {
+    margin: 2rem auto;
+    width: 8rem;
+    position: relative;
+}
+
+.Options-Exports-Elementos .document-options {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%; /* Aparecerá justo al lado derecho del botón */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    z-index: 1;
+}
+.Options-Exports-Elementos .button-with-icon {
+    margin-bottom: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Options-Exports-Elementos .button-with-icon i {
+    font-size: 25px;
+    margin-right: 5px; /* Ajusta el espacio entre el icono y el texto del botón */
+}
+
+
+/*
+
+================================================================
+BOTON DE EXPORTAR PARA PROCEDIMIENTOS
+================================================================
+*/
+
+.Options-Exports-Procedimientos .export-button {
+    margin:auto;
+    background-color: #21AFA4;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+}
+
+.Options-Exports-Procedimientos {
+    margin: 2rem auto;
+    width: 8rem;
+    position: relative;
+}
+
+.Options-Exports-Procedimientos .document-options {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%; /* Aparecerá justo al lado derecho del botón */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    z-index: 1;
+}
+.Options-Exports-Procedimientos .button-proce {
+    margin-bottom: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Options-Exports-Procedimientos .button-proce i {
+    font-size: 25px;
+    margin-right: 5px; /* Ajusta el espacio entre el icono y el texto del botón */
+}

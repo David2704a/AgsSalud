@@ -2,7 +2,7 @@
 
 @section('title', 'Procedimientos')
 
- 
+
 @section('links')
 
     <link rel="stylesheet" href="{{ asset('/css/procedimiento/procedimiento.css') }}">
@@ -21,20 +21,25 @@
         <div class="green-line"></div>
 
         <div class="button-container">
-            <a href="/" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+            <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+            @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
             <a href="{{ route('createProcedimiento') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
                 procedimiento</a>
-
+            @endif
         </div>
 
         <div class="menu-containers">
             <ul class="menu">
+                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
                 <li>
                     <a href="{{ route('mostrarEstadoP') }}">Estado de Procedimiento</a>
                 </li>
+                @endif
+                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
                 <li>
                     <a href="{{ route('mostrarTipoP') }}">Tipo de Procedimiento</a>
                 </li>
+                @endif
             </ul>
         </div>
 
@@ -114,12 +119,15 @@
                                 <td>
                                     {{ $procedimientos->tipoProcedimiento->tipo }}
                                 </td>
+                                @if(auth()->user()->hasRole(['superAdmin','administador']))
                                 <td>
+                                    @if(auth()->user()->hasRole(['superAdmin','administador']))
                                     <a class="edit-button"
                                         href="{{ route('editProcedimiento', $procedimientos->idProcedimiento) }}">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-
+                                    @endif
+                                    @if(auth()->user()->hasRole(['superAdmin']))
                                     <button type="button" class="delete-button"
                                         data-id="{{ $procedimientos->idProcedimiento }}"
                                         data-name="{{ $procedimientos->elemento->modelo }}
@@ -132,7 +140,9 @@
                                             class="fas fa-trash-alt">
                                         </i>
                                     </button>
+                                    @endif
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -141,7 +151,7 @@
             </div>
         </div>
         <div class="pagination">
-            {{ $procedimiento->links('pagination.custom') }}
+            {{$procedimiento->links('pagination.custom') }}
         </div>
     </div>
 

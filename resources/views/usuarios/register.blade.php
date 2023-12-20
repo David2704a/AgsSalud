@@ -53,6 +53,15 @@
             <input type="text" name="email" id="email" value="{{ old('email') }}">
             <br>
 
+            <label for="role">Asignar Rol</label>
+            <select class="input" name="role" required>
+                <option value="">Selecccione una Opcion</option>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                    @endforeach
+            </select>
+
+
             <br>
             <label for="password">Contraseña</label>
             <input type="password" name="password" id="password" value="{{ old('password') }}">

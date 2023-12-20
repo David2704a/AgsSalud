@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ElementoExport;
 use App\Imports\ElementoImport;
 use App\Models\Categoria;
 use App\Models\Elemento;
@@ -9,28 +10,36 @@ use App\Models\EstadoElemento;
 use App\Models\Factura;
 use App\Models\TipoElemento;
 use App\Models\User;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
 {
-
-    public function __construct()
-    {
-        // Aplicar el middleware 'web' al controlador
-        $this->middleware('web');
-        $this->middleware('web', ['except' => ['import']]);
-    }
-
     public function index(){
+    // Obtener el usuario autenticado
+    $user = Auth::user();
+
+    // Inicializar la variable $elementos
+    $elementos = null;
+
+    // Verificar el rol del usuario
+    if ($user->hasRole('colaborador')) {
+        // Si el usuario tiene el rol de "colaborador", obtener solo los elementos asignados a ese usuario
+        $elementos = $user->elementos()->paginate(10);
+    } else {
+        // Si el usuario no tiene el rol de "colaborador", obtener todos los elementos
         $elementos = Elemento::paginate(10);
-        return view('elementos.elemento.index',compact('elementos'));
     }
+
+    // Obtener estados de elementos
+    $estadosEquipos = EstadoElemento::all();
+
+    return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
+}
 
     public function create(){
-        
+
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
@@ -47,7 +56,6 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'valor' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
@@ -80,7 +88,7 @@ class ElementoController extends Controller
         $facturas = Factura::all();
         $users = User::all();
 
-        return view('elementos.elemento.edit', 
+        return view('elementos.elemento.edit',
         compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
     }
 
@@ -91,7 +99,6 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'valor' => 'required',
             'idEstadoEquipo' => 'required',
             'idTipoElemento' => 'required',
             'idCategoria' => 'required',
@@ -125,24 +132,48 @@ class ElementoController extends Controller
 
 
 
-    
-    // EEXCEL
-    public function importarExcel(Request $request)
-    {
-        // Validación del archivo Excel
-        $request->validate([
-            'archivo' => 'required|mimes:xlsx,xls',
-        ]);
 
+
+    public function excelElemento(Request $request)
+    {
+        // Obtener los valores de los filtros desde la solicitud
+        $filtros = [
+            'idEstadoEquipo' => $request->input('idEstadoEquipo', null),
+            'idTipoElemento' => $request->input('idTipoElemento', null),
+            'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
+            'idCategoria' => $request->input('idCategoria', null),
+            'idElemento' => $request->input('idElemento', null),
+
+            // Agrega más filtros según sea necesario
+        ];
         
         try {
             // Importar el archivo Excel
             Excel::import(new ElementoImport, $request->file('archivo'));
-
-            return redirect()->back()->with('success', 'Importación exitosa');
-        } catch (\Exception $e) {
-            // Capturar cualquier excepción durante la importación
-            return redirect()->back()->with('error', 'Error durante la importación: ' . $e->getMessage());
+        }catch (\Exception $e){
+        // Descargar el informe en formato Excel con los filtros aplicados
+        return Excel::download(new ElementoExport($filtros), 'elemento.xlsx');
         }
     }
+
+     // EEXCEL
+
+     public function importarExcel(Request $request)
+     {
+         // Validación del archivo Excel
+         $request->validate([
+             'archivo' => 'required|mimes:xlsx,xls',
+         ]);
+
+         try {
+             // Importar el archivo Excel
+             Excel::import(new ElementoImport, $request->file('archivo'));
+
+             return redirect()->back()->with('success', 'Importación exitosa');
+         } catch (\Exception $e) {
+             // Capturar cualquier excepción durante la importación
+             return redirect()->back()->with('error', 'Error durante la importación: ' . $e->getMessage());
+         }
+     }
+
 }

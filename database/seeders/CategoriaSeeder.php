@@ -13,8 +13,8 @@ class CategoriaSeeder extends Seeder
      */
     public function run(): void
     {
-      
-     
+
+
         Categoria::create([
             'nombre' => 'IMPRESORA',
             'descripcion' => 'Impresora',
@@ -31,6 +31,6 @@ class CategoriaSeeder extends Seeder
             'nombre' => 'MONITOR',
             'descripcion' => 'Monitor',
         ]);
-      
+
     }
 }

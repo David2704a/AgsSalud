@@ -20,13 +20,12 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisteredUserController extends Controller
 {
-    
+
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Display the registration view. 
      */
-   
 
     /**
      * Handle an incoming registration request.
@@ -72,6 +71,10 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($data['password']),
                 'idPersona' => $persona->id,
             ]);
+
+            $rol = $data['role']; // Asumiendo que 'role' es el nombre del campo del formulario
+            $user->assignRole($rol);
+
 
             return $user;
         } catch (\Exception $e) {

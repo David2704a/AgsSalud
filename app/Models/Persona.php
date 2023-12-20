@@ -19,16 +19,13 @@ class Persona extends Model
         "identificacion",
         "fechaNac",
         "sexo",
-        
         "direccion",
-        "email",
-       
         "celular",
-        
+
     ];
-    
+
     public function usuario(){
-        return $this->hasOne(User::class, 'idPersona');
+        return $this->belongsTo(User::class, 'idPersona');
     }
 
     public function tipoIdentificacion(){

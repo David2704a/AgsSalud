@@ -20,21 +20,28 @@
             <a href="{{ route('mostrarProcedimiento') }}" class="button-izquierda arrow-left"><i
                     class="fa-solid fa-circle-arrow-left"></i>
                 Regresar</a>
+
+                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
             <a href="{{ route('createEstadoP') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Estado de
                 Procedimiento</a>
+                @endif
 
         </div>
 
 
         <div class="menu-container">
             <ul class="menu">
+                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
                 <li>
                     <a href="{{ route('mostrarProcedimiento') }}">Procedimiento</a>
 
                 </li>
+                @endif
+                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
                 <li>
                     <a href="{{ route('mostrarTipoP') }}">Tipo de Procedimiento</a>
                 </li>
+                @endif
             </ul>
         </div>
 
@@ -61,9 +68,11 @@
                         <th>
                             Descripcion
                         </th>
-                        <th>
-                            Acciones
-                        </th>
+                        @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
+                            <th>
+                                Acciones
+                            </th>
+                        @endif
                     </thead>
                     <tbody>
                         @foreach ($estadoProcedimiento as $estadoProcedimientos)
@@ -77,12 +86,15 @@
                                 <td>
                                     {{ $estadoProcedimientos->descripcion }}
                                 </td>
+                                @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
                                 <td>
+                                    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
                                     <a class="edit-button"
                                         href="{{ route('editEstadoP', ['id' => $estadoProcedimientos->idEstadoP]) }}">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
-
+                                    @endif
+                                    @if(auth()->user()->hasRole(['superAdmin','admin','tecnico']))
                                     <button type="button" class="delete-button"
                                         data-id="{{ $estadoProcedimientos->idEstadoP }}"
                                         data-name="{{ $estadoProcedimientos->estado }}">
@@ -90,7 +102,9 @@
                                             data-name="{{ $estadoProcedimientos->estado }}" class="fas fa-trash-alt">
                                         </i>
                                     </button>
+                                    @endif
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('documento')->nullable();
 
 
-            
+
             $table->string('nombres_apellidos')->nullable();
 
 
@@ -40,9 +40,9 @@ return new class extends Migration
             $table->string('estado')->nullable();
             $table->string('observacion')->nullable();
             $table->string('cantidad')->nullable();
-            
+
             $table->timestamps();
-        
+
         });
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ElementoExport;
+use App\Exports\ProcedimientoExport;
 use App\Models\Elemento;
 use App\Models\EstadoProcedimiento;
 use App\Models\Procedimiento;
@@ -9,6 +11,7 @@ use App\Models\TipoProcedimiento;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProcedimientoController extends Controller
 {
@@ -181,4 +184,25 @@ class ProcedimientoController extends Controller
 
 
     }
+
+
+
+    public function excelProcedimiento(Request $request)
+    {
+        // Obtener los valores de los filtros desde la solicitud
+        $filtros = [
+            'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
+            'idTipoElemento' => $request->input('idTipoElemento', null),
+            'fechaInicio' => $request->input('fechaInicio', null),
+            'fechaFin' => $request->input('fechaFin', null),
+            'idEstadoProcedimiento' => $request->input('idEstadoProcedimiento', null),
+            'idProcedimiento' => $request->input('idProcedimiento', null)
+        ];
+
+
+
+        // Descargar el informe en formato Excel con los filtros aplicados
+        return Excel::download(new ProcedimientoExport($filtros), 'procedimiento.xlsx');
+    }
+
 }

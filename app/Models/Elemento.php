@@ -12,17 +12,16 @@ class Elemento extends Model
     protected $table = 'elemento';
     protected $primaryKey = 'idElemento';
     protected $fillable = [
-        'id_dispo',
+        'idElemento',
         'marca',
         'referencia',
         'serial',
-        'procesador',
-        'ram',
-        'disco_duro',
-        'tarjeta_grafica',
         'modelo',
         'garantia',
-        'cantidad',
+        'ram',
+        'procesador',
+        'disco_duro',
+        'tarjeta_grafica',
         'descripcion',
         'idEstadoEquipo',
         'idTipoElemento',
@@ -44,12 +43,16 @@ class Elemento extends Model
     public function estado() {
         return $this->belongsTo(EstadoElemento::class, 'idEstadoEquipo');
     }
-    
+
     public function factura() {
         return $this->belongsTo(Factura::class, 'idFactura');
     }
 
     public function user() {
         return $this->belongsTo(user::class, 'idUsuario');
+    }
+
+    public function procedimiento() {
+        return $this->hasOne(Procedimiento::class, 'idElemento');
     }
 }
