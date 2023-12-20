@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Auth;
     <div class="green-line"></div>
 
 
-
-
     <div class="button-container">
         <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     </div>
@@ -43,31 +41,25 @@ use Illuminate\Support\Facades\Auth;
     </div>
     @endif
 
-    <div class="table-container">
-        <div class="card" style="width:50%; margin-left:25%">
-            <div class="card-body">
-                <form id="updateProfileForm" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}" method="POST" role="form" enctype="multipart/form-data">
-                    @csrf
+    <form id="updateProfileForm" class="form" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}" method="POST">                    @csrf
 
-                    <div class="mb-3">
-                        <label class="col-lg-8 control-label" for="name">Nombre de Usuario</label>
-                        <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control">
-                    </div>
+    <label for="name">Nombre usuario</label>
+            <br>
+            <input type="text" name="name" id="name" value="{{  Auth::user()->name }}">
+            <br>
                     
-                    <div class="mb-3">
-                        <label for="name">Correo</label>
-                        <input style="margin-top: 15px;" type="email" name="email" value="{{ Auth::user()->email }}" class="form-control">
-                    </div>
+            <label for="email">Correo</label>
+            <br>
+            <input type="text" name="email" id="email" value="{{ Auth::user()->email }}">
+            <br>
+            <br>
+            <br>
 
-            <!-- <button type="submit" class="button-container" href="{{ route('ActualizarPerfil') }}">Guardar cambios</button> -->
-
-                    <div class="row text-center mb-4 mt-5">
-                        <div class="col-md-12">
                             @if(auth()->user()->hasRole(['superAdmin','admin']))
-                            <button type="submit" class="btn btn-danger" href="{{ route('ActualizarPerfil') }}">Guardar cambios<i class="fas fa-sync-alt"></i> </button>
-                            @endif
-                            <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }} class="btn btn-primary">Actualizar Información<i class="fa-regular fa-pen-to-square"></i></button>
-                        </div>
+                            <button type="botton"  class="edit-button" href="{{ route('ActualizarPerfil') }} "title="Guardar cambios"  >Guardar cambios <i class="fas fa-sync-alt"></i>
+            </button>
+                                        @endif
+                                        <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}" title="Actualizar Información">Actualizar Información<i class="fa-regular fa-pen-to-square"></i>                        </div>
                     </div>
                 </form>
 

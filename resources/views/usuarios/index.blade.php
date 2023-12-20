@@ -78,6 +78,9 @@
                                                     class="fas fa-trash-alt"></i>
                                             </button>
 
+
+                                            
+
                                             <div id="myModal_{{ $usuario->id }}" class="modal">
                                                 <div class="modal-content">
                                                     <p id="modalMessage"></p>
