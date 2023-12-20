@@ -13,6 +13,7 @@ class Elemento extends Model
     protected $primaryKey = 'idElemento';
     protected $fillable = [
         'idElemento',
+        'id_dispo',
         'marca',
         'referencia',
         'serial',
