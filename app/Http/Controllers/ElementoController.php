@@ -18,25 +18,26 @@ class ElementoController extends Controller
 {
     public function index(){
     // Obtener el usuario autenticado
-    $user = Auth::user();
+        $user = Auth::user();
 
-    // Inicializar la variable $elementos
-    $elementos = null;
+        // Inicializar la variable $elementos
+        $elementos = null;
 
-    // Verificar el rol del usuario
-    if ($user->hasRole('colaborador')) {
-        // Si el usuario tiene el rol de "colaborador", obtener solo los elementos asignados a ese usuario
-        $elementos = $user->elementos()->paginate(10);
-    } else {
-        // Si el usuario no tiene el rol de "colaborador", obtener todos los elementos
-        $elementos = Elemento::paginate(10);
+        // Verificar el rol del usuario
+        if ($user->hasRole('colaborador')) {
+            // Si el usuario tiene el rol de "colaborador", obtener solo los elementos asignados a ese usuario
+            $elementos = $user->elementos()->paginate(10);
+        } else {
+            // Si el usuario no tiene el rol de "colaborador", obtener todos los elementos
+            $elementos = Elemento::paginate(10);
+        }
+
+        // Obtener estados de elementos
+        $estadosEquipos = EstadoElemento::all();
+
+        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
+
     }
-
-    // Obtener estados de elementos
-    $estadosEquipos = EstadoElemento::all();
-
-    return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
-}
 
     public function create(){
 
@@ -50,8 +51,8 @@ class ElementoController extends Controller
     }
 
 
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {
         $request->validate([
             'marca' => 'required',
             'referencia' => 'required',
@@ -63,11 +64,55 @@ class ElementoController extends Controller
         ]);
 
         $data = $request->all();
+
+        // Lógica para generar el nuevo ID del equipo
+        $nuevoIdEquipo = $this->generarNuevoIdEquipo($data['idCategoria']);
+        $data['id_dispo'] = $nuevoIdEquipo;
+
         $elemento = new Elemento($data);
+        $elemento->id_dispo = $nuevoIdEquipo;
         $elemento->save();
 
         return redirect()->route("elementos.index")->with('success', 'Elemento creado correctamente');
+    }
 
+    private function generarNuevoIdEquipo($categoria)
+    {
+        if ($categoria ==  5) {
+            $ultimoId = Elemento::select('id_dispo')
+                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.P'%"]])
+                ->orderBy('id_dispo','DESC')
+                ->first();
+
+            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.P'",$ultimoId->id_dispo)[1] : null;
+
+            if ($numeroEquipo === null) {
+                $numeroEquipo = "900237674'7'E.P'". 1;
+            } else {
+                $numeroEquipo = "900237674'7'E.P'".($numeroEquipo + 1);
+            }
+
+            return $numeroEquipo;
+        }
+
+        if ($categoria ==  3) {
+            $ultimoId = Elemento::select('id_dispo')
+                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.P'%"]])
+                ->orderBy('id_dispo','DESC')
+                ->first();
+
+            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7''",$ultimoId->id_dispo)[1] : null;
+
+            if ($numeroEquipo === null) {
+                $numeroEquipo = "900237674'7'E.P'". 1;
+            } else {
+                $numeroEquipo = "900237674'7'E.P'".($numeroEquipo + 1);
+            }
+
+            return $numeroEquipo;
+        }
+
+        return null; // Retorna null si la categoría no coincide con ninguna lógica específica
     }
 
     public function show($id)

@@ -45,7 +45,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="idTipoProcedimiento">Seleccionar Procedimiento:</label>
-                        <select name="idTipoProcedimiento" id="idTipoProcedimiento">
+                        <select name="idTipoProcedimiento" id="idTipoProcedimiento" onchange="aplicarFiltrosElementos()">
                             <option value="">Todos los Procedimientos</option>
                             @foreach ($tipoProcedimientos as $tipoProcedimiento)
                             <option value="{{$tipoProcedimiento->idTipoProcedimiento}}">{{$tipoProcedimiento->tipo}}</option>
@@ -56,7 +56,7 @@
 
                     <div class="form-group">
                         <label for="idEstadoEquipo">Seleccionar Estado de Equipo:</label>
-                        <select name="idEstadoEquipo" id="idEstadoEquipo" class="form-control">
+                        <select name="idEstadoEquipo" id="idEstadoEquipo" class="form-control" onchange="aplicarFiltrosElementos()">
                             <option value="">Todos los Estados</option>
                             @foreach ($estadosElementos as $estadoEquipo)
                                 <option value="{{ $estadoEquipo->idEstadoE }}">{{ $estadoEquipo->estado }}</option>
@@ -66,7 +66,7 @@
 
                     <div class="form-group">
                         <label for="idTipoElemento">Seleccionar Tipo de Elemento:</label>
-                        <select name="idTipoElemento" id="idTipoElemento" class="form-control">
+                        <select name="idTipoElemento" id="idTipoElemento" class="form-control" onchange="aplicarFiltrosElementos()">
                             <option value="">Todos los Tipos</option>
                             @foreach ($tipoElementos as $tipoElemento)
                                 <option value="{{ $tipoElemento->idTipoElemento }}">{{ $tipoElemento->tipo }}</option>
@@ -81,7 +81,7 @@
 
                     <div class="form-group">
                         <label for="idCategoria">Seleccionar una Categoria:</label>
-                        <select name="idCategoria" id="idCategoria" class="form-control">
+                        <select name="idCategoria" id="idCategoria" class="form-control" onchange="aplicarFiltrosElementos()">
                             <option value="">Todos las Categorias</option>
                             @foreach ($categorias as $categoria)
                                 <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre }}</option>
@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="idElemento">ID Elemento</label>
-                        <input type="number" name="idElemento" id="idElemento">
+                        <input type="number" name="idElemento" id="idElemento" onchange="aplicarFiltrosElementos()">
                     </div>
 
 
@@ -125,13 +125,7 @@
                         <tbody>
                             @foreach ($elementos as $elemento)
                                 <tr
-                                data-idtipoprocedimiento="{{ $elemento->procedimiento && $elemento->procedimiento->tipoProcedimiento ? $elemento->procedimiento->tipoProcedimiento->idTipoProcedimiento : '' }}"
-                                data-idestadoequipo="{{ $elemento->estado ? $elemento->estado->idEstadoE : '' }}"
-                                data-idtipoelemento="{{ $elemento->tipoElemento ? $elemento->tipoElemento->idTipoElemento : ''}}"
-                                data-idcategoria="{{ $elemento->categoria ? $elemento->categoria->idCategoria : '' }}"
-                                data-idelemento="{{ $elemento->idElemento ? $elemento->idElemento : ''}}"
-
-                                >
+                             >
                                     <td>{{$elemento->idElemento ? $elemento->idElemento : 'NO APLICA'}}</td>
                                     <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
                                     <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
@@ -206,7 +200,7 @@
 
                     <div class="form-group">
                         <label for="idResponsableEntrega">Responsable de Entrega:</label>
-                        <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control">
+                        <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control" onchange="aplicarFiltrosPrestamo()">
                             <option value="">Todos las Personas</option>
                             @foreach ($usuarios as $usuario)
                                 <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
@@ -216,7 +210,7 @@
 
                     <div class="form-group">
                         <label for="idResponsableRecibe">Responsable que Recibe:</label>
-                        <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control">
+                        <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control" onchange="aplicarFiltrosPrestamo()">
                             <option value="">Todos las Personas</option>
                             @foreach ($usuarios as $usuario)
                                 <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
@@ -226,7 +220,7 @@
 
                     <div class="form-group">
                         <label for="idProcedimiento">ID Procedimiento</label>
-                        <input type="number" name="idProcedimiento" id="idProcedimiento">
+                        <input type="number" name="idProcedimiento" id="idProcedimiento" onchange="aplicarFiltrosPrestamo()">
                     </div>
 
 
@@ -238,12 +232,12 @@
 
                     <div class="form-group" id="fechaInicioContainer">
                         <label for="fechaInicio">Fecha de Inicio:</label>
-                        <input type="date" name="fechaInicio" id="fechaInicio">
+                        <input type="date" name="fechaInicio" id="fechaInicio" onchange="aplicarFiltrosPrestamo()">
                     </div>
 
                     <div class="form-group" id="fechaFinContainer">
                         <label for="fechaFin">Fecha de Fin:</label>
-                        <input type="date" name="fechaFin" id="fechaFin">
+                        <input type="date" name="fechaFin" id="fechaFin" onchange="aplicarFiltrosPrestamo()">
                     </div>
 
                 </div>
@@ -251,8 +245,7 @@
 
                 <div class="table">
 
-                    @if ($procedimientos->count() > 0)
-                    <table id="miTabla">
+                    <table id="miTablaP">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -322,9 +315,6 @@
                 @endforeach
             </tbody>
         </table>
-        @else
-    <p>No hay procedimientos que cumplan con los criterios de filtro.</p>
-@endif
     </div>
 
     <div class="pagination">
@@ -478,148 +468,61 @@ function preSubmitAction() {
     }
 
 
-    /*
-===================
-PARA EL REPORTE DE PRESTAMOS
-===================
-*/
 
-    document.getElementById('idResponsableEntrega').addEventListener('change', actualizarTabla);
-    document.getElementById('idResponsableRecibe').addEventListener('change', actualizarTabla);
-document.getElementById('fechaInicio').addEventListener('change', actualizarTabla);
-document.getElementById('fechaFin').addEventListener('change', actualizarTabla);
-document.getElementById('idProcedimiento').addEventListener('change', actualizarTabla);
+function aplicarFiltrosElementos() {
+        // Recopilar valores de campos
+        var idTipoProcedimiento = document.getElementById('idTipoProcedimiento').value;
+        var idEstadoEquipo = document.getElementById('idEstadoEquipo').value;
+        var idTipoElemento = document.getElementById('idTipoElemento').value;
+        var idCategoria = document.getElementById('idCategoria').value;
+        var idElemento = document.getElementById('idElemento').value;
 
+        // Realizar la llamada AJAX
+        var xhr = new XMLHttpRequest();
+        var url = "/reportes/filtro"; // Reemplaza con la ruta correcta
+        var params = "idTipoProcedimiento=" + idTipoProcedimiento +
+                     "&idEstadoEquipo=" + idEstadoEquipo +
+                     "&idTipoElemento=" + idTipoElemento +
+                     "&idCategoria=" + idCategoria +
+                     "&idElemento=" + idElemento;
 
-
-/*
-===================
-PARA EL REPORTE DE ELEMENTOS
-===================
-*/
-
-document.getElementById('idTipoProcedimiento').addEventListener('change', actualizarTabla);
-document.getElementById('idEstadoEquipo'),addEventListener('change', actualizarTabla);
-document.getElementById('idTipoElemento'),addEventListener('change', actualizarTabla);
-document.getElementById('idCategoria'),addEventListener('change', actualizarTabla);
-document.getElementById('idElemento'),addEventListener('change', actualizarTabla);
-
-// Función para actualizar la tabla
-function actualizarTabla() {
-
-    /*
-===================
-PARA EL REPORTE DE PRESTAMOS
-===================
-*/
-
+        xhr.open("GET", url + "?" + params, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Actualizar la tabla con la respuesta del servidor
+                var tabla = document.getElementById('miTabla');
+                tabla.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    }
+    function aplicarFiltrosPrestamo() {
+    // Recopilar valores de campos
     var idResponsableEntrega = document.getElementById('idResponsableEntrega').value;
     var idResponsableRecibe = document.getElementById('idResponsableRecibe').value;
+    var idProcedimiento = document.getElementById('idProcedimiento').value;
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
-    var idProcedimiento = document.getElementById('idProcedimiento').value;
 
+    // Realizar la llamada AJAX
+    var xhr = new XMLHttpRequest();
+    var url = "/reportes/filtrop"; // Reemplaza con la ruta correcta
+    var params = "idResponsableEntrega=" + idResponsableEntrega +
+                 "&idResponsableRecibe=" + idResponsableRecibe +
+                 "&idProcedimiento=" + idProcedimiento +
+                 "&fechaInicio=" + fechaInicio +
+                 "&fechaFin=" + fechaFin;
 
-    /*
-===================
-PARA EL REPORTE DE ELEMENTOS
-===================
-*/
-
-var idTipoProcedimiento = document.getElementById('idTipoProcedimiento').value;
-var idEstadoEquipo = document.getElementById('idEstadoEquipo').value;
-var idTipoElemento = document.getElementById('idTipoElemento').value;
-var idCategoria = document.getElementById('idCategoria').value;
-var idElemento = document.getElementById('idElemento').value;
-
-
-
-    // Recorre las filas de la tabla
-    var filas = document.querySelectorAll('#miTabla tbody tr');
-    filas.forEach(function(fila) {
-        var cumpleFiltro = true;
-
-        /*
-===================
-PARA EL REPORTE DE PRESTAMOS
-===================
-*/
-        // Obtén los valores de los atributos y proporciona valores predeterminados si son nulos
-        var idProcedimientoFila = fila.dataset.idprocedimiento || '';
-        var fechaInicioFila = fila.dataset.fechainicio || '';
-        var idResponsableEntregaFila = fila.dataset.idresponsableentrega || '';
-        var idResponsableRecibeFila = fila.dataset.idresponsablerecibe || '';
-
-/*
-===================
-PARA EL REPORTE DE ELEMENTOS
-===================
-*/
-        var idTipoProcedimientoFila = fila.dataset.idtipoprocedimiento || '';
-        var idEstadoEquipoFila = fila.dataset.idestadoequipo || '';
-        var idTipoElementoFila = fila.dataset.idtipoelemento || '';
-        var idCategoriaFila = fila.dataset.idcategoria || '';
-        var idElementoFila = fila.dataset.idelemento || '';
-
-
-/*
-===================
-PARA EL REPORTE DE PRESTAMOS
-===================
-*/
-        // Lógica de filtrado según los valores seleccionados
-        if (idProcedimiento && idProcedimientoFila !== idProcedimiento) {
-            cumpleFiltro = false;
+    xhr.open("GET", url + "?" + params, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // Actualizar la tabla con la respuesta del servidor
+            var tabla = document.getElementById('miTablaP'); // Asegúrate de tener el ID correcto
+            tabla.innerHTML = xhr.responseText;
         }
-        if (fechaInicio && fechaInicioFila < fechaInicio) {
-            cumpleFiltro = false;
-        }
-        if (idResponsableEntrega && idResponsableEntregaFila !== idResponsableEntrega) {
-            cumpleFiltro = false;
-        }
-        if (idResponsableRecibe && idResponsableRecibeFila !== idResponsableRecibe) {
-            cumpleFiltro = false;
-        }
-
-
-/*
-===================
-PARA EL REPORTE DE ELEMENTOS
-===================
-*/
-
-
-        if (idTipoProcedimiento && idTipoProcedimientoFila !== idTipoProcedimiento)
-        {
-            cumpleFiltro = false;
-        }
-
-        if (idEstadoEquipo && idEstadoEquipoFila !== idEstadoEquipo)
-        {
-            cumpleFiltro = false;
-        }
-        if (idTipoElemento && idTipoElementoFila !== idTipoElemento)
-        {
-            cumpleFiltro = false;
-        }
-        if (idCategoria && idCategoriaFila !== idCategoria)
-        {
-            cumpleFiltro = false;
-        }
-        if (idElemento && idElementoFila !== idElemento)
-        {
-            cumpleFiltro = false;
-        }
-
-        // Mostrar u ocultar la fila según si cumple o no con los filtros
-        fila.style.display = cumpleFiltro ? '' : 'none';
-    });
+    };
+    xhr.send();
 }
-
-
-
-
-
 
 </script>
 
