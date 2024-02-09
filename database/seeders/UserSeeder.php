@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         $user = User::create([
             "name"=> "Johan",
-            "email"=> "admin@gmail.com",
+            "email"=> "admin1@gmail.com",
             'idPersona' => 4,
             "password"=> bcrypt("1234567890")
         ]);
@@ -25,6 +25,13 @@ class UserSeeder extends Seeder
             "name"=> "JuanOrozco",
             "email"=> "juanjoseorozco9@gmail.com",
             "idPersona" => 3,
+            "password"=> bcrypt("1234567890")
+        ]);
+        $user->assignRole('superAdmin');
+        $user = User::create([
+            "name"=> "JessicaVanesa",
+            "email"=> "admin@gmail.com",
+            "idPersona" =>1,
             "password"=> bcrypt("1234567890")
         ]);
         $user->assignRole('superAdmin');
