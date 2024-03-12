@@ -19,20 +19,24 @@
                     <td>{{$elemento->categoria->nombre}}</td>
                     <td>{{$elemento->factura ? $elemento->factura->codigoFactura : 'NO APLICA'}}</td>
                     <td>{{$elemento->user ? $elemento->user->name : 'NO APLICA'}}</td>
+                    @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                     <td>
-                        <a class="edit-button"
-                            href="{{ route('elementos.edit', $elemento->idElemento) }}">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </a>
+                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                            <a class="edit-button" title="Editar"
+                                href="{{ route('elementos.edit', $elemento->idElemento) }}">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                        @endif
+                        @if (auth()->user()->hasRole('superAdmin'))
+                            <button type="button" class="delete-button" title="Eliminar"
+                                data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
 
-                    <button type="button" class="delete-button"
-                        data-id="{{$elemento->idElemento}}"
-                        data-name="{{ $elemento->marca}}">
-                        <i data-id="{{ $elemento->idElemento }}"
-                        data-name="{{ $elemento->marca}}" class="fas fa-trash-alt">
-                        </i>
-                </button>
+                                <i data-id="{{ $elemento->idElemento }}"
+                                    data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
+                            </button>
+                        @endif
                     </td>
+                @endif
                 </tr>
             @endforeach
         </tbody>

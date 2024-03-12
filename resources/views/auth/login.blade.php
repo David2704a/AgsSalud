@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Vansss</title>
+    <title>Inicio de Sesión</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

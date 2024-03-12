@@ -1,6 +1,6 @@
 @if ($categorias->count() > 0)
     <table>
-        
+
         <tbody>
             @foreach ($categorias as $categoria)
                 <tr>
@@ -8,21 +8,27 @@
                     <td>{{ $categoria->nombre }}</td>
                     <td>{{ $categoria->descripcion }}</td>
                     <!-- Agrega más celdas según tus necesidades -->
-                    <td>
-                    <a class="edit-button" method="POST"
-                             href="{{ route('categorias.edit', ['idCategoria' => $categoria->idCategoria]) }}" 
+                    @if(auth()->user()->hasRole(['superAdmin','administador']))
+                        <td>
+
+
+                            @if(auth()->user()->hasRole(['superAdmin','administrador']))
+                            <a class="edit-button" method="POST"
+                             href="{{ route('categorias.edit', ['idCategoria' => $categoria->idCategoria]) }}"
                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                             </a>
+                            @endif
 
-
-
-                            <button type="button" class="delete-button" title="Eliminar" 
+                            @if(auth()->user()->hasRole(['superAdmin']))
+                            <button type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $categoria->idCategoria }}"
                              data-name="{{ $categoria->nombre }}">
 
                                 <i data-id="{{ $categoria->idCategoria }}" data-name="{{ $categoria->nombre }}" class="fas fa-trash-alt"></i>
                             </button>
-                    </td>
+                            @endif
+                        </td>
+                        @endif
                 </tr>
             @endforeach
         </tbody>

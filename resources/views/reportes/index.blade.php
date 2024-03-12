@@ -245,7 +245,7 @@
 
                 <div class="table">
 
-                    <table id="miTablaP">
+                    <table id="tablaReportesPrestamos">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -381,149 +381,13 @@
 </footer>
 
 
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
 
-
-<script>
-    // Mostrar u ocultar campos según el tipo de informe seleccionado
-    function cambiarContenido(tipoModulo) {
-        var elementos = document.getElementById('elementos');
-        var procedimientos = document.getElementById('procedimientos');
-        var menuItems = document.querySelectorAll('.menu-item');
-
-
-
-        // Ocultar todos los contenidos
-        elementos.classList.add('hidden');
-        procedimientos.classList.add('hidden');
-
-
-        // Mostrar el contenido según el tipo de informe seleccionado
-        if (tipoModulo === 'elemento') {
-            elementos.classList.remove('hidden');
-        } else if (tipoModulo === 'procedimiento') {
-            procedimientos.classList.remove('hidden');
-        }
-
-
-
-        menuItems.forEach(function (item) {
-            item.classList.remove('active');
-        });
-
-        event.currentTarget.classList.add('active');
-    }
-
-
-    function OptionsDocumentsElementos() {
-        var documentOptions = document.getElementById('documentOptionsElements');
-        documentOptions.style.display = (documentOptions.style.display === 'flex') ? 'none' : 'flex';
-    }
-    function OptionsDocumentsProcedimientos() {
-        var documentOptions = document.getElementById('documentOptionsProcedimientos');
-        documentOptions.style.display = (documentOptions.style.display === 'flex') ? 'none' : 'flex';
-
-        console.log('aloooooo');
-    }
-
-
-function preSubmitAction() {
-        // Realiza el filtrado u otras acciones aquí
-        console.log('Realizando acción antes del envío del formulario');
-        return true; // Permitir el envío del formulario
-    }
-
-    function cambioDeRutasElemento(format) {
-        // Cambia la acción del formulario según el formato seleccionado
-        var form = document.getElementById('exportFormE');
-        if (format === 'excel') {
-            form.action = "{{ url('/excel/elemento') }}"; // Cambia la ruta según sea necesario
-        } else if (format === 'pdf') {
-            form.target = '_blank';
-            form.action = "{{ url('/pdf/elemento') }}"; // Cambia la ruta según sea necesario
-        }
-
-
-
-
-        // Completa el formulario y lo envía
-        form.submit();
-    }
-
-    function cambioDeRutasProcedimiento(format) {
-        // Cambia la acción del formulario según el formato seleccionado
-        var form = document.getElementById('exportFormP');
-        if (format === 'excel') {
-            form.action = "{{ url('/excel/procedimiento') }}"; // Cambia la ruta según sea necesario
-        } else if (format === 'pdf') {
-            form.target = '_blank';
-            form.action = "{{ url('/pdf/procedimiento') }}"; // Cambia la ruta según sea necesario
-        }
-
-
-
-
-        // Completa el formulario y lo envía
-        form.submit();
-    }
-
-
-
-function aplicarFiltrosElementos() {
-        // Recopilar valores de campos
-        var idTipoProcedimiento = document.getElementById('idTipoProcedimiento').value;
-        var idEstadoEquipo = document.getElementById('idEstadoEquipo').value;
-        var idTipoElemento = document.getElementById('idTipoElemento').value;
-        var idCategoria = document.getElementById('idCategoria').value;
-        var idElemento = document.getElementById('idElemento').value;
-
-        // Realizar la llamada AJAX
-        var xhr = new XMLHttpRequest();
-        var url = "/reportes/filtro"; // Reemplaza con la ruta correcta
-        var params = "idTipoProcedimiento=" + idTipoProcedimiento +
-                     "&idEstadoEquipo=" + idEstadoEquipo +
-                     "&idTipoElemento=" + idTipoElemento +
-                     "&idCategoria=" + idCategoria +
-                     "&idElemento=" + idElemento;
-
-        xhr.open("GET", url + "?" + params, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Actualizar la tabla con la respuesta del servidor
-                var tabla = document.getElementById('miTabla');
-                tabla.innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send();
-    }
-    function aplicarFiltrosPrestamo() {
-    // Recopilar valores de campos
-    var idResponsableEntrega = document.getElementById('idResponsableEntrega').value;
-    var idResponsableRecibe = document.getElementById('idResponsableRecibe').value;
-    var idProcedimiento = document.getElementById('idProcedimiento').value;
-    var fechaInicio = document.getElementById('fechaInicio').value;
-    var fechaFin = document.getElementById('fechaFin').value;
-
-    // Realizar la llamada AJAX
-    var xhr = new XMLHttpRequest();
-    var url = "/reportes/filtrop"; // Reemplaza con la ruta correcta
-    var params = "idResponsableEntrega=" + idResponsableEntrega +
-                 "&idResponsableRecibe=" + idResponsableRecibe +
-                 "&idProcedimiento=" + idProcedimiento +
-                 "&fechaInicio=" + fechaInicio +
-                 "&fechaFin=" + fechaFin;
-
-    xhr.open("GET", url + "?" + params, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // Actualizar la tabla con la respuesta del servidor
-            var tabla = document.getElementById('miTablaP'); // Asegúrate de tener el ID correcto
-            tabla.innerHTML = xhr.responseText;
-        }
-    };
-    xhr.send();
-}
-
-</script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="{{ asset('js/reportes/reportes.js') }}"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>   
 
 @endsection
