@@ -1,3 +1,68 @@
+ /*
+ ================================================================
+ DATATABLE PARA LAS TABLAS
+ ================================================================
+ */
+
+ $(document).ready(function() {
+    // let table = new DataTable('#miTabla');
+    inicializarTablaCums()
+});
+
+ function inicializarTablaCums() {
+    var table = $('#tablaReportesPrestamos').DataTable({
+
+        // language: textoEspañolTables(),
+
+
+        initComplete: function (settings, json) {
+
+            $('.table .dataTables_filter input[type="search"]').each(function () {
+                var input = $(this);
+                var label = input.parent('label');
+                input.insertAfter(label);
+                label.remove();
+            });
+
+
+            $('.table .dataTables_filter input[type="search"]').attr('type', 'text').attr('placeholder', 'Buscar...');
+
+
+
+            var buttonHtml = '<button class="search-button" type="button">' +
+                '<svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">' +
+                '<path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>' +
+                '</svg>' +
+                '</button>';
+
+
+            $('.table .dataTables_filter ').prepend(buttonHtml);
+
+
+            var resetButtonHtml = '<button class="reset" type="reset">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>' +
+                '</svg>' +
+                '</button>';
+
+            $('.table .dataTables_filter').append(resetButtonHtml);
+
+
+            $('.reset').click(function () {
+                table.search('').columns().search('').draw();
+                $('.table .dataTables_filter input[type="search"]').val('');
+            });
+        }
+    });
+}
+
+
+/*
+============================================================
+FUNCION PARA CAMBIAR DE CONTENIDO
+============================================================
+*/
+
  // Mostrar u ocultar campos según el tipo de informe seleccionado
  function cambiarContenido(tipoModulo) {
     var elementos = document.getElementById('elementos');
@@ -79,74 +144,60 @@ function cambioDeRutasProcedimiento(format) {
     // Completa el formulario y lo envía
     form.submit();
 }
-/*
-===================
-PARA EL REPORTE DE PRESTAMOS
-===================
-*/
-document.getElementById('idResponsableEntrega').addEventListener('change', actualizarTabla);
-document.getElementById('idResponsableRecibe').addEventListener('change', actualizarTabla);
-document.getElementById('fechaInicio').addEventListener('change', actualizarTabla);
-document.getElementById('fechaFin').addEventListener('change', actualizarTabla);
-document.getElementById('idProcedimiento').addEventListener('change', actualizarTabla);
 
 
-/*
-===================
-PARA EL REPORTE DE ELEMENTOS
-====================
-*/
 
-document.getElementById('idTipoProcedimiento').addEventListener('change', actualizarTabla);
-// Función para actualizar la tabla
-function actualizarTabla() {
-console.log('Se llamó a actualizarTabla');
-/*
-===================
-PARA EL REPORTE DE PRESTAMOS
-===================
-*/
+function aplicarFiltrosElementos() {
+    // Recopilar valores de campos
+    var idTipoProcedimiento = document.getElementById('idTipoProcedimiento').value;
+    var idEstadoEquipo = document.getElementById('idEstadoEquipo').value;
+    var idTipoElemento = document.getElementById('idTipoElemento').value;
+    var idCategoria = document.getElementById('idCategoria').value;
+    var idElemento = document.getElementById('idElemento').value;
+
+    // Realizar la llamada AJAX
+    var xhr = new XMLHttpRequest();
+    var url = "/reportes/filtro"; // Reemplaza con la ruta correcta
+    var params = "idTipoProcedimiento=" + idTipoProcedimiento +
+                 "&idEstadoEquipo=" + idEstadoEquipo +
+                 "&idTipoElemento=" + idTipoElemento +
+                 "&idCategoria=" + idCategoria +
+                 "&idElemento=" + idElemento;
+
+    xhr.open("GET", url + "?" + params, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // Actualizar la tabla con la respuesta del servidor
+            var tabla = document.getElementById('miTabla');
+            tabla.innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send();
+}
+function aplicarFiltrosPrestamo() {
+// Recopilar valores de campos
 var idResponsableEntrega = document.getElementById('idResponsableEntrega').value;
 var idResponsableRecibe = document.getElementById('idResponsableRecibe').value;
+var idProcedimiento = document.getElementById('idProcedimiento').value;
 var fechaInicio = document.getElementById('fechaInicio').value;
 var fechaFin = document.getElementById('fechaFin').value;
-var idProcedimiento = document.getElementById('idProcedimiento').value;
 
-/*
-===================
-PARA EL REPORTE DE ELEMENTOS
-====================
-*/
+// Realizar la llamada AJAX
+var xhr = new XMLHttpRequest();
+var url = "/reportes/filtrop"; // Reemplaza con la ruta correcta
+var params = "idResponsableEntrega=" + idResponsableEntrega +
+             "&idResponsableRecibe=" + idResponsableRecibe +
+             "&idProcedimiento=" + idProcedimiento +
+             "&fechaInicio=" + fechaInicio +
+             "&fechaFin=" + fechaFin;
 
-var idTipoProcedimiento = document.getElementById('idTipoProcedimiento').value
-
-
-// Recorre las filas de la tabla
-var filas = document.querySelectorAll('#miTabla tbody tr');
-filas.forEach(function(fila) {
-    var cumpleFiltro = true;
-
-    // Lógica de filtrado según los valores seleccionados
-    if (idProcedimiento && fila.dataset.idprocedimiento !== idProcedimiento) {
-        cumpleFiltro = false;
+xhr.open("GET", url + "?" + params, true);
+xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        // Actualizar la tabla con la respuesta del servidor
+        var tabla = document.getElementById('miTablaP'); // Asegúrate de tener el ID correcto
+        tabla.innerHTML = xhr.responseText;
     }
-    if (fechaInicio) {
-        var fechaInicioFila = new Date(fila.dataset.fechainicio).getTime();
-        var fechaInicioSeleccionada = new Date(fechaInicio).getTime();
-        if (fechaInicioFila < fechaInicioSeleccionada) {
-            cumpleFiltro = false;
-        }
-    }
-    if (idResponsableEntrega && fila.dataset.idresponsableentrega !== idResponsableEntrega) {
-        cumpleFiltro = false;
-    }
-    if (idResponsableRecibe && fila.dataset.idresponsablerecibe !== idResponsableRecibe) {
-        cumpleFiltro = false;
-    }
-
-    // Agrega más lógica de filtrado según sea necesario
-
-    // Mostrar u ocultar la fila según si cumple o no con los filtros
-    fila.style.display = cumpleFiltro ? '' : 'none';
-});
+};
+xhr.send();
 }

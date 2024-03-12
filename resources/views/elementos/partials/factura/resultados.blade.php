@@ -10,20 +10,28 @@
                     <td>{{ $factura->metodoPago}}</td>
                     <td>{{ $factura->valor}}</td>
                     <td>{{ $factura->descripcion}}</td>
+                    @if(auth()->user()->hasRole(['superAdmin','administrador']))
                     <td>
-                        <a class="edit-button"
-                            href="{{ route('facturas.edit', $factura->idFactura) }}">
+                        <a class="show-button" title="Ver" onclick="mostrarArchivo('{{$factura->rutaFactura }}')">
+                            <i class="fa-regular fa-eye"></i>
+                        </a>
+                        @if(auth()->user()->hasRole(['superAdmin','admin']))
+                        <a class="edit-button" title="Editar"
+                            href="{{ route('facturas.edit',$factura->idFactura) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
+                        @endif
 
-                    <button type="button" class="delete-button"
-                        data-id="{{$factura->idFactura }}"
-                        data-name="{{ $factura->codigoFactura }}">
-                        <i data-id="{{ $factura->idFactura }}"
-                        data-name="{{ $factura->codigoFactura}}" class="fas fa-trash-alt">
-                        </i>
-                </button>
+                        @if(auth()->user()->hasRole(['superAdmin']))
+                        <button title="Eliminar"
+                            type="button" class="delete-button"
+                            data-id="{{$factura->idFactura }}"
+                            data-tipo="{{$factura->codigoFactura}}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        @endif
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

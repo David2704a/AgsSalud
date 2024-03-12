@@ -77,7 +77,9 @@
                             <th>Elemento</th>
                             <th>Estado del procedimientos</th>
                             <th>Tipo de procedimientos</th>
+                            @if(auth()->user()->hasRole(['superAdmin','administador']))
                             <th>Acciones</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>

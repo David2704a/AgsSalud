@@ -38,25 +38,30 @@
                         {{ $procedimiento->tipoProcedimiento->tipo }}
                     </td>
 
+                    @if(auth()->user()->hasRole(['superAdmin','administador']))
                     <td>
+                        @if(auth()->user()->hasRole(['superAdmin','administador']))
                         <a class="edit-button"
-                            href="{{ route('editProcedimiento', $procedimiento->idProcedimiento) }}">
+                            href="{{ route('editProcedimiento', $procedimientos->idProcedimiento) }}">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
-
+                        @endif
+                        @if(auth()->user()->hasRole(['superAdmin']))
                         <button type="button" class="delete-button"
-                            data-id="{{ $procedimiento->idProcedimiento }}"
-                            data-name="{{ $procedimiento->elemento->modelo }}
+                            data-id="{{ $procedimientos->idProcedimiento }}"
+                            data-name="{{ $procedimientos->elemento->modelo }}
                                 <span class='record-id-message'>Con el proceso</span>
-                                {{ $procedimiento->tipoProcedimiento->tipo }}">
-                            <i data-id="{{ $procedimiento->idProcedimiento }}"
-                                data-name="{{ $procedimiento->elemento->modelo }}
+                                {{ $procedimientos->tipoProcedimiento->tipo }}">
+                            <i data-id="{{ $procedimientos->idProcedimiento }}"
+                                data-name="{{ $procedimientos->elemento->modelo }}
                                 <span class='record-id-message'>y el proceso</span>
-                                {{ $procedimiento->tipoProcedimiento->tipo }}"
+                                {{ $procedimientos->tipoProcedimiento->tipo }}"
                                 class="fas fa-trash-alt">
                             </i>
                         </button>
+                        @endif
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

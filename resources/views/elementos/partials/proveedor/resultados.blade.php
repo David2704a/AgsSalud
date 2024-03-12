@@ -14,27 +14,22 @@
                         <td>{{$proveedores->telefono}}</td>
                         <td>{{$proveedores->correoElectronico}}</td>
                         <td>{{$proveedores->direccion}}</td>
-                    <td>
-                        <a
-                        class="edit-button"
-                        href="{{ route('editTipoP',
-                        ['id' => $proveedores->idProveedor]) }}"
-                        title="Editar"><i class="fa-regular fa-pen-to-square"></i>
-                    </a>
-
-
-                    <button
-                        type="button" class="delete-button" title="Eliminar"
-                        data-id="{{ $proveedores->idProveedor }}"
-                        data-name="{{$proveedores->nombre}}">
-
-                    <i
-                        data-id="{{ $proveedores->idProveedor }}"
-                        data-name="{{$proveedores->nombre}}"
-                        class="fas fa-trash-alt">
-                    </i>
-                    </button>
-                    </td>
+                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
+                        <td>
+                            @if(auth()->user()->hasRole(['superAdmin','administrador']))                        <a class="edit-button"
+                                href="{{ route('proveedores.edit',$proveedor->idProveedor) }}">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                            @endif
+                            @if(auth()->user()->hasRole(['superAdmin']))                        <button title="Eliminar"
+                            type="button" class="delete-button"
+                            data-id="{{ $proveedor->idProveedor }}"
+                            data-tipo="{{$proveedor->nombre}}">
+                            <i class="fas fa-trash-alt"></i>
+                            </button>
+                            @endif
+                        </td>
+                        @endif
                 </tr>
             @endforeach
         </tbody>
