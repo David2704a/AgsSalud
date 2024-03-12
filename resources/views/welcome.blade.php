@@ -36,7 +36,7 @@
 
 
     @if(auth()->user()->hasRole(['superAdmin','administrador','colaborador','tecnico']))
-    <a href="/elementos" title="Elementos" class="button-link">
+    <a href="{{ url('/elementos') }}" title="Elementos" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/elemento.svg')}}" alt="alo">
         </div>
