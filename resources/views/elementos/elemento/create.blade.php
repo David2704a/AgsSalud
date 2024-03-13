@@ -31,10 +31,26 @@
     <div class="file-input-container">
         <input type="file" id="archivo" name="archivo" onchange="mostrarBotonCargar()">
     </div>
-    <button type="submit" class="cargarbutton" id="cargarBtn" style="display:none;">
+    <button type="submit" class="cargarbutton" id="cargarBtn" style="display:none;" onclick="showLoadingMessage()">
         <i class="fas fa-upload"></i> Cargar Archivo
     </button>
 </form>
+
+<script>
+        function showLoadingMessage() {
+        // $('#').modal('hide');
+        document.getElementById('overlay').style.display = 'flex';
+    }
+</script>
+@include('components.overlay')
+
+<script>
+        function showLoadingMessage() {
+        // $('#').modal('hide');
+        document.getElementById('overlay').style.display = 'flex';
+    }
+</script>
+@include('components.overlay')
 
 
 <script>
@@ -43,7 +59,7 @@
     });
 </script>
     </div>
-    <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva">
+    <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva" onclick="showLoadingMessage()">
     <i class="fas fa-arrow-up"></i>
 </a>
 

@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 
 
     <div class="button-container">
-        <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+        <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     </div>
 
     @if(session('success'))

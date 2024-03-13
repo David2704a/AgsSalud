@@ -29,3 +29,7 @@ function obtenerParteNombre(nombreCompleto) {
     }
 }
 
+// function showLoadingMessage() {
+//     // $('#').modal('hide');
+//     document.getElementById('overlay').style.display = 'flex';
+// }

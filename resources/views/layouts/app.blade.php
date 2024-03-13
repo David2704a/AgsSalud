@@ -19,21 +19,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <title>@yield('title')</title>
-
-
-
-
-
 </head>
 <body>
 
 
-<header>
+<header >
     <div class="logo">
         <img src="{{asset('imgs/logos/Ags.png')}}" alt="Logo de la empresa">
     </div>
     <div class="home">
-        <a href="/dashboard" title="Inicio">
+        <a href="{{url('/dashboard')}}" title="Inicio">
             <i class="fa-solid fa-house-flag"></i>
         </a>
     </div>
