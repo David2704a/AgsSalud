@@ -1,14 +1,13 @@
 @extends('layouts.app')
 
 @section('title', 'Elemento')
- 
+
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/factura/factura.css')}}">
 <script src="{{asset('js/elemento/elemento.js')}}"></script>
 <script src="{{asset('js/elemento/cargaExcel.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script src="{{asset('js/layouts.js')}}"></script>
 
 
 @endsection
@@ -37,6 +36,12 @@
     </button>
 </form>
 
+
+<script>
+    document.getElementById('formularioImportar').addEventListener('submit', function () {
+        document.getElementById('carga').style.display = 'block';
+    });
+</script>
     </div>
     <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva">
     <i class="fas fa-arrow-up"></i>
@@ -59,7 +64,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        
+
         @if(session('error'))
     <div id="error-alert" class="alert alert-danger">
         {{ session('error') }}
@@ -187,7 +192,7 @@
         <div class="right-content">
             <div class="images">
                 <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-                <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+                <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
             </div>
             <div class="separator"></div>
             <div class="text">

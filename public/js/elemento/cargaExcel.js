@@ -1,5 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
+    
 function mostrarBotonCargar() {
     var archivoInput = document.getElementById('archivo');
     var cargarBtn = document.getElementById('cargarBtn');

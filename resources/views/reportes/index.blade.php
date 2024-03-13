@@ -100,8 +100,9 @@
                 </div>
 
 
-                <div class="table">
-                    <table id="miTabla">
+                <div class="tableElementos">
+                    <br>
+                    <table id="tablaReportElementos">
                         <thead>
                             <th>ID</th>
                             <th>Marca</th>
@@ -243,7 +244,7 @@
                 </div>
 
 
-                <div class="table">
+                <div class="tablePrestamos">
 
                     <table id="tablaReportesPrestamos">
                         <thead>
@@ -380,14 +381,11 @@
     </div>
 </footer>
 
-
-<link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
-
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-
-
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('js/reportes/reportes.js') }}"></script>
-<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>   
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 
 @endsection

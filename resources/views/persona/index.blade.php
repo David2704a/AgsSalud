@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\Auth;
             <br>
             <input type="text" name="name" id="name" value="{{  Auth::user()->name }}">
             <br>
-                    
+
             <label for="email">Correo</label>
             <br>
             <input type="text" name="email" id="email" value="{{ Auth::user()->email }}">
@@ -59,7 +59,14 @@ use Illuminate\Support\Facades\Auth;
                             <button type="botton"  class="edit-button" href="{{ route('ActualizarPerfil') }} "title="Guardar cambios"  >Guardar cambios <i class="fas fa-sync-alt"></i>
             </button>
                                         @endif
-                                        <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}" title="Actualizar Información">Actualizar Información<i class="fa-regular fa-pen-to-square"></i>                        </div>
+                                        <a class="playstore-button" href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}"  >
+                                            <i class="fa-regular fa-pen-to-square icon"></i>
+                                            <span class="texts">
+                                              <span class="text-1">Actualizar</span>
+                                              <span class="text-2">Información</span>
+                                            </span>
+                                          </a>
+                                        {{-- <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}" title="Actualizar Información">Actualizar Información<i class="fa-regular fa-pen-to-square"></i>                        </div> --}}
                     </div>
                 </form>
 
