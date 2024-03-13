@@ -13,7 +13,7 @@
         <div class="green-line"></div>
 
         <div class="button-container">
-            <a href="/dashboard" class="button-izquierda arrow-left">
+            <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left">
                 <i class="fa-solid fa-circle-arrow-left"></i> Regresar
             </a>
             <a href="{{ route('auth.register') }}" class="button-derecha">
