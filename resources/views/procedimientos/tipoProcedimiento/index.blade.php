@@ -17,7 +17,7 @@
 
 
 <div class="button-container">
-    <a href="/procedimiento" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="{{url('/procedimiento')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
         <a href="{{route('createTipoP')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Tipo de Procedimiento</a>
     @endif
@@ -137,7 +137,7 @@
     <br>
 
 
-    <footer class="footer">
+    <footer class="footer position-absolute top-100 start-50 translate-middle">
         <div class="left-images">
             <div class="column">
                 <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">

@@ -21,7 +21,7 @@
         <div class="green-line"></div>
 
         <div class="button-container">
-            <a href="/dashboard" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+            <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
             @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
             <a href="{{ route('createProcedimiento') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
                 procedimiento</a>

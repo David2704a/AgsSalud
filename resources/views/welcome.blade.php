@@ -26,7 +26,7 @@
 
 
     @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
-    <a href="/procedimiento" title="Procedimientos" class="button-link">
+    <a href="{{url('/procedimiento')}}" title="Procedimientos" class="button-link">
         <div class="circle-button btn-background-circle">
             <img src="{{asset('imgs/icons/process.png')}}" alt="alo">
         </div>
@@ -79,7 +79,7 @@
 
 </div>
 
-<footer class="footer">
+<footer class="footer position-absolute top-100 start-50 translate-middle">
     <div class="left-images">
         <div class="column">
             <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">
