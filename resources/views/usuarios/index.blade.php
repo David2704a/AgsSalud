@@ -5,6 +5,7 @@
 @section('links')
     <link rel="stylesheet" href="{{ asset('/css/categoria/categoria.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{asset('js/user/user.js')}}"></script>
 @endsection
 
 @section('content')
@@ -111,38 +112,6 @@
         @endif
 
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mensajeVacio = document.querySelector('.mensaje-vacio');
-            const searchInput = document.getElementById('search-input');
-            const tableBody = document.querySelector('tbody');
-
-            function updateTable(filtro) {
-                $.ajax({
-                    url:'/usuariosBuscar',
-                    method: 'GET',
-                    data: { filtro: filtro },
-                    success: function (data) {
-                        tableBody.innerHTML = data;
-                    },
-                    error: function (error) {
-                        console.error('Error al realizar la búsqueda:', error);
-                    },
-                });
-            }
-
-            searchInput.addEventListener('input', function () {
-                const filtro = searchInput.value.trim().toLowerCase();
-                updateTable(filtro);
-            });
-
-            $('.delete-button').on('click', function () {
-                var userId = $(this).data('id');
-                $('#myModal_' + userId).show();
-            });
-        });
-    </script>
 
     <div id="myModal" class="modal">
         <div class="modal-content">

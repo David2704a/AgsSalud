@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateTable(filtro) {
       $.ajax({
-        url: '/procedimiento/buscar',
+        url: urlBase+'/procedimiento/buscar',
         method: 'GET',
         data: { filtro: filtro },
         success: function (data) {
