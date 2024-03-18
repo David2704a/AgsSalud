@@ -14,18 +14,18 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
         $this->call(EstadoProcedimientoSeeder::class);
-        $this->call(TipoProcedimientoSeeder::class);
-        $this->call(EstadoElementoSeeder::class);
-        $this->call(TipoElementoSeeder::class);
-        $this->call(CategoriaSeeder::class);
+        // $this->call(TipoProcedimientoSeeder::class);
+        // $this->call(EstadoElementoSeeder::class);
+        // $this->call(TipoElementoSeeder::class);
+        // $this->call(CategoriaSeeder::class);
         $this->call(TipoIdentificaciónSeeder::class);
         $this->call(PersonaSeeder::class);
-        $this->call(ProveedorSeeder::class);
-        $this->call(FacturaSeeder::class);
+        // $this->call(ProveedorSeeder::class);
+        // $this->call(FacturaSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(ElementoSeeder::class);
-        $this->call(ProcedimientoSeeder::class);
-        
+        // $this->call(ElementoSeeder::class);
+        // $this->call(ProcedimientoSeeder::class);
+
 
 
 
