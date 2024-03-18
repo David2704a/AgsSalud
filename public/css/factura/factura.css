@@ -321,7 +321,7 @@ FOOTER
     width: 100%;
     display: flex;
     justify-content: space-between;
-    /* position: absolute; */
+    position: absolute;
     bottom: 0;
     align-items: center;
     background-color: #f3f3f3;
@@ -389,7 +389,7 @@ input[type="file"] {
     display: none;
 }
 
-/* 
+/*
 
 
 .button-derecha {
@@ -404,7 +404,7 @@ input[type="file"] {
     border-radius: 5px;
     cursor: pointer;
 
-    
+
 }
 
 .folder_open i {
@@ -425,6 +425,6 @@ input[type="file"] {
     padding: 7px;
     position: relative;
     outline: none;
-    
+
 }
 
