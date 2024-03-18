@@ -16,8 +16,9 @@
                     <td>{{$elemento->descripcion}}</td>
                     <td>{{$elemento->estado->estado}}</td>
                     <td>{{$elemento->tipoElemento ? $elemento->tipoElemento->tipo : 'NO APLICA' }}</td>
+                    <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'NO APLICA' }}</td>
                     <td>{{$elemento->categoria->nombre}}</td>
-                    <td>{{$elemento->factura ? $elemento->factura->codigoFactura : 'NO APLICA'}}</td>
+                    <td>{{$elemento->factura ? $elemento->factura->codigoFactura : 'NO REGISTRA'}}</td>
                     <td>{{$elemento->user ? $elemento->user->name : 'NO APLICA'}}</td>
                     @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                     <td>

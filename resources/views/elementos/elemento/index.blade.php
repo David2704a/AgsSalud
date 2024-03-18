@@ -96,6 +96,11 @@
                     </thead>
                     <tbody>
                         @foreach ($elementos as $elemento)
+                        {{-- @dd($elementos) --}}
+                        {{-- @if ($elemento->idElemento == 2052)
+                            @dd($elemento->estado) --}}
+                            
+                        {{-- @endif --}}
                             <tr>
                                 <td>{{ $elemento->idElemento ? $elemento->idElemento : 'NO APLICA' }}</td>
                                 <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
@@ -113,8 +118,7 @@
                                 <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'NO APLICA' }}</td>
                                 <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
                                 <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
-                                <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }}
-                                    {{ $elemento->user->persona->apellido1 ?? 'NO APLICA' }}</td>
+                                <td>{{$elemento->user->name ?? 'NO REGISTRA'}}</td>
 
                                 @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                     <td>
