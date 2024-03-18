@@ -269,7 +269,7 @@ FOOTER
     align-items: center;
     background-color: #f3f3f3;
     color: #fff;
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
 }
 

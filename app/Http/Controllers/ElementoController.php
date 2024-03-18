@@ -35,6 +35,8 @@ class ElementoController extends Controller
         // Obtener estados de elementos
         $estadosEquipos = EstadoElemento::all();
 
+        // dd($elementos);
+
         return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
 
     }
@@ -100,24 +102,24 @@ class ElementoController extends Controller
                 ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'TCL'%"]])
                 ->orderBy('id_dispo','DESC')
                 ->first();
-                
+
             $numeroEquipo = null;
-        
+
             if (isset($ultimoId->id_dispo)) {
                 $numeroEquipoArray = explode("900237674'7'TCL'", $ultimoId->id_dispo);
-        
+
                 // Verifica si el array resultante tiene al menos 2 elementos antes de acceder a [1]
                 if (count($numeroEquipoArray) >= 2) {
                     $numeroEquipo = $numeroEquipoArray[1];
                 }
             }
-        
+
             if ($numeroEquipo === null) {
                 $numeroEquipo = "900237674'7'TCL'". 1;
             } else {
                 $numeroEquipo = "900237674'7'TCL'".($numeroEquipo + 1);
             }
-        
+
             return $numeroEquipo;
         }
 
@@ -247,7 +249,10 @@ class ElementoController extends Controller
             ->orWhere('serial', 'like', '%' . $filtro . '%')
             ->orWhere('modelo', 'like', '%' . $filtro . '%')
             ->orWhere('descripcion', 'like', '%' . $filtro . '%')
-            ->orWhere('idElemento', 'like', '%' . $filtro . '%');
+            ->orWhere('idElemento', 'like', '%' . $filtro . '%')
+            ->orWhereHas('user', function($query) use($filtro){
+                $query->where('name', 'like', '%'. $filtro. '%');
+            });
         })->paginate(10);
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));
@@ -269,7 +274,7 @@ class ElementoController extends Controller
 
             // Agrega más filtros según sea necesario
         ];
-        
+
         try {
             // Importar el archivo Excel
             Excel::import(new ElementoImport, $request->file('archivo'));
