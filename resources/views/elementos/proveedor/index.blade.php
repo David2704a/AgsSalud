@@ -16,7 +16,7 @@
 <div class="green-line"></div>
 
 <div class="button-container">
-    <a href="/elementos" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+    <a href="{{url('/elementos')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     @if(auth()->user()->hasRole(['superAdmin','administrador','tecnico']))
     <a href="{{route('proveedores.create')}}" class="button-derecha"><i class="fas fa-file"></i> Nuevo Provedor</a>
     @endif
