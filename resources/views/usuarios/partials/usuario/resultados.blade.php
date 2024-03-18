@@ -7,6 +7,7 @@
                     <td>{{ $usuario->id }}</td>
                     <td>{{ $usuario->name }}</td>
                     <td>{{ $usuario->email }}</td>
+                    <td>{{ $usuario->Rol }}</td>
                     <td>
                         <a class="edit-button"
                             href="{{ route('usuarios.edit', $usuario->id) }}"

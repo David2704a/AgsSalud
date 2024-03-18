@@ -22,7 +22,9 @@
 </head>
 <body>
 
-
+<script>
+    var urlBase = {!! json_encode(url('/')) !!}
+</script>
 <header >
     <div class="logo">
         <img src="{{asset('imgs/logos/Ags.png')}}" alt="Logo de la empresa">
