@@ -178,7 +178,7 @@ class ProcedimientoController extends Controller
                 });
         })->paginate(10);
 
-        dd($procedimientos);
+
 
 
         // Devuelve la vista parcial con los resultados paginados
