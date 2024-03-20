@@ -102,8 +102,9 @@
             <label for="idElemento">Elemento</label>
             <select name="idElemento" id="idElemento">
                 <option value="">Seleccionar una opción</option>
-                @foreach ($elemento as $elemento)
-                    <option value="{{ $elemento->idElemento }}">{{ $elemento->modelo }}</option>
+                @foreach ($elementos as $elemento)
+                {{-- @dd($elementos) --}}
+                    <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo}}  {{$elemento->categoria->nombre}}</option>
                 @endforeach
             </select>
         <br>
