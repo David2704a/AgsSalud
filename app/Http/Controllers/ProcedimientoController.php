@@ -27,12 +27,13 @@ class ProcedimientoController extends Controller
      */
     public function create()
     {
-        $elemento = Elemento::all();
+        $elementos = Elemento::all();
         $estadoProcedimiento = EstadoProcedimiento::all();
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::all();
-       return view('procedimientos.procedimiento.create', compact('elemento','estadoProcedimiento','tipoProcedimiento','usuariosEntrega','usuariosRecibe'));
+        // dd($elementos[100]);
+       return view('procedimientos.procedimiento.create', compact('elementos','estadoProcedimiento','tipoProcedimiento','usuariosEntrega','usuariosRecibe'));
     }
 
     /**
@@ -177,6 +178,8 @@ class ProcedimientoController extends Controller
                     $subquery->where('tipo', 'like', '%' . $filtro . '%');
                 });
         })->paginate(10);
+
+
 
 
         // Devuelve la vista parcial con los resultados paginados

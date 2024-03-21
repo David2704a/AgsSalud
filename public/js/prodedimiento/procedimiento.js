@@ -49,10 +49,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const tableBody = document.querySelector('tbody');
 
 
-
     function updateTable(filtro) {
       $.ajax({
-        url: '/procedimiento/buscar',
+        url:urlBase+'/procedimiento/buscar',
         method: 'GET',
         data: { filtro: filtro },
         success: function (data) {

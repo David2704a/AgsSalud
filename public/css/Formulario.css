@@ -35,12 +35,27 @@ FORM - VISTA CREATE
 .form input[type="time"],
 .form input[type="password"],
 .form select {
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 95% !important;
+    padding: 10px !important;
+    margin-bottom: 15px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
 }
+
+.form .select2{
+    width: 95% !important;
+    padding: 6px !important;
+    margin-bottom: 15px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+}
+
+.form .select2-container--default .select2-selection--single {
+    border: none !important;
+    border: none !important;
+    border-radius: 0% !important;
+  }
+
 
 .form button {
     background-color: #01A497;

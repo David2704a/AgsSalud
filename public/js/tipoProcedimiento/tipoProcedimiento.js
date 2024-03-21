@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateTable(filtro) {
       $.ajax({
-        url: '/tipoProcedimiento/buscar',
+        url: urlBase+'/tipoProcedimiento/buscar',
         method: 'GET',
         data: { filtro: filtro },
         success: function (data) {

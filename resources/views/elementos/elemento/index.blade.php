@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ asset('/css/elemento/elemento.css') }}">
     <script src="{{ asset('js/elemento/elemento.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css"> --}}
+
+
 
 @endsection
 @section('content')
@@ -17,7 +20,8 @@
 
 
         <div class="button-container">
-            <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+            <a href="{{ url('/dashboard') }}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i>
+                Regresar</a>
             @if (auth()->user()->hasRole(['superAdmin', 'administrador', 'tecnico']))
                 <a href="{{ route('elementos.create') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
                     Elemento</a>
@@ -64,14 +68,14 @@
             </div>
 
             {{--
-        ===================================
-        TABLA PARA UN SOLO ROL
-        ===================================
-    --}}
+                 ===================================
+                  TABLA PARA UN SOLO ROL
+                 ===================================
+                --}}
 
 
             <div class="table">
-                <table>
+                <table id="tableElementos">
                     <thead>
                         <th>ID</th>
                         <th>Marca</th>
@@ -96,6 +100,13 @@
                     </thead>
                     <tbody>
                         @foreach ($elementos as $elemento)
+                            {{-- @dd($elemento->user->name) --}}
+
+                            {{-- @dd($elementos) --}}
+                            {{-- @if ($elemento->idElemento == 2052)
+                            @dd($elemento->estado) --}}
+
+                            {{-- @endif --}}
                             <tr>
                                 <td>{{ $elemento->idElemento ? $elemento->idElemento : 'NO APLICA' }}</td>
                                 <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
@@ -113,8 +124,7 @@
                                 <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'NO APLICA' }}</td>
                                 <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
                                 <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
-                                <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }}
-                                    {{ $elemento->user->persona->apellido1 ?? 'NO APLICA' }}</td>
+                                <td>{{ $elemento->user->name ?? 'NO REGISTRADO' }}</td>
 
                                 @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                     <td>
@@ -147,6 +157,8 @@
         </div>
     </div>
 
+
+
     <!-- Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -178,8 +190,8 @@
         </div>
         <div class="right-content">
             <div class="images">
-                <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-                <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+                {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
+                {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
             </div>
             <div class="separator"></div>
             <div class="text">
@@ -188,4 +200,5 @@
             </div>
         </div>
     </footer>
+
 @endsection

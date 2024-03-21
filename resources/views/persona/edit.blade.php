@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Auth;
                 {{ session('success') }}
             </div>
         @endif
-        
+
         @if($errors->any())
     <div id="error-alert" class="alert alert-danger">
         <ul>
@@ -104,9 +104,9 @@ use Illuminate\Support\Facades\Auth;
 
         <div class="mb-3">
     <label for="celular" class="form-label">Número de Celular</label>
-    <input type="text" class="form-control" id="celular" name="celular" 
+    <input type="text" class="form-control" id="celular" name="celular"
            value="{{ old('celular', $usuario->persona->celular) }}"
-           pattern="[0-9]*" 
+           pattern="[0-9]*"
            title="Por favor, introduce solo números"
     >
     @if($errors->has('celular'))
@@ -139,8 +139,8 @@ use Illuminate\Support\Facades\Auth;
     </div>
     <div class="right-content">
         <div class="images">
-            <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-            <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+            {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
+            {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
         </div>
         <div class="separator"></div>
         <div class="text">

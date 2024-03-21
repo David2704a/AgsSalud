@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil'])->name('perfil');
 
 
-    // usereditar 
+    // usereditar
     Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizarperfilderegistrouser'])->name('editarPerfilusersR');
 
     // usuarios

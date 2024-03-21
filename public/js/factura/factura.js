@@ -50,7 +50,7 @@ function mostrarParte(idParte) {
   
     function updateTable(filtro) {
       $.ajax({
-        url: '/facturasBuscar',
+        url: urlBase+'/facturasBuscar',
         method: 'GET',
         data: { filtro: filtro },
         success: function (data) {

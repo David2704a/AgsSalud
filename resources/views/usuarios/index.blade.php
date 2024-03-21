@@ -5,6 +5,7 @@
 @section('links')
     <link rel="stylesheet" href="{{ asset('/css/categoria/categoria.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{asset('js/user/user.js')}}"></script>
 @endsection
 
 @section('content')
@@ -79,7 +80,7 @@
                                             </button>
 
 
-                                            
+
 
                                             <div id="myModal_{{ $usuario->id }}" class="modal">
                                                 <div class="modal-content">
@@ -111,38 +112,6 @@
         @endif
 
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mensajeVacio = document.querySelector('.mensaje-vacio');
-            const searchInput = document.getElementById('search-input');
-            const tableBody = document.querySelector('tbody');
-
-            function updateTable(filtro) {
-                $.ajax({
-                    url:'/usuariosBuscar',
-                    method: 'GET',
-                    data: { filtro: filtro },
-                    success: function (data) {
-                        tableBody.innerHTML = data;
-                    },
-                    error: function (error) {
-                        console.error('Error al realizar la búsqueda:', error);
-                    },
-                });
-            }
-
-            searchInput.addEventListener('input', function () {
-                const filtro = searchInput.value.trim().toLowerCase();
-                updateTable(filtro);
-            });
-
-            $('.delete-button').on('click', function () {
-                var userId = $(this).data('id');
-                $('#myModal_' + userId).show();
-            });
-        });
-    </script>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -176,8 +145,8 @@
         </div>
         <div class="right-content">
             <div class="images">
-                <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-                <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+                {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
+                {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
             </div>
             <div class="separator"></div>
             <div class="text">

@@ -133,54 +133,54 @@ a {
 
 
 table {
-    border-collapse: collapse;
+    border-collapse: collapse !important;
     width: 100%;
 
 }
 
 th {
-    background-color: #3B4480;
-    color: #FFF;
-    text-align: center;
-    padding: 0.2rem;
-    position: relative;
-    border: solid 1px #FFF;
-    font-size: 12px;
+    background-color: #3B4480 !important;
+    color: #FFF !important;
+    text-align: center !important;
+    padding: 0.2rem !important;
+    position: relative !important;
+    border: solid 1px #FFF !important;
+    font-size: 12px !important;
 }
 
 th::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: -1px;
-    width: 1px;
-    background-color: #FFF;
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    right: -1px !important;
+    width: 1px !important;
+    background-color: #FFF !important;
 }
 
 /* Estilos para filas impares */
 tr:nth-child(odd) {
-    background-color: #f2f2f26e; /* Color gris claro */
+    background-color: #f2f2f26e !important; /* Color gris claro */
 }
 
 table td {
     border: solid 1px #333 !important;
-    text-align: center;
-    border: solid 1px rgba(255, 255, 255, 0);
-    padding: 10px;
-    word-wrap: break-word; /* Agregar esta línea */
+    text-align: center !important;
+    border: solid 1px rgba(255, 255, 255, 0) !important;
+    padding: 10px !important;
+    word-wrap: break-word !important; /* Agregar esta línea */
 }
 
 table tr:last-child td {
-    border-bottom: none;
+    border-bottom: none !important;
 }
 
 .table {
-    width: 100%;
-    margin: auto;
-    padding: 20px;
-    overflow: auto;
-    background: linear-gradient(rgba(255, 255, 255, 0.789), rgba(255, 255, 255, 0.789)), url(/imgs/logos/Ags.png);
+    width: 100% !important;
+    margin: auto !important;
+    padding: 20px !important;
+    overflow: auto !important;
+    background: linear-gradient(rgba(255, 255, 255, 0.789), rgba(255, 255, 255, 0.789)), url(/imgs/logos/Ags.png) !important;
     background-size: auto !important;
     background-position: center !important;
     background-repeat: no-repeat !important;

@@ -273,3 +273,94 @@ MODAL
     color: #343D7C;
 }
 
+/*
+================================================================
+ESTILOS DATAFILTER
+================================================================
+*/
+.dataTables_filter {
+    --timing: 0.3s !important;
+    --width-of-input: 200px !important;
+    --height-of-input: 40px !important;
+    --border-height: 2px !important;
+    --input-bg: #f1f1f1 !important;
+    --border-color: #29a4a2 !important;
+    --border-radius: 30px !important;
+    --after-border-radius: 1px !important;
+    position: relative !important;
+    width: var(--width-of-input) !important;
+    height: var(--height-of-input) !important;
+    display: flex !important;
+    align-items: center !important;
+    padding-inline: 0.8em !important;
+    border-radius: var(--border-radius) !important;
+    transition: border-radius 0.5s ease !important;
+    background: var(--input-bg,#fff) !important;
+}
+
+ .dataTables_filter input[type="text"] {
+    font-size: 0.9rem !important;
+    background-color: transparent !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding-inline: 0.5em !important;
+    padding-block: 0.7em !important;
+    border: none !important;
+}
+
+ .dataTables_filter input[type="text"]::placeholder {
+    color: #000000;
+    font-size: 13px;
+}
+ .dataTables_filter button {
+    border: none;
+    background: none;
+    color: #8b8ba7;
+}
+
+ .dataTables_filter input[type="text"]:focus {
+    outline: none !important;
+}
+
+ .dataTables_filter:before {
+    content: "" !important;
+    position: absolute !important;
+    background: var(--border-color) !important;
+    transform: scaleX(0) !important;
+    transform-origin: center !important;
+    width: 100% !important;
+    height: var(--border-height) !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    border-radius: 1px !important;
+    transition: transform var(--timing) ease !important;
+}
+
+ .dataTables_filter:focus-within {
+    border-radius: var(--after-border-radius) !important;
+}
+
+ .dataTables_filter:focus-within:before {
+    transform: scale(1) !important;
+}
+
+ .dataTables_filter button.reset {
+    border: none !important;
+    background: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+ .dataTables_filter input[type="text"]:not(:placeholder-shown) ~ .reset {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+ .dataTables_filter input[type="text"]::-ms-clear,
+ .dataTables_filter input[type="text"]::-webkit-search-cancel-button {
+    display: none !important;
+}
+ .dataTables_filter svg {
+    width: 17px !important;
+    margin-top: 3px !important;
+}

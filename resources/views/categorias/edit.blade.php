@@ -41,7 +41,7 @@
 
     </form>
 
-    <footer class="footer">
+    <footer class="footer position-absolute top-100 start-50 translate-middle">
         <div class="left-images">
             <div class="column">
                 <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
@@ -54,8 +54,8 @@
         </div>
         <div class="right-content">
             <div class="images">
-                <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-                <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+                {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
+                {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
             </div>
             <div class="separator"></div>
             <div class="text">

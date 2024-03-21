@@ -25,7 +25,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        
+
         @if($errors->any())
     <div id="error-alert" class="alert alert-danger">
         <ul>
@@ -46,7 +46,7 @@
             <input type="text" name="name" id="name" value="{{ $usuario->name }}">
 
             <label for="email">Correo</label>
-            <input type="text" name="email" id="email" value="{{ $usuario->email }}">         
+            <input type="text" name="email" id="email" value="{{ $usuario->email }}">
 
             <label for="role">Asignar Rol</label>
             <select class="input" name="role[]" required>
@@ -83,8 +83,8 @@
     </div>
     <div class="right-content">
         <div class="images">
-            <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-            <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+            {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
+            {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
         </div>
         <div class="separator"></div>
         <div class="text">
