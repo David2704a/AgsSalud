@@ -116,30 +116,38 @@
                 </div>
 
 
-                <div class="tableElementos">
-                    <br>
-                    <table id="tablaReportElementos">
-                        <thead>
-                            <th>ID</th>
-                            <th>Marca</th>
-                            <th>Referencia</th>
-                            <th>Serial</th>
-                            <th>Procesador</th>
-                            <th>Ram</th>
-                            <th>Disco duro</th>
-                            <th>Tarjeta gráfica</th>
-                            <th>Modelo</th>
-                            <th>Garantia</th>
-                            <th>Descripcion</th>
-                            <th>Estado</th>
-                            <th>Tipo</th>
-                            <th>Procedimiento</th>
+
+                <div class="tabla-container">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Buscar...">
+                        {{-- <button><i class="fa-solid fa-magnifying-glass"></i></button> --}}
+                    </div>
+                    <div class="tableElementos">
+
+
+                        <br>
+                        <table id="tablaReportElementos">
+                            <thead>
+                                <th>ID</th>
+                                <th>Marca</th>
+                                <th>Referencia</th>
+                                <th>Serial</th>
+                                <th>Procesador</th>
+                                <th>Ram</th>
+                                <th>Disco duro</th>
+                                <th>Tarjeta gráfica</th>
+                                <th>Modelo</th>
+                                <th>Garantia</th>
+                                <th>Descripcion</th>
+                                <th>Estado</th>
+                                <th>Tipo</th>
+                                <th>Procedimiento</th>
                             <th>Categoria</th>
                             <th>N° Factura</th>
                             <th>Proveedor</th>
                             <th>Asignado A:</th>
                         </thead>
-                        <tbody>
+                        <tbody class="tbodyElementos">
                             @foreach ($elementos as $elemento)
                                 <tr>
                                     <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
@@ -162,11 +170,12 @@
                                     <td>{{ $elemento->factura->proveedor->nombre ?? 'NO APLICA' }}</td>
                                     <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }}
                                         {{ $elemento->user->persona->apellido1 ?? 'NO APLICA' }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
 
+                        </div>
                 </div>
 
                 <div class="pagination">

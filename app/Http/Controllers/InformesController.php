@@ -110,4 +110,25 @@ class InformesController extends Controller
         return view('reportes.partial.resultadoP', compact('procedimientos'));
     }
 
+
+    public function buscarReporte(Request $request)
+    {
+        $filtro = $request->input('filtro');
+
+        $elementos = Elemento::where(function ($query) use ($filtro) {
+            $query->where('marca', 'like', '%'. $filtro. '%')
+            ->orWhere('referencia', 'like', '%' . $filtro . '%')
+            ->orWhere('serial', 'like', '%' . $filtro . '%')
+            ->orWhere('modelo', 'like', '%' . $filtro . '%')
+            ->orWhere('descripcion', 'like', '%' . $filtro . '%')
+            ->orWhere('id_dispo', 'like', '%' . $filtro . '%')
+            ->orWhereHas('user', function($query) use($filtro){
+                $query->where('name', 'like', '%'. $filtro. '%');
+            });
+        })->paginate(10);
+
+        return view("reportes.partial.resultado", compact('elementos'));
+    }
+
+
 }
