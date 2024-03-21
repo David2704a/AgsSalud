@@ -15,7 +15,7 @@
         <tr></tr>
         <tr></tr>
         <tr>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ID</b></th>
+            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ID DISPOSITIVO</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>CATEGORIA</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>MARCA</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>REFERENCIA</b></th>
@@ -34,7 +34,7 @@
     <tbody>
         @foreach ($elementos as $elemento)
                 <tr>
-                    <td style="border: 1px solid black;">{{$elemento->idElemento ? $elemento->idElemento : 'No aplica'}}</td>
+                    <td style="border: 1px solid black;">{{$elemento->id_dispo ? $elemento->id_dispo : 'No aplica'}}</td>
                     <td style="border: 1px solid black;">{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
                     <td style="border: 1px solid black;">{{ $elemento->marca ? $elemento->marca : 'No aplica' }}</td>
                     <td style="border: 1px solid black;">{{ $elemento->referencia ? $elemento->referencia : 'No aplica' }}</td>

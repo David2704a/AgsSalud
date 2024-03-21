@@ -194,7 +194,7 @@ function cambioDeRutasProcedimiento(format) {
     // Cambia la acción del formulario según el formato seleccionado
     var form = document.getElementById('exportFormP');
     if (format === 'excel') {
-        form.action = "{{ url('/excel/procedimiento') }}"; // Cambia la ruta según sea necesario
+        form.action = excelUrl; // Cambia la ruta según sea necesario
     } else if (format === 'pdf') {
         form.target = '_blank';
         form.action = "{{ url('/pdf/procedimiento') }}"; // Cambia la ruta según sea necesario
@@ -217,6 +217,8 @@ function aplicarFiltrosElementos() {
     var idCategoria = document.getElementById('idCategoria').value;
     var idElemento = document.getElementById('idElemento').value;
 
+    console.log(idElemento, 'elementooooooo');
+
     // Realizar la llamada AJAX
     var xhr = new XMLHttpRequest();
     var url = "/reportes/filtro"; // Reemplaza con la ruta correcta
@@ -224,7 +226,7 @@ function aplicarFiltrosElementos() {
                  "&idEstadoEquipo=" + idEstadoEquipo +
                  "&idTipoElemento=" + idTipoElemento +
                  "&idCategoria=" + idCategoria +
-                 "&idElemento=" + idElemento;
+                 "&id_dispo=" + idElemento;
 
     xhr.open("GET", url + "?" + params, true);
     xhr.onreadystatechange = function () {
