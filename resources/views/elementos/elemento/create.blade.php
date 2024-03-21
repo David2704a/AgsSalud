@@ -18,7 +18,6 @@
 <div class="green-line"></div>
 </div>
 
-
 <div class="button-container">
     <a href="{{route('elementos.index')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
 
