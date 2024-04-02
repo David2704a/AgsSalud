@@ -181,6 +181,7 @@ Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestam
     */
 
     Route::resource('/reporte', InformesController::class)->names('reporte');
+    Route::get('/buscarReporte', [InformesController::class, 'buscarReporte']);
 
 
     Route::get('excel/elemento', [ElementoController::class,'excelElemento'])->name('generarInformeE');

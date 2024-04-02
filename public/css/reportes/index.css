@@ -474,3 +474,38 @@ DATATABLE
     width: 17px !important;
     margin-top: 3px !important;
 }
+
+
+.search-container {
+    position: relative;
+    margin: 15px;
+}
+
+.search-container input {
+    background-color: #F3F3F3;
+    width: 80%;
+    padding: 10px ;
+    padding-right: 35px;
+    border-radius: 5px 0 0 5px;
+    border: 0;
+    outline: none;
+    font-size: 1rem;
+}
+
+.search-container button {
+    background-color: #21AFA4;
+    padding: 10px;
+    position: absolute;
+    border: 0;
+    top: 0;
+    bottom: 0;
+    right: 72px;
+    margin: auto;
+    border-radius: 0 5px 5px 0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #01A497;
+}

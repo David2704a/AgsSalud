@@ -1,27 +1,10 @@
-<thead>
-    <th>ID</th>
-    <th>Marca</th>
-    <th>Referencia</th>
-    <th>Serial</th>
-    <th>Procesador</th>
-    <th>Ram</th>
-    <th>Disco duro</th>
-    <th>Tarjeta gráfica</th>
-    <th>Modelo</th>
-    <th>Garantia</th>
-    <th>Descripcion</th>
-    <th>Estado</th>
-    <th>Tipo</th>
-    <th>Procedimiento</th>
-    <th>Categoria</th>
-    <th>N° Factura</th>
-    <th>Proveedor</th>
-    <th>Asignado A:</th>
-</thead>
-<tbody>
-    @foreach ($elementos as $elemento)
+@if ($elementos->count() > 0)
+<table>
+
+    <tbody>
+        @foreach ($elementos as $elemento)
         <tr>
-            <td>{{ $elemento->idElemento ? $elemento->idElemento : 'NO APLICA'}}</td>
+            <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA'}}</td>
             <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
             <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
             <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>
@@ -40,6 +23,12 @@
             <td>{{ $elemento->factura->proveedor->nombre ?? 'NO APLICA'}}</td>
             <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }} {{ $elemento->user->persona->apellido1 ?? 'NO APLICA'}}</td>
         </tr>
-    @endforeach
+        @endforeach
 
-</tbody>
+    </tbody>
+</table>
+@else
+    <tr class="mensaje-vacio">
+        <td colspan="12">No se encontraron registros</td>
+    </tr>
+@endif
