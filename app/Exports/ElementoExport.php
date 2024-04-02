@@ -121,11 +121,11 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                 $event->sheet->mergeCells('J1:O5');
 
                 //insercion en las celdas combinadas
-                $event->sheet->setCellValue('C1', 'TICS Y ELEMENTOS');
-                $event->sheet->setCellValue('C3', 'INVENTARIO DE ELEMENTOS Y DISPOSITIVOS TECNOLÓGICOS');
+                $event->sheet->setCellValue('C1', 'TICS E INNOVACIÓN');
+                $event->sheet->setCellValue('C3', 'INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS');
                 $event->sheet->setCellValue('C5', 'Código: TEI-F-13 ');
                 $event->sheet->setCellValue('F5', 'Versión:04');
-                $event->sheet->setCellValue('I1', 'Fecha de Modificación: ' . $fechaActual);
+                $event->sheet->setCellValue('I1', 'Fecha de Modificación: 29/11/2023');
 
 
                 $style = $event->sheet->getStyle('A1');
