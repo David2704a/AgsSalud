@@ -77,6 +77,7 @@
                 <table id="tableElementos">
                     <thead>
                         <th>ID</th>
+                        <th>Id_dispo</th>
                         <th>Marca</th>
                         <th>Referencia</th>
                         <th>Serial</th>
@@ -108,6 +109,7 @@
                         {{-- @endif --}}
                             <tr>
                                 <td>{{ $elemento->idElemento ? $elemento->idElemento : 'NO APLICA' }}</td>
+                                <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
                                 <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
                                 <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
                                 <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>

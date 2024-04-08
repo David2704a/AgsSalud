@@ -44,14 +44,6 @@
 </script>
 @include('components.overlay')
 
-<script>
-        function showLoadingMessage() {
-        // $('#').modal('hide');
-        document.getElementById('overlay').style.display = 'flex';
-    }
-</script>
-@include('components.overlay')
-
 
 <script>
     document.getElementById('formularioImportar').addEventListener('submit', function () {
