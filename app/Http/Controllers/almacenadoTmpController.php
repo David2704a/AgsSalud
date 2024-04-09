@@ -308,259 +308,43 @@ public function ejecutarProcedimiento()
                     ->groupBy('dispositivo')
                     ->get();
 
-                foreach ($registrosConCeroPregunta as $conteo) {
-                    // Obtener todos los registros del dispositivo actual que terminan en '0?'
-                    $registros = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
-                        ->where(function ($query) {
-                            $query->where('id_dispo', 'LIKE', '%-0?')
-                                ->orWhere('id_dispo', 'LIKE', "%-'0?")
-                                ->orWhere('id_dispo', 'LIKE', '%0?');
-                        })
-                        ->get();
+                    foreach ($registrosConCeroPregunta as $conteo) {
+                        // Obtener todos los registros del dispositivo actual que terminan en '0?'
+                        $registros = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
+                            ->where(function ($query) {
+                                $query->where('id_dispo', 'LIKE', '%-0?')
+                                    ->orWhere('id_dispo', 'LIKE', "%-'0?")
+                                    ->orWhere('id_dispo', 'LIKE', '%0?');
+                            })
+                            ->get();
 
-                    // Obtener el último número secuencial
-                    $ultimoID = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
-                        ->orderBy('id_dispo', 'desc')
-                        ->value('id_dispo');
+                        // Obtener el último número secuencial
+                        $ultimoID = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
+                            ->orderBy('id_dispo', 'desc')
+                            ->value('id_dispo');
 
-                    // Obtener el siguiente número secuencial
-                    $nuevoID = 1;
-                    if ($ultimoID !== null) {
-                        $ultimoNumero = explode('-', $ultimoID);
-                        $ultimoNumero = (int)end($ultimoNumero);
-                        if ($ultimoNumero !== null && $ultimoNumero !== 0) {
-                            $nuevoID = $ultimoNumero + 1;
+                        // Obtener el siguiente número secuencial
+                        $nuevoID = 1;
+                        if ($ultimoID !== null) {
+                            $ultimoNumero = explode('-', $ultimoID);
+                            $ultimoNumero = (int)end($ultimoNumero);
+                            if ($ultimoNumero !== null && $ultimoNumero !== 0) {
+                                $nuevoID = $ultimoNumero + 1;
+                            }
+                        }
+
+                        // Actualizar los registros con ID de dispositivo que terminan en '0?'
+                        foreach ($registros as $registro) {
+                            $registro->id_dispo = str_replace(['-0?', "-'0?", '0?'], '-' . $nuevoID, $registro->id_dispo);
+                            $registro->save();
                         }
                     }
 
-                    // Actualizar los registros con ID de dispositivo que terminan en '0?'
-                    foreach ($registros as $registro) {
-                        $registro->id_dispo = str_replace(['-0?', "-'0?", '0?'], '-' . $nuevoID, $registro->id_dispo);
-                        $registro->save();
-                    }
-                }
 
-
-// Obtener todos los registros con ID de dispositivo "CAMARA"
-// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
-//     ->get();
-
-// // Array para llevar el registro de los IDs ya asignados
-// $idsAsignados = [];
-
-// foreach ($registrosCamara as $registro) {
-//     // Obtener el último ID existente para CAMARA
-//     $ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
-//         ->orderBy('id_dispo', 'desc')
-//         ->value('id_dispo');
-
-//     // Obtener el número secuencial siguiente
-//     $nuevoID = 1;
-//     if ($ultimoID !== null) {
-//         $ultimoNumero = (int)substr($ultimoID, strrpos($ultimoID, '-') + 1);
-//         if ($ultimoNumero !== null && $ultimoNumero !== 0) {
-//             $nuevoID = $ultimoNumero + 1;
-//         }
-//     }
-
-//     // Verificar si el nuevo ID ya ha sido asignado
-//     while (in_array('123-C-' . $nuevoID, $idsAsignados)) {
-//         $nuevoID++;
-//     }
-
-//     // Actualizar el registro con el nuevo ID
-//     $registro->id_dispo = '123-C-' . $nuevoID;
-//     $registro->save();
-
-//     // Agregar el nuevo ID al array de IDs asignados
-//     $idsAsignados[] = '123-C-' . $nuevoID;
-// }
-
-// // Obtener el conteo de registros para dispositivos de tipo "CAMARA"
-// $conteoCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
-//     ->count();
-
-// // Obtener el último número secuencial
-// $ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
-//     ->orderBy('id_dispo', 'desc')
-//     ->value('id_dispo');
-
-// // Obtener el número secuencial siguiente
-// $nuevoID = 1;
-// if ($ultimoID !== null) {
-//     $ultimoNumero = (int)explode('-', $ultimoID)[2];
-//     if ($ultimoNumero !== null && $ultimoNumero !== 0) {
-//         $nuevoID = $ultimoNumero + 1;
-//     }
-// }
-
-// Actualizar los registros con ID de dispositivo "CAMARA"
-// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
-//     ->get();
-
-// foreach ($registrosCamara as $registro) {
-//     // Actualizar el registro con el nuevo ID
-//     $registro->id_dispo = '123-C-' . $nuevoID;
-//     $registro->save();
-    
-//     // Incrementar el ID para el siguiente registro
-//     $nuevoID++;
-
-//     // Reiniciar el ID cuando alcanza el número máximo de registros de "CAMARA"
-//     if ($nuevoID > $conteoCamara) {
-//         $nuevoID = 1;
-//     }
-// }
-
-// Obtener el último número secuencial
-// Obtener el último número secuencial
-// Obtener el último número secuencial
-// Obtener el conteo de dispositivos de cámara
-// Obtener el conteo de dispositivos de cámara
-// Obtener el conteo de dispositivos de cámara
-// Obtener todos los registros de dispositivos de cámara
-// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')->orderBy('id', 'asc')->get();
-
-// // Inicializar el número secuencial del ID_DISPO
-// $nuevoID = 1;
-
-// foreach ($registrosCamara as $registro) {
-//     // Generar el nuevo ID_DISPO
-//     $nuevoIDDispo = '123-C-' . $nuevoID;
-    
-//     // Verificar si el nuevo ID_DISPO ya existe
-//     $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
-    
-//     // Si el ID_DISPO ya existe, incrementar el contador y generar uno nuevo
-//     while ($existe) {
-//         $nuevoID++;
-//         $nuevoIDDispo = '123-C-' . $nuevoID;
-//         $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
-//     }
-    
-//     // Asignar el nuevo ID_DISPO al registro y guardar los cambios
-//     $registro->id_dispo = $nuevoIDDispo;
-//     $registro->save();
-    
-//     // Incrementar el contador para el siguiente registro
-//     $nuevoID++;
-// }
-
-
-
-// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
-//     ->where('id_dispo', 'LIKE', 'CAMARA-%')
-//     ->orderBy('id', 'asc')
-//     ->get();
-
-// // Obtener el último número secuencial de ID_DISPO
-// $ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
-//     ->orderBy('id_dispo', 'desc')
-//     ->value('id_dispo');
-
-// // Obtener el número secuencial siguiente
-// $nuevoID = 1;
-// if ($ultimoID !== null) {
-//     $ultimoNumero = (int)explode('-', $ultimoID)[2];
-//     if ($ultimoNumero !== null && $ultimoNumero !== 0) {
-//         $nuevoID = $ultimoNumero + 1;
-//     }
-// }
-
-// foreach ($registrosCamara as $registro) {
-//     // Generar el nuevo ID_DISPO
-//     $nuevoIDDispo = '123-C-' . $nuevoID;
-    
-//     // Verificar si el nuevo ID_DISPO ya existe
-//     $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
-    
-//     // Si el ID_DISPO ya existe, incrementar el contador y generar uno nuevo
-//     while ($existe) {
-//         $nuevoID++;
-//         $nuevoIDDispo = '123-C-' . $nuevoID;
-//         $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
-//     }
-    
-//     // Asignar el nuevo ID_DISPO al registro y guardar los cambios
-//     $registro->id_dispo = $nuevoIDDispo;
-//     $registro->save();
-    
-//     // Incrementar el contador para el siguiente registro
-//     $nuevoID++;
-// }
-
-
-
-
-
-
-
-
-
-
-// Obtener los registros de "CAMARA-" cuyo ID_DISPO no sigue el formato '123-C-N'
-$registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
-    ->where('id_dispo', 'NOT LIKE', '123-C-%')
-    ->get();
-    // dd($registrosCamara);
-
-// Obtener el último número secuencial de ID_DISPO para 123-C-N
-$ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
-    ->orderBy('id_dispo', 'desc')
-    ->value('id_dispo');
-
-    // dd($ultimoID);
-// Inicializar el nuevo ID_DISPO a partir del último número encontrado
-$nuevoID = 1;
-if ($ultimoID != null) {
-    // Extraer el último número de la cadena
-// dd('vdsghjvsg', $ultimoID);
-    $ultimoNumero = (int)explode('-', $ultimoID)[2];
-    dd('vdsghjvsg', $ultimoNumero);
-    if ($ultimoNumero !== null && $ultimoNumero !== 0) {
-        // Incrementar el número secuencial desde el último número encontrado
-        $nuevoID = $ultimoNumero + 1;
-    }
-}
-// dd('fueraa');
-// Iterar sobre los registros de "CAMARA-" para actualizar sus ID_DISPO
-foreach ($registrosCamara as $registro) {
-    // Generar el nuevo ID_DISPO en el formato '123-C-N'
-    $nuevoIDDispo = '123-C-' . $nuevoID;
-    
-    // Verificar si el nuevo ID_DISPO ya existe
-    $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
-    
-    // Si el ID_DISPO ya existe, incrementar el contador y generar uno nuevo
-    while ($existe) {
-        $nuevoID++;
-        $nuevoIDDispo = '123-C-' . $nuevoID;
-        $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
-    }
-    
-    // Asignar el nuevo ID_DISPO al registro y guardar los cambios
-    $registro->id_dispo = $nuevoIDDispo;
-    $registro->save();
-    
-    // Incrementar el contador para el siguiente registro
-    $nuevoID++;
-}
-
-
-
-
-
-
-
-
-
+                   
                     
-
-                                
                 
                 }
-                
-
                 // Hacer un commit después de procesar cada hoja
                 DB::commit();
 
@@ -571,9 +355,24 @@ foreach ($registrosCamara as $registro) {
             // Confirmar la transacción final fuera del bucle
             DB::commit();
 
-        //  return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
 
-            
+                if ($almacenadoTmp->save()) {
+                    // Si se guarda el modelo correctamente, llamar a asignarID_DISPO()
+                    $this->asignarID_DISPO();
+                    $this->asignarID_DISPO_PC_PORTATIL();
+                    $this->asignarID_DISPO_CARGADOR_PORTATIL();
+                    $this->asignarID_DISPO_IMPRESORA();
+                    $this->asignarID_DISPO_MODEM_WIFI();
+                    $this->asignarID_DISPO_ROUTER();
+                    $this->asignarID_DISPO_DVR();
+                    $this->asignarID_DISPO_SWITCH();
+                    
+                } else {
+                    // Si no se guarda el modelo correctamente, lanzar un error
+                    throw new \Exception("Error al guardar el modelo en la base de datos");
+                }
+
+            //  return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
             return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente');
 
 
@@ -583,10 +382,325 @@ foreach ($registrosCamara as $registro) {
             DB::rollBack();
 
 
+           
+
             return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
         //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
         }
 
         
     }
+
+
+
+
+
+    // Método para asignar nuevos ID_DISPO a los registros de "CAMARA-" sin ID_DISPO
+    private function asignarID_DISPO()
+    {
+        // Obtener los registros de "CAMARA-" cuyo ID_DISPO no sigue el formato '123-C-N'
+        $registrosCamaraSinID = AlmacenadoTmp::where('dispositivo', 'CAMARA')
+            ->where('id_dispo', 'NOT LIKE', '123-C-%')
+            ->get();
+    
+        // Obtener los ID_DISPO existentes para dispositivos "CAMARA" con el formato '123-C-N'
+        $idDisposExistentes = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
+            ->pluck('id_dispo')
+            ->toArray();
+    
+        // Inicializar el siguiente número disponible
+        $siguienteNumero = null;
+    
+        // Si hay registros con el formato '123-C-N', encontrar el número más alto de N y sumar uno
+        if (!empty($idDisposExistentes)) {
+            foreach ($idDisposExistentes as $idDispo) {
+                $numero = (int)explode('-', $idDispo)[2];
+                if ($siguienteNumero === null || $numero > $siguienteNumero) {
+                    $siguienteNumero = $numero;
+                }
+            }
+            $siguienteNumero++; // Incrementar el número para el siguiente registro
+        } else {
+            // Si no hay registros existentes, iniciar desde 1
+            $siguienteNumero = 1;
+        }
+    
+        // Iterar sobre los registros de "CAMARA-" sin ID_DISPO para asignarles nuevos ID_DISPO
+        foreach ($registrosCamaraSinID as $registro) {
+            // Construir el nuevo ID_DISPO
+            $nuevoIDDispo = '123-C-' . $siguienteNumero;
+            // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+            $registro->id_dispo = $nuevoIDDispo;
+            $registro->save();
+            // Incrementar el siguiente número para el siguiente registro
+            $siguienteNumero++;
+        }
+    }
+
+    private function asignarID_DISPO_PC_PORTATIL()
+    {
+        // Obtener los registros de "PC PORTATIL" con la etiqueta "SIN CODIGO" en su ID_DISPO
+        $registrosSinCodigoPCPortatil = AlmacenadoTmp::where('dispositivo', 'PC PORTATIL')
+            ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->get();
+    
+        // Obtener los ID_DISPO existentes para dispositivos "PC PORTATIL" con formato numérico
+        $idDisposExistentesPCPortatil = AlmacenadoTmp::where('dispositivo', 'PC PORTATIL')
+            ->whereRaw("SUBSTRING_INDEX(id_dispo, '\'', -1) REGEXP '^[0-9]+$'")
+            ->pluck('id_dispo')
+            ->toArray();
+    
+        // Inicializar el siguiente número disponible
+        $siguienteNumero = null;
+    
+        // Si hay registros con formato numérico, encontrar el número más alto y sumar uno
+        if (!empty($idDisposExistentesPCPortatil)) {
+            foreach ($idDisposExistentesPCPortatil as $idDispo) {
+                $numero = (int)explode("'", $idDispo)[3]; // Cambiar el índice para obtener el número correcto
+                if ($siguienteNumero === null || $numero > $siguienteNumero) {
+                    $siguienteNumero = $numero;
+                }
+            }
+            $siguienteNumero++; // Incrementar el número para el siguiente registro
+        } else {
+            // Si no hay registros existentes, iniciar desde 1
+            $siguienteNumero = 1;
+        }
+    
+        // Iterar sobre los registros de "PC PORTATIL" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
+        foreach ($registrosSinCodigoPCPortatil as $registro) {
+            // Construir el nuevo ID_DISPO
+            $nuevoIDDispo = "900237674'7'E.P'" . $siguienteNumero;
+            // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+            $registro->id_dispo = $nuevoIDDispo;
+            $registro->save();
+            // Incrementar el siguiente número para el siguiente registro
+            $siguienteNumero++;
+        }
+    }
+
+    private function asignarID_DISPO_CARGADOR_PORTATIL()
+    {
+        // Obtener los registros de "CARGADOR PORTATIL" con la etiqueta "SIN CODIGO" en su ID_DISPO
+        $registrosSinCodigoCargadorPortatil = AlmacenadoTmp::where('dispositivo', 'CARGADOR PORTATIL')
+            ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->get();
+
+        // Obtener los ID_DISPO existentes para dispositivos "CARGADOR PORTATIL" con formato numérico
+        $idDisposExistentesCargadorPortatil = AlmacenadoTmp::where('dispositivo', 'CARGADOR PORTATIL')
+            ->whereRaw("SUBSTRING_INDEX(id_dispo, '''', -1) REGEXP '^[0-9]+$'")
+            ->pluck('id_dispo')
+            ->map(function ($idDispo) {
+                preg_match('/\d+$/', $idDispo, $matches);
+                return (int)$matches[0];
+            })
+            ->toArray();
+    
+
+        // Depuración para verificar los números existentes
+        // dd($idDisposExistentesCargadorPortatil);
+
+        // Inicializar el siguiente número disponible
+        $siguienteNumero = null;
+
+        // Si hay registros con formato numérico, encontrar el número más alto y sumar uno
+        if (!empty($idDisposExistentesCargadorPortatil)) {
+            $maximoNumero = max($idDisposExistentesCargadorPortatil);
+
+            $siguienteNumero = $maximoNumero + 1;
+        } else {
+            // Si no hay registros existentes, iniciar desde 1
+            $siguienteNumero = 1;
+        }
+
+        // Iterar sobre los registros de "CARGADOR PORTATIL" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
+        foreach ($registrosSinCodigoCargadorPortatil as $registro) {
+            // Construir el nuevo ID_DISPO
+            $nuevoIDDispo = "900237674'7'C'E'" . $siguienteNumero;
+
+            // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+            $registro->id_dispo = $nuevoIDDispo;
+            $registro->save();
+
+            // Incrementar el siguiente número para el siguiente registro
+            $siguienteNumero++;
+        }
+    }
+
+    private function asignarID_DISPO_IMPRESORA()
+    {
+        // Obtener los registros de "IMPRESORA" con la etiqueta "SIN CODIGO" en su ID_DISPO
+        $registrosSinCodigoImpresora = AlmacenadoTmp::where('dispositivo', 'IMPRESORA')
+            ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->get();
+
+        // Obtener el número de serie de las impresoras
+        $numerosSerieImpresoras = AlmacenadoTmp::where('dispositivo', 'IMPRESORA')
+            ->whereNotNull('serial')
+            ->pluck('serial')
+            ->toArray();
+
+        // Iterar sobre los registros de "IMPRESORA" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
+        foreach ($registrosSinCodigoImpresora as $registro) {
+            // Obtener el número de serie del registro actual
+            $numeroSerie = $registro->serial;
+
+            // Verificar si el número de serie existe
+            if ($numeroSerie) {
+                // Construir el nuevo ID_DISPO con el formato "IMPRESORA-NUMERO_SERIE"
+                $nuevoIDDispo = "IMPRESORA-" . strtoupper($numeroSerie);
+
+                // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+                $registro->id_dispo = $nuevoIDDispo;
+                $registro->save();
+            }
+        }
+    }
+    private function asignarID_DISPO_MODEM_WIFI()
+    {
+        // Obtener los registros de "MODEM WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO
+        $registrosSinCodigoModemWifi = AlmacenadoTmp::where('dispositivo', 'MODEN WI-FI')
+            ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->get();
+    
+        // Iterar sobre los registros de "MODEN WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
+        foreach ($registrosSinCodigoModemWifi as $registro) {
+            // Tomar el serial del registro
+            $serial = $registro->serial;
+
+
+
+            if ($serial) {
+                // Construir el nuevo ID_DISPO con el formato "IMPRESORA-NUMERO_SERIE"
+                $nuevoIDDispo = "MODENW-" . strtoupper($serial);
+
+                // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+                $registro->id_dispo = $nuevoIDDispo;
+                $registro->save();
+            }
+            
+        }
+    }
+    private function asignarID_DISPO_ROUTER()
+    {
+        // Obtener los registros de "MODEM WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO
+        $registrosSinCodigoRouter = AlmacenadoTmp::where('dispositivo', 'ROUTER')
+            ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->get();
+    
+        // Iterar sobre los registros de "MODEN WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
+        foreach ($registrosSinCodigoRouter as $registro) {
+            // Tomar el serial del registro
+            $serial = $registro->serial;
+            if ($serial) {
+                // Construir el nuevo ID_DISPO con el formato "IMPRESORA-NUMERO_SERIE"
+                $nuevoIDDispo = "ROUTER-" . strtoupper($serial);
+
+                // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+                $registro->id_dispo = $nuevoIDDispo;
+                $registro->save();
+            }
+            
+        }
+    }
+
+    private function asignarID_DISPO_DVR()
+    {
+        // Obtener los registros de "DVR" con la etiqueta "SIN CODIGO" en su ID_DISPO
+        $registrosSinCodigoDVR = AlmacenadoTmp::where('dispositivo', 'DVR')
+            ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->get();
+
+        // Obtener los ID_DISPO existentes para dispositivos "DVR"
+        $idDisposExistentesDVR = AlmacenadoTmp::where('dispositivo', 'DVR')
+            ->pluck('id_dispo')
+            ->toArray();
+
+        // Inicializar el siguiente número disponible
+        $siguienteNumero = null;
+
+        // Si hay registros existentes, encontrar el número más alto
+        if (!empty($idDisposExistentesDVR)) {
+            $maxNumero = 0;
+            foreach ($idDisposExistentesDVR as $idDispo) {
+                $numero = (int) substr($idDispo, strrpos($idDispo, 'SINCODIGO') + 9); // Obtener el número final del ID_DISPO
+                if ($numero > $maxNumero) {
+                    $maxNumero = $numero;
+                }
+            }
+            $siguienteNumero = $maxNumero + 1; // Incrementar el número más alto en uno para el siguiente registro
+        } else {
+            // Si no hay registros existentes, iniciar desde 1
+            $siguienteNumero = 1;
+        }
+
+        // Iterar sobre los registros de "DVR" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
+        foreach ($registrosSinCodigoDVR as $registro) {
+            // Construir el nuevo ID_DISPO
+            $nuevoIDDispo = "900237674-7-DVR-SINCODIGO" . $siguienteNumero;
+            // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+            $registro->id_dispo = $nuevoIDDispo;
+            $registro->save();
+            // Incrementar el siguiente número para el siguiente registro
+            $siguienteNumero++;
+        }
+    }
+
+    private function asignarID_DISPO_SWITCH()
+    {
+        // Obtener los registros de "SWITCH" que tienen "SW-" seguido de un guión y ningún número después en su ID_DISPO
+         // Obtener los registros de "SWITCH" que tienen "SW-" seguido de un guión y ningún número después en su ID_DISPO
+         $registrosIncompletos = AlmacenadoTmp::where('dispositivo', 'SWITCH')
+         ->where(function ($query) {
+             $query->where('id_dispo', 'REGEXP', '^900237674-7-SW-(\d+|NUEVO)$')
+                 ->orWhere('id_dispo', 'REGEXP', '^900237674-7-SW-$');
+         })
+         ->get();
+        dd($registrosIncompletos);
+    
+        // // Obtener el número más alto de los registros existentes para "SWITCH"
+        // $maxNumero = AlmacenadoTmp::where('dispositivo', 'SWITCH')
+        //     ->where('id_dispo', 'REGEXP', '^900237674-7-SW-[0-9]+$')
+        //     ->max(DB::raw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(id_dispo, "-", -1), "-", 1) AS UNSIGNED)'));
+    
+        // // Inicializar el siguiente número disponible
+        // $siguienteNumero = $maxNumero ? $maxNumero + 1 : 1;
+    
+        // // Iterar sobre los registros de "SWITCH" para asignarles nuevos ID_DISPO
+        // foreach ($registrosSINcOMPLETARSwitch as $registro) {
+        //     // Construir el nuevo ID_DISPO
+        //     $nuevoIDDispo = "900237674-7-SW-" . $siguienteNumero;
+        //     // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+        //     $registro->id_dispo = $nuevoIDDispo;
+        //     $registro->save();
+        //     // Incrementar el siguiente número para el siguiente registro
+        //     $siguienteNumero++;
+        // }
+    }
+    
+        
+
+
+    
+    
+
+    
+    
+
+
+
+    
+
+    
+
+
+
+    
+    
+
+
+    
+
+    
+
  }

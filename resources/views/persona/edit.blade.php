@@ -42,10 +42,7 @@ use Illuminate\Support\Facades\Auth;
 
 <div class="">
     
-    {{-- @dd($usuario->idPersona) --}}
     <form class="form" action="{{ route('personas.update', $usuario->persona->id) }}" method="POST">
-
-
         @csrf
         @method('PUT')
 
