@@ -53,9 +53,9 @@ public function ejecutarProcedimiento()
         DB::unprepared("
         CREATE PROCEDURE `almacenadoTmp`()
         BEGIN
-        
-            -- Inserta proveedores evitando duplicados
-            INSERT INTO proveedor (nombre)
+              
+        -- Inserta proveedores evitando duplicados
+        INSERT INTO proveedor (nombre)
             SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
             WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
         
@@ -189,142 +189,404 @@ public function ejecutarProcedimiento()
 
 
 
-     public function importarExcel(Request $request)
-     {
-         // Validar si se envió un archivo
-         if (!$request->hasFile('archivo')) {
-             return response()->json(['error' => 'No se envió ningún archivo'], 400);
-         }
- 
-         // Obtener el archivo enviado
-         $file = $request->file('archivo');
- 
-         // Validar el tipo de archivo (se espera un archivo XLSX)
-         if ($file->getClientOriginalExtension() !== 'xlsx') {
-            //  return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
-            return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
+    public function importarExcel(Request $request)
+    {
+        // Validar si se envió un archivo
+        if (!$request->hasFile('archivo')) {
+            return response()->json(['error' => 'No se envió ningún archivo'], 400);
+        }
+
+        // Obtener el archivo enviado
+        $file = $request->file('archivo');
+
+        // Validar el tipo de archivo (se espera un archivo XLSX)
+        if ($file->getClientOriginalExtension() !== 'xlsx') {
+        //  return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
+        return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
+
+    
+        }
+
+        // Crear una instancia del lector de archivos de Excel
+        $reader = IOFactory::createReader('Xlsx');
+
+        // Cargar el archivo en un objeto Spreadsheet
+        $documento = $reader->load($file->getPathname());
+
+        // Iniciar una transacción en la base de datos
+        DB::beginTransaction();
+
+        try {
+            $limiteFilasPorBloque = 10; // Establecer el límite de filas por bloque
+            $cambiarOrden = false; // Variable para indicar si se debe cambiar el orden de las columnas
+
+            // Iterar por cada hoja del documento (máximo 15 hojas)
+            for ($i = 0; $i < min(15, $documento->getSheetCount()); $i++) {
+                $hoja = $documento->getSheet($i);
+
+                // Verificar si es la hoja 13 para cambiar el orden de las columnas
+                if ($i == 12) {
+                    $cambiarOrden = true;
+                    $filaInicio = 3; // Cambiar la fila de inicio a la fila 3 en la hoja 13
+                } else {
+                    $cambiarOrden = false; // Restablecer la variable para otras hojas
+                    $filaInicio = 8; // Fila de inicio predeterminada para las demás hojas
+                }
+
+                // Iterar por cada fila en la hoja actual
+                foreach ($hoja->getRowIterator($filaInicio) as $fila) {
+                    $datosFila = [];
+
+                    // Iterar por cada celda en la fila actual
+                    foreach ($fila->getCellIterator() as $celda) {
+                        // Identificar el tipo de dato en la celda
+                        $tipoDato = $celda->getDataType();
+
+                        // Obtener el valor de la celda
+                        $valorCelda = $celda->getValue();
+
+                        // Procesar el valor según el tipo de dato
+                        if ($tipoDato === 'n' && \PhpOffice\PhpSpreadsheet\Shared\Date::isDateTime($celda)) {
+                            // Si es una fecha, parsear con Carbon
+                            $fecha = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($valorCelda));
+                            $datosFila[] = $fecha->toDateString();
+                        } else {
+                            // En otros casos (texto, números, fórmulas, etc.), agregar el valor original
+                            $datosFila[] = $valorCelda;
+                        }
+                    }
+
+                    if (empty($datosFila[1])) {
+                    // Omitir la fila si 'dispositivo' está vacío y pasar a la siguiente iteración del bucle
+                    continue;
+                    }
+
+                    // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
+                    $almacenadoTmp = new almacenadoTmp();
+
+                    // Llenar el modelo AlmacenadoTmp según el orden de las columnas
+                    if ($cambiarOrden) {
+                        $almacenadoTmp->fill([
+                            'dispositivo' => $datosFila[1],
+                            'marca' => $datosFila[2],
+                            'referencia' => $datosFila[3],
+                            'observacion' => $datosFila[4],
+                            'cantidad' => $datosFila[0], // Cambiar la columna 'cantidad' a la posición 0
+                        ]);
+                    } else {
+                        $almacenadoTmp->fill([
+                            'id_dispo' => $datosFila[0],
+                            'dispositivo' => $datosFila[1],
+                            'marca' => $datosFila[2],
+                            'referencia' => $datosFila[3],
+                            'serial' => $datosFila[4],
+                            'procesador' => $datosFila[5],
+                            'ram' => $datosFila[6],
+                            'disco_duro' => $datosFila[7],
+                            'tarjeta_grafica' => $datosFila[8],
+                            'documento' => $datosFila[9],
+                            'nombres_apellidos' => $datosFila[10],
+                            'fecha_compra' => $datosFila[11],
+                            'garantia' => $datosFila[12],
+                            'numero_factura' => $datosFila[13],
+                            'proveedor' => $datosFila[14],
+                            'estado' => $datosFila[15],
+                            'observacion' => $datosFila[16],
+                            // 'valor' => $datosFila[17], // La columna 'valor' no se usa en esta versión
+                        ]);
+                    }
+
+                    // Guardar el modelo en la base de datos
+                    $almacenadoTmp->save();
+
+                    $registrosConCeroPregunta = AlmacenadoTmp::select('dispositivo', DB::raw('count(*) as total'))
+                    ->where(function ($query) {
+                        $query->where('id_dispo', 'LIKE', '%-0?')
+                            ->orWhere('id_dispo', 'LIKE', "%-'0?")
+                            ->orWhere('id_dispo', 'LIKE', '%0?');
+                    })
+                    ->groupBy('dispositivo')
+                    ->get();
+
+                foreach ($registrosConCeroPregunta as $conteo) {
+                    // Obtener todos los registros del dispositivo actual que terminan en '0?'
+                    $registros = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
+                        ->where(function ($query) {
+                            $query->where('id_dispo', 'LIKE', '%-0?')
+                                ->orWhere('id_dispo', 'LIKE', "%-'0?")
+                                ->orWhere('id_dispo', 'LIKE', '%0?');
+                        })
+                        ->get();
+
+                    // Obtener el último número secuencial
+                    $ultimoID = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
+                        ->orderBy('id_dispo', 'desc')
+                        ->value('id_dispo');
+
+                    // Obtener el siguiente número secuencial
+                    $nuevoID = 1;
+                    if ($ultimoID !== null) {
+                        $ultimoNumero = explode('-', $ultimoID);
+                        $ultimoNumero = (int)end($ultimoNumero);
+                        if ($ultimoNumero !== null && $ultimoNumero !== 0) {
+                            $nuevoID = $ultimoNumero + 1;
+                        }
+                    }
+
+                    // Actualizar los registros con ID de dispositivo que terminan en '0?'
+                    foreach ($registros as $registro) {
+                        $registro->id_dispo = str_replace(['-0?', "-'0?", '0?'], '-' . $nuevoID, $registro->id_dispo);
+                        $registro->save();
+                    }
+                }
+
+
+// Obtener todos los registros con ID de dispositivo "CAMARA"
+// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
+//     ->get();
+
+// // Array para llevar el registro de los IDs ya asignados
+// $idsAsignados = [];
+
+// foreach ($registrosCamara as $registro) {
+//     // Obtener el último ID existente para CAMARA
+//     $ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
+//         ->orderBy('id_dispo', 'desc')
+//         ->value('id_dispo');
+
+//     // Obtener el número secuencial siguiente
+//     $nuevoID = 1;
+//     if ($ultimoID !== null) {
+//         $ultimoNumero = (int)substr($ultimoID, strrpos($ultimoID, '-') + 1);
+//         if ($ultimoNumero !== null && $ultimoNumero !== 0) {
+//             $nuevoID = $ultimoNumero + 1;
+//         }
+//     }
+
+//     // Verificar si el nuevo ID ya ha sido asignado
+//     while (in_array('123-C-' . $nuevoID, $idsAsignados)) {
+//         $nuevoID++;
+//     }
+
+//     // Actualizar el registro con el nuevo ID
+//     $registro->id_dispo = '123-C-' . $nuevoID;
+//     $registro->save();
+
+//     // Agregar el nuevo ID al array de IDs asignados
+//     $idsAsignados[] = '123-C-' . $nuevoID;
+// }
+
+// // Obtener el conteo de registros para dispositivos de tipo "CAMARA"
+// $conteoCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
+//     ->count();
+
+// // Obtener el último número secuencial
+// $ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
+//     ->orderBy('id_dispo', 'desc')
+//     ->value('id_dispo');
+
+// // Obtener el número secuencial siguiente
+// $nuevoID = 1;
+// if ($ultimoID !== null) {
+//     $ultimoNumero = (int)explode('-', $ultimoID)[2];
+//     if ($ultimoNumero !== null && $ultimoNumero !== 0) {
+//         $nuevoID = $ultimoNumero + 1;
+//     }
+// }
+
+// Actualizar los registros con ID de dispositivo "CAMARA"
+// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
+//     ->get();
+
+// foreach ($registrosCamara as $registro) {
+//     // Actualizar el registro con el nuevo ID
+//     $registro->id_dispo = '123-C-' . $nuevoID;
+//     $registro->save();
+    
+//     // Incrementar el ID para el siguiente registro
+//     $nuevoID++;
+
+//     // Reiniciar el ID cuando alcanza el número máximo de registros de "CAMARA"
+//     if ($nuevoID > $conteoCamara) {
+//         $nuevoID = 1;
+//     }
+// }
+
+// Obtener el último número secuencial
+// Obtener el último número secuencial
+// Obtener el último número secuencial
+// Obtener el conteo de dispositivos de cámara
+// Obtener el conteo de dispositivos de cámara
+// Obtener el conteo de dispositivos de cámara
+// Obtener todos los registros de dispositivos de cámara
+// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')->orderBy('id', 'asc')->get();
+
+// // Inicializar el número secuencial del ID_DISPO
+// $nuevoID = 1;
+
+// foreach ($registrosCamara as $registro) {
+//     // Generar el nuevo ID_DISPO
+//     $nuevoIDDispo = '123-C-' . $nuevoID;
+    
+//     // Verificar si el nuevo ID_DISPO ya existe
+//     $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
+    
+//     // Si el ID_DISPO ya existe, incrementar el contador y generar uno nuevo
+//     while ($existe) {
+//         $nuevoID++;
+//         $nuevoIDDispo = '123-C-' . $nuevoID;
+//         $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
+//     }
+    
+//     // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+//     $registro->id_dispo = $nuevoIDDispo;
+//     $registro->save();
+    
+//     // Incrementar el contador para el siguiente registro
+//     $nuevoID++;
+// }
+
+
+
+// $registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
+//     ->where('id_dispo', 'LIKE', 'CAMARA-%')
+//     ->orderBy('id', 'asc')
+//     ->get();
+
+// // Obtener el último número secuencial de ID_DISPO
+// $ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
+//     ->orderBy('id_dispo', 'desc')
+//     ->value('id_dispo');
+
+// // Obtener el número secuencial siguiente
+// $nuevoID = 1;
+// if ($ultimoID !== null) {
+//     $ultimoNumero = (int)explode('-', $ultimoID)[2];
+//     if ($ultimoNumero !== null && $ultimoNumero !== 0) {
+//         $nuevoID = $ultimoNumero + 1;
+//     }
+// }
+
+// foreach ($registrosCamara as $registro) {
+//     // Generar el nuevo ID_DISPO
+//     $nuevoIDDispo = '123-C-' . $nuevoID;
+    
+//     // Verificar si el nuevo ID_DISPO ya existe
+//     $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
+    
+//     // Si el ID_DISPO ya existe, incrementar el contador y generar uno nuevo
+//     while ($existe) {
+//         $nuevoID++;
+//         $nuevoIDDispo = '123-C-' . $nuevoID;
+//         $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
+//     }
+    
+//     // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+//     $registro->id_dispo = $nuevoIDDispo;
+//     $registro->save();
+    
+//     // Incrementar el contador para el siguiente registro
+//     $nuevoID++;
+// }
+
+
+
+
+
+
+
+
+
+
+// Obtener los registros de "CAMARA-" cuyo ID_DISPO no sigue el formato '123-C-N'
+$registrosCamara = AlmacenadoTmp::where('dispositivo', 'CAMARA')
+    ->where('id_dispo', 'NOT LIKE', '123-C-%')
+    ->get();
+    // dd($registrosCamara);
+
+// Obtener el último número secuencial de ID_DISPO para 123-C-N
+$ultimoID = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
+    ->orderBy('id_dispo', 'desc')
+    ->value('id_dispo');
+
+    // dd($ultimoID);
+// Inicializar el nuevo ID_DISPO a partir del último número encontrado
+$nuevoID = 1;
+if ($ultimoID != null) {
+    // Extraer el último número de la cadena
+// dd('vdsghjvsg', $ultimoID);
+    $ultimoNumero = (int)explode('-', $ultimoID)[2];
+    dd('vdsghjvsg', $ultimoNumero);
+    if ($ultimoNumero !== null && $ultimoNumero !== 0) {
+        // Incrementar el número secuencial desde el último número encontrado
+        $nuevoID = $ultimoNumero + 1;
+    }
+}
+// dd('fueraa');
+// Iterar sobre los registros de "CAMARA-" para actualizar sus ID_DISPO
+foreach ($registrosCamara as $registro) {
+    // Generar el nuevo ID_DISPO en el formato '123-C-N'
+    $nuevoIDDispo = '123-C-' . $nuevoID;
+    
+    // Verificar si el nuevo ID_DISPO ya existe
+    $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
+    
+    // Si el ID_DISPO ya existe, incrementar el contador y generar uno nuevo
+    while ($existe) {
+        $nuevoID++;
+        $nuevoIDDispo = '123-C-' . $nuevoID;
+        $existe = AlmacenadoTmp::where('id_dispo', $nuevoIDDispo)->exists();
+    }
+    
+    // Asignar el nuevo ID_DISPO al registro y guardar los cambios
+    $registro->id_dispo = $nuevoIDDispo;
+    $registro->save();
+    
+    // Incrementar el contador para el siguiente registro
+    $nuevoID++;
+}
+
+
+
+
+
+
+
+
+
+                    
+
+                                
+                
+                }
+                
+
+                // Hacer un commit después de procesar cada hoja
+                DB::commit();
+
+                // Reiniciar la transacción para la próxima hoja
+                DB::beginTransaction();
+            }
+
+            // Confirmar la transacción final fuera del bucle
+            DB::commit();
+
+        //  return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
+
+            
+            return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente');
+
+
+
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+
+
+            return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
+        //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
+        }
 
         
-            }
- 
-         // Crear una instancia del lector de archivos de Excel
-         $reader = IOFactory::createReader('Xlsx');
- 
-         // Cargar el archivo en un objeto Spreadsheet
-         $documento = $reader->load($file->getPathname());
- 
-         // Iniciar una transacción en la base de datos
-         DB::beginTransaction();
- 
-         try {
-             $limiteFilasPorBloque = 10; // Establecer el límite de filas por bloque
-             $cambiarOrden = false; // Variable para indicar si se debe cambiar el orden de las columnas
- 
-             // Iterar por cada hoja del documento (máximo 15 hojas)
-             for ($i = 0; $i < min(15, $documento->getSheetCount()); $i++) {
-                 $hoja = $documento->getSheet($i);
- 
-                 // Verificar si es la hoja 13 para cambiar el orden de las columnas
-                 if ($i == 12) {
-                     $cambiarOrden = true;
-                     $filaInicio = 3; // Cambiar la fila de inicio a la fila 3 en la hoja 13
-                 } else {
-                     $cambiarOrden = false; // Restablecer la variable para otras hojas
-                     $filaInicio = 8; // Fila de inicio predeterminada para las demás hojas
-                 }
- 
-                 // Iterar por cada fila en la hoja actual
-                 foreach ($hoja->getRowIterator($filaInicio) as $fila) {
-                     $datosFila = [];
- 
-                     // Iterar por cada celda en la fila actual
-                     foreach ($fila->getCellIterator() as $celda) {
-                         // Identificar el tipo de dato en la celda
-                         $tipoDato = $celda->getDataType();
- 
-                         // Obtener el valor de la celda
-                         $valorCelda = $celda->getValue();
- 
-                         // Procesar el valor según el tipo de dato
-                         if ($tipoDato === 'n' && \PhpOffice\PhpSpreadsheet\Shared\Date::isDateTime($celda)) {
-                             // Si es una fecha, parsear con Carbon
-                             $fecha = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($valorCelda));
-                             $datosFila[] = $fecha->toDateString();
-                         } else {
-                             // En otros casos (texto, números, fórmulas, etc.), agregar el valor original
-                             $datosFila[] = $valorCelda;
-                         }
-                     }
-
-                     if (empty($datosFila[1])) {
-                        // Omitir la fila si 'dispositivo' está vacío y pasar a la siguiente iteración del bucle
-                        continue;
-                     }
- 
-                     // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
-                     $almacenadoTmp = new almacenadoTmp();
- 
-                     // Llenar el modelo AlmacenadoTmp según el orden de las columnas
-                     if ($cambiarOrden) {
-                         $almacenadoTmp->fill([
-                             'dispositivo' => $datosFila[1],
-                             'marca' => $datosFila[2],
-                             'referencia' => $datosFila[3],
-                             'observacion' => $datosFila[4],
-                             'cantidad' => $datosFila[0], // Cambiar la columna 'cantidad' a la posición 0
-                          ]);
-                     } else {
-                         $almacenadoTmp->fill([
-                             'id_dispo' => $datosFila[0],
-                             'dispositivo' => $datosFila[1],
-                             'marca' => $datosFila[2],
-                             'referencia' => $datosFila[3],
-                             'serial' => $datosFila[4],
-                             'procesador' => $datosFila[5],
-                             'ram' => $datosFila[6],
-                             'disco_duro' => $datosFila[7],
-                             'tarjeta_grafica' => $datosFila[8],
-                             'documento' => $datosFila[9],
-                             'nombres_apellidos' => $datosFila[10],
-                             'fecha_compra' => $datosFila[11],
-                             'garantia' => $datosFila[12],
-                             'numero_factura' => $datosFila[13],
-                             'proveedor' => $datosFila[14],
-                             'estado' => $datosFila[15],
-                             'observacion' => $datosFila[16],
-                             // 'valor' => $datosFila[17], // La columna 'valor' no se usa en esta versión
-                         ]);
-                     }
- 
-                     // Guardar el modelo en la base de datos
-                     $almacenadoTmp->save();
-                    
-                 }
- 
-                 // Hacer un commit después de procesar cada hoja
-                 DB::commit();
- 
-                 // Reiniciar la transacción para la próxima hoja
-                 DB::beginTransaction();
-             }
- 
-             // Confirmar la transacción final fuera del bucle
-             DB::commit();
- 
-            //  return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
-
-             
-             return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente');
-
-
-
-         } catch (\Exception $e) {
-             // Revertir la transacción en caso de error
-             DB::rollBack();
- 
-
-             return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
-            //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
-         }
-     }
+    }
  }

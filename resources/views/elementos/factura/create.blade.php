@@ -9,7 +9,7 @@
 
 @endsection
 @section('content')
- 
+
 <div class="content">
     <h1 class="page-title">CREAR NUEVA FACTURA</h1>
 <div class="green-line"></div>
@@ -68,8 +68,8 @@
         </div>
         <div class="right-content">
             <div class="images">
-                <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-                <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+                {{-- <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5"> --}}
+                {{-- <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6"> --}}
             </div>
             <div class="separator"></div>
             <div class="text">

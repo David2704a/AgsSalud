@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::get('perfil', [App\Http\Controllers\UserAjustesController::class, 'perfil'])->name('perfil');
 
 
-    // usereditar 
+    // usereditar
     Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizarperfilderegistrouser'])->name('editarPerfilusersR');
 
     // usuarios
@@ -181,6 +181,7 @@ Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestam
     */
 
     Route::resource('/reporte', InformesController::class)->names('reporte');
+    Route::get('/buscarReporte', [InformesController::class, 'buscarReporte']);
 
 
     Route::get('excel/elemento', [ElementoController::class,'excelElemento'])->name('generarInformeE');

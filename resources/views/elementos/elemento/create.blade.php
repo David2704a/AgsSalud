@@ -18,7 +18,6 @@
 <div class="green-line"></div>
 </div>
 
-
 <div class="button-container">
     <a href="{{route('elementos.index')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
 
@@ -199,8 +198,8 @@
         </div>
         <div class="right-content">
             <div class="images">
-                <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-                <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
+                {{-- <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5"> --}}
+                {{-- <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6"> --}}
             </div>
             <div class="separator"></div>
             <div class="text">

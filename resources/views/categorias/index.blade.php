@@ -73,13 +73,13 @@
 
                             @if(auth()->user()->hasRole(['superAdmin','administrador']))
                             <a class="edit-button" method="POST"
-                             href="{{ route('categorias.edit', ['idCategoria' => $categoria->idCategoria]) }}" 
+                             href="{{ route('categorias.edit', ['idCategoria' => $categoria->idCategoria]) }}"
                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                             </a>
                             @endif
 
                             @if(auth()->user()->hasRole(['superAdmin']))
-                            <button type="button" class="delete-button" title="Eliminar" 
+                            <button type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $categoria->idCategoria }}"
                              data-name="{{ $categoria->nombre }}">
 
@@ -96,11 +96,11 @@
         </div>
 
     </div>
- 
 
-        
 
-    
+
+
+
 
 
 
@@ -144,8 +144,8 @@
     </div>
     <div class="right-content">
         <div class="images">
-            <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-            <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+            {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
+            {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
         </div>
         <div class="separator"></div>
         <div class="text">

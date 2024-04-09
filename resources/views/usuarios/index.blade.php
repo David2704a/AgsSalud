@@ -80,7 +80,7 @@
                                             </button>
 
 
-                                            
+
 
                                             <div id="myModal_{{ $usuario->id }}" class="modal">
                                                 <div class="modal-content">
@@ -145,8 +145,8 @@
         </div>
         <div class="right-content">
             <div class="images">
-                <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5">
-                <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6">
+                {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
+                {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
             </div>
             <div class="separator"></div>
             <div class="text">

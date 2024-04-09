@@ -8,7 +8,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{asset('js/prodedimiento/procedimiento.js')}}"></script>
 
-
 @endsection
 @section('content')
 
@@ -99,13 +98,20 @@
             @endforeach
         </select>
         <br>
-            <label for="idElemento">Elemento</label>
-            <select name="idElemento" id="idElemento">
-                <option value="">Seleccionar una opción</option>
-                @foreach ($elemento as $elemento)
-                    <option value="{{ $elemento->idElemento }}">{{ $elemento->modelo }}</option>
-                @endforeach
-            </select>
+        <label for="idElemento">Elemento</label>
+        <select class="selectElemento select2" name="idElemento" id="idElemento" style="width: 100%">
+            <option value="">Seleccionar una opción</option>
+            @foreach ($elementos as $elemento)
+                <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo}}  {{$elemento->categoria->nombre}}</option>
+            @endforeach
+        </select>
+        <script>
+       $(document).ready(function() {
+            $('.select2').select2({
+                theme: null
+            });
+        });
+        </script>
         <br>
         <label for="idEstadoProcedimiento">Estado Procedimiento</label>
         <select name="idEstadoProcedimiento" id="idEstadoProcedimiento">
@@ -143,8 +149,8 @@
     </div>
     <div class="right-content">
         <div class="images">
-            <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-            <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6">
+            {{-- <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5"> --}}
+            {{-- <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6"> --}}
         </div>
         <div class="separator"></div>
         <div class="text">

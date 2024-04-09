@@ -50,8 +50,9 @@ class User extends Authenticatable
     }
 
 
-    public function persona(){
-        return $this->belongsTo(Persona::class, 'id');
+    public function persona()
+    {
+        return $this->belongsTo(Persona::class, 'idPersona');
     }
 
     public function elementos()

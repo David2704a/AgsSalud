@@ -249,7 +249,7 @@ class ElementoController extends Controller
             ->orWhere('serial', 'like', '%' . $filtro . '%')
             ->orWhere('modelo', 'like', '%' . $filtro . '%')
             ->orWhere('descripcion', 'like', '%' . $filtro . '%')
-            ->orWhere('idElemento', 'like', '%' . $filtro . '%')
+            ->orWhere('id_dispo', 'like', '%' . $filtro . '%')
             ->orWhereHas('user', function($query) use($filtro){
                 $query->where('name', 'like', '%'. $filtro. '%');
             });
@@ -270,7 +270,7 @@ class ElementoController extends Controller
             'idTipoElemento' => $request->input('idTipoElemento', null),
             'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
             'idCategoria' => $request->input('idCategoria', null),
-            'idElemento' => $request->input('idElemento', null),
+            'id_dispo' => $request->input('idElemento', null),
 
             // Agrega más filtros según sea necesario
         ];

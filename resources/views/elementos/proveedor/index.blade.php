@@ -55,7 +55,7 @@
             <th>Telefono</th>
             <th>Correo Electronico</th>
             <th>Direccion</th>
-            @if(auth()->user()->hasRole(['superAdmin','administrador'])) 
+            @if(auth()->user()->hasRole(['superAdmin','administrador']))
             <th>Acciones</th>
             @endif
         </thead>
@@ -68,7 +68,7 @@
                     <td>{{$proveedor->telefono}}</td>
                     <td>{{$proveedor->correoElectronico}}</td>
                     <td>{{$proveedor->direccion}}</td>
-                    @if(auth()->user()->hasRole(['superAdmin','administrador'])) 
+                    @if(auth()->user()->hasRole(['superAdmin','administrador']))
                     <td>
                         @if(auth()->user()->hasRole(['superAdmin','administrador']))                        <a class="edit-button"
                             href="{{ route('proveedores.edit',$proveedor->idProveedor) }}">
@@ -129,8 +129,8 @@
         </div>
         <div class="right-content">
             <div class="images">
-                <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5">
-                <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6">
+                {{-- <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5"> --}}
+                {{-- <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6"> --}}
             </div>
             <div class="separator"></div>
             <div class="text">
