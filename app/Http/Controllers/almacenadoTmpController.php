@@ -7,8 +7,8 @@ use App\Models\almacenadoTmp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Session;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class almacenadoTmpController extends Controller
 {
@@ -32,7 +32,6 @@ class almacenadoTmpController extends Controller
      * @author Vanesa Galindez
      */
 
-
 //      public function ejecutarProcedimiento()
 //      {
 //          DB::select('CALL almacenadoTmp()');
@@ -45,36 +44,35 @@ class almacenadoTmpController extends Controller
 //     return redirect()->route('elementos.index'); // Cambia 'nombre_de_la_ruta' por tu ruta deseada
 // }
 
-
-public function ejecutarProcedimiento()
-{
-    $procedureExists = DB::select("SHOW PROCEDURE STATUS WHERE Db = DATABASE() AND Name = 'almacenadoTmp'");
-    if (empty($procedureExists)) {
-        DB::unprepared("
+    public function ejecutarProcedimiento()
+    {
+        $procedureExists = DB::select("SHOW PROCEDURE STATUS WHERE Db = DATABASE() AND Name = 'almacenadoTmp'");
+        if (empty($procedureExists)) {
+            DB::unprepared("
         CREATE PROCEDURE `almacenadoTmp`()
         BEGIN
-              
+
         -- Inserta proveedores evitando duplicados
         INSERT INTO proveedor (nombre)
             SELECT DISTINCT TRIM(proveedor) FROM almacenadoTmp
             WHERE TRIM(proveedor) NOT IN (SELECT nombre FROM proveedor);
-        
+
             -- Inserta en la tabla 'factura' evitando duplicados
             INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
-            SELECT p.idProveedor, a.numero_factura, 
-                CASE 
-                    WHEN a.fecha_compra = 'NO REGISTRA' THEN NULL 
-                    ELSE STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') 
+            SELECT p.idProveedor, a.numero_factura,
+                CASE
+                    WHEN a.fecha_compra = 'NO REGISTRA' THEN NULL
+                    ELSE STR_TO_DATE(a.fecha_compra, '%Y-%m-%d')
                 END AS fecha_compra_parsed
             FROM almacenadoTmp a
             JOIN proveedor p ON TRIM(a.proveedor) = TRIM(p.nombre);
-        
+
             -- Elimina duplicados basados en código de factura y fecha
             DELETE f1 FROM factura f1
             JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
             AND f1.fechaCompra = f2.fechaCompra
             WHERE f1.idFactura > f2.idFactura;
-        
+
             -- Elimina registros duplicados para 'NO REGISTRA' basados en codigoFactura e idProveedor
             DELETE f1 FROM factura f1
             JOIN factura f2 ON f1.codigoFactura = f2.codigoFactura
@@ -82,45 +80,45 @@ public function ejecutarProcedimiento()
             WHERE f1.codigoFactura = 'NO REGISTRA'
             AND f1.idProveedor IS NOT NULL
             AND f1.idFactura > f2.idFactura;
-        
+
             -- Inserta en la tabla 'categoria' evitando duplicados
             INSERT INTO categoria (nombre)
             SELECT DISTINCT TRIM(dispositivo) AS nombre
             FROM almacenadoTmp a
             LEFT JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
             WHERE c.nombre IS NULL AND TRIM(a.dispositivo) IS NOT NULL;
-        
+
             -- Inserta en la tabla 'estadoElemento' evitando duplicados
             INSERT INTO estadoElemento (estado)
             SELECT DISTINCT TRIM(a.estado) AS estado
             FROM almacenadoTmp a
             LEFT JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
             WHERE e.estado IS NULL AND TRIM(a.estado) IS NOT NULL;
-        
+
             -- Inserta en la tabla 'persona' evitando duplicados
             INSERT IGNORE INTO persona (nombre1, nombre2, apellido1, apellido2, identificacion)
             SELECT DISTINCT
-                CASE 
-                    WHEN nombres_apellidos REGEXP ' ' THEN 
+                CASE
+                    WHEN nombres_apellidos REGEXP ' ' THEN
                         SUBSTRING_INDEX(nombres_apellidos, ' ', 1)  -- Primer nombre
                     ELSE nombres_apellidos  -- Asignar directamente si no hay espacio
                 END AS nombre1,
-                CASE 
-                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 1 THEN 
+                CASE
+                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 1 THEN
                         SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', 2), ' ', -1)  -- Segundo nombre
                     ELSE NULL
                 END AS nombre2,
-                CASE 
-                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2 THEN 
+                CASE
+                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2 THEN
                         SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', -2), ' ', 1)  -- Primer apellido
                     ELSE NULL
                 END AS apellido1,
-                CASE 
-                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2 THEN 
+                CASE
+                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2 THEN
                         SUBSTRING_INDEX(nombres_apellidos, ' ', -1)  -- Segundo apellido
                     ELSE NULL
                 END AS apellido2,
-                CASE 
+                CASE
                     WHEN documento REGEXP '^[0-9]+$' THEN documento
                     ELSE NULL
                 END AS identificacion
@@ -129,10 +127,10 @@ public function ejecutarProcedimiento()
             AND documento REGEXP '^[0-9]+$'
             AND nombres_apellidos NOT IN ('BAJA', 'LIBRE')
             AND documento IS NOT NULL;
-        
+
             -- Inserta en la tabla 'users' evitando duplicados
             INSERT IGNORE INTO users (name, email, password, idpersona, created_at, updated_at)
-            SELECT 
+            SELECT
                 COALESCE(CONCAT(p.nombre1, ' ', COALESCE(p.nombre2, ''), ' ', COALESCE(p.apellido1, ''), ' ', COALESCE(p.apellido2, '')), ''),
                 CONCAT('agssaludgerencia', p.id, '_', UUID_SHORT(), '@gmail.com'), -- Utilizar UUID_SHORT() para generar un número único
                 PASSWORD('agsadministracionDev123'),
@@ -141,13 +139,13 @@ public function ejecutarProcedimiento()
                 NOW()
             FROM persona p
             WHERE p.nombre1 IS NOT NULL OR p.nombre2 IS NOT NULL OR p.apellido1 IS NOT NULL OR p.apellido2 IS NOT NULL
-            ON DUPLICATE KEY UPDATE idpersona = idpersona; 
-        
+            ON DUPLICATE KEY UPDATE idpersona = idpersona;
+
             -- Inserta en la tabla 'elemento' evitando duplicados
             INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
-            SELECT 
+            SELECT
                 a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad, f.idFactura,
-                CASE 
+                CASE
                     WHEN a.documento IS NOT NULL AND p.id IS NOT NULL THEN u.id
                     ELSE NULL
                 END AS idUsuario
@@ -159,35 +157,32 @@ public function ejecutarProcedimiento()
             LEFT JOIN persona p ON a.documento = p.identificacion
             LEFT JOIN users u ON p.id = u.idpersona
             WHERE el.id_dispo IS NULL AND a.id_dispo IS NOT NULL;
-        
+
             -- Inserta en la tabla 'elementonoid' cuando id_dispo sea nulo
             INSERT IGNORE INTO elementonoid (cantidad, idCategoria, marca, referencia, observacion, created_at, updated_at)
-            SELECT 
+            SELECT
                 a.cantidad, c.idCategoria, a.marca, a.referencia, a.observacion, NOW(), NOW()
             FROM almacenadoTmp a
             LEFT JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
             WHERE a.id_dispo IS NULL;
-        
+
             -- Elimina los registros de la tabla temporal
             DELETE FROM almacenadoTmp;
-        
+
         END
-        
+
         ");
-        Session::flash('success', 'Operación realizada con éxito desde la creación!');
-    } else {
-        Session::flash('success', 'Operación realizada con éxito desde no creación!');
+            Session::flash('success', 'Operación realizada con éxito desde la creación!');
+        } else {
+            Session::flash('success', 'Operación realizada con éxito desde no creación!');
+        }
+
+        // Llama al procedimiento almacenado solo si fue creado o ya existía
+        DB::select('CALL almacenadoTmp()');
+
+        // Redirige a la vista o ruta que desees
+        return redirect()->route('elementos.index');
     }
-
-    // Llama al procedimiento almacenado solo si fue creado o ya existía
-    DB::select('CALL almacenadoTmp()');
-
-    // Redirige a la vista o ruta que desees
-    return redirect()->route('elementos.index');
-}
-
-
-
 
     public function importarExcel(Request $request)
     {
@@ -201,10 +196,9 @@ public function ejecutarProcedimiento()
 
         // Validar el tipo de archivo (se espera un archivo XLSX)
         if ($file->getClientOriginalExtension() !== 'xlsx') {
-        //  return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
-        return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
+            //  return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
+            return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
 
-    
         }
 
         // Crear una instancia del lector de archivos de Excel
@@ -257,8 +251,8 @@ public function ejecutarProcedimiento()
                     }
 
                     if (empty($datosFila[1])) {
-                    // Omitir la fila si 'dispositivo' está vacío y pasar a la siguiente iteración del bucle
-                    continue;
+                        // Omitir la fila si 'dispositivo' está vacío y pasar a la siguiente iteración del bucle
+                        continue;
                     }
 
                     // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
@@ -300,13 +294,13 @@ public function ejecutarProcedimiento()
                     $almacenadoTmp->save();
 
                     $registrosConCeroPregunta = AlmacenadoTmp::select('dispositivo', DB::raw('count(*) as total'))
-                    ->where(function ($query) {
-                        $query->where('id_dispo', 'LIKE', '%-0?')
-                            ->orWhere('id_dispo', 'LIKE', "%-'0?")
-                            ->orWhere('id_dispo', 'LIKE', '%0?');
-                    })
-                    ->groupBy('dispositivo')
-                    ->get();
+                        ->where(function ($query) {
+                            $query->where('id_dispo', 'LIKE', '%-0?')
+                                ->orWhere('id_dispo', 'LIKE', "%-'0?")
+                                ->orWhere('id_dispo', 'LIKE', '%0?');
+                        })
+                        ->groupBy('dispositivo')
+                        ->get();
 
                     foreach ($registrosConCeroPregunta as $conteo) {
                         // Obtener todos los registros del dispositivo actual que terminan en '0?'
@@ -327,7 +321,7 @@ public function ejecutarProcedimiento()
                         $nuevoID = 1;
                         if ($ultimoID !== null) {
                             $ultimoNumero = explode('-', $ultimoID);
-                            $ultimoNumero = (int)end($ultimoNumero);
+                            $ultimoNumero = (int) end($ultimoNumero);
                             if ($ultimoNumero !== null && $ultimoNumero !== 0) {
                                 $nuevoID = $ultimoNumero + 1;
                             }
@@ -340,10 +334,6 @@ public function ejecutarProcedimiento()
                         }
                     }
 
-
-                   
-                    
-                
                 }
                 // Hacer un commit después de procesar cada hoja
                 DB::commit();
@@ -355,45 +345,34 @@ public function ejecutarProcedimiento()
             // Confirmar la transacción final fuera del bucle
             DB::commit();
 
+            if ($almacenadoTmp->save()) {
+                // Si se guarda el modelo correctamente, llamar a asignarID_DISPO()
+                $this->asignarID_DISPO();
+                $this->asignarID_DISPO_PC_PORTATIL();
+                $this->asignarID_DISPO_CARGADOR_PORTATIL();
+                $this->asignarID_DISPO_IMPRESORA();
+                $this->asignarID_DISPO_MODEM_WIFI();
+                $this->asignarID_DISPO_ROUTER();
+                $this->asignarID_DISPO_DVR();
+                $this->asignarID_DISPO_SWITCH();
 
-                if ($almacenadoTmp->save()) {
-                    // Si se guarda el modelo correctamente, llamar a asignarID_DISPO()
-                    $this->asignarID_DISPO();
-                    $this->asignarID_DISPO_PC_PORTATIL();
-                    $this->asignarID_DISPO_CARGADOR_PORTATIL();
-                    $this->asignarID_DISPO_IMPRESORA();
-                    $this->asignarID_DISPO_MODEM_WIFI();
-                    $this->asignarID_DISPO_ROUTER();
-                    $this->asignarID_DISPO_DVR();
-                    $this->asignarID_DISPO_SWITCH();
-                    
-                } else {
-                    // Si no se guarda el modelo correctamente, lanzar un error
-                    throw new \Exception("Error al guardar el modelo en la base de datos");
-                }
+            } else {
+                // Si no se guarda el modelo correctamente, lanzar un error
+                throw new \Exception("Error al guardar el modelo en la base de datos");
+            }
 
             //  return response()->json(['success' => true,'message' => 'Archivo importado correctamente']);
             return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente');
-
-
 
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
             DB::rollBack();
 
-
-           
-
             return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
-        //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
+            //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
         }
 
-        
     }
-
-
-
-
 
     // Método para asignar nuevos ID_DISPO a los registros de "CAMARA-" sin ID_DISPO
     private function asignarID_DISPO()
@@ -402,19 +381,19 @@ public function ejecutarProcedimiento()
         $registrosCamaraSinID = AlmacenadoTmp::where('dispositivo', 'CAMARA')
             ->where('id_dispo', 'NOT LIKE', '123-C-%')
             ->get();
-    
+
         // Obtener los ID_DISPO existentes para dispositivos "CAMARA" con el formato '123-C-N'
         $idDisposExistentes = AlmacenadoTmp::where('id_dispo', 'LIKE', '123-C-%')
             ->pluck('id_dispo')
             ->toArray();
-    
+
         // Inicializar el siguiente número disponible
         $siguienteNumero = null;
-    
+
         // Si hay registros con el formato '123-C-N', encontrar el número más alto de N y sumar uno
         if (!empty($idDisposExistentes)) {
             foreach ($idDisposExistentes as $idDispo) {
-                $numero = (int)explode('-', $idDispo)[2];
+                $numero = (int) explode('-', $idDispo)[2];
                 if ($siguienteNumero === null || $numero > $siguienteNumero) {
                     $siguienteNumero = $numero;
                 }
@@ -424,7 +403,7 @@ public function ejecutarProcedimiento()
             // Si no hay registros existentes, iniciar desde 1
             $siguienteNumero = 1;
         }
-    
+
         // Iterar sobre los registros de "CAMARA-" sin ID_DISPO para asignarles nuevos ID_DISPO
         foreach ($registrosCamaraSinID as $registro) {
             // Construir el nuevo ID_DISPO
@@ -443,20 +422,20 @@ public function ejecutarProcedimiento()
         $registrosSinCodigoPCPortatil = AlmacenadoTmp::where('dispositivo', 'PC PORTATIL')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
             ->get();
-    
+
         // Obtener los ID_DISPO existentes para dispositivos "PC PORTATIL" con formato numérico
         $idDisposExistentesPCPortatil = AlmacenadoTmp::where('dispositivo', 'PC PORTATIL')
             ->whereRaw("SUBSTRING_INDEX(id_dispo, '\'', -1) REGEXP '^[0-9]+$'")
             ->pluck('id_dispo')
             ->toArray();
-    
+
         // Inicializar el siguiente número disponible
         $siguienteNumero = null;
-    
+
         // Si hay registros con formato numérico, encontrar el número más alto y sumar uno
         if (!empty($idDisposExistentesPCPortatil)) {
             foreach ($idDisposExistentesPCPortatil as $idDispo) {
-                $numero = (int)explode("'", $idDispo)[3]; // Cambiar el índice para obtener el número correcto
+                $numero = (int) explode("'", $idDispo)[3]; // Cambiar el índice para obtener el número correcto
                 if ($siguienteNumero === null || $numero > $siguienteNumero) {
                     $siguienteNumero = $numero;
                 }
@@ -466,7 +445,7 @@ public function ejecutarProcedimiento()
             // Si no hay registros existentes, iniciar desde 1
             $siguienteNumero = 1;
         }
-    
+
         // Iterar sobre los registros de "PC PORTATIL" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
         foreach ($registrosSinCodigoPCPortatil as $registro) {
             // Construir el nuevo ID_DISPO
@@ -492,10 +471,9 @@ public function ejecutarProcedimiento()
             ->pluck('id_dispo')
             ->map(function ($idDispo) {
                 preg_match('/\d+$/', $idDispo, $matches);
-                return (int)$matches[0];
+                return (int) $matches[0];
             })
             ->toArray();
-    
 
         // Depuración para verificar los números existentes
         // dd($idDisposExistentesCargadorPortatil);
@@ -562,13 +540,11 @@ public function ejecutarProcedimiento()
         $registrosSinCodigoModemWifi = AlmacenadoTmp::where('dispositivo', 'MODEN WI-FI')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
             ->get();
-    
+
         // Iterar sobre los registros de "MODEN WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
         foreach ($registrosSinCodigoModemWifi as $registro) {
             // Tomar el serial del registro
             $serial = $registro->serial;
-
-
 
             if ($serial) {
                 // Construir el nuevo ID_DISPO con el formato "IMPRESORA-NUMERO_SERIE"
@@ -578,7 +554,7 @@ public function ejecutarProcedimiento()
                 $registro->id_dispo = $nuevoIDDispo;
                 $registro->save();
             }
-            
+
         }
     }
     private function asignarID_DISPO_ROUTER()
@@ -587,7 +563,7 @@ public function ejecutarProcedimiento()
         $registrosSinCodigoRouter = AlmacenadoTmp::where('dispositivo', 'ROUTER')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
             ->get();
-    
+
         // Iterar sobre los registros de "MODEN WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
         foreach ($registrosSinCodigoRouter as $registro) {
             // Tomar el serial del registro
@@ -600,7 +576,7 @@ public function ejecutarProcedimiento()
                 $registro->id_dispo = $nuevoIDDispo;
                 $registro->save();
             }
-            
+
         }
     }
 
@@ -648,59 +624,24 @@ public function ejecutarProcedimiento()
 
     private function asignarID_DISPO_SWITCH()
     {
-        // Obtener los registros de "SWITCH" que tienen "SW-" seguido de un guión y ningún número después en su ID_DISPO
-         // Obtener los registros de "SWITCH" que tienen "SW-" seguido de un guión y ningún número después en su ID_DISPO
-         $registrosIncompletos = AlmacenadoTmp::where('dispositivo', 'SWITCH')
-         ->where(function ($query) {
-             $query->where('id_dispo', 'REGEXP', '^900237674-7-SW-(\d+|NUEVO)$')
-                 ->orWhere('id_dispo', 'REGEXP', '^900237674-7-SW-$');
-         })
-         ->get();
-        dd($registrosIncompletos);
-    
-        // // Obtener el número más alto de los registros existentes para "SWITCH"
-        // $maxNumero = AlmacenadoTmp::where('dispositivo', 'SWITCH')
-        //     ->where('id_dispo', 'REGEXP', '^900237674-7-SW-[0-9]+$')
-        //     ->max(DB::raw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(id_dispo, "-", -1), "-", 1) AS UNSIGNED)'));
-    
-        // // Inicializar el siguiente número disponible
-        // $siguienteNumero = $maxNumero ? $maxNumero + 1 : 1;
-    
-        // // Iterar sobre los registros de "SWITCH" para asignarles nuevos ID_DISPO
-        // foreach ($registrosSINcOMPLETARSwitch as $registro) {
-        //     // Construir el nuevo ID_DISPO
-        //     $nuevoIDDispo = "900237674-7-SW-" . $siguienteNumero;
-        //     // Asignar el nuevo ID_DISPO al registro y guardar los cambios
-        //     $registro->id_dispo = $nuevoIDDispo;
-        //     $registro->save();
-        //     // Incrementar el siguiente número para el siguiente registro
-        //     $siguienteNumero++;
-        // }
+        $registrosIncompletos = AlmacenadoTmp::where('dispositivo', 'SWITCH')
+            ->where([['id_dispo', '<>', '900237674-7-SW-'],['id_dispo', 'not like', '%' . '900237674-7-SW-NUEVO' . '%'],['id_dispo', 'like', '%' . '900237674-7-SW-' . '%']])
+            ->orderBy('id_dispo', 'DESC')
+            ->first();
+
+        $registrosActualizar = AlmacenadoTmp::where('dispositivo', 'SWITCH')
+                    ->where('id_dispo', '900237674-7-SW-')
+                    ->orWhere('id_dispo', '900237674-7-SW-NUEVO')
+                    ->orderBy('id_dispo', 'DESC')
+                    ->get();
+
+        $consecutivo = explode('-',$registrosIncompletos->id_dispo)[3];
+
+        for ($i = 0; $i < count($registrosActualizar); $i++) {
+            $consecutivo++;
+            AlmacenadoTmp::where('id', $registrosActualizar[$i]->id)
+                        ->update(['id_dispo' => '900237674-7-SW-'.$consecutivo]);
+        }
     }
-    
-        
 
-
-    
-    
-
-    
-    
-
-
-
-    
-
-    
-
-
-
-    
-    
-
-
-    
-
-    
-
- }
+}
