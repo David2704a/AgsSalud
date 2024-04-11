@@ -13,19 +13,11 @@ return new class extends Migration
     {
         Schema::create('elementonoid', function (Blueprint $table) {
             $table->id();
-            
             $table->string('cantidad')->nullable();
-
-
-            $table->unsignedBigInteger('idCategoria')->nullable(); // enn el excel esta e la columnna dispositivo 
-            $table->foreign('idCategoria')->references('idCategoria')->on('categoria');// enn el excel esta e la columnna dispositivo 
-
+            $table->string('dispositivo')->nullable();  
             $table->string('marca')->nullable();
             $table->string('referencia')->nullable();
-
-
             $table->string('observacion')->nullable();
- 
             $table->timestamps();
         });
     }
