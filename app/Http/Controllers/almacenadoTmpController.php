@@ -305,64 +305,20 @@ class almacenadoTmpController extends Controller
                             // 'valor' => $datosFila[17], // La columna 'valor' no se usa en esta versión
                         ]);
                     }
-
                     // Guardar el modelo en la base de datos
                     $almacenadoTmp->save();
-
-                    $registrosConCeroPregunta = AlmacenadoTmp::select('dispositivo', DB::raw('count(*) as total'))
-                        ->where(function ($query) {
-                            $query->where('id_dispo', 'LIKE', '%-0?')
-                                ->orWhere('id_dispo', 'LIKE', "%-'0?")
-                                ->orWhere('id_dispo', 'LIKE', '%0?');
-                        })
-                        ->groupBy('dispositivo')
-                        ->get();
-
-                    foreach ($registrosConCeroPregunta as $conteo) {
-                        // Obtener todos los registros del dispositivo actual que terminan en '0?'
-                        $registros = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
-                            ->where(function ($query) {
-                                $query->where('id_dispo', 'LIKE', '%-0?')
-                                    ->orWhere('id_dispo', 'LIKE', "%-'0?")
-                                    ->orWhere('id_dispo', 'LIKE', '%0?');
-                            })
-                            ->get();
-
-                        // Obtener el último número secuencial
-                        $ultimoID = AlmacenadoTmp::where('dispositivo', $conteo->dispositivo)
-                            ->orderBy('id_dispo', 'desc')
-                            ->value('id_dispo');
-
-                        // Obtener el siguiente número secuencial
-                        $nuevoID = 1;
-                        if ($ultimoID !== null) {
-                            $ultimoNumero = explode('-', $ultimoID);
-                            $ultimoNumero = (int) end($ultimoNumero);
-                            if ($ultimoNumero !== null && $ultimoNumero !== 0) {
-                                $nuevoID = $ultimoNumero + 1;
-                            }
-                        }
-
-                        // Actualizar los registros con ID de dispositivo que terminan en '0?'
-                        foreach ($registros as $registro) {
-                            $registro->id_dispo = str_replace(['-0?', "-'0?", '0?'], '-' . $nuevoID, $registro->id_dispo);
-                            $registro->save();
-                        }
-                    }
-
                 }
                 // Hacer un commit después de procesar cada hoja
                 DB::commit();
-
                 // Reiniciar la transacción para la próxima hoja
                 DB::beginTransaction();
             }
-
             // Confirmar la transacción final fuera del bucle
             DB::commit();
 
             if ($almacenadoTmp->save()) {
-                // Si se guarda el modelo correctamente, llamar a asignarID_DISPO()
+                $this->asignarID_DISPO_UPS();
+                $this->asignarID_DISPO_ADAPTADORES_RED();
                 $this->asignarID_DISPO();
                 $this->asignarID_DISPO_PC_PORTATIL();
                 $this->asignarID_DISPO_CARGADOR_PORTATIL();
@@ -378,7 +334,6 @@ class almacenadoTmpController extends Controller
                 $this->asignarID_DISPO_MOUSE();
                 $this->asignarID_DISPO_MONITOR();
                 
-
                 // Obtener todos los registros con id_dispo que contienen "codigo" o "$SIN CODIGO"
                 $registrosConCodigoSinCodigo = AlmacenadoTmp::where(function ($query) {
                     $query->where('id_dispo', 'like', 'codigo%')
@@ -410,7 +365,6 @@ class almacenadoTmpController extends Controller
                         $nuevoRegistro->cantidad = $registro->cantidad; // Asignar el campo 'cantidad'
                         $nuevoRegistro->save();
                     }
-
                     // Eliminar los registros transferidos de la tabla AlmacenadoTmp
                     AlmacenadoTmp::whereIn('id', $registrosConCodigoSinCodigo->pluck('id'))->delete();
                 }
@@ -429,13 +383,11 @@ class almacenadoTmpController extends Controller
                         $nuevoElemento->observacion = $registro->observacion;
                         $nuevoElemento->save();
                     }
-
                     // Eliminar los registros transferidos de la tabla AlmacenadoTmp
                     AlmacenadoTmp::whereIn('id', $registrosSinIdDispo->pluck('id'))->delete();
                 }
-
-
                 return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente por favor continua con el paso numero 2');
+
             } else {
                 // Si no se guarda el modelo correctamente, lanzar un error
                 throw new \Exception("Error al guardar el modelo en la base de datos");
@@ -448,6 +400,50 @@ class almacenadoTmpController extends Controller
             //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
         }
 
+    }
+
+    private function asignarID_DISPO_UPS()
+    {
+        $registrosIncompletosups = AlmacenadoTmp::where('dispositivo', 'UPS')
+            ->where([['id_dispo', '<>', "900237674-7-U-"],['id_dispo', 'not like', '%' . "900237674-7-U-OTRA" . '%'],['id_dispo', 'not like', '%' . "900237674-7-U-0?" . '%'],['id_dispo', 'like', '%' . "900237674-7-U-" . '%']])
+            ->orderBy('id_dispo', 'DESC')
+            ->first();
+
+        $registrosActualizarups = AlmacenadoTmp::where('dispositivo', 'UPS')
+                    ->where('id_dispo', "900237674-7-U-")
+                    ->orWhere('id_dispo', 'LIKE', "900237674-7-U-OTRA%")
+                    ->orWhere('id_dispo', 'LIKE', "900237674-7-U-0?%")
+                    ->orderBy('id_dispo', 'DESC')
+                    ->get();
+
+        $consecutivoups = explode("-",$registrosIncompletosups->id_dispo)[3];
+        
+        for ($i = 0; $i < count($registrosActualizarups); $i++) {
+            $consecutivoups++;
+            AlmacenadoTmp::where('id', $registrosActualizarups[$i]->id)
+                        ->update(['id_dispo' => "900237674-7-U-".$consecutivoups]);
+        }
+    }
+    private function asignarID_DISPO_ADAPTADORES_RED()
+    {
+        $registrosIncompletosAR = AlmacenadoTmp::where('dispositivo', 'ADAPTADOR DE RED')
+            ->where([['id_dispo', '<>', "900237674-7-AR-"],['id_dispo', 'not like', '%' . "900237674-7-AR-0?" . '%'],['id_dispo', 'like', '%' . "900237674-7-AR-" . '%']])
+            ->orderBy('id_dispo', 'DESC')
+            ->first();
+
+        $registrosActualizarAR = AlmacenadoTmp::where('dispositivo', 'ADAPTADOR DE RED')
+                    ->where('id_dispo', "900237674-7-AR-")
+                    ->orWhere('id_dispo', 'LIKE', "900237674-7-AR-0?%")
+                    ->orderBy('id_dispo', 'DESC')
+                    ->get();
+
+        $consecutivoAR = explode("-",$registrosIncompletosAR->id_dispo)[3];
+
+        for ($i = 0; $i < count($registrosActualizarAR); $i++) {
+            $consecutivoAR++;
+            AlmacenadoTmp::where('id', $registrosActualizarAR[$i]->id)
+                        ->update(['id_dispo' => "900237674-7-AR-".$consecutivoAR]);
+        }
     }
 
     // Método para asignar nuevos ID_DISPO a los registros de "CAMARA-" sin ID_DISPO
@@ -550,9 +546,6 @@ class almacenadoTmpController extends Controller
                 return (int) $matches[0];
             })
             ->toArray();
-
-        // Depuración para verificar los números existentes
-        // dd($idDisposExistentesCargadorPortatil);
 
         // Inicializar el siguiente número disponible
         $siguienteNumero = null;
