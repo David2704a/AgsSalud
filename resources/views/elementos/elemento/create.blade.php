@@ -23,17 +23,28 @@
 
 <div>
     <form id="formularioImportar" action="{{ route('excel.import') }}" method="post" enctype="multipart/form-data" class="button-derecha">
-    @csrf
-    <label for="archivo" class="folder_open" id="archivoLabel">
-        <i class="fas fa-file-excel"></i> Selecciona un archivo
-    </label>
-    <div class="file-input-container">
-        <input type="file" id="archivo" name="archivo" onchange="mostrarBotonCargar()">
+        @csrf
+        <label for="archivo" class="folder_open" id="archivoLabel">
+            <i class="fas fa-file-excel"></i>1.Selecciona un archivo
+        </label>
+        <div class="file-input-container">
+            <input type="file" id="archivo" name="archivo" onchange="mostrarBotonCargar()">
+        </div>
+        <button type="submit" class="cargarbutton" id="cargarBtn" style="display:none;" onclick="showLoadingMessage()">
+            <i class="fas fa-upload"></i> Cargar Archivo
+        </button>
+    </form>
+    
+</div>
+    <div class="textsig">
+        <span class="texto-flecha ">Siguiente paso num2</span><i class="fas fa-arrow-right"></i> 
+       
     </div>
-    <button type="submit" class="cargarbutton" id="cargarBtn" style="display:none;" onclick="showLoadingMessage()">
-        <i class="fas fa-upload"></i> Cargar Archivo
-    </button>
-</form>
+
+    <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva" onclick="showLoadingMessage()">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
 
 <script>
         function showLoadingMessage() {
@@ -49,10 +60,7 @@
         document.getElementById('carga').style.display = 'block';
     });
 </script>
-    </div>
-    <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva" onclick="showLoadingMessage()">
-    <i class="fas fa-arrow-up"></i>
-</a>
+
 
 </div>
 
