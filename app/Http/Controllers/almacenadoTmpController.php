@@ -435,7 +435,7 @@ class almacenadoTmpController extends Controller
                 }
 
 
-                return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente');
+                return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente por favor continua con el paso numero 2');
             } else {
                 // Si no se guarda el modelo correctamente, lanzar un error
                 throw new \Exception("Error al guardar el modelo en la base de datos");

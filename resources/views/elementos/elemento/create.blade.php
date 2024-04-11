@@ -33,11 +33,12 @@
         <button type="submit" class="cargarbutton" id="cargarBtn" style="display:none;" onclick="showLoadingMessage()">
             <i class="fas fa-upload"></i> Cargar Archivo
         </button>
+
     </form>
     
 </div>
     <div class="textsig">
-        <span class="texto-flecha ">Siguiente paso num2</span><i class="fas fa-arrow-right"></i> 
+        <span class="texto-flecha ">Paso numero 2</span><i class="fas fa-arrow-right"></i> 
        
     </div>
 
