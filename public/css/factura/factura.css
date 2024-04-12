@@ -1,6 +1,5 @@
 .content {
-    text-align: center;
-
+    text-align: center
 }
 
 .page-title {
@@ -111,9 +110,8 @@ MENU
     border-radius: 6px;
     font-weight: 500;
     color: var(--color);
-
     padding: 2px 5px;
-   }
+}
 
 .button-derecha:before {
     content: "";
@@ -267,7 +265,6 @@ table tr:last-child td {
     background-size: auto !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
-
 }
 
 /*
@@ -321,7 +318,6 @@ FOOTER
     width: 100%;
     display: flex;
     justify-content: space-between;
-    position: absolute;
     bottom: 0;
     align-items: center;
     background-color: #f3f3f3;
@@ -364,7 +360,6 @@ FOOTER
 
 
 .text {
-
     margin-right: 10px;
 }
 
@@ -384,17 +379,16 @@ FOOTER
 }
 
 
+/*
+================================================================
+FILE EXCEL  CARGA Y TEXTO 
+================================================================
+*/
+
 
 input[type="file"] {
     display: none;
 }
-
-/*
-
-
-.button-derecha {
-    text-align: right;
-} */
 
 .folder_open {
     display: inline-block;
@@ -403,8 +397,6 @@ input[type="file"] {
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-
-
 }
 
 .folder_open i {
@@ -425,6 +417,34 @@ input[type="file"] {
     padding: 7px;
     position: relative;
     outline: none;
-
 }
 
+.textsig {
+    display: inline-block;
+    background-color: #ffffff; /* Color verde */
+    color: #343D7C;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    align-items: center;
+    margin-top: 18px;
+    user-select: none;
+    animation: scaleAnimation 2s infinite alternate;
+}
+
+@keyframes scaleAnimation {
+    0% {
+        transform: scale(0.7); /* Escala normal */
+    }
+    100% {
+        transform: scale(1.1); /* Escala aumentada */
+    }
+}
+
+.textsig:hover {
+    transform: scale(1.1); /* Para hacer que el contenido se haga más grande al pasar el ratón sobre él */
+}
+
+.textsig i {
+    margin-left: 8px; /* Espacio entre el icono y el texto */
+}

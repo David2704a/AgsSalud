@@ -26,6 +26,8 @@ class UserAjustesController extends Controller
     }
 
 
+
+    
     public function actualizar(Request $request, $id)
     {
         

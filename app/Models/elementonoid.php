@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class elementonoid extends Model
 {
-    protected $table = 'elemento';
-    protected $primaryKey = 'idElemento';
+    protected $table = 'elementonoid';
     protected $fillable = [
         'cantidad',
-        'idCategoria',
+        'dispositivo',
         'marca',
         'referencia',
         'descripcion',
@@ -21,7 +20,5 @@ class elementonoid extends Model
     public $timestamps = true;
 
 
-    public function categoria() {
-        return $this->belongsTo(Categoria::class, 'idCategoria');
-    }
+
 }
