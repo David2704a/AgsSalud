@@ -1,4 +1,4 @@
-.contents {
+.content2 {
     text-align: center;
 }
 
@@ -261,20 +261,6 @@ FILTRO ICONO
 FOOTER
 ================================================================
 */
-
-
-.footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    bottom: 0;
-    align-items: center;
-    background-color: #f3f3f3;
-    color: #fff;
-    margin-bottom: 0 !important;
-}
-
-
 .separator {
     width: 2px;
     height: 40px;

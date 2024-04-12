@@ -108,8 +108,13 @@
     .contenidoPadre {
         width: 100%;
         height: 100vh;
+        overflow-y: hidden !important;
 }
-
+.content2 {
+    text-align: center;
+    overflow-y: auto;
+    height: 100%;
+}
 .footer {
     width: 100%;
     display: flex;
