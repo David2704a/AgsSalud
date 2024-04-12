@@ -31,8 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var recordName = buttonOrIcon.getAttribute('data-name');
 
         modalMessage.innerHTML = `<p class="record-id-message">¿Estás seguro de que quieres eliminar el registro con el nombre:
-         <span class="record-id"> ${recordName} </span>
-        y el ID: "<span class="record-id"> ${recordId} </span>"?</p>`;
+         <span class="record-id"> ${recordName} </span>?</p>`;
 
         var deleteForm = document.getElementById('deleteForm');
         var action = deleteForm.getAttribute('action').replace('REPLACE_ID', recordId);
