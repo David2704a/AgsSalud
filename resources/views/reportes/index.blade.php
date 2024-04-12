@@ -10,7 +10,7 @@
 
 
 @endsection
-
+<div class="content2">
 <div class="container">
 
     <div class="menu-container">
@@ -385,7 +385,9 @@
         </div>
     </div>
 </div>
-
+<br><br>
+<br><br>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

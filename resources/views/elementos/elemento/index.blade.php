@@ -14,7 +14,7 @@
 @endsection
 @section('content')
 
-    <div class="contents">
+    <div class="content2">
         <h1 class="page-title">Elementos</h1>
         <div class="green-line"></div>
 
@@ -160,7 +160,6 @@
     </div>
 
 
-
     <!-- Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -176,8 +175,5 @@
         </div>
     </div>
 
-    <br>
-    <br>
-    <br>
 
 @endsection

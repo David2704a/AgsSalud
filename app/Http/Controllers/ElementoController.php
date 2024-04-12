@@ -26,10 +26,10 @@ class ElementoController extends Controller
         // Verificar el rol del usuario
         if ($user->hasRole('colaborador')) {
             // Si el usuario tiene el rol de "colaborador", obtener solo los elementos asignados a ese usuario
-            $elementos = $user->elementos()->paginate(10);
+            $elementos = $user->elementos()->paginate(7);
         } else {
             // Si el usuario no tiene el rol de "colaborador", obtener todos los elementos
-            $elementos = Elemento::paginate(10);
+            $elementos = Elemento::paginate(7);
         }
 
         // Obtener estados de elementos
@@ -253,7 +253,7 @@ class ElementoController extends Controller
             ->orWhereHas('user', function($query) use($filtro){
                 $query->where('name', 'like', '%'. $filtro. '%');
             });
-        })->paginate(10);
+        })->paginate(7);
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));
     }
