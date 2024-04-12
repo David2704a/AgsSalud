@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Auth;
 @endif
 
 <div class="">
-    
+
     <form class="form" action="{{ route('personas.update', $usuario->persona->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -146,7 +146,7 @@ use Illuminate\Support\Facades\Auth;
         </div>
         <div class="separator"></div>
         <div class="text">
-            <p>Copyright © 2023 AGS SALUD SAS</p>
+            <p>Copyright © 2024 AGS SALUD SAS</p>
             <p>Todos los derechos Reservados</p>
         </div>
     </div>

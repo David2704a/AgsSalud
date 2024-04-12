@@ -18,7 +18,7 @@ class ProcedimientoController extends Controller
     public function index(Request $request)
     {
 
-        $procedimiento = Procedimiento::paginate(10);
+        $procedimiento = Procedimiento::paginate(5);
 
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }
@@ -177,7 +177,7 @@ class ProcedimientoController extends Controller
                 ->orWhereHas('tipoProcedimiento', function ($subquery) use ($filtro) {
                     $subquery->where('tipo', 'like', '%' . $filtro . '%');
                 });
-        })->paginate(10);
+        })->paginate(5);
 
 
 

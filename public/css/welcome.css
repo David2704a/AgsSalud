@@ -132,7 +132,7 @@ FOOTER
 ================================================================
 */
 
-.footer {
+/* .footer {
     margin-top: -50px;
     width: 100%;
     display: flex;
@@ -141,8 +141,9 @@ FOOTER
     background-color: #f3f3f3;
     color: #fff;
     bottom: 0;
+    position: absolute;
 }
-
+ */
 
 
 .separator {
