@@ -43,36 +43,29 @@ use Illuminate\Support\Facades\Auth;
 
     <form id="updateProfileForm" class="form" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}" method="POST">                    @csrf
 
-    <label for="name">Nombre usuario</label>
-            <br>
-            <input type="text" name="name" id="name" value="{{  Auth::user()->name }}">
-            <br>
+        <label for="name">Nombre usuario</label>
+        <br>
+        <input type="text" name="name" id="name" value="{{  Auth::user()->name }}">
+        <br>
 
-            <label for="email">Correo</label>
-            <br>
-            <input type="text" name="email" id="email" value="{{ Auth::user()->email }}">
-            <br>
-            <br>
-            <br>
+        <label for="email">Correo</label>
+        <br>
+        <input type="text" name="email" id="email" value="{{ Auth::user()->email }}">
+        <br>
+        <br>
+        <br>
 
-                            @if(auth()->user()->hasRole(['superAdmin','admin']))
-                            <button type="botton"  class="edit-button" href="{{ route('ActualizarPerfil') }} "title="Guardar cambios"  >Guardar cambios <i class="fas fa-sync-alt"></i>
-            </button>
-                                        @endif
-                                        <a class="playstore-button" href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}"  >
-                                            <i class="fa-regular fa-pen-to-square icon"></i>
-                                            <span class="texts">
-                                              <span class="text-1">Actualizar</span>
-                                              <span class="text-2">Información</span>
-                                            </span>
-                                          </a>
+        @if(auth()->user()->hasRole(['superAdmin','admin']))
+            <button type="botton"  class="edit-button" href="{{ route('ActualizarPerfil') }} "title="Guardar cambios"  >Guardar cambios <i class="fas fa-sync-alt"></i></button>
+        @endif
+            <a class="edit-button" href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}"  >
+                <i class="fa-regular fa-pen-to-square icon"></i>
+                <span class="texts">
+                <span class="text-1">Actualizar informacion</span>
+                {{-- <span class="text-2">Información</span> --}}
+                </span>
+            </a>
                                         {{-- <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}" title="Actualizar Información">Actualizar Información<i class="fa-regular fa-pen-to-square"></i>                        </div> --}}
-                    </div>
-                </form>
-
-
-
-
             <br>
             <br>
             <br>
@@ -82,26 +75,10 @@ use Illuminate\Support\Facades\Auth;
     <br>
     <br>
 </div>
-</div>
-</div>
-</div>
 
-
-<script>
-    // Script para capturar el ID del usuario y pasarlo al formulario del modal
-    document.addEventListener('DOMContentLoaded', function() {
-        var actualizarModalButton = document.getElementById('actualizarModalButton');
-        var actualizarModalForm = document.getElementById('actualizarModalForm');
-
-        actualizarModalButton.addEventListener('click', function() {
-            var userId = this.getAttribute('data-user-id');
-            document.getElementById('userIdInput').value = userId;
-        });
-    });
-</script>
 
 <!-- Resto del contenido -->
-<footer class="footer">
+<footer class="footer resources/views/categorias/index.blade.php">
     <div class="left-images">
         <div class="column">
             <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
