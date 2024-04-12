@@ -205,7 +205,6 @@ class ElementoController extends Controller
 
     public function edit($id){
         $elemento = Elemento::find($id);
-
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();

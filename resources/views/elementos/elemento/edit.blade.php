@@ -119,12 +119,13 @@
         </select>
 
 
+        {{-- @dd($elemento) --}}
         <label for="idUsuario">Asignado A:</label>
         <select name="idUsuario" id="idUsuario" class="input">
             @foreach ($users as $user)
                 <option value="{{$user->id }}">{{ $user->name}}</option>
             @endforeach
-            <option value="">Seleccione una opcion</option>
+            <option value="{{$elemento->idUsuario}}">{{$elemento->idUsuario}}</option>
         </select>
         <div class="button-container">
             <button type="button" onclick="mostrarParte('parte3')">Anterior</button>
