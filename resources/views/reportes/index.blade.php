@@ -120,7 +120,7 @@
                 <div class="tabla-container">
                     <div class="search-container">
                         <input type="text" id="search-input" placeholder="Buscar...">
-                        {{-- <button><i class="fa-solid fa-magnifying-glass"></i></button> --}}
+                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                     <div class="tableElementos">
 

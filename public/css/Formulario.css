@@ -42,7 +42,7 @@ FORM - VISTA CREATE
     border-radius: 5px !important;
 }
 
-.form .select2{
+.form-part.active .select2{
     width: 95% !important;
     padding: 6px !important;
     margin-bottom: 15px !important;
@@ -50,7 +50,7 @@ FORM - VISTA CREATE
     border-radius: 5px !important;
 }
 
-.form .select2-container--default .select2-selection--single {
+.form-part.active .select2-container--default .select2-selection--single {
     border: none !important;
     border: none !important;
     border-radius: 0% !important;
