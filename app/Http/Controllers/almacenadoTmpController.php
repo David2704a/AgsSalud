@@ -197,9 +197,10 @@ class almacenadoTmpController extends Controller
 
     public function importarExcel(Request $request)
     {
+        almacenadoTmp::truncate();
         elementonoid::truncate();
         sincodTmp::truncate();
-        ;
+        
 
 
         // Validar si se envió un archivo
@@ -947,7 +948,6 @@ class almacenadoTmpController extends Controller
             $nuevoNumero++;
         }
     }
-
 
 
 
