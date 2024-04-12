@@ -54,12 +54,12 @@ class almacenadoTmpController extends Controller
         CREATE PROCEDURE `almacenadoTmp`()
         BEGIN
 
-        -- Inserta proveedores evitando duplicados
-        INSERT IGNORE INTO proveedor (nombre)
-        SELECT DISTINCT TRIM(almacenadoTmp.proveedor) AS proveedor
-        FROM almacenadoTmp
-        LEFT JOIN proveedor ON TRIM(almacenadoTmp.proveedor) = TRIM(proveedor.nombre)
-        WHERE proveedor.nombre IS NULL AND almacenadoTmp.proveedor IS NOT NULL;
+            -- Inserta proveedores evitando duplicados
+            INSERT IGNORE INTO proveedor (nombre)
+            SELECT DISTINCT TRIM(almacenadoTmp.proveedor) AS proveedor
+            FROM almacenadoTmp
+            LEFT JOIN proveedor ON TRIM(almacenadoTmp.proveedor) = TRIM(proveedor.nombre)
+            WHERE proveedor.nombre IS NULL AND almacenadoTmp.proveedor IS NOT NULL;
 
 
             -- Inserta en la tabla 'factura' evitando duplicados

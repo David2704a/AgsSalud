@@ -5,6 +5,11 @@ TITLE
 ================================================================
 
 */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
 .content {
     text-align: center;
@@ -133,7 +138,7 @@ FOOTER
 */
 
 .footer {
-    margin-top: -50px;
+    padding: 20px 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -141,6 +146,7 @@ FOOTER
     background-color: #f3f3f3;
     color: #fff;
     bottom: 0;
+   
 }
 
 

@@ -8,6 +8,7 @@
 @section('links')
 
 <link rel="stylesheet" href="{{asset('/css/categoria/categoria.css')}}">
+<script src="{{asset('js/tipoElemento/tipoElemento.js')}}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -48,7 +49,7 @@
     @if ($tipoElementos->count() > 0)
     <div class="table-container">
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Buscar...">
+            <input type="text" id="search-inputeleme4nto" placeholder="Buscar...">
             <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
         <div class="table">
@@ -108,12 +109,7 @@
     </div>
     @else
             <p>No hay tipo elementos disponibles.</p>
-        @endif
-
-
-
-
-
+     @endif
 </div>
 
 
@@ -122,8 +118,8 @@
         <p id="modalMessage"></p>
         <div class="button-container">
             <button id="cancelButton" class="modal-button">Cancelar</button>
-            <form id="deleteForm" action="{{ route('tipoElementos.destroy', ['idTipoElemento' => $tipoElementos->idTipoElemento]) }}" method="POST">
-                @csrf
+            <form id="deleteForm" action="{{ route('tipoElementos.destroy',  'REPLACE_ID') }}" method="POST">
+                @csrf 
                 @method('DELETE')
                 <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>
             </form>
@@ -138,7 +134,7 @@
 
 
 
-<footer class="footer">
+<footer class="footer position-absolute top-100 start-50 translate-middle mt-4">
     <div class="left-images">
         <div class="column">
             <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
