@@ -72,27 +72,27 @@
                     @endif
                 </thead>
                 <tbody>
-                    @foreach ($tipoElementos as $tipoElementos)
+                    @foreach ($tipoElementos as $tipoElemento)
                     <tr>
-                    <td>{{ $tipoElementos->idTipoElemento }}</td>
-                        <td>{{ $tipoElementos->tipo }}</td>
-                        <td>{{ $tipoElementos->descripcion }}</td>
+                    <td>{{ $tipoElemento->idTipoElemento }}</td>
+                        <td>{{ $tipoElemento->tipo }}</td>
+                        <td>{{ $tipoElemento->descripcion }}</td>
                         @if(auth()->user()->hasRole(['superAdmin','administrador']))
                         <td>
 
                             @if(auth()->user()->hasRole(['superAdmin','administrador']))
                             <a class="edit-button" method="POST"
-                             href="{{ route('tipoElementos.edit', ['idTipoElemento' => $tipoElementos->idTipoElemento]) }}"
+                             href="{{ route('tipoElementos.edit', ['idTipoElemento' => $tipoElemento->idTipoElemento]) }}"
                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                             </a>
                             @endif
 
                             @if(auth()->user()->hasRole(['superAdmin','administrador']))
                             <button type="button" class="delete-button" title="Eliminar"
-                            data-id="{{ $tipoElementos->idTipoElemento }}"
-                             data-name="{{ $tipoElementos->tipo }}">
+                            data-id="{{ $tipoElemento->idTipoElemento }}"
+                             data-name="{{ $tipoElemento->tipo }}">
 
-                                <i data-id="{{ $tipoElementos->idTipoElemento }}" data-name="{{ $tipoElementos->tipo }}" class="fas fa-trash-alt"></i>
+                                <i data-id="{{ $tipoElemento->idTipoElemento }}" data-name="{{ $tipoElemento->tipo }}" class="fas fa-trash-alt"></i>
                             </button>
                             @endif
 
@@ -103,7 +103,9 @@
                     @endforeach
                 </tbody>
             </table>
-
+            <div class="pagination">
+                {{ $tipoElementos->links('pagination.custom') }}
+            </div>
         </div>
 
     </div>
@@ -134,7 +136,7 @@
 
 
 
-<footer class="footer">
+<footer class="footer position-absolute top-100 start-50 translate-middle">
     <div class="left-images">
         <div class="column">
             <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">

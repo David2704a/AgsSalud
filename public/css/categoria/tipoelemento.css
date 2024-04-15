@@ -269,10 +269,8 @@ FOOTER
     align-items: center;
     background-color: #f3f3f3;
     color: #fff;
-    /* position: absolute; */
-    bottom: -0 !important;
-    flex-shrink: 0;
-    
+    position: absolute !important;
+    bottom: 0 !important;
 }
 
 

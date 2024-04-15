@@ -1,16 +1,16 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
 
 use App\Models\TipoElemento;
 use Illuminate\Http\Request;
+
 
 class TipoElementoController extends Controller
 {
     public function index()
     {
         $tipoElementos = TipoElemento::paginate(10);
-
         return view('elementos.tipoElemento.index', compact('tipoElementos'));
     }
 
