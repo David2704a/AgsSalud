@@ -15,6 +15,7 @@ use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
+use App\Models\Elemento;
 use App\Models\TipoElemento;
 use Illuminate\Support\Facades\Route;
 
@@ -224,3 +225,5 @@ Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, '
 require __DIR__.'/auth.php';
 
 
+Route::get('/elemento/qr/{id_dispo}',[ElementoController::class,'elementoQR']);
+Route::get('/lista-qr',[ElementoController::class,'QRView']);

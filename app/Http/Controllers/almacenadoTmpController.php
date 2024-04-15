@@ -7,6 +7,7 @@ use App\Models\almacenadoTmp;
 use App\Models\elementonoid;
 use App\Models\sincodTmp;
 use Carbon\Carbon;
+use chillerlan\QRCode\QRCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -128,7 +129,7 @@ class almacenadoTmpController extends Controller
                     ELSE NULL
                 END AS identificacion
             FROM almacenadoTmp
-            
+
             WHERE nombres_apellidos IS NOT NULL
             AND documento REGEXP '^[0-9]+$'
             AND nombres_apellidos NOT IN ('BAJA', 'LIBRE')
@@ -191,6 +192,13 @@ class almacenadoTmpController extends Controller
         // Llama al procedimiento almacenado solo si fue creado o ya existía
         DB::select('CALL almacenadoTmp()');
 
+        $elementos = DB::table('elemento')->get();
+
+        foreach ($elementos as $elemento) {
+            DB::table('elemento')->where('id_dispo',$elemento->id_dispo)
+                ->update(['codigo' => (new QRCode)->render(url('/elemento/qr/'.$elemento->id_dispo))]);
+        }
+
         // Redirige a la vista o ruta que desees
         return redirect()->route('elementos.index');
     }
@@ -200,7 +208,7 @@ class almacenadoTmpController extends Controller
         almacenadoTmp::truncate();
         elementonoid::truncate();
         sincodTmp::truncate();
-        
+
 
 
         // Validar si se envió un archivo
@@ -334,7 +342,7 @@ class almacenadoTmpController extends Controller
                 $this->asignarID_DISPO_BASEREFRIGERANTE();
                 $this->asignarID_DISPO_MOUSE();
                 $this->asignarID_DISPO_MONITOR();
-                
+
                 // Obtener todos los registros con id_dispo que contienen "codigo" o "$SIN CODIGO"
                 $registrosConCodigoSinCodigo = AlmacenadoTmp::where(function ($query) {
                     $query->where('id_dispo', 'like', 'codigo%')
@@ -418,7 +426,7 @@ class almacenadoTmpController extends Controller
                     ->get();
 
         $consecutivoups = explode("-",$registrosIncompletosups->id_dispo)[3];
-        
+
         for ($i = 0; $i < count($registrosActualizarups); $i++) {
             $consecutivoups++;
             AlmacenadoTmp::where('id', $registrosActualizarups[$i]->id)
@@ -717,7 +725,7 @@ class almacenadoTmpController extends Controller
             ->orderBy('id_dispo', 'DESC')
             ->first();
 
-        
+
         $registrosActualizar = AlmacenadoTmp::where('dispositivo', 'DIADEMA')
                     ->where('id_dispo','like', '%SIN CODIGO%')
                     ->orderBy('id_dispo', 'DESC')
@@ -738,13 +746,13 @@ class almacenadoTmpController extends Controller
             ->orderBy('id_dispo', 'DESC')
             ->first();
 
-       
+
         $registrosActualizarT = AlmacenadoTmp::where('dispositivo', 'TECLADO')
                     ->where('id_dispo','like', '%SIN CODIGO%')
                     ->orderBy('id_dispo', 'DESC')
                     ->get();
 
-                 
+
         $consecutivo = explode("'",$registroscompletosTeclado->id_dispo)[3];
 
         for ($i = 0; $i < count($registrosActualizarT); $i++) {
@@ -770,7 +778,7 @@ class almacenadoTmpController extends Controller
             ->where([['id_dispo', 'not like', '%' . 'SIN CODIGO' . '%']])
             ->orderBy('id_dispo', 'DESC')
             ->first();
-        
+
         $registrosActualizarPADMOUSEERGONOMICO= AlmacenadoTmp::where('dispositivo', 'PAD MOUSE ERGONOMICO')
                     ->where('id_dispo','like', '%SIN CODIGO%')
                     ->orderBy('id_dispo', 'DESC')
@@ -780,12 +788,12 @@ class almacenadoTmpController extends Controller
         ->where([['id_dispo', 'not like', '%' . 'PADTECLADO' . '%']])
         ->orderBy('id_dispo', 'DESC')
         ->first();
-    
+
         $registrosActualizarPADTeclado= AlmacenadoTmp::where('dispositivo', 'PAD TECLADO')
                     ->where('id_dispo','like', '%PADTECLADO%')
                     ->orderBy('id_dispo', 'DESC')
-                    ->get();            
-        
+                    ->get();
+
         $consecutivo = explode("'",$registroscompletosPADMOUSE->id_dispo)[3];
 
         for ($i = 0; $i < count($registrosActualizarPADMOUSE); $i++) {
@@ -801,7 +809,7 @@ class almacenadoTmpController extends Controller
             for ($i = 0; $i < count($registrosActualizarPADMOUSEERGONOMICO); $i++) {
                 AlmacenadoTmp::where('id', $registrosActualizarPADMOUSEERGONOMICO[$i]->id)
                             ->update(['id_dispo' => "900237674'7'P.M.E'".$consecutivo]);
-    
+
                 $consecutivo++;
             }
         }
@@ -811,7 +819,7 @@ class almacenadoTmpController extends Controller
                 $consecutivo++;
                 AlmacenadoTmp::where('id', $registrosActualizarPADMOUSEERGONOMICO[$i]->id)
                             ->update(['id_dispo' => "900237674'7'P.M.E'".$consecutivo]);
-    
+
             }
         }
 
@@ -821,7 +829,7 @@ class almacenadoTmpController extends Controller
             for ($i = 0; $i < count($registrosActualizarPADTeclado); $i++) {
                 AlmacenadoTmp::where('id', $registrosActualizarPADTeclado[$i]->id)
                             ->update(['id_dispo' => "900237674'7'P.T'".$consecutivo]);
-    
+
                 $consecutivo++;
             }
         }
@@ -831,7 +839,7 @@ class almacenadoTmpController extends Controller
                 $consecutivo++;
                 AlmacenadoTmp::where('id', $registrosActualizarPADTeclado[$i]->id)
                             ->update(['id_dispo' => "900237674'7'P.T'".$consecutivo]);
-    
+
             }
         }
     }
@@ -897,10 +905,10 @@ class almacenadoTmpController extends Controller
             ])
             ->orderBy('id_dispo', 'DESC')
             ->first();
-    
+
         if ($registroMaxMouse) {
             $consecutivo = explode("'", $registroMaxMouse->id_dispo)[3];
-    
+
             $registrosActualizar = AlmacenadoTmp::where('dispositivo', 'MOUSE')
                 ->where(function ($query) {
                     $query->where('id_dispo', "900237674'7' MOUSE'")
@@ -908,7 +916,7 @@ class almacenadoTmpController extends Controller
                         ->orWhere('id_dispo', 'LIKE', '%SIN CODIGO%');
                 })
                 ->get();
-    
+
             foreach ($registrosActualizar as $registro) {
                 $consecutivo++;
                 $nuevoIdDispo = "900237674'7' MOUSE'" . $consecutivo;
@@ -929,16 +937,16 @@ class almacenadoTmpController extends Controller
             ])
             ->orderBy('id_dispo', 'DESC')
             ->first();
-    
+
         // Extraer el número después del último guión y sumarlo en 1
         preg_match('/\d+$/', $registroMaxMonitor->id_dispo, $matches);
         $nuevoNumero = ((int) end($matches)) + 1;
-    
+
         // Obtener los registros con "SIN CODIGO" para el dispositivo "MONITOR"
         $registrosSinCodigo = AlmacenadoTmp::where('dispositivo', 'MONITOR')
             ->where('id_dispo', 'like', '%SIN CODIGO%')
             ->get();
-    
+
         // Actualizar los registros con "SIN CODIGO" de manera incremental
         $idDispoBase = substr($registroMaxMonitor->id_dispo, 0, strrpos($registroMaxMonitor->id_dispo, '-') + 1);
         foreach ($registrosSinCodigo as $registro) {
