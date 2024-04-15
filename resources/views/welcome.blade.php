@@ -13,7 +13,7 @@
 
 
 @section('content')
-
+<div class="content2">
 <div class="content">
     <h1 class="page-title">PANEL DE CONTROL</h1>
     <div class="green-line"></div>
@@ -77,6 +77,6 @@
 
 </div>
 
-
+</div>
 @endsection
 

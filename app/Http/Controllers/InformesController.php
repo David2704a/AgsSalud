@@ -22,6 +22,7 @@ class InformesController extends Controller
     {
 
         $elementos = Elemento::paginate(10);
+        $elementos2 = Elemento::all();
         $estadosElementos = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
@@ -29,7 +30,7 @@ class InformesController extends Controller
         $procedimientos = Procedimiento::paginate(10);
         $estadoProcedimientos = EstadoProcedimiento::all();
         $usuarios = User::all();
-        return view('reportes.index', compact('elementos', 'estadosElementos', 'tipoElementos', 'tipoProcedimientos', 'categorias', 'procedimientos', 'usuarios', 'estadoProcedimientos'));
+        return view('reportes.index', compact('elementos', 'estadosElementos', 'tipoElementos', 'tipoProcedimientos', 'categorias', 'procedimientos', 'usuarios', 'estadoProcedimientos', 'elementos2'));
 
     }
 
