@@ -10,8 +10,10 @@ use App\Models\EstadoElemento;
 use App\Models\Factura;
 use App\Models\TipoElemento;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
@@ -283,24 +285,47 @@ class ElementoController extends Controller
         }
     }
 
-     // EEXCEL
+    // EEXCEL
 
-     public function importarExcel(Request $request)
-     {
-         // Validación del archivo Excel
-         $request->validate([
-             'archivo' => 'required|mimes:xlsx,xls',
-         ]);
+    public function importarExcel(Request $request)
+    {
+        // Validación del archivo Excel
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx,xls',
+        ]);
 
-         try {
-             // Importar el archivo Excel
-             Excel::import(new ElementoImport, $request->file('archivo'));
+        try {
+            // Importar el archivo Excel
+            Excel::import(new ElementoImport, $request->file('archivo'));
 
-             return redirect()->back()->with('success', 'Importación exitosa');
-         } catch (\Exception $e) {
-             // Capturar cualquier excepción durante la importación
-             return redirect()->back()->with('error', 'Error durante la importación: ' . $e->getMessage());
-         }
-     }
+            return redirect()->back()->with('success', 'Importación exitosa');
+        } catch (\Exception $e) {
+            // Capturar cualquier excepción durante la importación
+            return redirect()->back()->with('error', 'Error durante la importación: ' . $e->getMessage());
+        }
+    }
+
+    public function elementoQR(string $id_dispo)
+    {
+        $elemento = DB::table('elemento')->where('id_dispo',$id_dispo)
+                    ->join('categoria','categoria.idCategoria','elemento.idCategoria')
+                    ->join('users','users.id','elemento.idUsuario')
+                    ->join('persona','persona.id','users.idPersona')
+                    ->first();
+
+        return view('Qr.elemento-qr',compact('elemento'));
+
+    }
+
+    public function QRView()
+    {
+
+        $datos = DB::table('elemento')->get();
+        $pdf = Pdf::loadView('Qr.lista',compact('datos'));
+        $pdf->setPaper('letter','landscape');
+
+        return $pdf->stream('CODIGOS DE EQUIPOS.pdf');
+
+    }
 
 }

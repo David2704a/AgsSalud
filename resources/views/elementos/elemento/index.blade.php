@@ -27,6 +27,8 @@
                     Elemento</a>
             @endif
 
+            <p><a href="{{ url('/lista-qr') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="_blank">QR'S</a></p>
+
         </div>
         <div class="menu-container">
             <ul class="menu">

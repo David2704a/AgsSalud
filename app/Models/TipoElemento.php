@@ -11,8 +11,7 @@ class TipoElemento extends Model
 
     protected $table = 'tipoElemento';
     protected $primaryKey = 'idTipoElemento';
-
-    protected $fillable = [
+    protected $fillable = [ 
         'tipo',
         'descripcion'
     ];

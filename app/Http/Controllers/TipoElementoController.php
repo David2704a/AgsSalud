@@ -1,16 +1,16 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
 
 use App\Models\TipoElemento;
 use Illuminate\Http\Request;
+
 
 class TipoElementoController extends Controller
 {
     public function index()
     {
         $tipoElementos = TipoElemento::paginate(10);
-
         return view('elementos.tipoElemento.index', compact('tipoElementos'));
     }
 
@@ -76,17 +76,30 @@ class TipoElementoController extends Controller
         return redirect()->route('tipoElementos.index')->with('success', 'Tipo de Elemento actualizado correctamente');
     }
 
-    public function destroy($id)
+    public function destroy($idTipoElemento)
     {
-        $tipoElemento = TipoElemento::find($id);
-    
+        $tipoElemento = TipoElemento::find($idTipoElemento);
+        
         if (!$tipoElemento) {
             return redirect()->route('tipoElementos.index')->with('error', 'Tipo de Elemento no encontrado');
         }
-    
+        
         $tipoElemento->delete();
-    
+        
         return redirect()->route('tipoElementos.index')->with('success', 'Tipo de Elemento eliminado correctamente');
     }
+
+    public function buscarTipoElemento(Request $request)
+    {
+        $filtro = $request->input('filtro');
+    
+        $tipoElementos = TipoElemento::where('tipo', 'like', '%' . $filtro . '%')
+            ->orWhere('descripcion', 'like', '%' . $filtro . '%')
+            ->paginate(10);
+    
+        // Devuelve la vista con la variable $categorias
+        return view('elementos.tipoElemento.partials.resultados', compact('tipoElementos'));
+    }
+    
     
 }
