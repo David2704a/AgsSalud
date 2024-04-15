@@ -41,7 +41,7 @@ class CategoriaController extends Controller
 
         // Creación de un nuevo objeto Categoria y asignación de valores
         $categoria = new Categoria();
-        $categoria->nombre = $request->input('nombre');
+        $categoria->nombre = strtoupper($request->input('nombre'));
         $categoria->descripcion = $request->input('descripcion');
 
         // Guardar el nuevo objeto en la base de datos
@@ -89,17 +89,17 @@ class CategoriaController extends Controller
         if (!$categoria) {
             return redirect()->route("categorias.index")->with('error', 'Categoría no encontrada');
         }
-    
+
         $request->validate([
             "nombre" => "required",
             "descripcion" => "required",
         ]);
-    
+
         $categoria->nombre = $request->input('nombre');
         $categoria->descripcion = $request->input('descripcion');
-    
+
         $categoria->save();
-    
+
         return redirect()->route("categorias.index")->with('success', 'Categoría actualizada correctamente');
     }
 
@@ -123,11 +123,11 @@ class CategoriaController extends Controller
     public function buscarCategorias(Request $request)
     {
         $filtro = $request->input('filtro');
-    
+
         $categorias = Categoria::where('nombre', 'like', '%' . $filtro . '%')
             ->orWhere('descripcion', 'like', '%' . $filtro . '%')
             ->paginate(10);
-    
+
         // Devuelve la vista con la variable $categorias
         return view('categorias.partials.resultados', compact('categorias'));
     }
