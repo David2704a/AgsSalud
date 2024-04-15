@@ -15,6 +15,8 @@ use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
+use App\Models\Elemento;
+use App\Models\TipoElemento;
 use Illuminate\Support\Facades\Route;
 
 
@@ -131,6 +133,8 @@ Route::post('register', [RegisteredUserController::class, 'register'])
 
     Route::get('/usuariosBuscar', [UserController::class, 'buscar'])->name('usuarios.search');
     Route::get('/categoriaBuscar', [CategoriaController::class, 'buscarCategorias'])->name('categorias.search');
+    Route::get('/tipoelementoBuscar', [TipoElementoController::class, 'buscarTipoElemento'])->name('tipoele.search');
+
 
 
 
@@ -221,3 +225,5 @@ Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, '
 require __DIR__.'/auth.php';
 
 
+Route::get('/elemento/qr/{id_dispo}',[ElementoController::class,'elementoQR']);
+Route::get('/lista-qr',[ElementoController::class,'QRView']);

@@ -270,7 +270,9 @@ FOOTER
     background-color: #f3f3f3;
     color: #fff;
     /* position: absolute; */
-    bottom: 0;
+    bottom: -0 !important;
+    flex-shrink: 0;
+    
 }
 
 

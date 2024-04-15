@@ -51,6 +51,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idUsuario')->nullable(); //connecta con una tabla que see llamma user que contiene un id persona la cual coonecta con la tabla persona que contiene documento que quiero llennar con la columna documento del excel  y necesito llenar al igual que con la columna nombres y apellidos que se deben guardar en la tabla persona pero desglosados en los atributo nombre1, nombre2, apellido1, apellido2
             $table->foreign('idUsuario')->references('id')->on('users');
 
+            $table->longText('codigo')->nullable();
             $table->timestamps();
         });
     }

@@ -1,0 +1,22 @@
+.contenido {
+    display: inline-flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    align-items: center;
+    margin: 2px;
+}
+
+.tabla{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border-width: 0.1px;
+    border-spacing: 0px;
+    /* border-style: solid; */
+}
+
+.tabla td{
+    width: 150px;
+    height: 30px;
+    border-width: 0.1px;
+    /* border-style: solid; */
+}
