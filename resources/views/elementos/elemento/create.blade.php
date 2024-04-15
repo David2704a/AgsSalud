@@ -34,11 +34,11 @@
             </button>
 
         </form>
-        
+
     </div>
     <div class="textsig">
-        <span class="texto-flecha ">Paso numero 2</span><i class="fas fa-arrow-right"></i> 
-    
+        <span class="texto-flecha ">Paso numero 2</span><i class="fas fa-arrow-right"></i>
+
     </div>
 
     <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva" onclick="showLoadingMessage()">

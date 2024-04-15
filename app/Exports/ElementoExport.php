@@ -92,7 +92,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
 
         Image::make(public_path('imgs/logos/Ags.png'))->resize(330, 130)->save(public_path('imgs/logos/ags-export.png'));
         Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
-        Image::make(public_path('imgs/logos/logo-IQNet.png'))->resize(100, 100)->save(public_path('imgs/logos/iqnet-export.png'));
+        Image::make(public_path('imgs/logos/Logo-IQNet.png'))->resize(100, 100)->save(public_path('imgs/logos/iqnet-export.png'));
         Image::make(public_path('imgs/logos/escudo.png'))->resize(80, 80)->save(public_path('imgs/logos/escudo-export.png'));
         Image::make(public_path('imgs/logos/logo_Enterritorio.png'))->resize(80, 120)->save(public_path('imgs/logos/enterritorio-export.png'));
         Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
