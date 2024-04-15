@@ -12,7 +12,7 @@
 
 @endsection
 @section('content')
-
+<div class="content2">
 <div class="content">
     <h1 class="page-title">CREAR NUEVO ELEMENTO</h1>
     <div class="green-line"></div>
@@ -183,5 +183,5 @@
     </form>
 </div>
 
-
+</div>
 @endsection

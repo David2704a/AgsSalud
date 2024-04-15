@@ -11,8 +11,10 @@
 @section('content')
 
 <div class="content">
-    <h1 class="page-title">EDITAR PROCEDIMIENTOS</h1>
-<div class="green-line"></div>
+    <div class="containerTitle">
+        <h1 class="page-title">EDITAR PROCEDIMIENTOS</h1>
+        <div class="green-line"></div>
+    </div>
 </div>
 <div class="button-container">
     <a href="{{route('mostrarProcedimiento')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
@@ -76,15 +78,16 @@
             @endforeach
         </select>
         <br>
-        <label for="idElemento">Elemento:</label>
-        <select name="idElemento" id="idElemento" required>
-            <option value="">Seleccionar una opción</option>
-            @foreach ($elemento as $elemento)
-                <option value="{{ $elemento->idElemento }}" {{ $elemento->idElemento == $procedimiento->idElemento ? 'selected' : '' }}>
-                    {{ $elemento->modelo }}
-                </option>
-            @endforeach
-        </select>
+        <div class="elementoSelect" style=" flex: 1;">
+            <label for="idElemento">Elemento</label>
+            <select class="selectElemento select2" name="idElemento" id="idElemento" style="width: 10%:">
+                <option value="">Seleccionar una opción</option>
+                @foreach ($elemento as $elemento)
+                    <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo }}
+                        {{ $elemento->categoria->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
         <br>
         <label for="idEstadoProcedimiento">Estado del Procedimiento:</label>
         <select name="idEstadoProcedimiento" id="idEstadoProcedimiento" required>

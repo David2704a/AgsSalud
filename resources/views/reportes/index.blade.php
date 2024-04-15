@@ -12,20 +12,12 @@
 @endsection
 <div class="content2">
 <div class="container">
-
     <div class="menu-container">
         <div class="menu-item active" onclick="cambiarContenido('elemento')">Elementos</div>
         <div class="menu-item " onclick="cambiarContenido('procedimiento')">Prestamos</div>
         {{-- Agrega más opciones según tus necesidades --}}
     </div>
-
-
     <div class="main-container">
-
-
-
-
-
         {{--
                 ============================================================
                  Contenido específico para el módulo "Elementos"
@@ -36,13 +28,9 @@
                 <h1>Informes para Elementos</h1>
                 <hr>
             </div>
-
-
             <form class="alo" method="get" action="{{ route('generarInformeE') }}" id="exportFormE"
                 onsubmit="return preSubmitAction()">
                 @csrf
-
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="idTipoProcedimiento">Seleccionar Procedimiento:</label>
@@ -53,10 +41,8 @@
                                 <option value="{{ $tipoProcedimiento->idTipoProcedimiento }}">
                                     {{ $tipoProcedimiento->tipo }}</option>
                             @endforeach
-
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="idEstadoEquipo">Seleccionar Estado de Equipo:</label>
                         <select name="idEstadoEquipo" id="idEstadoEquipo" class="form-control"
@@ -67,7 +53,6 @@
                             @endforeach
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="idTipoElemento">Seleccionar Tipo de Elemento:</label>
                         <select name="idTipoElemento" id="idTipoElemento" class="form-control"
@@ -78,12 +63,8 @@
                             @endforeach
                         </select>
                     </div>
-
                 </div>
-
                 <div class="form-row">
-
-
                     <div class="form-group">
                         <label for="idCategoria">Seleccionar una Categoria:</label>
                         <select name="idCategoria" id="idCategoria" class="form-control"
@@ -94,8 +75,6 @@
                             @endforeach
                         </select>
                     </div>
-
-
                     <div class="form-group">
                         <label for="idElemento">Elemento</label>
                         <select class="selectElemento select2" name="idElemento" id="idElemento" style="width: 100%"
@@ -108,22 +87,13 @@
                             @endforeach
                         </select>
                     </div>
-
-
-
-
                 </div>
-
-
-
                 <div class="tabla-container">
                     <div class="search-container">
                         <input type="text" id="search-input" placeholder="Buscar...">
-                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                     <div class="tableElementos">
-
-
                         <br>
                         <table id="tablaReportElementos">
                             <thead>
@@ -173,24 +143,18 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                     </div>
                 </div>
-
                 <div class="pagination">
                     {{ $elementos->links('pagination.custom') }}
                 </div>
-
                 @if (auth()->user()->hasRole(['superAdmin', 'admin', 'tecnico']))
                     <div class="Options-Exports-Elementos">
                         <a class="export-button" onclick="OptionsDocumentsElementos()">Exportar Como</a>
-
-
                         <div class="document-options" id="documentOptionsElements">
                             <button type="submit" class="button-with-icon">
                                 <i class="fa-solid fa-file-excel fa-lg" style="color: #178a13; font-size: 25px;"></i>
                             </button>
-
                             {{-- <button type="submit" class="button-with-icon" onclick="cambioDeRutasElemento('pdf')" >
                                 <i class="fa-solid fa-file-pdf fa-lg" style="color: #ec3d02; font-size: 25px;"></i>
                             </button> --}}
@@ -198,10 +162,7 @@
                     </div>
                 @endif
                 <input type="hidden" name="exportFormat" id="exportFormat">
-
-
                 {{-- div final de la seccion Elementos --}}
-
             </form>
         </div>
 
@@ -216,16 +177,10 @@
                 <h1>Informes para Prestamos</h1>
                 <hr>
             </div>
-
-
             <form class="alo" method="get" action="{{ url('/excel/procedimiento') }}" id="exportFormP"
                 onsubmit="return preSubmitAction()">
                 @csrf
-
-
                 <div class="form-row">
-
-
                     <div class="form-group">
                         <label for="idResponsableEntrega">Responsable de Entrega:</label>
                         <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control"
@@ -236,7 +191,6 @@
                             @endforeach
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="idResponsableRecibe">Responsable que Recibe:</label>
                         <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control"
@@ -247,12 +201,10 @@
                             @endforeach
                         </select>
                     </div>
-
                     {{-- <div class="form-group">
                         <label for="idProcedimiento">ID Procedimiento</label>
                         <input type="number" name="idProcedimiento" id="idProcedimiento" onchange="aplicarFiltrosPrestamo()">
                     </div> --}}
-
                     <div class="form-group">
                         <label for="idElemento">Elemento</label>
                         <select class="selectElemento select2" name="idProcedimiento" id="idProcedimiento"
@@ -272,28 +224,19 @@
                             });
                         });
                     </script>
-
-
                 </div>
-
                 <div class="form-row">
-
                     <div class="form-group" id="fechaInicioContainer">
                         <label for="fechaInicio">Fecha de Inicio:</label>
                         <input type="date" name="fechaInicio" id="fechaInicio"
                             onchange="aplicarFiltrosPrestamo()">
                     </div>
-
                     <div class="form-group" id="fechaFinContainer">
                         <label for="fechaFin">Fecha de Fin:</label>
                         <input type="date" name="fechaFin" id="fechaFin" onchange="aplicarFiltrosPrestamo()">
                     </div>
-
                 </div>
-
-
                 <div class="tablePrestamos">
-
                     <table id="tablaReportesPrestamos">
                         <thead>
                             <tr>
@@ -312,7 +255,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @foreach ($procedimientos as $procedimiento)
                                 @if ($procedimiento->idTipoProcedimiento == 3)
                                     <tr data-idprocedimiento="{{ $procedimiento->idProcedimiento }}"
@@ -356,14 +298,12 @@
                                         <td style="border: 1px solid black;">
                                             {{ $procedimiento->observacion }}
                                         </td>
-
                                     </tr>
                                 @endif
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-
                 <div class="pagination">
                     {{ $procedimientos->links('pagination.custom') }}
                 </div>

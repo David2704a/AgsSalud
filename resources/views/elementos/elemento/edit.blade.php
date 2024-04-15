@@ -9,8 +9,8 @@
 
 @endsection
 @section('content')
-
-<div class="content">
+<div class="content2">
+<div class="content" style="text-align: center">
     <h1 class="page-title">EDITAR ELEMENTO</h1>
 <div class="green-line"></div>
 </div>
@@ -133,5 +133,5 @@
     </div>
 
     </form>
-
+</div>
 @endsection

@@ -17,8 +17,10 @@
 @section('content')
 
     <div class="content2">
-        <h1 class="page-title">PROCEDIMIENTOS</h1>
-        <div class="green-line"></div>
+        <div class="containerTitle">
+            <h1 class="page-title">PROCEDIMIENTOS</h1>
+            <div class="green-line"></div>
+        </div>
 
         <div class="button-container">
             <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
@@ -114,7 +116,7 @@
                                     {{ $procedimientos->responsableRecibe ? $procedimientos->responsableRecibe->name : 'No aplica' }}
                                 </td>
                                 <td>
-                                    {{ $procedimientos->elemento->modelo }}
+                                    {{ $procedimientos->elemento->categoria->nombre }}
                                 </td>
                                 <td>
                                     {{ $procedimientos->estadoProcedimiento->estado }}

@@ -111,7 +111,6 @@
         overflow-y: hidden !important;
 }
 .content2 {
-    text-align: center;
     overflow-y: auto;
     height: 100%;
 }
