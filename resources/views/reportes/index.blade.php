@@ -80,8 +80,7 @@
                         <select class="selectElemento select2" name="idElemento" id="idElemento" style="width: 100%"
                             onchange="aplicarFiltrosElementos()">
                             <option value="">Seleccionar una opción</option>
-
-                            @foreach ($elementos as $elemento)
+                            @foreach ($elementos2 as $elemento)
                                 <option value="{{ $elemento->id_dispo }}">{{ $elemento->id_dispo }} -
                                     {{ $elemento->categoria->nombre }}</option>
                             @endforeach
