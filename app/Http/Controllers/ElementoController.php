@@ -309,9 +309,9 @@ class ElementoController extends Controller
     public function elementoQR(string $id_dispo)
     {
         $elemento = DB::table('elemento')->where('id_dispo',$id_dispo)
-                    ->join('categoria','categoria.idCategoria','elemento.idCategoria')
-                    ->join('users','users.id','elemento.idUsuario')
-                    ->join('persona','persona.id','users.idPersona')
+                    ->leftJoin('categoria','categoria.idCategoria','elemento.idCategoria')
+                    ->leftJoin('users','users.id','elemento.idUsuario')
+                    ->leftJoin('persona','persona.id','users.idPersona')
                     ->first();
 
         return view('Qr.elemento-qr',compact('elemento'));
