@@ -56,7 +56,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
         $elementos = $query->get();
 
 
-        return view('elementos.elemento.informes.excel', [
+        return view('elementos.elemento.Informes.excel', [
             'elementos' => $elementos,
         ]);
     }
