@@ -11,6 +11,7 @@ use App\Models\TipoProcedimiento;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProcedimientoController extends Controller
@@ -31,7 +32,7 @@ class ProcedimientoController extends Controller
         $estadoProcedimiento = EstadoProcedimiento::all();
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
-        $usuariosRecibe = User::all();
+        $usuariosRecibe = User::role('tecnico')->get();
         // dd($elementos[100]);
        return view('procedimientos.procedimiento.create', compact('elementos','estadoProcedimiento','tipoProcedimiento','usuariosEntrega','usuariosRecibe'));
     }
@@ -97,7 +98,8 @@ class ProcedimientoController extends Controller
         $estadoProcedimiento = EstadoProcedimiento::all();
         $elemento = Elemento::all();
         $usuariosEntrega = User::all();
-        $usuariosRecibe = User::all();
+        $usuariosRecibe = User::role('tecnico')->get();
+
         return view('procedimientos.procedimiento.edit', compact('procedimiento','tipoProcedimiento','estadoProcedimiento','elemento','usuariosEntrega','usuariosRecibe'));
     }
 
@@ -207,6 +209,18 @@ class ProcedimientoController extends Controller
 
         // Descargar el informe en formato Excel con los filtros aplicados
         return Excel::download(new ProcedimientoExport($filtros), 'procedimiento.xlsx');
+    }
+
+    public function mostrarResponsableEntrega(Request $request) {
+
+        $idElemento = $request->input('idElemento', true);
+        $resultado = DB::table('elemento')
+        ->where('idElemento', $idElemento)
+        ->join('users','elemento.idUsuario', 'users.id')
+        ->select('users.name', 'users.id')
+        ->first();
+
+        return $resultado;
     }
 
 }
