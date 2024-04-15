@@ -51,7 +51,7 @@
         </div>
     </form>
 
-    <footer class="footer">
+    <footer class="footer top-100 start-50 translate-middle">
         <div class="left-images">
             <div class="column">
                 <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">

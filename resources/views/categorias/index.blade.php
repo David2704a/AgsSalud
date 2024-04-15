@@ -115,7 +115,7 @@
         <p id="modalMessage"></p>
         <div class="button-container">
             <button id="cancelButton" class="modal-button">Cancelar</button>
-            <form id="deleteForm" action="{{ route('categorias.destroy', ['idCategoria' => $categoria->idCategoria]) }}" method="POST">
+            <form id="deleteForm" action="{{ route('categorias.destroy','REPLACE_ID') }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>

@@ -64,7 +64,7 @@
 </div>
 
 
-<footer class="footer">
+<footer class="footer" style="position: fixed">
     <div class="left-images">
         <div class="column">
             <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">

@@ -27,6 +27,8 @@
                     Elemento</a>
             @endif
 
+            <p><a href="{{ url('/lista-qr') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="_blank">QR'S</a></p>
+
         </div>
         <div class="menu-container">
             <ul class="menu">
@@ -179,7 +181,7 @@
     <br>
     <br>
     <br>
-    <footer class="footer position-absolute top-100 start-50 translate-middle">
+    <footer class="footer position-absolute top-100 start-50 translate-middle mt-4">
         <div class="left-images">
             <div class="column">
                 <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">

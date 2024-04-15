@@ -1,5 +1,6 @@
 .content {
-    text-align: center
+    text-align: center;
+
 }
 
 .page-title {
@@ -110,8 +111,9 @@ MENU
     border-radius: 6px;
     font-weight: 500;
     color: var(--color);
+
     padding: 2px 5px;
-}
+   }
 
 .button-derecha:before {
     content: "";
@@ -142,62 +144,7 @@ MENU
     background: #296d39;
     transition:  0s;
 }
-/*
-================================================================
-FORM
-================================================================
-*/
-.input{
-    margin-bottom: 1.5rem;
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
 
-
-.custom-file-input {
-    display: none;
-}
-
-/* Estilos del contenedor */
-.input-group {
-    position: relative;
-    width: 200px;
-    margin: 20px;
-}
-
-/* Estilos del botón personalizado */
-.input-group-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-}
-
-.btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.btn-outline-secondary {
-    color: #495057;
-    background-color: transparent;
-    background-image: none;
-    border-color: #495057;
-}
 
 /*
 ================================================================
@@ -265,6 +212,7 @@ table tr:last-child td {
     background-size: auto !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
+
 }
 
 /*
@@ -318,11 +266,13 @@ FOOTER
     width: 100%;
     display: flex;
     justify-content: space-between;
-    bottom: 0;
     align-items: center;
     background-color: #f3f3f3;
     color: #fff;
+    position: absolute !important;
+    bottom: 0 !important;
 }
+
 
 .separator {
     width: 2px;
@@ -359,6 +309,7 @@ FOOTER
 
 
 .text {
+
     margin-right: 10px;
 }
 
@@ -379,71 +330,50 @@ FOOTER
 
 
 /*
-================================================================
-FILE EXCEL  CARGA Y TEXTO 
-================================================================
+================================================
+boton de actualizar
+================================================
 */
 
+.playstore-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #21AFA4;
+    border-radius: 9999px;
+    background-color: #21AFA4;
+    padding: 0.2rem 0.8rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    outline: 0;
+    transition: all  .2s ease;
+    text-decoration: none;
+  }
 
-input[type="file"] {
-    display: none;
-}
+  .playstore-button:hover {
+    background-color: transparent;
+    color: rgba(0, 0, 0, 1);
+  }
 
-.folder_open {
-    display: inline-block;
-    background-color: #ffffff; /* Color verde */
-    color: #28A745; /* Color de texto blanco */
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
+  .icon {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
 
-.folder_open i {
-    margin-right: 5px; /* Espacio entre el icono y el texto */
-}
-
-.file-input-container {
+  .texts {
+    margin-left: 1rem;
     display: flex;
-    align-items: center;
-}
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1;
+  }
 
+  .text-1 {
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
 
-
-.cargarbutton {
-    background-color: #4CAF50; /* Color verde */
-    color: white;
-    border-radius: 5px;
-    padding: 7px;
-    position: relative;
-    outline: none;
-}
-
-.textsig {
-    display: inline-block;
-    background-color: #ffffff; /* Color verde */
-    color: #343D7C;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    align-items: center;
-    margin-top: 18px;
-    user-select: none;
-    animation: scaleAnimation 2s infinite alternate;
-}
-
-@keyframes scaleAnimation {
-    0% {
-        transform: scale(0.7); /* Escala normal */
-    }
-    100% {
-        transform: scale(1.1); /* Escala aumentada */
-    }
-}
-
-.textsig:hover {
-    transform: scale(1.1); /* Para hacer que el contenido se haga más grande al pasar el ratón sobre él */
-}
-
-.textsig i {
-    margin-left: 8px; /* Espacio entre el icono y el texto */
-}
+  .text-2 {
+    font-weight: 600;
+  }
