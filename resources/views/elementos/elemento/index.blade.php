@@ -15,8 +15,10 @@
 @section('content')
 
     <div class="content2">
-        <h1 class="page-title">Elementos</h1>
-        <div class="green-line"></div>
+        <div class="content" style="text-align: center">
+            <h1 class="page-title">Elementos</h1>
+            <div class="green-line"></div>
+        </div>
 
 
         <div class="button-container">
