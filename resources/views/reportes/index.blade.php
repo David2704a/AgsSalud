@@ -10,7 +10,7 @@
 
 
 @endsection
-
+<div class="content2">
 <div class="container">
 
     <div class="menu-container">
@@ -103,7 +103,6 @@
                             <option value="">Seleccionar una opción</option>
 
                             @foreach ($elementos as $elemento)
-
                                 <option value="{{ $elemento->id_dispo }}">{{ $elemento->id_dispo }} -
                                     {{ $elemento->categoria->nombre }}</option>
                             @endforeach
@@ -120,7 +119,7 @@
                 <div class="tabla-container">
                     <div class="search-container">
                         <input type="text" id="search-input" placeholder="Buscar...">
-                        {{-- <button><i class="fa-solid fa-magnifying-glass"></i></button> --}}
+                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                     <div class="tableElementos">
 
@@ -142,40 +141,40 @@
                                 <th>Estado</th>
                                 <th>Tipo</th>
                                 <th>Procedimiento</th>
-                            <th>Categoria</th>
-                            <th>N° Factura</th>
-                            <th>Proveedor</th>
-                            <th>Asignado A:</th>
-                        </thead>
-                        <tbody class="tbodyElementos">
-                            @foreach ($elementos as $elemento)
-                                <tr>
-                                    <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->procesador ? $elemento->procesador : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->ram ? $elemento->ram : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'NO APLICA' }}
-                                    </td>
-                                    <td>{{ $elemento->modelo ? $elemento->modelo : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->garantia ? $elemento->garantia : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->descripcion ? $elemento->descripcion : 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->estado->estado ?? 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->tipoElemento->tipo ?? 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->procedimiento->tipoProcedimiento->tipo ?? 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->factura->proveedor->nombre ?? 'NO APLICA' }}</td>
-                                    <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }}
-                                        {{ $elemento->user->persona->apellido1 ?? 'NO APLICA' }}</td>
+                                <th>Categoria</th>
+                                <th>N° Factura</th>
+                                <th>Proveedor</th>
+                                <th>Asignado A:</th>
+                            </thead>
+                            <tbody class="tbodyElementos">
+                                @foreach ($elementos as $elemento)
+                                    <tr>
+                                        <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->procesador ? $elemento->procesador : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->ram ? $elemento->ram : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'NO APLICA' }}
+                                        </td>
+                                        <td>{{ $elemento->modelo ? $elemento->modelo : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->garantia ? $elemento->garantia : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->descripcion ? $elemento->descripcion : 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->estado->estado ?? 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->tipoElemento->tipo ?? 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->procedimiento->tipoProcedimiento->tipo ?? 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->factura->proveedor->nombre ?? 'NO APLICA' }}</td>
+                                        <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }}
+                                            {{ $elemento->user->persona->apellido1 ?? 'NO APLICA' }}</td>
                                     </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                @endforeach
+                            </tbody>
+                        </table>
 
-                        </div>
+                    </div>
                 </div>
 
                 <div class="pagination">
@@ -368,65 +367,28 @@
                 <div class="pagination">
                     {{ $procedimientos->links('pagination.custom') }}
                 </div>
-
                 @if (auth()->user()->hasRole(['superAdmin', 'admin', 'tecnico']))
                     <div class="Options-Exports-Procedimientos">
                         <a class="export-button" onclick="OptionsDocumentsProcedimientos()">Exportar Como</a>
-
                         <div class="document-options" id="documentOptionsProcedimientos">
                             <button type="submit" class="button-proce"
                                 onclick="cambioDeRutasProcedimiento('excel')">
                                 <i class="fa-solid fa-file-excel fa-lg" style="color: #178a13; font-size: 25px;"></i>
                             </button>
-
                             {{-- <button type="submit" class="button-proce" onclick="cambioDeRutasProcedimiento('pdf')" >
                 <i class="fa-solid fa-file-pdf fa-lg" style="color: #ec3d02; font-size: 25px;"></i>
             </button> --}}
                         </div>
                     </div>
                 @endif
-
-
-
-
             </form>
-
         </div>
-
-
-
-
     </div>
-
-
-
-
+</div>
+<br><br>
+<br><br>
 </div>
 
-
-<footer class="footer">
-    <div class="left-images">
-        <div class="column">
-            <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
-            <img src="{{ asset('imgs/logos/ESCUDO COLOMBIA.png') }}" width="45" alt="Imagen 2">
-        </div>
-        <div class="column">
-            <img src="{{ asset('imgs/logos/logo_fondo.png') }}" width="130" alt="Imagen 3">
-            <img src="{{ asset('imgs/logos/Logo_Enterritorio.png') }}" width="100" alt="Imagen 4">
-        </div>
-    </div>
-    <div class="right-content">
-        <div class="images">
-            {{-- <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5"> --}}
-            {{-- <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6"> --}}
-        </div>
-        <div class="separator"></div>
-        <div class="text">
-            <p>Copyright © 2023 AGS SALUD SAS</p>
-            <p>Todos los derechos Reservados</p>
-        </div>
-    </div>
-</footer>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>

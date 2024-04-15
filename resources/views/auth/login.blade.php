@@ -100,7 +100,7 @@
                 <hr>
                 <div class="input-group">
                     <span class="small" style="color: gray">
-                        <b>Copyright &copy; 2023 AGS SALUD SAS <br> Todos los derechos reservados</b>
+                        <b>Copyright &copy; 2024 AGS SALUD SAS <br> Todos los derechos reservados</b>
                     </span>
                 </div>
             </div>

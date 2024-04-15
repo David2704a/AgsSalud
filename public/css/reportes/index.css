@@ -1,5 +1,6 @@
 .container {
     display: flex;
+    height: 100%;
     width: 80rem;
     min-height: 40rem;
     max-height: 500rem;
@@ -175,7 +176,7 @@ table tr:last-child td {
     border-bottom: none !important;
 }
 
-.table {
+.tableElementos {
     width: 100% !important;
     margin: auto !important;
     padding: 20px !important;
@@ -185,6 +186,35 @@ table tr:last-child td {
     background-position: center !important;
     background-repeat: no-repeat !important;
 
+}
+.tablePrestamos {
+    width: 100% !important;
+    margin: auto !important;
+    padding: 20px !important;
+    overflow: auto !important;
+    background: linear-gradient(rgba(255, 255, 255, 0.789), rgba(255, 255, 255, 0.789)), url(/imgs/logos/Ags.png) !important;
+    background-size: auto !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+
+}
+
+
+form .select2{
+    padding: 3px !important;
+    margin-bottom: 12px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+}
+
+form .select2-container--default .select2-selection--single {
+    border: none !important;
+    border: none !important;
+    border-radius: 0% !important;
+  }
+
+form .select2-selection__rendered {
+    font-size: 13px;
 }
 
 /*
@@ -289,14 +319,6 @@ FOOTER
 ================================================================
 */
 
-.footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f3f3f3;
-    color: #fff;
-}
 
 
 
@@ -479,9 +501,11 @@ DATATABLE
 .search-container {
     position: relative;
     margin: 15px;
+    display: flex;
 }
 
 .search-container input {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.616);
     background-color: #F3F3F3;
     width: 80%;
     padding: 10px ;
@@ -493,13 +517,14 @@ DATATABLE
 }
 
 .search-container button {
+    width: 10%;
     background-color: #21AFA4;
-    padding: 10px;
+    /* padding: 10px; */
     position: absolute;
     border: 0;
     top: 0;
     bottom: 0;
-    right: 72px;
+    right: 13.8em;
     margin: auto;
     border-radius: 0 5px 5px 0;
     color: #fff;
