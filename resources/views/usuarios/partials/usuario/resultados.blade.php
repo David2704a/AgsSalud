@@ -3,11 +3,12 @@
       
         <tbody>
             @foreach ($users as $usuario)
+            {{-- @dd($usuario,'aaaaaaaaaaa') --}}
                 <tr>
                     <td>{{ $usuario->id }}</td>
-                    <td>{{ $usuario->name }}</td>
+                    <td>{{ $usuario->user_name }}</td>
                     <td>{{ $usuario->email }}</td>
-                    <td>{{ $usuario->Rol }}</td>
+                    <td>{{ $usuario->rol }}</td>
                     <td>
                         <a class="edit-button"
                             href="{{ route('usuarios.edit', $usuario->id) }}"
