@@ -58,14 +58,12 @@
                         <tbody>
                             @foreach ($users as $usuario)
                                 <tr>
+
                                     <td>{{ $usuario->id }}</td>
-                                    <td>{{ $usuario->name }}</td>
+                                    <td>{{ $usuario->user_name }}</td>
                                     <td>{{ $usuario->email }}</td>
-                                    <td>
-                                        @foreach ($usuario->roles as $rol)
-                                            {{ $rol->name }}
-                                        @endforeach
-                                    </td>
+                                    <td>{{ $usuario->rol }}</td>
+                                    
                                     <td>
                                         @if(auth()->user()->hasRole(['superAdmin','administrador']))
                                             <a class="edit-button" method="POST"

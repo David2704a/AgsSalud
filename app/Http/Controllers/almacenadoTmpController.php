@@ -184,9 +184,9 @@ class almacenadoTmpController extends Controller
         END
 
         ");
-            Session::flash('success', 'Operación realizada con éxito desde la creación!');
+            Session::flash('success', 'Operación realizada con éxito!');
         } else {
-            Session::flash('success', 'Operación realizada con éxito desde no creación!');
+            Session::flash('success', 'Operación realizada con éxito!');
         }
 
         // Llama al procedimiento almacenado solo si fue creado o ya existía

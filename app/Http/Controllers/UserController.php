@@ -15,8 +15,15 @@ class UserController extends Controller
     public function index()
    
     {
-        $users = User::paginate(10);
+        // $users = User::paginate(10);
+        $users = User::join('model_has_roles', 'users.id', 'model_has_roles.model_id')
+                ->join('roles', 'roles.id','model_has_roles.role_id')
+                ->select('users.name as user_name', 'roles.name as rol','users.*')
+                ->paginate(10);
+
         return view ('usuarios.index', compact('users'));
+
+        
     }
 
 
@@ -107,12 +114,13 @@ class UserController extends Controller
         $filtro = $request->input('filtro');
     
 
-        $users = User::where(function ($query) use ($filtro) {
-            $query->where('name', 'like', '%'. $filtro. '%')
-            ->orWhere('email', 'like', '%' . $filtro . '%');
-         
-        })->paginate(10);
-    
+        $users = User::join('model_has_roles', 'users.id', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id','model_has_roles.role_id')
+            ->select('users.name as user_name', 'roles.name as rol','users.*')
+            ->where('users.name', 'like', '%'. $filtro. '%')
+            ->orWhere('email', 'like', '%' . $filtro . '%')
+            ->paginate(10);
+
         // Devuelve la vista con la variable $users
         return view('usuarios.partials.usuario.resultados', compact('users'));
     }
