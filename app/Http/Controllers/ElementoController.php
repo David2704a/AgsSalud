@@ -70,11 +70,11 @@ class ElementoController extends Controller
         $data = $request->all();
 
         // Lógica para generar el nuevo ID del equipo
-        $nuevoIdEquipo = $this->generarNuevoIdEquipo($data['idCategoria']);
-        $data['id_dispo'] = $nuevoIdEquipo;
+        // $nuevoIdEquipo = $this->generarNuevoIdEquipo($data['idCategoria']);
+        // $data['id_dispo'] = $nuevoIdEquipo;
 
         $elemento = new Elemento($data);
-        $elemento->id_dispo = $nuevoIdEquipo;
+        // $elemento->id_dispo = $nuevoIdEquipo;
         $elemento->save();
 
         return redirect()->route("elementos.index")->with('success', 'Elemento creado correctamente');
