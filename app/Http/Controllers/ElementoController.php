@@ -227,29 +227,33 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'modelo' => 'required',
+            'procesador' => 'required',
+            'ram' => 'required',
+            'disco_duro' => 'required',
+            'tarjeta_grafica' => 'required',
         ]);
-    
+
         // Verificar y establecer valores por defecto
-        $request->merge([
+        $defaults = [
             'marca' => $request->filled('marca') ? $request->marca : 'NO APLICA',
             'referencia' => $request->filled('referencia') ? $request->referencia : 'NO APLICA',
             'serial' => $request->filled('serial') ? $request->serial : 'NO APLICA',
-            'modelo' => $request->filled('modelo') ? $request->modelo : 'NO APLICA',
-            'garantia' => $request->filled('garantia') ? $request->garantia : 'NO APLICA',
-            'ram' => $request->filled('ram') ? $request->ram : 'NO APLICA',
-            'descripcion' => $request->filled('descripcion') ? $request->descripcion : 'NO APLICA',
             'procesador' => $request->filled('procesador') ? $request->procesador : 'NO APLICA',
+            'ram' => $request->filled('ram') ? $request->ram : 'NO APLICA',
             'disco_duro' => $request->filled('disco_duro') ? $request->disco_duro : 'NO APLICA',
             'tarjeta_grafica' => $request->filled('tarjeta_grafica') ? $request->tarjeta_grafica : 'NO APLICA',
-        ]);
-    
+            'modelo' => $request->filled('modelo') ? $request->modelo : null,
+            'garantia' => $request->filled('garantia') ? $request->garantia : null,
+            'cantidad' => $request->filled('cantidad') ? $request->cantidad : null,
+            'descripcion' => $request->filled('descripcion') ? $request->descripcion : null,
+        ];
+
         // Buscar el elemento por su ID
         $elemento = Elemento::findOrFail($idElemento);
-    
+
         // Actualizar los datos del elemento
-        $elemento->update($request->all());
-    
+        $elemento->update($defaults);
+
         // Redirigir con un mensaje de éxito
         return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
     }
