@@ -80,20 +80,38 @@
                 <label for="observacion">Observación</label>
                 <input type="text" name="observacion" id="observacion"
                     placeholder="Escriba aqui una observación sobre el procedimiento...">
+
+
+                <div class="elementoSelect" style=" flex: 1;">
+                    <label for="idElemento">Elemento</label>
+                    <select class="selectElemento select2" name="idElemento" onchange="changeElemento()" id="idElemento"
+                        style="width: 10%:">
+                        <option value="">Seleccionar una opción</option>
+                        @foreach ($elementos as $elemento)
+                            <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo }}
+                                {{ $elemento->categoria->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <label for="idResponsableEntrega">Responsable Entrega</label>
-                <select name="idResponsableEntrega" id="idResponsableEntrega">
+                <select name="idResponsableEntrega" id="idResponsableEntrega" disabled>
                     <option value="">Seleccionar una opción</option>
                     @foreach ($usuariosEntrega as $usuario)
                         <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
                     @endforeach
                 </select>
-
                 <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
                 <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
             </div>
 
             <!-- Parte 3 -->
+
+
             <div class="form-part" id="parte3">
+
+
+
                 <label for="idResponsableRecibe">Responsable Recibe</label>
                 <select name="idResponsableRecibe" id="idResponsableRecibe">
                     <option value="">Seleccionar una opción</option>
@@ -101,17 +119,6 @@
                         <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
                     @endforeach
                 </select>
-                <br>
-                    <div class="elementoSelect" style=" flex: 1;">
-                        <label for="idElemento">Elemento</label>
-                        <select class="selectElemento select2" name="idElemento" id="idElemento" style="width: 10%:">
-                            <option value="">Seleccionar una opción</option>
-                            @foreach ($elementos as $elemento)
-                                <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo }}
-                                    {{ $elemento->categoria->nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                 <script>
                     $(document).ready(function() {
                         $('.select2').select2({
@@ -136,8 +143,6 @@
                         </option>
                     @endforeach
                 </select>
-                <label for="fechaInicio">Fecha Inicio</label>
-                <input type="date" name="fechaInicio" id="fechaInicio">
                 <br>
                 <div class="button-container">
                     <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
@@ -146,5 +151,29 @@
             </div>
         </form>
 
+        <script>
+            function changeElemento() {
+                console.log('aooloo');
+                var idElemento = $('#idElemento').val();
+
+                $.ajax({
+                    url: urlBase + '/mostrarResponsableEntrega',
+                    type: "GET",
+                    data: {
+                        idElemento: idElemento
+                    },
+                    success: function(data) {
+
+                        console.log(data, 'dataaaaaa');
+                        $('#idResponsableEntrega').empty();
+                        $('#idResponsableEntrega').append('<option value="">Seleccionar una opción</option>');
+
+                        $('#idResponsableEntrega').append('<option value="' + data.id + '" selected>' + data
+                            .name +
+                            '</option>');
+                    }
+                })
+            }
+        </script>
 
     @endsection

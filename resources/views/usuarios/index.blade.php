@@ -10,8 +10,10 @@
 
 @section('content')
     <div class="content2">
-        <h1 class="page-title">Usuarios</h1>
-        <div class="green-line"></div>
+        <div class="content">
+            <h1 class="page-title">Usuarios</h1>
+            <div class="green-line"></div>
+        </div>
 
         <div class="button-container">
             <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left">

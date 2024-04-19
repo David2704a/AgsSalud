@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Auth;
 
 @section('content')
 <div class="content2">
-    <h1 class="page-title">Actualizar perfil</h1>
-    <div class="green-line"></div>
+    <div class="content">
+        <h1 class="page-title">Actualizar perfil</h1>
+        <div class="green-line"></div>
+    </div>
 
 
     <div class="button-container">

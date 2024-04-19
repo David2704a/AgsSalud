@@ -207,7 +207,6 @@ class ElementoController extends Controller
 
     public function edit($id){
         $elemento = Elemento::find($id);
-
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
@@ -218,24 +217,43 @@ class ElementoController extends Controller
         compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
     }
 
-    public function update(Request $request, $id){
-        $elemento = Elemento::find($id);
 
+
+
+    public function update(Request $request, $idElemento)
+    {
+        // Validar los campos del formulario
         $request->validate([
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'idEstadoEquipo' => 'required',
-            'idTipoElemento' => 'required',
-            'idCategoria' => 'required',
-            'idFactura' => 'required',
+            'modelo' => 'required',
         ]);
-
+    
+        // Verificar y establecer valores por defecto
+        $request->merge([
+            'marca' => $request->filled('marca') ? $request->marca : 'NO APLICA',
+            'referencia' => $request->filled('referencia') ? $request->referencia : 'NO APLICA',
+            'serial' => $request->filled('serial') ? $request->serial : 'NO APLICA',
+            'modelo' => $request->filled('modelo') ? $request->modelo : 'NO APLICA',
+            'garantia' => $request->filled('garantia') ? $request->garantia : 'NO APLICA',
+            'ram' => $request->filled('ram') ? $request->ram : 'NO APLICA',
+            'descripcion' => $request->filled('descripcion') ? $request->descripcion : 'NO APLICA',
+            'procesador' => $request->filled('procesador') ? $request->procesador : 'NO APLICA',
+            'disco_duro' => $request->filled('disco_duro') ? $request->disco_duro : 'NO APLICA',
+            'tarjeta_grafica' => $request->filled('tarjeta_grafica') ? $request->tarjeta_grafica : 'NO APLICA',
+        ]);
+    
+        // Buscar el elemento por su ID
+        $elemento = Elemento::findOrFail($idElemento);
+    
+        // Actualizar los datos del elemento
         $elemento->update($request->all());
-
-        return redirect()->route('elementos.index')->with('success','Elemento actualizado correctamente');
+    
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
     }
-
+    
     public function destroy($id){
         Elemento::find($id)->delete();
         return redirect()->route('elementos.index')->with('success','Elemento eliminado correctamente');
@@ -282,7 +300,7 @@ class ElementoController extends Controller
             Excel::import(new ElementoImport, $request->file('archivo'));
         }catch (\Exception $e){
         // Descargar el informe en formato Excel con los filtros aplicados
-        return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNILÓGICOS.xlsx');
+        return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS.xlsx');
         }
     }
 

@@ -8,7 +8,7 @@
 
 @endsection
 @section('content')
-
+<div class="content2">
 <div class="content">
     <h1 class="page-title">EDITAR ESTADO DE PROCEDIMIENTOS</h1>
 <div class="green-line"></div>
@@ -46,8 +46,6 @@
             <button type="submit">Actualizar</button>
         </div>
     </div>
-
     </form>
-
-
+</div>
 @endsection

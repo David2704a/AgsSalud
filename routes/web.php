@@ -227,3 +227,5 @@ require __DIR__.'/auth.php';
 
 Route::get('/elemento/qr/{id_dispo}',[ElementoController::class,'elementoQR']);
 Route::get('/lista-qr',[ElementoController::class,'QRView']);
+
+Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostrarResponsableEntrega']);

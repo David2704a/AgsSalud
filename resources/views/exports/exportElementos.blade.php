@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th><p style="text-align: center; vertical-align: middle;"><img src="{{public_path('imgs/logos/ags-export.png')}}" alt="LOGO-AGS" style="border: 1px solid black;margin-left:20%;"></p></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
-            <th><img src="{{ public_path('imgs/logos/iso-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
+            <th><img src="{{ public_path('imgs/logos/encabezado.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
             <th><img src="{{ public_path('imgs/logos/iqnet-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
             <th><img src="{{ public_path('imgs/logos/escudo-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
             <th><img src="{{ public_path('imgs/logos/enterritorio-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
