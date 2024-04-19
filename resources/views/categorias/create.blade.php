@@ -15,6 +15,8 @@
 
 
 @section('content')
+
+<div class="content2">
     <div class="content">
         <h1 class="page-title">Crear Nueva Categoría</h1>
         <div class="green-line"></div>
@@ -50,5 +52,5 @@
             </div>
         </div>
     </form>
-
+</div>
 @endsection
