@@ -17,9 +17,11 @@
 
 
 @section('content')
+<div class="content2">
 <div class="content">
 <h1 class="page-title">Categoria</h1>
 <div class="green-line"></div>
+</div>
 
 <div class="button-container">
     <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
@@ -107,7 +109,7 @@
     <div class="pagination">
         {{ $categorias->links('pagination.custom') }}
     </div>
-</div>
+
 
 
 <div id="myModal" class="modal">
@@ -123,13 +125,5 @@
         </div>
     </div>
 </div>
-
-<br>
-<br>
-<br>
-
-
-
-
-
+</div>
 @endsection
