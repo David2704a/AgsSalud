@@ -20,7 +20,7 @@
                     <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'NO APLICA' }}</td>
                     <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
                     <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
-                    <td>{{ $elemento->user->name ?? 'NO APLICA' }}</td>
+                    <td>{{ $elemento->idUsuario?? 'NO APLICA' }}</td>
 
 
                     @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
