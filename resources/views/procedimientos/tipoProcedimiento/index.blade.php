@@ -10,11 +10,11 @@
 
 @endsection
 @section('content')
-
+<div class="content2">
     <div class="content">
 <h1 class="page-title">TIPO DE PROCEDIMIENTOS</h1>
 <div class="green-line"></div>
-
+    </div>
 
 <div class="button-container">
     <a href="{{url('/procedimiento')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
@@ -115,7 +115,6 @@
     <div class="pagination">
         {{ $tipoProcedimiento->links('pagination.custom') }}
     </div>
-    </div>
 
     <!-- Modal -->
     <div id="myModal" class="modal">
@@ -131,12 +130,5 @@
             </div>
         </div>
     </div>
-
-    <br>
-    <br>
-    <br>
-
-
-
-
+</div>
 @endsection
