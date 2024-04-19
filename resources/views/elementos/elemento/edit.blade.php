@@ -122,7 +122,8 @@
         {{-- @dd($elemento) --}}
         <label for="idUsuario">Asignado A:</label>
         <select name="idUsuario" id="idUsuario" class="input" >
-            <option selected value="{{$elemento->user->id}}">{{$elemento->user->name}}</option>
+            {{-- <option selected value="{{$elemento->user->id}}">{{$elemento->user->name}}</option> --}}
+            <option value="" selected disabled>Seleccione..</option>
             @foreach ($users as $user)
                 <option value="{{$user->id }}">{{ $user->name}}</option>
             @endforeach
