@@ -217,7 +217,12 @@ class ElementoController extends Controller
         compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
     }
 
-    public function update(Request $request) {
+
+
+
+    public function update(Request $request, $idElemento)
+    {
+        // Validar los campos del formulario
         $request->validate([
             'marca' => 'required',
             'referencia' => 'required',
@@ -239,9 +244,14 @@ class ElementoController extends Controller
             'tarjeta_grafica' => $request->filled('tarjeta_grafica') ? $request->tarjeta_grafica : 'NO APLICA',
         ]);
     
-        Elemento::create($request->all());
+        // Buscar el elemento por su ID
+        $elemento = Elemento::findOrFail($idElemento);
     
-        return redirect()->route('elementos.index')->with('success', 'Elemento creado correctamente');
+        // Actualizar los datos del elemento
+        $elemento->update($request->all());
+    
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
     }
     
     public function destroy($id){
