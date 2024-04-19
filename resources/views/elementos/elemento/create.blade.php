@@ -98,6 +98,8 @@
         <div class="form-part active" id="parte1">
             <label for="marca">Marca del producto</label>
             <input type="text" name="marca" id="marca" class="input" required>
+            <label for="idDispo">Id Dispositivo</label>
+            <input type="text" name="id_dispo" id="id_dispo" class="input" required>
             <label for="referencia">Referencia del producto</label>
             <input type="text" name="referencia" id="referencia" class="input" required>
             <label for="serial">Serial del producto</label>
