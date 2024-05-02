@@ -13,6 +13,7 @@
 
 @section('content')
 
+<div class="content2">
 
     <div class="content">
         <h1 class="page-title">Editar Categoría</h1>
@@ -41,5 +42,5 @@
 
     </form>
 
-
+</div>
 @endsection

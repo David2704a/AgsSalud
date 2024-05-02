@@ -70,11 +70,11 @@ class ElementoController extends Controller
         $data = $request->all();
 
         // Lógica para generar el nuevo ID del equipo
-        $nuevoIdEquipo = $this->generarNuevoIdEquipo($data['idCategoria']);
-        $data['id_dispo'] = $nuevoIdEquipo;
+        // $nuevoIdEquipo = $this->generarNuevoIdEquipo($data['idCategoria']);
+        // $data['id_dispo'] = $nuevoIdEquipo;
 
         $elemento = new Elemento($data);
-        $elemento->id_dispo = $nuevoIdEquipo;
+        // $elemento->id_dispo = $nuevoIdEquipo;
         $elemento->save();
 
         return redirect()->route("elementos.index")->with('success', 'Elemento creado correctamente');
@@ -207,7 +207,6 @@ class ElementoController extends Controller
 
     public function edit($id){
         $elemento = Elemento::find($id);
-
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
@@ -218,24 +217,47 @@ class ElementoController extends Controller
         compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
     }
 
-    public function update(Request $request, $id){
-        $elemento = Elemento::find($id);
 
+
+
+    public function update(Request $request, $idElemento)
+    {
+        // Validar los campos del formulario
         $request->validate([
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'idEstadoEquipo' => 'required',
-            'idTipoElemento' => 'required',
-            'idCategoria' => 'required',
-            'idFactura' => 'required',
+            'procesador' => 'required',
+            'ram' => 'required',
+            'disco_duro' => 'required',
+            'tarjeta_grafica' => 'required',
         ]);
 
-        $elemento->update($request->all());
+        // Verificar y establecer valores por defecto
+        $defaults = [
+            'marca' => $request->filled('marca') ? $request->marca : 'NO APLICA',
+            'referencia' => $request->filled('referencia') ? $request->referencia : 'NO APLICA',
+            'serial' => $request->filled('serial') ? $request->serial : 'NO APLICA',
+            'procesador' => $request->filled('procesador') ? $request->procesador : 'NO APLICA',
+            'ram' => $request->filled('ram') ? $request->ram : 'NO APLICA',
+            'disco_duro' => $request->filled('disco_duro') ? $request->disco_duro : 'NO APLICA',
+            'tarjeta_grafica' => $request->filled('tarjeta_grafica') ? $request->tarjeta_grafica : 'NO APLICA',
+            'modelo' => $request->filled('modelo') ? $request->modelo : null,
+            'garantia' => $request->filled('garantia') ? $request->garantia : null,
+            'cantidad' => $request->filled('cantidad') ? $request->cantidad : null,
+            'descripcion' => $request->filled('descripcion') ? $request->descripcion : null,
+        ];
 
-        return redirect()->route('elementos.index')->with('success','Elemento actualizado correctamente');
+        // Buscar el elemento por su ID
+        $elemento = Elemento::findOrFail($idElemento);
+
+        // Actualizar los datos del elemento
+        $elemento->update($defaults);
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
     }
-
+    
     public function destroy($id){
         Elemento::find($id)->delete();
         return redirect()->route('elementos.index')->with('success','Elemento eliminado correctamente');
@@ -282,7 +304,7 @@ class ElementoController extends Controller
             Excel::import(new ElementoImport, $request->file('archivo'));
         }catch (\Exception $e){
         // Descargar el informe en formato Excel con los filtros aplicados
-        return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNILÓGICOS.xlsx');
+        return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS.xlsx');
         }
     }
 

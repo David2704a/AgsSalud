@@ -56,7 +56,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
         $elementos = $query->get();
 
 
-        return view('elementos.elemento.informes.excel', [
+        return view('elementos.elemento.Informes.excel', [
             'elementos' => $elementos,
         ]);
     }
@@ -94,7 +94,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
         Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
         Image::make(public_path('imgs/logos/Logo-IQNet.png'))->resize(100, 100)->save(public_path('imgs/logos/iqnet-export.png'));
         Image::make(public_path('imgs/logos/escudo.png'))->resize(80, 80)->save(public_path('imgs/logos/escudo-export.png'));
-        Image::make(public_path('imgs/logos/logo_Enterritorio.png'))->resize(80, 120)->save(public_path('imgs/logos/enterritorio-export.png'));
+        Image::make(public_path('imgs/logos/Logo_Enterritorio.png'))->resize(80, 120)->save(public_path('imgs/logos/enterritorio-export.png'));
         Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
         Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
 

@@ -105,13 +105,13 @@
                     </thead>
                     <tbody>
                         @foreach ($elementos as $elemento)
+                        {{-- @dd($elemento) --}}
                             {{-- @dd($elemento->user->name) --}}
 
                             {{-- @dd($elementos) --}}
-                            {{-- @if ($elemento->idElemento == 2052)
-                            @dd($elemento->estado) --}}
-
-                            {{-- @endif --}}
+                            @if ($elemento->id_disp0 == "900237674'7'E.T. EN. U'12")
+                            @dd($elemento)
+                            @endif
                             <tr>
                                 <td>{{ $elemento->idElemento ? $elemento->idElemento : 'NO APLICA' }}</td>
                                 <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
