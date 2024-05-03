@@ -6,8 +6,8 @@
 
     <link rel="stylesheet" href="{{ asset('/css/elemento/elemento.css') }}">
     <script src="{{ asset('js/elemento/elemento.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {{-- <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css"> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
 
 
 
@@ -29,8 +29,9 @@
                     Elemento</a>
             @endif
 
-            <p><a href="{{ url('/lista-qr') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="_blank">QR'S</a></p>
-
+            @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                <p><a href="{{ url('/lista-qr') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="_blank">QR'S</a></p>
+            @endif
         </div>
         <div class="menu-container">
             <ul class="menu">
@@ -178,6 +179,10 @@
             </div>
         </div>
     </div>
-
-
+    <script>
+        $(document).ready(function() {
+    $('#tableElementos').DataTable();
+});
+    </script>
 @endsection
+
