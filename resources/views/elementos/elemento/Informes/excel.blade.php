@@ -9,28 +9,7 @@
         <tr></tr>
         <tr></tr>
         <tr></tr>
-        <tr>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ID DISPOSITIVO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>CATEGORIA</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>MARCA</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>REFERENCIA</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>SERIAL</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>PROCESADOR</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>RAM</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>DISCO DURO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>TARJETA GRÁFICA</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>DOCUMENTO DEL RESPONSABLE</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>NOMBRE DEL RESPONSABLE</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>MODELO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>GARANTIA</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ESTADO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>TIPO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>PROCEDIMIENTO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>FECHA DE COMPRA</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>NÚMERO DE FACTURA</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>PROVEEDOR</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>DESCRIPCION</b></th>
-        </tr>
+        <tr></tr>
     </thead>
     <tbody>
         @foreach ($elementos as $elemento)
@@ -46,14 +25,11 @@
                     <td style="border: 1px solid black;">{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'No aplica' }}</td>
                     <td style="border: 1px solid black;">{{ $elemento->user->persona->identificacion ?? 'No aplica' }}</td>
                     <td style="border: 1px solid black;">{{ $elemento->user->persona->nombre1 ?? 'No aplica' }} {{ $elemento->user->persona->apellido1 ?? 'No aplica'}}</td>
-                    <td style="border: 1px solid black;">{{ $elemento->modelo ? $elemento->modelo : 'No aplica' }}</td>
-                    <td style="border: 1px solid black;">{{ $elemento->garantia ? $elemento->garantia : 'No aplica' }}</td>
-                    <td style="border: 1px solid black;">{{ $elemento->estado->estado ?? 'No aplica' }}</td>
-                    <td style="border: 1px solid black;">{{ $elemento->tipoElemento->tipo ?? 'No aplica' }}</td>
-                    <td style="border: 1px solid black;">{{ $elemento->procedimiento->tipoProcedimiento->tipo ?? 'No aplica'}}</td>
                     <td style="border: 1px solid black;">{{ $elemento->factura->fechaCompra ?? 'No aplica'}}</td>
+                    <td style="border: 1px solid black;">{{ $elemento->garantia ? $elemento->garantia : 'No aplica' }}</td>
                     <td style="border: 1px solid black;">{{ $elemento->factura->codigoFactura ?? 'No aplica' }}</td>
                     <td style="border: 1px solid black;">{{ $elemento->factura->proveedor->nombre ?? 'No aplica'}}</td>
+                    <td style="border: 1px solid black;">{{ $elemento->estado->estado ?? 'No aplica' }}</td>
                     <td style="border: 1px solid black;">{{ $elemento->descripcion ? $elemento->descripcion : 'No aplica' }}</td>
                 </tr>
             @endforeach
