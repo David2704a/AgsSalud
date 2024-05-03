@@ -97,10 +97,12 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
 
                 $event->sheet->getColumnDimension('A')->setWidth('33')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')->setWidth('19.5')->setAutoSize(false);
+                $event->sheet->getColumnDimension('j')->setWidth('43.5')->setAutoSize(false);
                 $event->sheet->getRowDimension(1)->setRowHeight(23);
                 $event->sheet->getRowDimension(2)->setRowHeight(25);
                 $event->sheet->getRowDimension(4)->setRowHeight(25);
                 $event->sheet->getRowDimension(7)->setRowHeight(38);
+                $event->sheet->getRowDimension(6)->setRowHeight(0);
                 $event->sheet->setTitle('Inventario');
 
                 //combinacion de celdas
@@ -110,7 +112,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                 $event->sheet->mergeCells('C5:E5');
                 $event->sheet->mergeCells('F5:H5');
                 $event->sheet->mergeCells('I1:I5');
-                $event->sheet->mergeCells('J1:O5');
+                $event->sheet->mergeCells('J1:T5');
 
                 //insercion en las celdas combinadas
                 $event->sheet->setCellValue('C1', 'TICS E INNOVACIÓN');
