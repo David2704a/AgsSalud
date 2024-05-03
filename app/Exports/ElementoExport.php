@@ -18,6 +18,8 @@ use PhpOffice\PhpSpreadsheet\Style\Borders;
 use PhpOffice\PhpSpreadsheet\Style\BorderStyle;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Style\Color;
+use Illuminate\Support\Facades\Storage;
+
 
 class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyles
 {
@@ -87,17 +89,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
 
 
     public function registerEvents(): array
-    {
-
-
-        Image::make(public_path('imgs/logos/Ags.png'))->resize(330, 130)->save(public_path('imgs/logos/ags-export.png'));
-        Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
-        Image::make(public_path('imgs/logos/Logo-IQNet.png'))->resize(100, 100)->save(public_path('imgs/logos/iqnet-export.png'));
-        Image::make(public_path('imgs/logos/escudo.png'))->resize(80, 80)->save(public_path('imgs/logos/escudo-export.png'));
-        Image::make(public_path('imgs/logos/Logo_Enterritorio.png'))->resize(80, 120)->save(public_path('imgs/logos/enterritorio-export.png'));
-        Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
-        Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
-
+    {  
 
         return [
             AfterSheet::class => function (AfterSheet $event) {
@@ -105,10 +97,12 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
 
                 $event->sheet->getColumnDimension('A')->setWidth('33')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')->setWidth('19.5')->setAutoSize(false);
+                $event->sheet->getColumnDimension('j')->setWidth('43.5')->setAutoSize(false);
                 $event->sheet->getRowDimension(1)->setRowHeight(23);
                 $event->sheet->getRowDimension(2)->setRowHeight(25);
                 $event->sheet->getRowDimension(4)->setRowHeight(25);
                 $event->sheet->getRowDimension(7)->setRowHeight(38);
+                $event->sheet->getRowDimension(6)->setRowHeight(0);
                 $event->sheet->setTitle('Inventario');
 
                 //combinacion de celdas
@@ -118,14 +112,14 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
                 $event->sheet->mergeCells('C5:E5');
                 $event->sheet->mergeCells('F5:H5');
                 $event->sheet->mergeCells('I1:I5');
-                $event->sheet->mergeCells('J1:O5');
+                $event->sheet->mergeCells('J1:T5');
 
                 //insercion en las celdas combinadas
                 $event->sheet->setCellValue('C1', 'TICS E INNOVACIÓN');
                 $event->sheet->setCellValue('C3', 'INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS');
                 $event->sheet->setCellValue('C5', 'Código: TEI-F-13 ');
-                $event->sheet->setCellValue('F5', 'Versión:04');
-                $event->sheet->setCellValue('I1', 'Fecha de Modificación: 29/11/2023');
+                $event->sheet->setCellValue('F5', 'Versión:03');
+                $event->sheet->setCellValue('I1', 'Fecha de Modificación: 31/08/2021');
 
 
                 $style = $event->sheet->getStyle('A1');
