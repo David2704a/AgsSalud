@@ -13,23 +13,22 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-   
+
     {
         // $users = User::paginate(10);
-        $users = User::join('model_has_roles', 'users.id', 'model_has_roles.model_id')
-                ->join('roles', 'roles.id','model_has_roles.role_id')
+        $users = User::leftJoin('model_has_roles', 'users.id', 'model_has_roles.model_id')
+                ->leftJoin('roles', 'roles.id','model_has_roles.role_id')
                 ->select('users.name as user_name', 'roles.name as rol','users.*')
                 ->paginate(10);
 
         return view ('usuarios.index', compact('users'));
 
-        
     }
 
 
 
 
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -70,12 +69,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        
+
     }
 
     /**
      * Update the specified resource in storage.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -113,18 +112,18 @@ class UserController extends Controller
     public function buscar(Request $request)
     {
         $filtro = $request->input('filtro');
-    
 
-        $users = User::join('model_has_roles', 'users.id', 'model_has_roles.model_id')
-            ->join('roles', 'roles.id','model_has_roles.role_id')
+
+        $users = User::leftJoin('model_has_roles', 'users.id', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'roles.id','model_has_roles.role_id')
             ->select('users.name as user_name', 'roles.name as rol','users.*')
             ->where('users.name', 'like', '%'. $filtro. '%')
             ->orWhere('email', 'like', '%' . $filtro . '%')
-            ->paginate(10);
+            ->get(10);
 
         // Devuelve la vista con la variable $users
         return view('usuarios.partials.usuario.resultados', compact('users'));
     }
-    
+
 }
 

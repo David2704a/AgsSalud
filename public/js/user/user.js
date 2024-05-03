@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const mensajeVacio = document.querySelector('.mensaje-vacio');
     const searchInput = document.getElementById('search-input');
     const tableBody = document.querySelector('tbody');
-
     function updateTable(filtro) {
         $.ajax({
             url:urlBase+'/usuariosBuscar',
