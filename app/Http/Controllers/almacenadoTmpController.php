@@ -289,21 +289,24 @@ class almacenadoTmpController extends Controller
 
 
 
-                    $nombresin = []; 
+                    $nombresin = [];
                     $ciclo = explode(" ", $datosFila[10]);
-
-                    for($i = 0; $i <count($ciclo); $i++){
-                        if($ciclo[$i] == "" || $ciclo[$i] == " " || $ciclo[$i] == "  "){
-                            unset($ciclo[$i]);
-                            for ($j=0; $j < count($ciclo); $j++) { 
-                                // dd(isset($ciclo[1]));
-                                if (isset($ciclo[$i])) {
-                                    $nombresin[$j] = $ciclo[$i];
-                                }
-                            }
+                    $j = 0;
+                    for($i = 0; $i < count($ciclo); $i++){
+                        switch ($ciclo) {
+                            case $ciclo[$i] == "" || $ciclo[$i] == " " || $ciclo[$i] == "  ":
+                                /**Absolutamente nada */
+                                break;
+                            case $ciclo[$i] !== "" || $ciclo[$i] !== " " || $ciclo[$i] !== "  ":
+                                $nombresin[$j] = $ciclo[$i];
+                                $j++;
+                                break;
+                            default:
+                                # code...
+                                break;
                         }
                     }
-                    dd($nombresin); 
+                    dd($nombresin);
 
                     // Llenar el modelo AlmacenadoTmp según el orden de las columnas
                     if ($cambiarOrden) {
@@ -335,7 +338,7 @@ class almacenadoTmpController extends Controller
                             'observacion' => $datosFila[16],
                             'valor' => $datosFila[17], // La columna 'valor' no se usa en esta versión
                         ]);
-                        
+
                     }
                     // Guardar el modelo en la base de datos
                     $almacenadoTmp->save();
