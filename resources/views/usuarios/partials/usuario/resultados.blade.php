@@ -28,9 +28,9 @@
             @endforeach
         </tbody>
     </table>
-    <div class="pagination">
+    {{-- <div class="pagination">
         {{ $users->links('pagination.custom') }}
-    </div>
+    </div> --}}
 @else
     <p>No se encontraron usuarios.</p>
 @endif
