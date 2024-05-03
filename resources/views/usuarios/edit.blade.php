@@ -10,6 +10,7 @@
 @endsection
 
 @section('content')
+<div class="content2">
     <div class="content">
         <h1 class="page-title">Editar Usuario Perfil</h1>
         <div class="green-line mt-2"></div>
@@ -70,6 +71,6 @@
     </form>
 </div>
 
- 
+</div>
 
 @endsection
