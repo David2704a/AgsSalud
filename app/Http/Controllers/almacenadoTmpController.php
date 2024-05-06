@@ -436,98 +436,98 @@ class almacenadoTmpController extends Controller
     // }
 
     public function importarExcel(Request $request)
-{
-    almacenadoTmp::truncate();
-    elementonoid::truncate();
-    sincodTmp::truncate();
+    {
+        almacenadoTmp::truncate();
+        elementonoid::truncate();
+        sincodTmp::truncate();
 
-    // Validar si se envió un archivo
-    if (!$request->hasFile('archivo')) {
-        return redirect()->route('elementos.create')->with('error', 'No se envió ningún archivo');
-    }
-
-    // Obtener el archivo enviado
-    $file = $request->file('archivo');
-
-    // Validar el tipo de archivo (se espera un archivo XLSX)
-    if ($file->getClientOriginalExtension() !== 'xlsx') {
-        return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
-    }
-
-    // Crear una instancia del lector de archivos de Excel
-    $reader = IOFactory::createReader('Xlsx');
-
-    // Cargar el archivo en un objeto Spreadsheet
-    $documento = $reader->load($file->getPathname());
-
-    // Iniciar una transacción en la base de datos
-    DB::beginTransaction();
-
-    try {
-        // Iterar por cada hoja del documento (máximo 15 hojas)
-        for ($i = 0; $i < min(15, $documento->getSheetCount()); $i++) {
-            $hoja = $documento->getSheet($i);
-
-            // Verificar si es la hoja 13 para cambiar el orden de las columnas
-            $filaInicio = ($i == 12) ? 3 : 8;
-            $cambiarOrden = ($i == 12) ? true : false;
-
-            // Iterar por cada fila en la hoja actual
-            foreach ($hoja->getRowIterator($filaInicio) as $fila) {
-                $datosFila = [];
-
-                // Iterar por cada celda en la fila actual
-                foreach ($fila->getCellIterator() as $celda) {
-                    // Obtener el valor de la celda
-                    $valorCelda = $celda->getValue();
-
-                    // Procesar el valor y agregarlo a los datos de la fila
-                    $datosFila[] = $valorCelda;
-                }
-
-                // Omitir la fila si 'dispositivo' está vacío
-                if (empty($datosFila[1])) {
-                    continue;
-                }
-
-                // Procesar el campo de nombres y apellidos
-                $nombresin = [];
-                $ciclo = explode(" ", $datosFila[10]);
-
-                foreach ($ciclo as $nombre) {
-                    if (!empty($nombre) && $nombre !== " " && $nombre !== "  ") {
-                        $nombresin[] = $nombre;
-                    }
-                }
-
-                $cadenaNombres = implode(" ", $nombresin);
-
-                // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
-                $almacenadoTmp = new almacenadoTmp();
-
-                // Llenar el modelo AlmacenadoTmp según el orden de las columnas
-                $columnas = [
-                    'id_dispo', 'dispositivo', 'marca', 'referencia', 'serial', 'procesador', 'ram',
-                    'disco_duro', 'tarjeta_grafica', 'documento', 'nombres_apellidos', 'fecha_compra',
-                    'garantia', 'numero_factura', 'proveedor', 'estado', 'observacion'
-                ];
-
-                foreach ($columnas as $index => $columna) {
-                    if ($cambiarOrden && $columna === 'cantidad') {
-                        $almacenadoTmp->{$columna} = $datosFila[0];
-                    } else {
-                        $valor = ($columna === 'nombres_apellidos') ? $cadenaNombres : $datosFila[$index];
-                        $almacenadoTmp->{$columna} = $valor;
-                    }
-                }
-
-                // Guardar el modelo en la base de datos
-                $almacenadoTmp->save();
-            }
+        // Validar si se envió un archivo
+        if (!$request->hasFile('archivo')) {
+            return redirect()->route('elementos.create')->with('error', 'No se envió ningún archivo');
         }
 
-        // Confirmar la transacción final
-        DB::commit();
+        // Obtener el archivo enviado
+        $file = $request->file('archivo');
+
+        // Validar el tipo de archivo (se espera un archivo XLSX)
+        if ($file->getClientOriginalExtension() !== 'xlsx') {
+            return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
+        }
+
+        // Crear una instancia del lector de archivos de Excel
+        $reader = IOFactory::createReader('Xlsx');
+
+        // Cargar el archivo en un objeto Spreadsheet
+        $documento = $reader->load($file->getPathname());
+
+        // Iniciar una transacción en la base de datos
+        DB::beginTransaction();
+
+        try {
+            // Iterar por cada hoja del documento (máximo 15 hojas)
+            for ($i = 0; $i < min(15, $documento->getSheetCount()); $i++) {
+                $hoja = $documento->getSheet($i);
+
+                // Verificar si es la hoja 13 para cambiar el orden de las columnas
+                $filaInicio = ($i == 12) ? 3 : 8;
+                $cambiarOrden = ($i == 12) ? true : false;
+
+                // Iterar por cada fila en la hoja actual
+                foreach ($hoja->getRowIterator($filaInicio) as $fila) {
+                    $datosFila = [];
+
+                    // Iterar por cada celda en la fila actual
+                    foreach ($fila->getCellIterator() as $celda) {
+                        // Obtener el valor de la celda
+                        $valorCelda = $celda->getValue();
+
+                        // Procesar el valor y agregarlo a los datos de la fila
+                        $datosFila[] = $valorCelda;
+                    }
+
+                    // Omitir la fila si 'dispositivo' está vacío
+                    if (empty($datosFila[1])) {
+                        continue;
+                    }
+
+                    // Procesar el campo de nombres y apellidos
+                    $nombresin = [];
+                    $ciclo = explode(" ", $datosFila[10]);
+
+                    foreach ($ciclo as $nombre) {
+                        if (!empty($nombre) && $nombre !== " " && $nombre !== "  ") {
+                            $nombresin[] = $nombre;
+                        }
+                    }
+
+                    $cadenaNombres = implode(" ", $nombresin);
+
+                    // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
+                    $almacenadoTmp = new almacenadoTmp();
+
+                    // Llenar el modelo AlmacenadoTmp según el orden de las columnas
+                    $columnas = [
+                        'id_dispo', 'dispositivo', 'marca', 'referencia', 'serial', 'procesador', 'ram',
+                        'disco_duro', 'tarjeta_grafica', 'documento', 'nombres_apellidos', 'fecha_compra',
+                        'garantia', 'numero_factura', 'proveedor', 'estado', 'observacion'
+                    ];
+
+                    foreach ($columnas as $index => $columna) {
+                        if ($cambiarOrden && $columna === 'cantidad') {
+                            $almacenadoTmp->{$columna} = $datosFila[0];
+                        } else {
+                            $valor = ($columna === 'nombres_apellidos') ? $cadenaNombres : $datosFila[$index];
+                            $almacenadoTmp->{$columna} = $valor;
+                        }
+                    }
+
+                    // Guardar el modelo en la base de datos
+                    $almacenadoTmp->save();
+                }
+            }
+
+            // Confirmar la transacción final
+            DB::commit();
 
             if ($almacenadoTmp->save()) {
                 $this->asignarID_DISPO_UPS();
