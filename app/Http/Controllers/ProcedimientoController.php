@@ -134,6 +134,8 @@ class ProcedimientoController extends Controller
             return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento actualizado correctamente');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error al actualizar el procedimiento: ' . $e->getMessage());
+
+            // dd($e->getMessage());
         }
     }
 

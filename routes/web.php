@@ -140,7 +140,7 @@ Route::post('register', [RegisteredUserController::class, 'register'])
 
 
 
-Route::get('/reportes/filtro', [InformesController::class, 'filtrarTablaElementos']);
+// Route::get('/reportes/filtro', [InformesController::class, 'filtrarTablaElementos']);
 Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestamos']);
 
 
@@ -186,7 +186,12 @@ Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestam
 
     Route::resource('/reporte', InformesController::class)->names('reporte');
     Route::get('/buscarReporte', [InformesController::class, 'buscarReporte']);
-
+    
+    Route::get('/getProcedimientos', [InformesController::class, 'getProcedimientos']);
+    
+    Route::get('/getElementos', [InformesController::class, 'getElementos']);
+    Route::post('/filtroElementos', [InformesController::class, 'filtroElementos']);
+    Route::post('/exportarElementos', [InformesController::class,'exportarElementos']);
 
     Route::get('excel/elemento', [ElementoController::class,'excelElemento'])->name('generarInformeE');
 

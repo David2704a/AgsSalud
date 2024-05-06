@@ -9,7 +9,7 @@
 
 @endsection
 @section('content')
-
+<div class="content2">
 <div class="content">
     <div class="containerTitle">
         <h1 class="page-title">EDITAR PROCEDIMIENTOS</h1>
@@ -83,7 +83,7 @@
             <select class="selectElemento select2" name="idElemento" id="idElemento" style="width: 10%:">
                 <option value="">Seleccionar una opción</option>
                 @foreach ($elemento as $elemento)
-                    <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo }}
+                    <option value="{{ $elemento->idElemento }}" {{$elemento->idElemento == $procedimiento->idElemento ? 'selected' : ''}}>{{ $elemento->id_dispo }}
                         {{ $elemento->categoria->nombre }}</option>
                 @endforeach
             </select>
@@ -118,7 +118,7 @@
 
 
 </form>
-
+</div>
 
 
 @endsection
