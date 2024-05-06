@@ -100,40 +100,42 @@ class almacenadoTmpController extends Controller
             FROM almacenadoTmp a
             LEFT JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
             WHERE e.estado IS NULL AND TRIM(a.estado) IS NOT NULL;
-
-            -- Inserta en la tabla 'persona' evitando duplicados
+            
+            
             INSERT IGNORE INTO persona (nombre1, nombre2, apellido1, apellido2, identificacion)
             SELECT DISTINCT
                 CASE
-                    WHEN nombres_apellidos REGEXP ' ' THEN
-                        SUBSTRING_INDEX(nombres_apellidos, ' ', 1)  -- Primer nombre
-                    ELSE nombres_apellidos  -- Asignar directamente si no hay espacio
+                    WHEN palabras >= 1 THEN
+                        SUBSTRING_INDEX(nombres_apellidos, ' ', 1)  -- Primer palabra como primer nombre
+                    ELSE nombres_apellidos  -- Asignar directamente si solo hay una palabra
                 END AS nombre1,
                 CASE
-                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 1 THEN
-                        SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', 2), ' ', -1)  -- Segundo nombre
-                    ELSE NULL
+                    WHEN palabras >= 2 THEN
+                        SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', 2), ' ', -1)  -- Segunda palabra como segundo nombre
+                    ELSE NULL  -- No hay segundo nombre si no hay suficientes palabras
                 END AS nombre2,
                 CASE
-                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2 THEN
-                        SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', -2), ' ', 1)  -- Primer apellido
-                    ELSE NULL
+                    WHEN palabras >= 3 THEN
+                        SUBSTRING_INDEX(SUBSTRING_INDEX(nombres_apellidos, ' ', 3), ' ', -1)  -- Tercera palabra como primer apellido
+                    ELSE NULL  -- No hay primer apellido si no hay suficientes palabras
                 END AS apellido1,
                 CASE
-                    WHEN nombres_apellidos REGEXP ' ' AND LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) >= 2 THEN
-                        SUBSTRING_INDEX(nombres_apellidos, ' ', -1)  -- Segundo apellido
-                    ELSE NULL
+                    WHEN palabras >= 4 THEN
+                        SUBSTRING_INDEX(nombres_apellidos, ' ', -1)  -- Última palabra como segundo apellido
+                    ELSE NULL  -- No hay segundo apellido si no hay suficientes palabras
                 END AS apellido2,
-                CASE
-                    WHEN documento REGEXP '^[0-9]+$' THEN documento
-                    ELSE NULL
-                END AS identificacion
-            FROM almacenadoTmp
-
+                documento AS identificacion
+            FROM (
+                SELECT nombres_apellidos,
+                    LENGTH(nombres_apellidos) - LENGTH(REPLACE(nombres_apellidos, ' ', '')) + 1 AS palabras,
+                    documento
+                FROM almacenadoTmp
+            ) AS palabras_contadas
             WHERE nombres_apellidos IS NOT NULL
-            AND documento REGEXP '^[0-9]+$'
-            AND nombres_apellidos NOT IN ('BAJA', 'LIBRE')
-            AND documento IS NOT NULL;
+                AND documento REGEXP '^[0-9]+$'
+                AND nombres_apellidos NOT IN ('BAJA', 'LIBRE')
+                AND documento IS NOT NULL;
+
 
             -- Inserta en la tabla 'users' evitando duplicados
             INSERT IGNORE INTO users (name, email, password, idpersona, created_at, updated_at)
@@ -179,7 +181,7 @@ class almacenadoTmpController extends Controller
             LEFT JOIN users u ON p.id = u.idpersona;
 
             -- Elimina los registros de la tabla temporal
-              DELETE FROM almacenadoTmp;
+            DELETE FROM almacenadoTmp;
 
         END
 
