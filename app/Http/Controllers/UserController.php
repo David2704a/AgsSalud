@@ -23,7 +23,6 @@ class UserController extends Controller
 
         return view ('usuarios.index', compact('users'));
 
-
     }
 
 
@@ -105,9 +104,10 @@ class UserController extends Controller
         $roles = Role::all();
         return view('usuarios.register',compact('roles'));
     }
+    
 
 
-
+ 
 
     public function buscar(Request $request)
     {
