@@ -194,14 +194,14 @@ class almacenadoTmpController extends Controller
         // Llama al procedimiento almacenado solo si fue creado o ya existía
         DB::select('CALL almacenadoTmp()');
 
-        // $elementos = DB::table('elemento')->get();
+        $elementos = DB::table('elemento')->get();
 
-        // foreach ($elementos as $elemento) {
-        //     DB::table('elemento')->where('id_dispo',$elemento->id_dispo)
-        //         ->update(['codigo' => (new QRCode)->render(url('/elemento/qr/'.$elemento->id_dispo))]);
-        // }
+        foreach ($elementos as $elemento) {
+            DB::table('elemento')->where('id_dispo',$elemento->id_dispo)
+                ->update(['codigo' => (new QRCode)->render(url('/elemento/qr/'.$elemento->id_dispo))]);
+        }
 
-        // Redirige a la vista o ruta que desees
+        // Redirige a la vista
         return redirect()->route('elementos.index');
     }
 
