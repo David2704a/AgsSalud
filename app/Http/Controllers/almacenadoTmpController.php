@@ -192,12 +192,12 @@ class almacenadoTmpController extends Controller
         // Llama al procedimiento almacenado solo si fue creado o ya existía
         DB::select('CALL almacenadoTmp()');
 
-        $elementos = DB::table('elemento')->get();
+        // $elementos = DB::table('elemento')->get();
 
-        foreach ($elementos as $elemento) {
-            DB::table('elemento')->where('id_dispo',$elemento->id_dispo)
-                ->update(['codigo' => (new QRCode)->render(url('/elemento/qr/'.$elemento->id_dispo))]);
-        }
+        // foreach ($elementos as $elemento) {
+        //     DB::table('elemento')->where('id_dispo',$elemento->id_dispo)
+        //         ->update(['codigo' => (new QRCode)->render(url('/elemento/qr/'.$elemento->id_dispo))]);
+        // }
 
         // Redirige a la vista o ruta que desees
         return redirect()->route('elementos.index');
@@ -235,7 +235,7 @@ class almacenadoTmpController extends Controller
         // Iniciar una transacción en la base de datos
         DB::beginTransaction();
 
-        try {
+        // try {
             $limiteFilasPorBloque = 10; // Establecer el límite de filas por bloque
             $cambiarOrden = false; // Variable para indicar si se debe cambiar el orden de las columnas
 
@@ -280,8 +280,33 @@ class almacenadoTmpController extends Controller
                         continue;
                     }
 
+
+
+
+
                     // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
                     $almacenadoTmp = new almacenadoTmp();
+
+
+
+                    $nombresin = [];
+                    $ciclo = explode(" ", $datosFila[10]);
+                    $j = 0;
+                    for($i = 0; $i < count($ciclo); $i++){
+                        switch ($ciclo) {
+                            case $ciclo[$i] == "" || $ciclo[$i] == " " || $ciclo[$i] == "  ":
+                                /**Absolutamente nada */
+                                break;
+                            case $ciclo[$i] !== "" || $ciclo[$i] !== " " || $ciclo[$i] !== "  ":
+                                $nombresin[$j] = $ciclo[$i];
+                                $j++;
+                                break;
+                            default:
+                                # code...
+                                break;
+                        }
+                    }
+                    dd($nombresin);
 
                     // Llenar el modelo AlmacenadoTmp según el orden de las columnas
                     if ($cambiarOrden) {
@@ -311,8 +336,9 @@ class almacenadoTmpController extends Controller
                             'proveedor' => $datosFila[14],
                             'estado' => $datosFila[15],
                             'observacion' => $datosFila[16],
-                            // 'valor' => $datosFila[17], // La columna 'valor' no se usa en esta versión
+                            'valor' => $datosFila[17], // La columna 'valor' no se usa en esta versión
                         ]);
+
                     }
                     // Guardar el modelo en la base de datos
                     $almacenadoTmp->save();
@@ -401,13 +427,13 @@ class almacenadoTmpController extends Controller
                 // Si no se guarda el modelo correctamente, lanzar un error
                 throw new \Exception("Error al guardar el modelo en la base de datos");
             }
-        } catch (\Exception $e) {
-            // Revertir la transacción en caso de error
-            DB::rollBack();
+        // } catch (\Exception $e) {
+        //     // Revertir la transacción en caso de error
+        //     DB::rollBack();
 
-            return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
-            //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
-        }
+        //     return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
+        //     //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
+        // }
 
     }
 
