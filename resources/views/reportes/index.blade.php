@@ -296,7 +296,7 @@
                         </table>
                     </div>
                     <div class="pagination">
-                        {{ $procedimientos->links('pagination.custom') }}
+                        {{-- {{ $procedimientos->links('pagination.custom') }} --}}
                     </div>
                     @if (auth()->user()->hasRole(['superAdmin', 'admin', 'tecnico']))
                         <div class="Options-Exports-Procedimientos">
