@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ElementoExport;
+use App\Exports\ProcedimientoExport;
 use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
@@ -85,7 +86,11 @@ class InformesController extends Controller
             ->leftJoin('factura', 'elemento.idFactura', 'factura.idFactura')
             ->leftJoin('proveedor', 'factura.idProveedor', 'proveedor.idProveedor')
             ->leftJoin('users', 'elemento.idUsuario', 'users.id')
-            ->where('elemento.id_dispo', 'like', '%' . $datos['idElemento'] . '%');
+            ->leftJoin('persona', 'users.idPersona', 'persona.id');
+        if (!empty($datos['idElemento'])) {
+            $resultado->where('elemento.id_dispo', $datos['idElemento']);
+        }
+
         if (!empty($datos['idUsuario'])) {
             $resultado->where('users.id', $datos['idUsuario']);
         }
@@ -98,23 +103,28 @@ class InformesController extends Controller
             $resultado->where('categoria.idCategoria', $datos['idCategoria']);
         }
         $resultado = $resultado->select(
-            'elemento.id_dispo',
-            'elemento.marca',
-            'elemento.referencia',
-            'elemento.serial',
-            'elemento.procesador',
-            'elemento.ram',
-            'elemento.disco_duro',
-            'elemento.tarjeta_grafica',
-            'elemento.modelo',
-            'elemento.garantia',
-            'elemento.descripcion',
-            'estadoElemento.estado',
+            // 'elemento.id_dispo',
+            // 'elemento.marca',
+            // 'elemento.referencia',
+            // 'elemento.serial',
+            // 'elemento.procesador',
+            // 'elemento.ram',
+            // 'elemento.disco_duro',
+            // 'elemento.tarjeta_grafica',
+            // 'elemento.modelo',
+            // 'elemento.garantia',
+            // 'elemento.descripcion',
+            'estadoElemento.estado as estadoElemento',
             'tipoElemento.tipo as tipoElemento',
             'categoria.nombre as nameCategoria',
             'factura.codigoFactura',
+            'factura.fechaCompra',
             'proveedor.nombre as nameProveedor',
-            'users.name',
+            // 'users.name',
+
+            'elemento.*',
+            'persona.*'
+
         )
             ->get();
         // dd($resultado);
@@ -127,49 +137,73 @@ class InformesController extends Controller
         // dd($request->input('data'));
         $data = $request->input('data');
         $datos = json_decode($data, true);
+        // dd($datos);
         if ($datos === null && json_last_error() !== JSON_ERROR_NONE) {
             $error = json_last_error_msg();
             echo "Error de JSON: $error";
         } else {
             return Excel::download(new ElementoExport($datos), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS.xlsx');
         }
-        dd($datos);
     }
 
 
 
-    public function filtrarTablaPrestamos(Request $request)
+    public function filtroProcedimientos(Request $request)
     {
 
-        $query = Procedimiento::query();
+        $datos = json_decode($request->input('datos'), true);
+        // dd($datos);
 
+        $resultado = DB::table('procedimiento')
+            ->leftJoin('tipoProcedimiento','procedimiento.idTipoProcedimiento','tipoProcedimiento.idTipoProcedimiento')
+            ->where('procedimiento.idTipoprocedimiento', 3)
+            ->leftJoin('users as userEntrega', 'procedimiento.idResponsableEntrega', 'userEntrega.id')
+            ->leftJoin('users', 'procedimiento.idResponsableRecibe', 'users.id')
+            ->leftJoin('elemento', 'procedimiento.idElemento', 'elemento.idElemento')
+            ->leftJoin('categoria', 'elemento.idCategoria', 'categoria.idCategoria')
+            ->leftJoin('estadoElemento', 'elemento.idEstadoEquipo', 'estadoElemento.idEstadoE')
+            ->whereBetween('procedimiento.fechaInicio', [$datos['fechaInicio'] == '' ? '0000-00-00' : $datos['fechaInicio'], $datos['fechaFin'] == '' ? '5000-00-00' : $datos['fechaFin']])
+            ->whereBetween('procedimiento.fechaFin', [$datos['fechaInicio'] == '' ? '0000-00-00' : $datos['fechaInicio'], $datos['fechaFin'] == '' ? '5000-00-00' : $datos['fechaFin']]);
 
-        if ($request->filled('idResponsableEntrega')) {
-            $query->whereHas('responsableEntrega', function ($q) use ($request) {
-                $q->where('id', $request->input('idResponsableEntrega'));
-            });
+        if (!empty($datos['idResponsableEntrega'])) {
+            $resultado->where('userEntrega.id', $datos['idResponsableEntrega']);
+        }
+        if (!empty($datos['idResponsableRecibe'])) {
+            $resultado->where('users.id', $datos['idResponsableRecibe']);
+        }
+        if (!empty($datos['idElemento'])) {
+            $resultado->where('elemento.id_dispo', $datos['idElemento']);
         }
 
-        if ($request->filled('idResponsableRecibe')) {
-            $query->whereHas('responsableRecibe', function ($q) use ($request) {
-                $q->where('id', $request->input('idResponsableRecibe'));
-            });
+        $resultado = $resultado->select(
+            'procedimiento.idProcedimiento',
+            'procedimiento.fechaInicio',
+            'categoria.nombre as nameCategoria',
+            'elemento.id_dispo',
+            'estadoElemento.estado',
+            'userEntrega.name as nameEntrega',
+            'users.name as nameRecibe',
+            'procedimiento.fechaFin',
+            'userEntrega.name as nameRecibeDev',
+            'users.name as nameEntregaDev',
+            'procedimiento.observacion'
+        )
+            ->get();
+        // dd($resultado);
+        return $resultado;
+    }
+    public function exportarPrestamos(Request $request)
+    {
+        // dd($request->input('data'));
+        $data = $request->input('data');
+        $datos = json_decode($data, true);
+        // dd($datos);
+        if ($datos === null && json_last_error() !== JSON_ERROR_NONE) {
+            $error = json_last_error_msg();
+            echo "Error de JSON: $error";
+        } else {
+            return Excel::download(new ProcedimientoExport($datos), 'TEI-F-14. PRESTAMOS.xlsx');
         }
-
-        if ($request->filled('idProcedimiento')) {
-            $query->where('idProcedimiento', $request->input('idProcedimiento'));
-        }
-
-        if ($request->filled('fechaInicio')) {
-            $query->where('fechaInicio', $request->input('fechaInicio'));
-        }
-
-        if ($request->filled('fechaFin')) {
-            $query->where('fechaFin', $request->input('fechaFin'));
-        }
-
-        $procedimientos = $query->paginate(10);
-        return view('reportes.partial.resultadoP', compact('procedimientos'));
     }
 
 
@@ -199,7 +233,7 @@ class InformesController extends Controller
                 'userEntrega.name as nameRecibeDev',
                 'users.name as nameEntregaDev',
                 'procedimiento.observacion'
-                )
+            )
             ->get();
         return $resultado;
     }

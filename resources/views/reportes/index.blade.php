@@ -38,17 +38,7 @@
                     @csrf
                     <div class="filtrosInputs">
                         <div class="form-row">
-                            {{-- <div class="form-group">
-                        <label for="idTipoProcedimiento">Seleccionar Procedimiento:</label>
-                        <select name="idTipoProcedimiento" id="idTipoProcedimiento"
-                            onchange="aplicarFiltrosElementos()">
-                            <option value="">Todos los Procedimientos</option>
-                            @foreach ($tipoProcedimientos as $tipoProcedimiento)
-                                <option value="{{ $tipoProcedimiento->idTipoProcedimiento }}">
-                                    {{ $tipoProcedimiento->tipo }}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
+
                             <div class="form-group">
                                 <label for="idEstadoEquipo">Seleccionar Estado de Equipo:</label>
                                 <select name="idEstadoEquipo" id="idEstadoEquipo" class="form-control">
@@ -114,14 +104,13 @@
                                     <th>Descripcion</th>
                                     <th>Estado</th>
                                     <th>Tipo</th>
-                                    {{-- <th>Procedimiento</th> --}}
                                     <th>Categoria</th>
                                     <th>N° Factura</th>
                                     <th>Proveedor</th>
                                     <th>Asignado A:</th>
                                 </thead>
                                 <tbody class="tbodyElementos">
-                                    @foreach ($elementos as $elemento)
+                                    {{-- @foreach ($elementos as $elemento)
                                         <tr>
                                             <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
                                             <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
@@ -138,14 +127,13 @@
                                             </td>
                                             <td>{{ $elemento->estado->estado ?? 'NO APLICA' }}</td>
                                             <td>{{ $elemento->tipoElemento->tipo ?? 'NO APLICA' }}</td>
-                                            {{-- <td>{{ $elemento->procedimiento->tipoProcedimiento->tipo ?? 'NO APLICA' }}</td> --}}
                                             <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
                                             <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
                                             <td>{{ $elemento->factura->proveedor->nombre ?? 'NO APLICA' }}</td>
                                             <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }}
                                                 {{ $elemento->user->persona->apellido1 ?? 'NO APLICA' }}</td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
@@ -186,11 +174,14 @@
                 <form class="alo" method="get" action="{{ url('/excel/procedimiento') }}" id="exportFormP"
                     onsubmit="return preSubmitAction()">
                     @csrf
+
+                    <div class="filtrosPrestamos">
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="idResponsableEntrega">Responsable de Entrega:</label>
-                            <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control"
-                                onchange="aplicarFiltrosPrestamo()">
+                            <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control inputsPrestamos"
+                                onchange="filtroProcedimientos()">
                                 <option value="">Todos las Personas</option>
                                 @foreach ($usuarios as $usuario)
                                     <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
@@ -199,28 +190,23 @@
                         </div>
                         <div class="form-group">
                             <label for="idResponsableRecibe">Responsable que Recibe:</label>
-                            <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control"
-                                onchange="aplicarFiltrosPrestamo()">
+                            <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control inputsPrestamos"
+                                onchange="filtroProcedimientos()">
                                 <option value="">Todos las Personas</option>
                                 @foreach ($usuarios as $usuario)
                                     <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        {{-- <div class="form-group">
-                        <label for="idProcedimiento">ID Procedimiento</label>
-                        <input type="number" name="idProcedimiento" id="idProcedimiento" onchange="aplicarFiltrosPrestamo()">
-                    </div> --}}
                         <div class="form-group">
                             <label for="idElemento">Elemento</label>
-                            <select class="selectElemento select2" name="idProcedimiento" id="idProcedimiento"
-                                style="width: 100%" onchange="aplicarFiltrosPrestamo()">
+                            <select class="selectElemento select2 inputsPrestamos" name="idProcedimiento" id="idProcedimiento "
+                                style="width: 100%" onchange="filtroProcedimientos()">
                                 <option value="">Seleccionar una opción</option>
-                                @foreach ($procedimientos as $procedimiento)
-                                    <option value="{{ $procedimiento->idProcedimiento }}">
-                                        {{ $procedimiento->idProcedimiento }} -
-                                        {{ $procedimiento->elemento->categoria->nombre }}</option>
-                                @endforeach
+                                @foreach ($elementos2 as $elemento1)
+                                <option value="{{ $elemento1->id_dispo }}">{{ $elemento1->id_dispo }} -
+                                    {{ $elemento1->categoria->nombre }}</option>
+                            @endforeach
                             </select>
                         </div>
                         <script>
@@ -234,15 +220,17 @@
                     <div class="form-row">
                         <div class="form-group" id="fechaInicioContainer">
                             <label for="fechaInicio">Fecha de Inicio:</label>
-                            <input type="date" name="fechaInicio" id="fechaInicio"
-                                onchange="aplicarFiltrosPrestamo()">
+                            <input class="inputsPrestamos" type="date" name="fechaInicio" id="fechaInicio"
+                                onchange="filtroProcedimientos()">
                         </div>
                         <div class="form-group" id="fechaFinContainer">
                             <label for="fechaFin">Fecha de Fin:</label>
-                            <input type="date" name="fechaFin" id="fechaFin"
-                                onchange="aplicarFiltrosPrestamo()">
+                            <input class="inputsPrestamos" type="date" name="fechaFin" id="fechaFin"
+                                onchange="filtroProcedimientos()">
                         </div>
                     </div>
+
+                </div>
                     <div class="tablePrestamos">
                         <table id="tablaReportesPrestamos">
                             <thead>
@@ -250,8 +238,7 @@
                                     <th>ID</th>
                                     <th>FECHA DE PRESTAMO</th>
                                     <th>DISPOSITIVO</th>
-                                    <th>CANTIDAD</th>
-                                    <th>CARACTERISTICAS</th>
+                                    <th>ID DISPOSITIVO</th>
                                     <th>ESTADO</th>
                                     <th>ENTREGA</th>
                                     <th>RECIBE</th>
@@ -278,10 +265,7 @@
                                                 {{ $procedimiento->elemento->categoria->nombre ? $procedimiento->elemento->categoria->nombre : 'NO APLICA' }}
                                             </td>
                                             <td style="border: 1px solid black;">
-                                                1
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->elemento->modelo ? $procedimiento->elemento->modelo : 'NO APLICA' }}
+                                                {{ $procedimiento->elemento->id_dispo ? $procedimiento->elemento->id_dispo : 'NO APLICA' }}
                                             </td>
                                             <td style="border: 1px solid black;">
                                                 {{ $procedimiento->elemento->estado->estado }}
@@ -318,7 +302,7 @@
                         <div class="Options-Exports-Procedimientos">
                             <a class="export-button" onclick="OptionsDocumentsProcedimientos()">Exportar Como</a>
                             <div class="document-options" id="documentOptionsProcedimientos">
-                                <button type="submit" class="button-proce downloadP">
+                                <button type="button" class="button-proce downloadP">
                                     <i class="fa-solid fa-file-excel fa-lg"
                                         style="color: #178a13; font-size: 25px;"></i>
                                 </button>

@@ -95,7 +95,7 @@
                 </div>
 
                 <label for="idResponsableEntrega">Responsable Entrega</label>
-                <select name="idResponsableEntrega" id="idResponsableEntrega" disabled>
+                <select name="idResponsableEntrega" id="idResponsableEntrega" >
                     <option value="">Seleccionar una opción</option>
                     @foreach ($usuariosEntrega as $usuario)
                         <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>

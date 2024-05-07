@@ -25,73 +25,29 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents ,WithS
 
     use Exportable;
 
-    protected $filtros;
+    protected $data;
 
-
-    public function __construct($filtros)
+    public function __construct($data)
     {
-        $this->filtros = $filtros;
+        $this->data = $data;
     }
 
+    public function view(): View
+    {
+            // dd($this->data);
+            $data = [];
 
-
- public function view(): View
-   {
-
-
-
-    $query = Procedimiento::query();
-
-    // Aplicar los filtros proporcionados
-    // foreach ($this->filtros as $clave => $valor) {
-    //     if ($valor) {
-
-    //             $query->where($clave, $valor);
-
-    //     }
-    // }
-
-
-    foreach ($this->filtros as $clave => $valor) {
-        // Verificar si el valor del filtro no es nulo
-        if ($valor !== null) {
-            if  ($clave === 'idResponsableEntrega') {
-                // Si es el filtro por idResponsableEntrega, aplicar la condición en la relación
-                $query->whereHas('responsableEntrega', function ($subquery) use ($valor) {
-                    $subquery->where('id', $valor);
-                });
-            } elseif ($clave === 'idResponsableRecibe') {
-                // Si es el filtro por idResponsableEntrega, aplicar la condición en la relación
-                $query->whereHas('responsableRecibe', function ($subquery) use ($valor) {
-                    $subquery->where('id', $valor);
-                });
-            } elseif ($clave === 'fechaInicio') {
-                // Filtro por fechaInicio
-                $fechaInicio = date('Y-m-d', strtotime($valor));
-                $query->whereDate('fechaInicio', '>=', $fechaInicio);
-            } elseif ($clave === 'fechaFin') {
-                // Filtro por fechaFin
-                $fechaFin = date('Y-m-d', strtotime($valor));
-                $query->whereDate('fechaFin', '<=', $fechaFin);
-            } elseif ($clave === 'idProcedimiento') {
-                // Filtro por idProcedimiento
-                $query->where('idProcedimiento', '=', $valor);
-            } else {
-                // Otros filtros
-                $query->where($clave, $valor);
+            foreach ($this->data as $item) {
+                $obj = (object) $item;
+                $data[] = $obj;
             }
-        }
+
+            // dd($data);
+        return view('procedimientos.procedimiento.informesP.excel', [
+            'procedimientos' => $data,
+        ]);
     }
 
-    $query->where('idTipoProcedimiento', 3);
-
-    // Obtener los resultados
-
-    $procedimientos = $query->get();
-    return view('procedimientos.procedimiento.informesP.excel', [
-        'procedimientos' => $procedimientos,
-    ]);
-}
 
 
 
@@ -121,13 +77,13 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents ,WithS
    {
 
 
-       Image::make(public_path('imgs/logos/Ags.png'))->resize(180, 70)->save(public_path('imgs/logos/ags-export.png'));
-       Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
-       Image::make(public_path('imgs/logos/Logo-IQNet.png'))->resize(80, 80)->save(public_path('imgs/logos/iqnet-export.png'));
-       Image::make(public_path('imgs/logos/escudo.png'))->resize(80, 80)->save(public_path('imgs/logos/escudo-export.png'));
-       Image::make(public_path('imgs/logos/logo_Enterritorio.png'))->resize(100, 80)->save(public_path('imgs/logos/enterritorio-export.png'));
-       Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
-       Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
+    //    Image::make(public_path('imgs/logos/Ags.png'))->resize(180, 70)->save(public_path('imgs/logos/ags-export.png'));
+    //    Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
+    //    Image::make(public_path('imgs/logos/Logo-IQNet.png'))->resize(80, 80)->save(public_path('imgs/logos/iqnet-export.png'));
+    //    Image::make(public_path('imgs/logos/escudo.png'))->resize(80, 80)->save(public_path('imgs/logos/escudo-export.png'));
+    //    Image::make(public_path('imgs/logos/logo_Enterritorio.png'))->resize(100, 80)->save(public_path('imgs/logos/enterritorio-export.png'));
+    //    Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
+    //    Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
 
 
        return [

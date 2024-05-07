@@ -160,7 +160,7 @@ return [
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
-    
+
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
@@ -175,7 +175,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
+        // Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ])->toArray(),

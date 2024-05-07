@@ -1,40 +1,25 @@
+$(document).ready(function () {
+    filtrarElementos();
+    filtroProcedimientos();
+    $('.filtrosInputs select').on('change', function () {
+        filtrarElementos();
+    });
+});
+
+
 
 var responseGetElementos;
 var responseGetPro;
 $(document).ready(function () {
     inicializarTablaPrestamos();
     inicializarTablaElementos();
-    $.ajax({
-        type: 'GET',
-        url: urlBase + '/getElementos',
-        success: function (response) {
-            responseGetElementos = response;
-            $('.download').click(function (e) {
-                e.preventDefault();
-                exportarReporte(responseGetElementos);
-            });
-        }
-    })
-    $.ajax({
-        type: 'GET',
-        url: urlBase + '/getProcedimientos',
-        success: function (response) {
-            responseGetElementos = response;
-            $('.downloadP').click(function (e) {
-                e.preventDefault();
-                exportarReporte(responseGetElementos);
-            });
-        }
-    })
 })
 /*
 =======================================================
 FUNCION PARA EL FILTRO DE LA TABLA DE ELEMENTOS
 =======================================================
 */
-// $(document).ready(function(){
-
-$('.filtrosInputs select').on('change', function () {
+function filtrarElementos() {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     var idUsuario = $('#idUsuario').val();
     var idEstadoEquipo = $('#idEstadoEquipo').val();
@@ -42,20 +27,19 @@ $('.filtrosInputs select').on('change', function () {
     var idCategoria = $('#idCategoria').val();
     var idElemento = $('#idElemento').val();
 
-
-
     const data = {
         'idUsuario': idUsuario,
         'idEstadoEquipo': idEstadoEquipo,
         'idTipoElemento': idTipoElemento,
         'idCategoria': idCategoria,
         'idElemento': idElemento
-    }
+    };
+
     const datos = JSON.stringify(data);
 
     $.ajax({
         type: 'POST',
-        url: urlBase + '/',
+        url: urlBase + '/filtroElementos',
         data: {
             datos: datos,
             _token: csrfToken,
@@ -66,44 +50,48 @@ $('.filtrosInputs select').on('change', function () {
                 $('#tablaReportElementos').DataTable().destroy();
             }
 
-            $('#tablaReportElementos tbody').empty()
+            $('#tablaReportElementos tbody').empty();
 
             $.each(responseGetElementos, function (index, elemento) {
                 $('#tablaReportElementos tbody').append(
-                    '<tr>' +
-                    '<td>' + (elemento.id_dispo ? elemento.id_dispo : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.marca ? elemento.marca : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.referencia ? elemento.referencia : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.serial ? elemento.serial : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.procesador ? elemento.procesador : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.ram ? elemento.ram : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.disco_duro ? elemento.disco_duro : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.tarjeta_grafica ? elemento.tarjeta_grafica : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.modelo ? elemento.modelo : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.garantia ? elemento.garantia : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.descripcion ? elemento.descripcion : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.estado ? elemento.estado : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.tipoElemento ? elemento.tipoElemento : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.nameCategoria ? elemento.nameCategoria : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.codigoFactura ? elemento.codigoFactura : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.nameProveedor ? elemento.nameProveedor : 'NO APLICA') + '</td>' +
-                    '<td>' + (elemento.name ? elemento.name : 'NO APLICA') + '</td>' +
-                    '</tr>'
+                    `<tr>
+                        <td>${elemento.id_dispo ? elemento.id_dispo : 'NO APLICA'}</td>
+                        <td>${elemento.marca ? elemento.marca : 'NO APLICA'}</td>
+                        <td>${elemento.referencia ? elemento.referencia : 'NO APLICA'}</td>
+                        <td>${elemento.serial ? elemento.serial : 'NO APLICA'}</td>
+                        <td>${elemento.procesador ? elemento.procesador : 'NO APLICA'}</td>
+                        <td>${elemento.ram ? elemento.ram : 'NO APLICA'}</td>
+                        <td>${elemento.disco_duro ? elemento.disco_duro : 'NO APLICA'}</td>
+                        <td>${elemento.tarjeta_grafica ? elemento.tarjeta_grafica : 'NO APLICA'}</td>
+                        <td>${elemento.modelo ? elemento.modelo : 'NO APLICA'}</td>
+                        <td>${elemento.garantia ? elemento.garantia : 'NO APLICA'}</td>
+                        <td>${elemento.descripcion ? elemento.descripcion : 'NO APLICA'}</td>
+                        <td>${elemento.estadoElemento ? elemento.estadoElemento : 'NO APLICA'}</td>
+                        <td>${elemento.tipoElemento ? elemento.tipoElemento : 'NO APLICA'}</td>
+                        <td>${elemento.nameCategoria ? elemento.nameCategoria : 'NO APLICA'}</td>
+                        <td>${elemento.codigoFactura ? elemento.codigoFactura : 'NO APLICA'}</td>
+                        <td>${elemento.nameProveedor ? elemento.nameProveedor : 'NO APLICA'}</td>
+                        <td>
+                            ${elemento.nombre1 ? elemento.nombre1 : 'NO APLICA'}
+                            ${elemento.nombre2 ? elemento.nombre2 : ''}
+                            ${elemento.apellido1 ? elemento.apellido1 : ''}
+                            ${elemento.apellido2 ? elemento.apellido2 : ''}
+                        </td>
+                    </tr>`
                 );
             });
 
-            inicializarTablaElementos()
+            inicializarTablaElementos();
 
             $('.download').click(function (e) {
                 e.preventDefault();
                 exportarReporte(responseGetElementos);
             });
-
-
         }
-    })
-});
-// });
+    });
+}
+
+// Llamar a la función al cargar la página
 
 function escapeHtml(unsafe) {
     return unsafe
@@ -209,33 +197,23 @@ function textoEspañolTables() {
 FUNCION PARA CAMBIAR DE CONTENIDO
 ============================================================
 */
-
-// Mostrar u ocultar campos según el tipo de informe seleccionado
 function cambiarContenido(tipoModulo) {
     var elementos = document.getElementById('elementos');
     var procedimientos = document.getElementById('procedimientos');
     var menuItems = document.querySelectorAll('.menu-item');
 
-
-
-    // Ocultar todos los contenidos
     elementos.classList.add('hidden');
     procedimientos.classList.add('hidden');
 
-
-    // Mostrar el contenido según el tipo de informe seleccionado
     if (tipoModulo === 'elemento') {
         elementos.classList.remove('hidden');
     } else if (tipoModulo === 'procedimiento') {
         procedimientos.classList.remove('hidden');
     }
 
-
-
     menuItems.forEach(function (item) {
         item.classList.remove('active');
     });
-
     event.currentTarget.classList.add('active');
 }
 
@@ -248,19 +226,14 @@ function OptionsDocumentsProcedimientos() {
     var documentOptions = document.getElementById('documentOptionsProcedimientos');
     documentOptions.style.display = (documentOptions.style.display === 'flex') ? 'none' : 'flex';
 
-    console.log('aloooooo');
 }
 
-
-
 document.addEventListener("DOMContentLoaded", function () {
-    // Ocultar la animación de carga si se encuentra
     const loaderWrapper = document.querySelector(".loader-wrapper");
     if (loaderWrapper) {
         loaderWrapper.style.display = "none";
     }
 
-    // Mostrar el contenido principal si se encuentra
     const content = document.querySelector(".content");
     if (content) {
         content.style.display = "block";
@@ -274,19 +247,22 @@ FUNCION PARA EL FILTRO Y EXPORTACION DE PROCEDIMIENTOS
 ========================================================
 */
 
-('. select').on('change', function () {
+function filtroProcedimientos() {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     var idResponsableEntrega = $('#idResponsableEntrega').val();
     var idResponsableRecibe = $('#idResponsableRecibe').val();
-    var idProcedimiento = $('#idProcedimiento').val();
-
+    var idElemento = $('#idProcedimiento').val();
+    var fechaInicio = $('#fechaInicio').val();
+    var fechaFin = $('#fechaFin').val();
 
     const data = {
         'idResponsableEntrega': idResponsableEntrega,
         'idResponsableRecibe': idResponsableRecibe,
-        'idProcedimiento': idProcedimiento,
+        'idElemento': idElemento,
+        'fechaInicio': fechaInicio,
+        'fechaFin': fechaFin,
     }
-
+    console.log(data);
     const datos = JSON.stringify(data);
 
     $.ajax({
@@ -298,31 +274,52 @@ FUNCION PARA EL FILTRO Y EXPORTACION DE PROCEDIMIENTOS
         },
         success: function (response) {
 
+            responseGetPro = response;
+            if ($.fn.DataTable.isDataTable('#tablaReportesPrestamos')) {
+                $('#tablaReportesPrestamos').DataTable().destroy();
+            }
 
-            $('.download').click(function (e) {
+            $('#tablaReportesPrestamos tbody').empty()
+
+            $.each(response, function (index, response) {
+                $('#tablaReportesPrestamos tbody').append(
+                    '<tr>' +
+                    '<td>' + response.idProcedimiento + '</td>' +
+                    '<td>' + response.fechaInicio + '</td>' +
+                    '<td>' + (response.nameCategoria ? response.nameCategoria : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.id_dispo ? response.id_dispo : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.estado ? response.estado : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.nameEntrega ? response.nameEntrega : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.nameRecibe ? response.nameRecibe : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.fechaFin ? response.fechaFin : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.nameEntregaDev ? response.nameEntregaDev : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.nameRecibeDev ? response.nameRecibeDev : 'NO APLICA') + '</td>' +
+                    '<td>' + (response.observacion ? response.observacion : 'NO APLICA') + '</td>' +
+                    '</tr>'
+                )
+            });
+            inicializarTablaPrestamos()
+            $('.downloadP').click(function (e) {
                 e.preventDefault();
-                exportarReportePro(responseGetElementos);
+                exportarReportePro(responseGetPro);
             });
         }
     })
-})
+}
 
 
 function exportarReportePro(data) {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     var jsonData = escapeHtml(JSON.stringify(data));
 
-    var form = $('<form action="' + urlBase + '/exportarElementos" method="post">' +
+    var form = $('<form action="' + urlBase + '/exportarPrestamos" method="post">' +
         '<input type="hidden" name="_token" value="' + csrfToken + '" />' +
         '<input type="hidden" name="data" value=\'' + jsonData + '\' />' +
         '</form>');
-
     $(document.body).append(form);
     form.submit();
     form.remove();
 }
-
-
 /*
 ================================================================
 DATATABLE PARA LA TABLA DE ELEMENTOS
@@ -334,7 +331,6 @@ function inicializarTablaPrestamos() {
 
         language: textoEspañolTables(),
 
-
         initComplete: function (settings, json) {
 
             $('.tablePrestamos .dataTables_filter input[type="search"]').each(function () {
@@ -344,10 +340,7 @@ function inicializarTablaPrestamos() {
                 label.remove();
             });
 
-
             $('.tablePrestamos .dataTables_filter input[type="search"]').attr('type', 'text').attr('placeholder', 'Buscar...');
-
-
 
             var buttonHtml = '<button class="search-button" type="button">' +
                 '<svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">' +
@@ -355,9 +348,7 @@ function inicializarTablaPrestamos() {
                 '</svg>' +
                 '</button>';
 
-
             $('.tablePrestamos .dataTables_filter ').prepend(buttonHtml);
-
 
             var resetButtonHtml = '<button class="reset" type="reset">' +
                 '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
@@ -366,7 +357,6 @@ function inicializarTablaPrestamos() {
                 '</button>';
 
             $('.tablePrestamos .dataTables_filter').append(resetButtonHtml);
-
 
             $('.reset').click(function () {
                 table.search('').columns().search('').draw();
