@@ -13,12 +13,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Intervention\Image\Facades\Image;
-use PhpOffice\PhpSpreadsheet\Style\Borders;
-use PhpOffice\PhpSpreadsheet\Style\BorderStyle;
-use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Style\Color;
-use Illuminate\Support\Facades\Storage;
 
 
 class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyles
