@@ -12,7 +12,8 @@ class TipoProcedimientoController extends Controller
      */
     public function index()
     {
-        $tipoProcedimiento = TipoProcedimiento::paginate(10);
+        // $tipoProcedimiento = TipoProcedimiento::paginate(10);
+        $tipoProcedimiento = TipoProcedimiento::all();
 
         return view("procedimientos.tipoProcedimiento.index", compact("tipoProcedimiento"));
     }

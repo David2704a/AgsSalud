@@ -95,7 +95,7 @@
                 </div>
 
                 <label for="idResponsableEntrega">Responsable Entrega</label>
-                <select name="idResponsableEntrega" id="idResponsableEntrega" disabled>
+                <select name="idResponsableEntrega" id="idResponsableEntrega" >
                     <option value="">Seleccionar una opción</option>
                     @foreach ($usuariosEntrega as $usuario)
                         <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
@@ -153,7 +153,6 @@
 
         <script>
             function changeElemento() {
-                console.log('aooloo');
                 var idElemento = $('#idElemento').val();
 
                 $.ajax({
@@ -163,8 +162,6 @@
                         idElemento: idElemento
                     },
                     success: function(data) {
-
-                        console.log(data, 'dataaaaaa');
                         $('#idResponsableEntrega').empty();
                         $('#idResponsableEntrega').append('<option value="">Seleccionar una opción</option>');
 

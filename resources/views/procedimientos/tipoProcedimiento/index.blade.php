@@ -6,8 +6,12 @@
 
 <link rel="stylesheet" href="{{asset('/css/tipoProcedimiento/tipoProcedimiento.css')}}">
 <script src="{{asset('js/tipoProcedimiento/tipoProcedimiento.js')}}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 @endsection
 @section('content')
 <div class="content2">
@@ -46,12 +50,12 @@
 @endif
 
     <div class="table-container">
-        <div class="search-container">
+        {{-- <div class="search-container">
             <input type="text" id="search-input" placeholder="Buscar...">
             <button><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
-    <div class="table">
-    <table>
+        </div> --}}
+    <div class="table tableTipoP">
+    <table id="tableTipoP">
         <thead>
             <th>
                 ID
@@ -112,9 +116,9 @@
 
     </div>
     </div>
-    <div class="pagination">
+    {{-- <div class="pagination">
         {{ $tipoProcedimiento->links('pagination.custom') }}
-    </div>
+    </div> --}}
 
     <!-- Modal -->
     <div id="myModal" class="modal">
@@ -131,4 +135,9 @@
         </div>
     </div>
 </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 @endsection

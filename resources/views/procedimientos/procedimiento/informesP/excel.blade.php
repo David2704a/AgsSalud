@@ -11,8 +11,7 @@
         <tr>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ID</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>FECHA DE PRESTAMO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>DISPOSITIVO</b></th>
-            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>CANTIDAD</b></th>
+            <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ID DISPOSITIVO</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>CARACTERISTICAS</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ESTADO</b></th>
             <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ENTREGA</b></th>
@@ -34,34 +33,31 @@
                         {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica'}}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->elemento->categoria->nombre }}
+                        {{ $procedimiento->nameCategoria }}
                     </td>
                     <td style="border: 1px solid black;">
-                        1
+                        {{ $procedimiento->id_dispo ? $procedimiento->id_dispo : 'NO APLICA'}}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->elemento->idElemento }}
+                        {{ $procedimiento->estado ? $procedimiento->estado : 'NO APLICA'}}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->elemento->estado->estado}}
+                        {{ $procedimiento->nameEntrega ? $procedimiento->nameEntrega : 'NO APLICA' }}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
+                        {{ $procedimiento->nameRecibe ? $procedimiento->nameRecibe : 'NO APLICA' }}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
+                        {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'NO APLICA' }}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->fechaFin }}
+                        {{ $procedimiento->nameRecibeDev ? $procedimiento->nameRecibeDev : 'NO APLICA' }}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'No aplica' }}
+                        {{ $procedimiento->nameEntregaDev ? $procedimiento->nameEntregaDev : 'NO APLICA' }}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'No aplica' }}
-                    </td>
-                    <td style="border: 1px solid black;">
-                        {{ $procedimiento->observacion }}
+                        {{ $procedimiento->observacion ? $procedimiento->observacion : 'NO APLICA' }}
                     </td>
                 </tr>
             @endforeach

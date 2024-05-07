@@ -242,10 +242,10 @@ class ElementoController extends Controller
             'ram' => $request->filled('ram') ? $request->ram : 'NO APLICA',
             'disco_duro' => $request->filled('disco_duro') ? $request->disco_duro : 'NO APLICA',
             'tarjeta_grafica' => $request->filled('tarjeta_grafica') ? $request->tarjeta_grafica : 'NO APLICA',
-            'modelo' => $request->filled('modelo') ? $request->modelo : null,
-            'garantia' => $request->filled('garantia') ? $request->garantia : null,
-            'cantidad' => $request->filled('cantidad') ? $request->cantidad : null,
-            'descripcion' => $request->filled('descripcion') ? $request->descripcion : null,
+            'modelo' => $request->filled('modelo') ? $request->modelo : 'NO APLICA',
+            'garantia' => $request->filled('garantia') ? $request->garantia : 'NO APLICA',
+            'cantidad' => $request->filled('cantidad') ? $request->cantidad : 'NO APLICA',
+            'descripcion' => $request->filled('descripcion') ? $request->descripcion : 'NO APLICA',
         ];
 
         // Buscar el elemento por su ID
@@ -257,7 +257,7 @@ class ElementoController extends Controller
         // Redirigir con un mensaje de éxito
         return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
     }
-    
+
     public function destroy($id){
         Elemento::find($id)->delete();
         return redirect()->route('elementos.index')->with('success','Elemento eliminado correctamente');
@@ -331,9 +331,9 @@ class ElementoController extends Controller
     public function elementoQR(string $id_dispo)
     {
         $elemento = DB::table('elemento')->where('id_dispo',$id_dispo)
-                    ->join('categoria','categoria.idCategoria','elemento.idCategoria')
-                    ->join('users','users.id','elemento.idUsuario')
-                    ->join('persona','persona.id','users.idPersona')
+                    ->leftJoin('categoria','categoria.idCategoria','elemento.idCategoria')
+                    ->leftJoin('users','users.id','elemento.idUsuario')
+                    ->leftJoin('persona','persona.id','users.idPersona')
                     ->first();
 
         return view('Qr.elemento-qr',compact('elemento'));

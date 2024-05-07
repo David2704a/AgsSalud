@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('/css/elemento/elemento.css') }}">
     <script src="{{ asset('js/elemento/elemento.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script> --}}
 
 
 
@@ -180,9 +180,9 @@
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-    $('#tableElementos').DataTable();
-});
+//         $(document).ready(function() {
+//     $('#tableElementos').DataTable();
+// });
     </script>
 @endsection
 

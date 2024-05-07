@@ -2,6 +2,7 @@
 @if ($procedimientos->count() > 0)
     <table>
         <tbody>
+            {{-- @dd($procedimientos) --}}
             @foreach ($procedimientos as $procedimiento)
                 <tr>
                     <td>
@@ -42,7 +43,8 @@
                     <td>
                         @if(auth()->user()->hasRole(['superAdmin','administador']))
                         <a class="edit-button"
-                            href="{{ route('editProcedimiento', $procedimientos->idProcedimiento) }}">
+                            href="{{ route('editProcedimiento', $procedimientos->idProcedimiento) }}"
+                            >
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         @endif

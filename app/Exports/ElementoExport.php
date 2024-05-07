@@ -20,41 +20,26 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
 {
 
 
-    protected $filtros;
+    protected $data;
 
-    public function __construct($filtros)
+    public function __construct($data)
     {
-        $this->filtros = $filtros;
+        $this->data = $data;
     }
 
     public function view(): View
     {
-        // Inicializar la consulta sin filtro
-        $query = Elemento::query();
+            // dd($this->data);
+            $data = [];
 
-        // Aplicar los filtros proporcionados
-        foreach ($this->filtros as $clave => $valor) {
-            if ($valor) {
-                if ($clave === 'idTipoProcedimiento') {
-                    // Si es el filtro por idTipoProcedimiento, aplicar la condición en la relación
-                    $query->whereHas('procedimiento.tipoProcedimiento', function ($subquery) use ($valor) {
-                        $subquery->where('idTipoProcedimiento', $valor);
-                    });
-                } elseif ($clave === 'idElemento') {
-                    // Si es el filtro por nombreProcedimiento, aplicar la condición en el modelo principal
-                    $query->where('idElemento', 'like', "%$valor%");
-                } else {
-                    $query->where($clave, $valor);
-                }
+            foreach ($this->data as $item) {
+                $obj = (object) $item;
+                $data[] = $obj;
             }
-        }
 
-        // Obtener los resultados
-        $elementos = $query->get();
-
-
+            // dd($data);
         return view('elementos.elemento.Informes.excel', [
-            'elementos' => $elementos,
+            'elementos' => $data,
         ]);
     }
 
@@ -84,7 +69,7 @@ class ElementoExport implements  FromView, ShouldAutoSize, WithEvents ,WithStyle
 
 
     public function registerEvents(): array
-    {  
+    {
 
         return [
             AfterSheet::class => function (AfterSheet $event) {

@@ -34,7 +34,6 @@
     <tbody>
         @foreach ($elementos as $elemento)
 
-        @dd($elemento)
                 <tr>
                     <td style="border: 1px solid black;">{{$elemento->id_dispo ? $elemento->id_dispo : 'No aplica'}}</td>
                     <td style="border: 1px solid black;">{{ $elemento->categoria->nombre ?? 'No aplica' }}</td>
