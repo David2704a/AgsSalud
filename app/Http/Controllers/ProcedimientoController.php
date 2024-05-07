@@ -19,7 +19,8 @@ class ProcedimientoController extends Controller
     public function index(Request $request)
     {
 
-        $procedimiento = Procedimiento::paginate(10);
+        // $procedimiento = Procedimiento::paginate(10);
+        $procedimiento = Procedimiento::all();
 
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }

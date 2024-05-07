@@ -12,7 +12,8 @@ class EstadoProcedimientoController extends Controller
      */
     public function index()
     {
-        $estadoProcedimiento = EstadoProcedimiento::paginate(10);
+        // $estadoProcedimiento = EstadoProcedimiento::paginate(10);
+        $estadoProcedimiento = EstadoProcedimiento::all();
 
         return view("procedimientos.estadoProcedimiento.index", compact("estadoProcedimiento"));
     }

@@ -153,7 +153,6 @@
 
         <script>
             function changeElemento() {
-                console.log('aooloo');
                 var idElemento = $('#idElemento').val();
 
                 $.ajax({
@@ -163,8 +162,6 @@
                         idElemento: idElemento
                     },
                     success: function(data) {
-
-                        console.log(data, 'dataaaaaa');
                         $('#idResponsableEntrega').empty();
                         $('#idResponsableEntrega').append('<option value="">Seleccionar una opción</option>');
 

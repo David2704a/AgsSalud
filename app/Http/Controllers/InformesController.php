@@ -32,7 +32,8 @@ class InformesController extends Controller
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
         $tipoProcedimientos = TipoProcedimiento::all();
-        $procedimientos = Procedimiento::paginate(10);
+        // $procedimientos = Procedimiento::paginate(10);
+        $procedimientos = Procedimiento::all();
         $estadoProcedimientos = EstadoProcedimiento::all();
         $usuarios = User::all();
         return view('reportes.index', compact('elementos', 'estadosElementos', 'tipoElementos', 'tipoProcedimientos', 'categorias', 'procedimientos', 'usuarios', 'estadoProcedimientos', 'elementos2'));

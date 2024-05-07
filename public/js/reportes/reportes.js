@@ -262,7 +262,6 @@ function filtroProcedimientos() {
         'fechaInicio': fechaInicio,
         'fechaFin': fechaFin,
     }
-    console.log(data);
     const datos = JSON.stringify(data);
 
     $.ajax({
