@@ -144,15 +144,6 @@
         </div>
 
         <div class="form-part" id="parte4">
-
-            {{-- <label for="idTipoElemento">Tipo de elemento</label>
-            <select name="idTipoElemento" id="idTipoElemento" class="input">
-                <option value="">Seleccionar el tipo de elemento</option>
-                @foreach ($tipoElementos as $tipo)
-                    <option value="{{ $tipo->idTipoElemento}}">{{ $tipo->tipo}}
-                @endforeach
-            </select> --}}
-
             <label for="idCategoria">Categoria</label>
             <select name="idCategoria" id="idCategoria" class="input" >
                 <option value="">Seleccionar la Categoria </option>
@@ -171,7 +162,7 @@
 
             <label for="idUsuario">Asignado A:</label>
             <select name="idUsuario" id="idUsuario" class="input">
-                <option value="">Seleccionar una opcion</option>
+                <option value="">Seleccionar una opción</option>
                 @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name}}
                 @endforeach

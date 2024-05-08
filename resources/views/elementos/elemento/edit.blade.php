@@ -122,7 +122,7 @@
             @if($elemento->user)
                 <option selected value="{{ $elemento->user->id }}">{{ $elemento->user->name }}</option>
             @endif
-            <option>Seleccione..</option>
+            <option value="">Sin asignar</option>
             @foreach ($users as $user)
                 <option value="{{$user->id }}">{{ $user->name}}</option>
             @endforeach
