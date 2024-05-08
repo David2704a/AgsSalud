@@ -154,10 +154,10 @@ class InformesController extends Controller
 
         $datos = json_decode($request->input('datos'), true);
         // dd($datos);
-
+        $tipo = 'Prestamo';
         $resultado = DB::table('procedimiento')
             ->leftJoin('tipoProcedimiento','procedimiento.idTipoProcedimiento','tipoProcedimiento.idTipoProcedimiento')
-            ->where('procedimiento.idTipoprocedimiento', 3)
+            ->where('tipoProcedimiento.tipo', $tipo)
             ->leftJoin('users as userEntrega', 'procedimiento.idResponsableEntrega', 'userEntrega.id')
             ->leftJoin('users', 'procedimiento.idResponsableRecibe', 'users.id')
             ->leftJoin('elemento', 'procedimiento.idElemento', 'elemento.idElemento')

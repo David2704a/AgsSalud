@@ -308,6 +308,7 @@ function filtroProcedimientos() {
 
 
 function exportarReportePro(data) {
+    $('#loading-overlay').show();
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     var jsonData = escapeHtml(JSON.stringify(data));
 
@@ -318,6 +319,9 @@ function exportarReportePro(data) {
     $(document.body).append(form);
     form.submit();
     form.remove();
+    setTimeout(function() {
+        $('#loading-overlay').hide();
+    }, 1000);
 }
 /*
 ================================================================
