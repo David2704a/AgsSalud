@@ -145,13 +145,13 @@
 
         <div class="form-part" id="parte4">
 
-            <label for="idTipoElemento">Tipo de elemento</label>
+            {{-- <label for="idTipoElemento">Tipo de elemento</label>
             <select name="idTipoElemento" id="idTipoElemento" class="input">
                 <option value="">Seleccionar el tipo de elemento</option>
                 @foreach ($tipoElementos as $tipo)
                     <option value="{{ $tipo->idTipoElemento}}">{{ $tipo->tipo}}
                 @endforeach
-            </select>
+            </select> --}}
 
             <label for="idCategoria">Categoria</label>
             <select name="idCategoria" id="idCategoria" class="input" >
