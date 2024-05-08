@@ -204,237 +204,7 @@ class almacenadoTmpController extends Controller
         return redirect()->route('elementos.index');
     }
 
-    // public function importarExcel(Request $request)
-    // {
-    //     almacenadoTmp::truncate();
-    //     elementonoid::truncate();
-    //     sincodTmp::truncate();
-
-
-
-    //     // Validar si se envió un archivo
-    //     if (!$request->hasFile('archivo')) {
-    //         return response()->json(['error' => 'No se envió ningún archivo'], 400);
-    //     }
-
-    //     // Obtener el archivo enviado
-    //     $file = $request->file('archivo');
-
-    //     // Validar el tipo de archivo (se espera un archivo XLSX)
-    //     if ($file->getClientOriginalExtension() !== 'xlsx') {
-    //         //  return response()->json(['error' => 'Extensión incompatible. El archivo debe ser de tipo XLSX'], 400);
-    //         return redirect()->route('elementos.create')->with('error', 'Extensión incompatible. El archivo debe ser de tipo XLSX');
-
-    //     }
-
-    //     // Crear una instancia del lector de archivos de Excel
-    //     $reader = IOFactory::createReader('Xlsx');
-
-    //     // Cargar el archivo en un objeto Spreadsheet
-    //     $documento = $reader->load($file->getPathname());
-
-    //     // Iniciar una transacción en la base de datos
-    //     DB::beginTransaction();
-
-    //     try {
-    //         $cambiarOrden = false; // Variable para indicar si se debe cambiar el orden de las columnas
-    //         // Iterar por cada hoja del documento (máximo 15 hojas)
-    //         for ($i = 0; $i < min(15, $documento->getSheetCount()); $i++) {
-    //             $hoja = $documento->getSheet($i);
-
-    //             // Verificar si es la hoja 13 para cambiar el orden de las columnas
-    //             if ($i == 12) {
-    //                 $cambiarOrden = true;
-    //                 $filaInicio = 3; // Cambiar la fila de inicio a la fila 3 en la hoja 13
-    //             } else {
-    //                 $cambiarOrden = false; // Restablecer la variable para otras hojas
-    //                 $filaInicio = 8; // Fila de inicio predeterminada para las demás hojas
-    //             }
-
-    //             // Iterar por cada fila en la hoja actual
-    //             foreach ($hoja->getRowIterator($filaInicio) as $fila) {
-    //                 $datosFila = [];
-
-    //                 // Iterar por cada celda en la fila actual
-    //                 foreach ($fila->getCellIterator() as $celda) {
-    //                     // Identificar el tipo de dato en la celda
-    //                     $tipoDato = $celda->getDataType();
-
-    //                     // Obtener el valor de la celda
-    //                     $valorCelda = $celda->getValue();
-
-    //                     // Procesar el valor según el tipo de dato
-    //                     if ($tipoDato === 'n' && \PhpOffice\PhpSpreadsheet\Shared\Date::isDateTime($celda)) {
-    //                         // Si es una fecha, parsear con Carbon
-    //                         $fecha = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($valorCelda));
-    //                         $datosFila[] = $fecha->toDateString();
-    //                     } else {
-    //                         // En otros casos (texto, números, fórmulas, etc.), agregar el valor original
-    //                         $datosFila[] = $valorCelda;
-    //                     }
-    //                 }
-                    
-    //                 if (empty($datosFila[1])) {
-    //                     // Omitir la fila si 'dispositivo' está vacío y pasar a la siguiente iteración del bucle
-    //                     continue;
-    //                 }
-                    
-
-    //                 $nombresin = [];
-
-    //                 $ciclo = explode(" ", $datosFila[10]);
-    //                 $j = 0;
-
-    //                 for($i = 0; $i < count($ciclo); $i++){
-    //                     switch ($ciclo) {
-    //                         case $ciclo[$i] == "" || $ciclo[$i] == " " || $ciclo[$i] == "  ":
-    //                             /**Absolutamente nada */
-    //                             break;
-    //                         case $ciclo[$i] !== "" || $ciclo[$i] !== " " || $ciclo[$i] !== "  ":
-    //                             $nombresin[$j] = $ciclo[$i];
-    //                             $j++;
-    //                             break;
-    //                         default:
-    //                             # code...
-    //                             break;
-    //                     }
-    //                 }
-
-    //                 $cadenaNombres = implode(" ", $nombresin);
-    //                 // dd($cadenaNombres);
-
-    //                 // Crear una instancia de AlmacenadoTmp y asignar los valores de las celdas
-    //                 $almacenadoTmp = new almacenadoTmp();
-
-    //                 // Llenar el modelo AlmacenadoTmp según el orden de las columnas
-                    // if ($cambiarOrden) {
-                    //     $almacenadoTmp->fill([
-                    //         'dispositivo' => $datosFila[1],
-                    //         'marca' => $datosFila[2],
-                    //         'referencia' => $datosFila[3],
-                    //         'observacion' => $datosFila[4],
-                    //         'cantidad' => $datosFila[0], // Cambiar la columna 'cantidad' a la posición 0
-                    //     ]);
-                    // } else {
-    //                     $almacenadoTmp->fill([
-    //                         'id_dispo' => $datosFila[0],
-    //                         'dispositivo' => $datosFila[1],
-    //                         'marca' => $datosFila[2],
-    //                         'referencia' => $datosFila[3],
-    //                         'serial' => $datosFila[4],
-    //                         'procesador' => $datosFila[5],
-    //                         'ram' => $datosFila[6],
-    //                         'disco_duro' => $datosFila[7],
-    //                         'tarjeta_grafica' => $datosFila[8],
-    //                         'documento' => $datosFila[9],
-    //                         'nombres_apellidos' => $cadenaNombres,
-    //                         'fecha_compra' => $datosFila[11],
-    //                         'garantia' => $datosFila[12],
-    //                         'numero_factura' => $datosFila[13],
-    //                         'proveedor' => $datosFila[14],
-    //                         'estado' => $datosFila[15],
-    //                         'observacion' => $datosFila[16],
-    //                         // 'valor' => $datosFila[17], // La columna 'valor' no se usa en esta versión
-    //                     ]);
-
-    //                 }
-    //                 // Guardar el modelo en la base de datos
-    //                 // dd($almacenadoTmp);
-    //                 $almacenadoTmp->save();
-    //             }
-    //             // Hacer un commit después de procesar cada hoja
-    //             DB::commit();
-    //             // Reiniciar la transacción para la próxima hoja
-    //             DB::beginTransaction();
-    //         }
-    //         // Confirmar la transacción final fuera del bucle
-    //         DB::commit();
-
-    //         if ($almacenadoTmp->save()) {
-    //             $this->asignarID_DISPO_UPS();
-    //             $this->asignarID_DISPO_ADAPTADORES_RED();
-    //             $this->asignarID_DISPO();
-    //             $this->asignarID_DISPO_PC_PORTATIL();
-    //             $this->asignarID_DISPO_CARGADOR_PORTATIL();
-    //             $this->asignarID_DISPO_IMPRESORA();
-    //             $this->asignarID_DISPO_MODEM_WIFI();
-    //             $this->asignarID_DISPO_ROUTER();
-    //             $this->asignarID_DISPO_DVR();
-    //             $this->asignarID_DISPO_SWITCH();
-    //             $this->asignarID_DISPO_DIADEMA();
-    //             $this->asignarID_DISPO_TECLADO();
-    //             $this->asignarID_DISPO_PADMOUSE();
-    //             $this->asignarID_DISPO_BASEREFRIGERANTE();
-    //             $this->asignarID_DISPO_MOUSE();
-    //             $this->asignarID_DISPO_MONITOR();
-
-    //             // Obtener todos los registros con id_dispo que contienen "codigo" o "$SIN CODIGO"
-    //             $registrosConCodigoSinCodigo = AlmacenadoTmp::where(function ($query) {
-    //                 $query->where('id_dispo', 'like', 'codigo%')
-    //                     ->orWhere('id_dispo', 'like', '%SIN CODIGO%');
-    //             })->get();
-
-    //             // Si hay registros que cumplan la condición
-    //             if ($registrosConCodigoSinCodigo->isNotEmpty()) {
-    //                 // Iterar sobre los registros y transferirlos a la tabla sincodTmp
-    //                 foreach ($registrosConCodigoSinCodigo as $registro) {
-    //                     $nuevoRegistro = new sincodTmp();
-    //                     $nuevoRegistro->id_dispo = $registro->id_dispo;
-    //                     $nuevoRegistro->dispositivo = $registro->dispositivo;
-    //                     $nuevoRegistro->marca = $registro->marca;
-    //                     $nuevoRegistro->referencia = $registro->referencia;
-    //                     $nuevoRegistro->serial = $registro->serial;
-    //                     $nuevoRegistro->procesador = $registro->procesador;
-    //                     $nuevoRegistro->ram = $registro->ram;
-    //                     $nuevoRegistro->disco_duro = $registro->disco_duro;
-    //                     $nuevoRegistro->tarjeta_grafica = $registro->tarjeta_grafica;
-    //                     $nuevoRegistro->documento = $registro->documento;
-    //                     $nuevoRegistro->nombres_apellidos = $registro->nombres_apellidos;
-    //                     $nuevoRegistro->fecha_compra = $registro->fecha_compra;
-    //                     $nuevoRegistro->garantia = $registro->garantia;
-    //                     $nuevoRegistro->numero_factura = $registro->numero_factura;
-    //                     $nuevoRegistro->proveedor = $registro->proveedor;
-    //                     $nuevoRegistro->estado = $registro->estado;
-    //                     $nuevoRegistro->observacion = $registro->observacion;
-    //                     $nuevoRegistro->cantidad = $registro->cantidad; // Asignar el campo 'cantidad'
-    //                     $nuevoRegistro->save();
-    //                 }
-    //                 // Eliminar los registros transferidos de la tabla AlmacenadoTmp
-    //                 AlmacenadoTmp::whereIn('id', $registrosConCodigoSinCodigo->pluck('id'))->delete();
-    //             }
-    //             // Obtener registros de AlmacenadoTmp que cumplan la condición
-    //             $registrosSinIdDispo = AlmacenadoTmp::whereNull('id_dispo')->get();
-
-    //             // Si hay registros que cumplan la condición
-    //             if ($registrosSinIdDispo->isNotEmpty()) {
-    //                 // Iterar sobre los registros y transferirlos a la tabla elementonoid
-    //                 foreach ($registrosSinIdDispo as $registro) {
-    //                     $nuevoElemento = new elementonoid();
-    //                     $nuevoElemento->cantidad = $registro->cantidad;
-    //                     $nuevoElemento->dispositivo = $registro->dispositivo;
-    //                     $nuevoElemento->marca = $registro->marca;
-    //                     $nuevoElemento->referencia = $registro->referencia;
-    //                     $nuevoElemento->observacion = $registro->observacion;
-    //                     $nuevoElemento->save();
-    //                 }
-    //                 // Eliminar los registros transferidos de la tabla AlmacenadoTmp
-    //                 AlmacenadoTmp::whereIn('id', $registrosSinIdDispo->pluck('id'))->delete();
-    //             }
-    //             return redirect()->route('elementos.create')->with('success', 'Archivo importado correctamente por favor continua con el paso numero 2');
-
-    //         } else {
-    //             // Si no se guarda el modelo correctamente, lanzar un error
-    //             throw new \Exception("Error al guardar el modelo en la base de datos");
-    //         }
-    //     } catch (\Exception $e) {
-    //         // Revertir la transacción en caso de error
-    //         DB::rollBack();
-
-    //         return redirect()->route('elementos.create')->with('error', 'Error rectifica el archivo que estas cargando ');
-    //         //  return response()->json(['success' => false, 'error' => 'Error durante la importación', 'details' => $e->getMessage()], 500);
-    //     }
-
-    // }
+   
 
     public function importarExcel(Request $request)
     {
@@ -511,7 +281,6 @@ class almacenadoTmpController extends Controller
     
                             // Procesar el valor y agregarlo a los datos de la fila
                             $datosFila[] = $valorCelda;
-                            // dd($valorCelda);
                         }
     
                         // Omitir la fila si 'dispositivo' está vacío
@@ -540,7 +309,6 @@ class almacenadoTmpController extends Controller
                             'disco_duro', 'tarjeta_grafica', 'documento', 'nombres_apellidos', 'fecha_compra',
                             'garantia', 'numero_factura', 'proveedor', 'estado', 'observacion'
                         ];
-                        // dd($columnas);
 
                         foreach ($columnas as $index => $columna) {
                             if ($cambiarOrden && $columna === 'cantidad') {
@@ -589,10 +357,7 @@ class almacenadoTmpController extends Controller
             DB::commit();
 
             if ($almacenadoTmp->save()) {
-                // dd($almacenadoTmp);
                 $tTmp = AlmacenadoTmp::get();
-                // dd($tTmp[0]);
-                // dd('');
                 foreach ($tTmp as $tTm) {
                     # code...
                     switch ($tTm->dispositivo) {
@@ -666,7 +431,6 @@ class almacenadoTmpController extends Controller
                     }
                 }
 
-                // dd('frena');
                 // Obtener todos los registros con id_dispo que contienen "codigo" o "$SIN CODIGO"
                 $registrosConCodigoSinCodigo = AlmacenadoTmp::where(function ($query) {
                     $query->where('id_dispo', 'like', 'codigo%')
@@ -1132,7 +896,6 @@ class almacenadoTmpController extends Controller
         }
 
         $paqueteConsecutivo = isset($registroscompletosPADMOUSEERGONOMICO) ? explode("'",$registroscompletosPADMOUSEERGONOMICO->id_dispo) : NULL;
-        // dd($paqueteConsecutivo);
         if (!isset($paqueteConsecutivo)) {
             $consecutivo = 1;
             for ($i = 0; $i < count($registrosActualizarPADMOUSEERGONOMICO); $i++) {
