@@ -10,7 +10,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
+    { 
         Schema::create('elemento', function (Blueprint $table) {
             $table->bigIncrements('idElemento');
             $table->string('id_dispo')->nullable(); //hace rferencia a id del excel
