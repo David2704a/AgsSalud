@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('factura', function (Blueprint $table) {
             $table->bigIncrements('idFactura');
-            $table->string('codigoFactura')->nullable();
+            $table->string('codigoFactura')->unique();
             $table->date('fechaCompra')->nullable();
 
             $table->unsignedBigInteger('idProveedor');

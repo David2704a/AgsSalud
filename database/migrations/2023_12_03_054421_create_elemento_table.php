@@ -13,7 +13,7 @@ return new class extends Migration
     { 
         Schema::create('elemento', function (Blueprint $table) {
             $table->bigIncrements('idElemento');
-            $table->string('id_dispo')->nullable(); //hace rferencia a id del excel
+            $table->string('id_dispo')->unique(); //hace rferencia a id del excel
             $table->string('marca')->nullable(); // hace referencia a la columna marca de excel
             $table->string('referencia')->nullable();// hace referencia a la columna referecia del excel
             $table->string('serial')->nullable();// hace referencia a la columna serial del excel

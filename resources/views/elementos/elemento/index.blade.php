@@ -19,7 +19,8 @@
 
 
         <div class="button-container">
-            <a href="{{ url('/dashboard') }}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i>
+            <a href="{{ url('/dashboard') }}" class="button-izquierda arrow-left"><i
+                    class="fa-solid fa-circle-arrow-left"></i>
                 Regresar</a>
             @if (auth()->user()->hasRole(['superAdmin', 'administrador', 'tecnico']))
                 <a href="{{ route('elementos.create') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
@@ -27,7 +28,9 @@
             @endif
 
             @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                <p><a href="{{ url('/lista-qr') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="_blank">QR'S</a></p>
+                <p><a href="{{ url('/lista-qr') }}"
+                        class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        target="_blank">QR'S</a></p>
             @endif
         </div>
         <div class="menu-container">
@@ -103,12 +106,12 @@
                     </thead>
                     <tbody>
                         @foreach ($elementos as $elemento)
-                        {{-- @dd($elemento) --}}
+                            {{-- @dd($elemento) --}}
                             {{-- @dd($elemento->user->name) --}}
 
                             {{-- @dd($elementos) --}}
                             @if ($elemento->id_disp0 == "900237674'7'E.T. EN. U'12")
-                            @dd($elemento)
+                                @dd($elemento)
                             @endif
                             <tr>
                                 <td>{{ $elemento->idElemento ? $elemento->idElemento : 'NO APLICA' }}</td>
@@ -177,9 +180,8 @@
         </div>
     </div>
     <script>
-//         $(document).ready(function() {
-//     $('#tableElementos').DataTable();
-// });
+        //         $(document).ready(function() {
+        //     $('#tableElementos').DataTable();
+        // });
     </script>
 @endsection
-
