@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="{{ asset('/css/elemento/elemento.css') }}">
     <script src="{{ asset('js/elemento/elemento.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{{-- <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script> --}}
-
-
 
 @endsection
 @section('content')
@@ -56,7 +53,7 @@
 
 
         {{-- <a href="{{ url('excel?idEstadoEquipo=1') }}" class="btn btn-success btn-lg" target="_blank" title="Ver Excel"><i
-    class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i></a> --}}
+        class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i></a> --}}
 
 
 
