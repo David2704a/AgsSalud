@@ -12,9 +12,9 @@
 
 
 @endsection
+@include('components.loader-component')
 <div class="content2">
 
-    @include('components.loader-component')
 
     <div class="container">
         <div class="menu-container">
@@ -249,8 +249,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($procedimientos as $procedimiento)
-                                    @if ($procedimiento->idTipoProcedimiento == 3)
+                                {{-- @foreach ($procedimientos as $procedimiento)
+                                    @if ($procedimiento->idTipoProcedimiento == 'Prestamo')
                                         <tr data-idprocedimiento="{{ $procedimiento->idProcedimiento }}"
                                             data-fechainicio="{{ $procedimiento->fechaInicio ?: '' }}"
                                             data-idresponsableentrega="{{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->id : '' }}"
@@ -291,7 +291,7 @@
                                             </td>
                                         </tr>
                                     @endif
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>

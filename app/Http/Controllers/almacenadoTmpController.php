@@ -35,18 +35,6 @@ class almacenadoTmpController extends Controller
      * @author Vanesa Galindez
      */
 
-//      public function ejecutarProcedimiento()
-//      {
-//          DB::select('CALL almacenadoTmp()');
-
-//         // Muestra una notificación utilizando toastr
-//     // Muestra una notificación utilizando la sesión
-//     Session::flash('success', 'Operación realizada con éxito!');
-
-//     // Redirige a la vista o ruta que desees
-//     return redirect()->route('elementos.index'); // Cambia 'nombre_de_la_ruta' por tu ruta deseada
-// }
-
     public function ejecutarProcedimiento()
     {
         $procedureExists = DB::select("SHOW PROCEDURE STATUS WHERE Db = DATABASE() AND Name = 'almacenadoTmp'");
@@ -55,14 +43,17 @@ class almacenadoTmpController extends Controller
             CREATE PROCEDURE `almacenadoTmp`()
             BEGIN
 
-                -- Inserta proveedores evitando duplicados
-                INSERT IGNORE INTO proveedor (nombre)
+                -- Inserta proveedores evitando duplicados y registros nulos
+                INSERT INTO proveedor (nombre)
                 SELECT DISTINCT TRIM(almacenadoTmp.proveedor) AS proveedor
                 FROM almacenadoTmp
                 LEFT JOIN proveedor ON TRIM(almacenadoTmp.proveedor) = TRIM(proveedor.nombre)
-                WHERE proveedor.nombre IS NULL AND almacenadoTmp.proveedor IS NOT NULL;
-
-
+                WHERE 
+                    TRIM(almacenadoTmp.proveedor) IS NOT NULL 
+                    AND TRIM(almacenadoTmp.proveedor) <> '' 
+                    AND TRIM(almacenadoTmp.proveedor) <> 'NO REGISTRA'
+                    AND proveedor.nombre IS NULL;
+                
                 -- Inserta en la tabla 'factura' evitando duplicados
                 INSERT IGNORE INTO factura (idProveedor, codigoFactura, fechaCompra)
                 SELECT p.idProveedor, a.numero_factura,
@@ -86,22 +77,26 @@ class almacenadoTmpController extends Controller
                 WHERE f1.codigoFactura = 'NO REGISTRA'
                 AND f1.idProveedor IS NOT NULL
                 AND f1.idFactura > f2.idFactura;
-
+            
+                
                 -- Inserta en la tabla 'categoria' evitando duplicados
                 INSERT INTO categoria (nombre)
                 SELECT DISTINCT TRIM(dispositivo) AS nombre
                 FROM almacenadoTmp a
                 LEFT JOIN categoria c ON TRIM(a.dispositivo) = TRIM(c.nombre)
                 WHERE c.nombre IS NULL AND TRIM(a.dispositivo) IS NOT NULL;
-
-                -- Inserta en la tabla 'estadoElemento' evitando duplicados
+                
+                -- Inserta en la tabla 'estadoElemento' evitando duplicados, valores nulos, en blanco y guiones
                 INSERT INTO estadoElemento (estado)
                 SELECT DISTINCT TRIM(a.estado) AS estado
                 FROM almacenadoTmp a
                 LEFT JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
-                WHERE e.estado IS NULL AND TRIM(a.estado) IS NOT NULL;
-                
-                
+                WHERE 
+                    e.estado IS NULL 
+                    AND TRIM(a.estado) IS NOT NULL 
+                    AND TRIM(a.estado) <> '' 
+                    AND TRIM(a.estado) <> '-';           
+                                
                 INSERT IGNORE INTO persona (nombre1, nombre2, apellido1, apellido2, identificacion)
                 SELECT DISTINCT
                     CASE
@@ -135,7 +130,6 @@ class almacenadoTmpController extends Controller
                     AND nombres_apellidos NOT IN ('BAJA', 'LIBRE')
                     AND documento IS NOT NULL;
 
-
                 -- Inserta en la tabla 'users' evitando duplicados
                 INSERT IGNORE INTO users (name, email, password, idpersona, created_at, updated_at)
                 SELECT
@@ -162,12 +156,6 @@ class almacenadoTmpController extends Controller
                 WHERE p.nombre1 IS NOT NULL OR p.nombre2 IS NOT NULL OR p.apellido1 IS NOT NULL OR p.apellido2 IS NOT NULL
                 ON DUPLICATE KEY UPDATE idpersona = idpersona;
 
-                -- Eliminar registros existentes en elemento con el mismo id_dispo
-                -- Eliminar registros existentes en elemento con el mismo id_dispo
-                DELETE e FROM elemento e
-                WHERE e.id_dispo IN (SELECT a.id_dispo FROM almacenadoTmp a);
-
-                -- Insertar registros nuevos en elemento
                 INSERT INTO elemento (id_dispo, idCategoria, idEstadoEquipo, marca, referencia, serial, procesador, ram, disco_duro, tarjeta_grafica, descripcion, garantia, cantidad, idFactura, idUsuario)
                 SELECT
                     a.id_dispo, c.idCategoria, e.idEstadoE, a.marca, a.referencia, a.serial, a.procesador, a.ram, a.disco_duro, a.tarjeta_grafica, a.observacion, a.garantia, a.cantidad, f.idFactura,
@@ -177,10 +165,12 @@ class almacenadoTmpController extends Controller
                 LEFT JOIN estadoElemento e ON TRIM(a.estado) = TRIM(e.estado)
                 LEFT JOIN factura f ON TRIM(a.numero_factura) = TRIM(f.codigoFactura) AND CASE WHEN a.fecha_compra = 'NO REGISTRA' THEN NULL ELSE STR_TO_DATE(a.fecha_compra, '%Y-%m-%d') END = f.fechaCompra
                 LEFT JOIN persona p ON a.nombres_apellidos = CONCAT(p.nombre1, ' ', COALESCE(p.nombre2, ''), ' ', COALESCE(p.apellido1, ''), ' ', COALESCE(p.apellido2, ''))
-                LEFT JOIN users u ON p.id = u.idpersona;
-
+                LEFT JOIN users u ON p.id = u.idpersona
+                ON DUPLICATE KEY UPDATE idCategoria = VALUES(idCategoria), idEstadoEquipo = VALUES(idEstadoEquipo), marca = VALUES(marca), referencia = VALUES(referencia), serial = VALUES(serial), procesador = VALUES(procesador), ram = VALUES(ram), disco_duro = VALUES(disco_duro), tarjeta_grafica = VALUES(tarjeta_grafica), descripcion = VALUES(descripcion), garantia = VALUES(garantia), cantidad = VALUES(cantidad), idFactura = VALUES(idFactura), idUsuario = VALUES(idUsuario);
+                
                 -- Elimina los registros de la tabla temporal
                 DELETE FROM almacenadoTmp;
+            
 
             END
 
@@ -203,8 +193,6 @@ class almacenadoTmpController extends Controller
         // Redirige a la vista
         return redirect()->route('elementos.index');
     }
-
-   
 
     public function importarExcel(Request $request)
     {
@@ -276,11 +264,15 @@ class almacenadoTmpController extends Controller
                             // Obtener el valor de la celda
 
                             // $valorCelda = $celda->getValue();
+                            
                             // $valorCelda = trim($celda->getValue());
                             $valorCelda = trim($celda->getFormattedValue());
     
                             // Procesar el valor y agregarlo a los datos de la fila
                             $datosFila[] = $valorCelda;
+
+
+                            // dd($valorCelda);
                         }
     
                         // Omitir la fila si 'dispositivo' está vacío
@@ -309,6 +301,7 @@ class almacenadoTmpController extends Controller
                             'disco_duro', 'tarjeta_grafica', 'documento', 'nombres_apellidos', 'fecha_compra',
                             'garantia', 'numero_factura', 'proveedor', 'estado', 'observacion'
                         ];
+                        // dd($columnas);
 
                         foreach ($columnas as $index => $columna) {
                             if ($cambiarOrden && $columna === 'cantidad') {
@@ -357,15 +350,19 @@ class almacenadoTmpController extends Controller
             DB::commit();
 
             if ($almacenadoTmp->save()) {
+                // dd($almacenadoTmp);
                 $tTmp = AlmacenadoTmp::get();
+                // dd($tTmp[0]);
+           
                 foreach ($tTmp as $tTm) {
                     # code...
                     switch ($tTm->dispositivo) {
                         case $tTm->dispositivo == 'UPS':
                             $this->asignarID_DISPO_UPS();
+                                //  dd('');
                             break;
     
-                        case $tTm->dispositivo == 'ADAPTADORES DE RED':
+                        case $tTm->dispositivo == 'ADAPTADOR DE RED':
                             $this->asignarID_DISPO_ADAPTADORES_RED();
                             break;
     
@@ -431,6 +428,7 @@ class almacenadoTmpController extends Controller
                     }
                 }
 
+                // dd('frena');
                 // Obtener todos los registros con id_dispo que contienen "codigo" o "$SIN CODIGO"
                 $registrosConCodigoSinCodigo = AlmacenadoTmp::where(function ($query) {
                     $query->where('id_dispo', 'like', 'codigo%')
@@ -896,6 +894,7 @@ class almacenadoTmpController extends Controller
         }
 
         $paqueteConsecutivo = isset($registroscompletosPADMOUSEERGONOMICO) ? explode("'",$registroscompletosPADMOUSEERGONOMICO->id_dispo) : NULL;
+        // dd($paqueteConsecutivo);
         if (!isset($paqueteConsecutivo)) {
             $consecutivo = 1;
             for ($i = 0; $i < count($registrosActualizarPADMOUSEERGONOMICO); $i++) {
