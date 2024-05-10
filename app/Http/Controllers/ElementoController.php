@@ -224,7 +224,7 @@ class ElementoController extends Controller
             'referencia' => 'required',
             'serial' => 'required',
         ]);
-    
+
         // Establecer valores por defecto utilizando el operador de fusión de null
         $defaults = [
             'marca' => $request->marca ?? 'NO APLICA',
@@ -245,13 +245,13 @@ class ElementoController extends Controller
             ];
 
         // dd($request);
-    
+
         // Buscar el elemento por su ID
         $elemento = Elemento::findOrFail($idElemento);
-    
+
         // Actualizar los datos del elemento
         $updateResult = $elemento->update($defaults);
-    
+
         if ($updateResult) {
             // Redirigir con un mensaje de éxito si la actualización fue exitosa
             return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
@@ -346,7 +346,11 @@ class ElementoController extends Controller
     public function QRView()
     {
 
-        $datos = DB::table('elemento')->get();
+        $datos = DB::table('elemento')
+                    ->join('categoria','categoria.idCategoria','elemento.idCategoria')
+                    ->select('elemento.*','categoria.nombre')
+                    ->orderBy('elemento.idCategoria','ASC')->get();
+
         $pdf = Pdf::loadView('Qr.lista',compact('datos'));
         $pdf->setPaper('letter','landscape');
 
