@@ -15,7 +15,13 @@
 @include('components.loader-component')
 <div class="content2">
 
-
+    <div class="validaciones_title">
+        <div class="border-top-container"></div>
+        <div class="border-left-container"></div>
+        <div class="border-sup-container"></div>
+        <div class="border-right-container"></div>
+        <h3>REPORTES</h3>
+    </div>
     <div class="container">
         <div class="menu-container">
             <div class="menu-item active" onclick="cambiarContenido('elemento')">Elementos</div>
@@ -177,60 +183,60 @@
 
                     <div class="filtrosPrestamos">
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="idResponsableEntrega">Responsable de Entrega:</label>
-                            <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control inputsPrestamos"
-                                onchange="filtroProcedimientos()">
-                                <option value="">Todos las Personas</option>
-                                @foreach ($usuarios as $usuario)
-                                    <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="idResponsableRecibe">Responsable que Recibe:</label>
-                            <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control inputsPrestamos"
-                                onchange="filtroProcedimientos()">
-                                <option value="">Todos las Personas</option>
-                                @foreach ($usuarios as $usuario)
-                                    <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="idElemento">Elemento</label>
-                            <select class="selectElemento select2 inputsPrestamos" name="idProcedimiento" id="idProcedimiento "
-                                style="width: 100%" onchange="filtroProcedimientos()">
-                                <option value="">Seleccionar una opción</option>
-                                @foreach ($elementos2 as $elemento1)
-                                <option value="{{ $elemento1->id_dispo }}">{{ $elemento1->id_dispo }} -
-                                    {{ $elemento1->categoria->nombre }}</option>
-                            @endforeach
-                            </select>
-                        </div>
-                        <script>
-                            $(document).ready(function() {
-                                $('.select2').select2({
-                                    theme: null
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="idResponsableEntrega">Responsable de Entrega:</label>
+                                <select name="idResponsableEntrega" id="idResponsableEntrega"
+                                    class="form-control inputsPrestamos" onchange="filtroProcedimientos()">
+                                    <option value="">Todos las Personas</option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="idResponsableRecibe">Responsable que Recibe:</label>
+                                <select name="idResponsableRecibe" id="idResponsableRecibe"
+                                    class="form-control inputsPrestamos" onchange="filtroProcedimientos()">
+                                    <option value="">Todos las Personas</option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="idElemento">Elemento</label>
+                                <select class="selectElemento select2 inputsPrestamos" name="idProcedimiento"
+                                    id="idProcedimiento " style="width: 100%" onchange="filtroProcedimientos()">
+                                    <option value="">Seleccionar una opción</option>
+                                    @foreach ($elementos2 as $elemento1)
+                                        <option value="{{ $elemento1->id_dispo }}">{{ $elemento1->id_dispo }} -
+                                            {{ $elemento1->categoria->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $('.select2').select2({
+                                        theme: null
+                                    });
                                 });
-                            });
-                        </script>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" id="fechaInicioContainer">
-                            <label for="fechaInicio">Fecha de Inicio:</label>
-                            <input class="inputsPrestamos" type="date" name="fechaInicio" id="fechaInicio"
-                                onchange="filtroProcedimientos()">
+                            </script>
                         </div>
-                        <div class="form-group" id="fechaFinContainer">
-                            <label for="fechaFin">Fecha de Fin:</label>
-                            <input class="inputsPrestamos" type="date" name="fechaFin" id="fechaFin"
-                                onchange="filtroProcedimientos()">
+                        <div class="form-row">
+                            <div class="form-group" id="fechaInicioContainer">
+                                <label for="fechaInicio">Fecha de Inicio:</label>
+                                <input class="inputsPrestamos" type="date" name="fechaInicio" id="fechaInicio"
+                                    onchange="filtroProcedimientos()">
+                            </div>
+                            <div class="form-group" id="fechaFinContainer">
+                                <label for="fechaFin">Fecha de Fin:</label>
+                                <input class="inputsPrestamos" type="date" name="fechaFin" id="fechaFin"
+                                    onchange="filtroProcedimientos()">
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
                     <div class="tablePrestamos">
                         <table id="tablaReportesPrestamos">
                             <thead>

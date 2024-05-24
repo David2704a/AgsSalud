@@ -13,7 +13,7 @@
 
 @endsection
 @section('content')
-
+    
     <div class="content2">
         <div class="content" style="text-align: center">
             <h1 class="page-title">Elementos</h1>
