@@ -6,6 +6,7 @@
     font-size: 28px;
     color: #343D7C;
     margin-top: 2rem;
+    text-align: center;
 }
 
 .green-line {
@@ -383,11 +384,6 @@ FOOTER
 FILE EXCEL  CARGA Y TEXTO 
 ================================================================
 */
-
-
-input[type="file"] {
-    display: none;
-}
 
 .folder_open {
     display: inline-block;

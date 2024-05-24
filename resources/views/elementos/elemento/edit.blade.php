@@ -32,6 +32,7 @@
 </div>
 
 
+
     <form class="form" action="{{route('elementos.update', $elemento->idElemento)}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -80,10 +81,12 @@
 
         <label for="idEstadoEquipo">Estado del producto</label>
         <select name="idEstadoEquipo" id="idEstadoEquipo" class="input" >
+            @if($elemento->estado)
+                <option selected value="{{ $elemento->estado->idEstadoE }}">{{ $elemento->estado->estado }}</option>
+            @endif
             @foreach ($estados as $estado)
                 <option value="{{$estado->idEstadoE}}">{{ $estado->estado}}</option>
             @endforeach
-            <option value="">Seleccione una opcion</option>
         </select>
 
         <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
@@ -92,18 +95,11 @@
 
     <div class="form-part" id="parte4">
 
-
-
-        <label for="idTipoElemento">Tipo de elemento</label>
-        <select name="idTipoElemento" id="idTipoElemento" class="input" >
-            @foreach ($tipoElementos as $tipo)
-                <option value="{{ $tipo->idTipoElemento}}">{{ $tipo->tipo}}
-            @endforeach
-            <option value="">Seleccione una opcion</option>
-        </select>
-
         <label for="idCategoria">Categoria</label>
         <select name="idCategoria" id="idCategoria" class="input" >
+            @if($elemento->categoria)
+                <option selected value="{{ $elemento->categoria->idCategoria }}">{{ $elemento->categoria->nombre }}</option>
+            @endif
             @foreach ($categorias as $categoria)
                 <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre}}
             @endforeach
@@ -112,20 +108,21 @@
 
         <label for="idFactura">Pertenece a Factura</label>
         <select name="idFactura" id="idFactura" class="input" >
+            @if($elemento->factura)
+                <option selected value="{{ $elemento->factura->idFactura }}">{{ $elemento->factura->codigoFactura }}</option>
+            @endif
             @foreach ($facturas as $factura)
                 <option value="{{ $factura->idFactura }}">{{ $factura->codigoFactura}}
             @endforeach
             <option value="">Seleccione una opcion</option>
         </select>
 
-
-        {{-- @dd($elemento) --}}
         <label for="idUsuario">Asignado A:</label>
         <select name="idUsuario" id="idUsuario" class="input" >
             @if($elemento->user)
                 <option selected value="{{ $elemento->user->id }}">{{ $elemento->user->name }}</option>
             @endif
-            <option>Seleccione..</option>
+            <option value="">Sin asignar</option>
             @foreach ($users as $user)
                 <option value="{{$user->id }}">{{ $user->name}}</option>
             @endforeach
