@@ -13,7 +13,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ asset('/css/LayoutApp.css') }}">
-    <link rel="shortcut icon" href="{{ asset('imgs/logos/Ags.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('img/Sage.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -123,7 +123,8 @@
     <div class="sidebar collapsed" id="sidebar">
         <div class="button_logo">
             <div class="logo">
-                <img src="{{ asset('imgs/logos/Ags.png') }}" alt="Logo de la empresa">
+                {{-- <img src="{{ asset('imgs/logos/Ags.png') }}" alt="Logo de la empresa"> --}}
+                <img src="{{ asset('img/Sage.png') }}" alt="Logo del Aplicativo">
             </div>
             <div class="button_close">
                 <label class="hamburger">
@@ -155,6 +156,9 @@
             </li>
             <li class="{{ Request::is('usuarios') ? 'active' : '' }}">
                 <a href="/usuarios"><i class="fas fa-users"></i> <span>Usuarios</span></a>
+            </li>
+            <li class="{{ Request::is('Miperfil') ? 'active' : '' }}">
+                <a href="/Miperfil"><i class="fas fa-user"></i> <span>Perfil</span></a>
             </li>
         </ul>
     </div>

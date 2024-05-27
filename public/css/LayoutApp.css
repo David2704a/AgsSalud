@@ -427,12 +427,13 @@ MENU LATERAL
 .sidebar .logo {
     display: flex;
     justify-content: flex-start;
+    padding: 10px;
     /* border-bottom: 1px solid #e0e0e0; */
     transition: all 0.3s ease;
 }
 
 .sidebar .logo img {
-    width: 130px;
+    width: 100px;
     transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
 }
 
@@ -444,6 +445,7 @@ MENU LATERAL
 
 .sidebar.collapsed .logo {
     display: hidden;
+    padding: 0;
 }
 
 .sidebar.collapsed .menu_lateral li a span {
@@ -463,6 +465,7 @@ MENU LATERAL
 .menu_lateral li a {
     display: flex;
     align-items: center;
+    text-align: left;
     padding: 15px 20px;
     text-decoration: none;
     font-size: 16px;
