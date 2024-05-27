@@ -84,11 +84,11 @@
         {{-- <div class="logo">
             <img src="{{ asset('imgs/logos/Ags.png') }}" alt="Logo de la empresa">
         </div> --}}
-        <div class="home">
+        {{-- <div class="home">
             <a href="{{ url('/dashboard') }}" title="Inicio">
                 <i class="fa-solid fa-house-flag"></i>
             </a>
-        </div>
+        </div> --}}
 
         <div class="user-menu">
             <button id="user-menu-button" class="user-menu-button">
@@ -116,19 +116,46 @@
             </div>
         </div>
     </header>
-
+    @php
+        use Illuminate\Support\Facades\Request;
+    @endphp
 
     <div class="sidebar collapsed" id="sidebar">
-        <button class="close-btn" id="closeBtn">&times;</button>
-        <div class="logo">
-            <img src="{{ asset('imgs/logos/Ags.png') }}" alt="Logo de la empresa">
+        <div class="button_logo">
+            <div class="logo">
+                <img src="{{ asset('imgs/logos/Ags.png') }}" alt="Logo de la empresa">
+            </div>
+            <div class="button_close">
+                <label class="hamburger">
+                    <input type="checkbox" id="closeBtn">
+                    <svg viewBox="0 0 32 32">
+                        <path class="line line-top-bottom"
+                            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
+                        </path>
+                        <path class="line" d="M7 16 27 16"></path>
+                    </svg>
+                </label>
+            </div>
         </div>
         <ul class="menu_lateral">
-            <li><a href="#procedimientos"><i class="fas fa-procedures"></i> <span>Procedimientos</span></a></li>
-            <li><a href="#elementos"><i class="fas fa-cogs"></i> <span>Elementos</span></a></li>
-            <li><a href="#categorias"><i class="fas fa-list"></i> <span>Categorías</span></a></li>
-            <li><a href="#reportes"><i class="fas fa-file-alt"></i> <span>Reportes</span></a></li>
-            <li><a href="#usuarios"><i class="fas fa-users"></i> <span>Usuarios</span></a></li>
+            <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+                <a href="/dashboard"><i class="fas fa-home"></i> <span>Inicio</span></a>
+            </li>
+            <li class="{{ Request::is('procedimiento') ? 'active' : '' }}">
+                <a href="/procedimiento"><i class="fas fa-procedures"></i> <span>Procedimientos</span></a>
+            </li>
+            <li class="{{ Request::is('elementos') ? 'active' : '' }}">
+                <a href="/elementos"><i class="fas fa-cogs"></i> <span>Elementos</span></a>
+            </li>
+            <li class="{{ Request::is('categorias') ? 'active' : '' }}">
+                <a href="/categorias"><i class="fas fa-list"></i> <span>Categorías</span></a>
+            </li>
+            <li class="{{ Request::is('reporte') ? 'active' : '' }}">
+                <a href="/reporte"><i class="fas fa-file-alt"></i> <span>Reportes</span></a>
+            </li>
+            <li class="{{ Request::is('usuarios') ? 'active' : '' }}">
+                <a href="/usuarios"><i class="fas fa-users"></i> <span>Usuarios</span></a>
+            </li>
         </ul>
     </div>
 
@@ -162,162 +189,25 @@
         </div>
     </footer>
     <script>
-document.getElementById('toggleBtn').addEventListener('click', function() {
-    var sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('collapsed');
-    document.querySelector('.contenidoPadre').classList.toggle('full-width');
-});
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            document.querySelector('.contenidoPadre').classList.toggle('full-width');
+        });
 
-document.getElementById('closeBtn').addEventListener('click', function() {
-    var sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('collapsed');
-    document.querySelector('.contenidoPadre').classList.toggle('full-width');
-});
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            document.querySelector('.contenidoPadre').classList.toggle('full-width');
+
+        });
     </script>
-    <style>
-.sidebar {
-    width: 250px;
-    background-color: #ffffff;
-    border-right: 1px solid #e0e0e0;
-    height: 100vh;
-    transition: width 0.3s ease;
-    position: fixed;
-    z-index: 9999;
-}
 
-.sidebar .menu_lateral span {
-    display: inline-block;
-    transition: opacity 0.3s ease;
-}
-
-.sidebar.collapsed {
-    width: 80px;
-}
-
-.sidebar.collapsed .menu_lateral span {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.sidebar .logo {
-    text-align: center;
-    padding: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    transition: all 0.3s ease;
-}
-
-.sidebar .logo img {
-    width: 150px;
-    transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
-}
-
-.sidebar.collapsed .logo img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-
-.menu_lateral {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.menu_lateral li {
-    text-align: left;
-}
-
-.menu_lateral li a {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    text-decoration: none;
-    color: #333333;
-    font-size: 16px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.menu_lateral li a i {
-    margin-right: 10px;
-    font-size: 18px;
-}
-
-.menu_lateral li a:hover {
-    background-color: #f0f0f0;
-    color: #007bff;
-}
-
-.contenidoPadre {
-    /* width: 100%; */
-    flex: 1;
-    padding: 0 0 0 50px;
-    transition: margin-left 0.3s ease;
-    /* margin-left: 250px; Initial margin to accommodate sidebar */
-}
-
-.sidebar.collapsed + .contenidoPadre {
-    /* margin-left: 10px;  */
-
-}
-
-.toggle-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    font-size: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1;
-}
-
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-        /* .contenidoPadre {
-            height: 100vh;
-            overflow-y: hidden !important;
-        } */
-
-        .content2 {
-            overflow-y: auto;
-            height: 100%;
-        }
-
-        .footer {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #f3f3f3;
-            color: #fff;
-            bottom: 0;
-        }
-
-        .user-menu-button {
-    padding: 10px;
-    color: #fff;
-    border: none;
-    border-radius: 40px;
-    cursor: pointer;
-}
-    </style>
 
     <script src="{{ asset('js/userNav/userbar.js') }}"></script>
-
     <script src="{{ asset('js/select2.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
-
     <script src="{{ asset('js/layout.js') }}"></script>
     <script src="{{ asset('js/layout.js') }}"></script>
-
 </body>
-
 </html>

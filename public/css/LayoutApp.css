@@ -364,3 +364,224 @@ ESTILOS DATAFILTER
     width: 17px !important;
     margin-top: 3px !important;
 }
+
+/*
+==================================================
+MENU LATERAL
+==================================================
+*/
+
+.menu_lateral li.active {
+    background-color: #b7eeea;
+    color: white;
+}
+
+.button_logo {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+}
+
+.button_close {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar.collapsed .button_close {
+    width: 100%;
+    padding: 10px 0 6px 0;
+}
+
+.sidebar.collapsed.button_logo {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    height: 100vh;
+    transition: width 0.3s ease;
+    position: fixed;
+    z-index: 9999;
+}
+
+.sidebar .menu_lateral span {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .menu_lateral span {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sidebar .logo {
+    display: flex;
+    justify-content: flex-start;
+    /* border-bottom: 1px solid #e0e0e0; */
+    transition: all 0.3s ease;
+}
+
+.sidebar .logo img {
+    width: 130px;
+    transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
+}
+
+.sidebar.collapsed .logo img {
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+}
+
+.sidebar.collapsed .logo {
+    display: hidden;
+}
+
+.sidebar.collapsed .menu_lateral li a span {
+    display: none;
+}
+
+.menu_lateral {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu_lateral li {
+    text-align: left;
+}
+
+.menu_lateral li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.menu_lateral li a span {
+    color: #343D7C;
+    transition: display 2.9s ease-in-out;
+}
+
+.menu_lateral li a i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #343D7C;
+}
+
+/* .sidebar.collapsed .menu_lateral li a i {
+    color: #343D7C;
+} */
+
+.menu_lateral li a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+.contenidoPadre {
+    flex: 1;
+    padding: 0 0 0 50px;
+    transition: margin-left 0.3s ease;
+}
+
+.toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.close-btn {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/*
+============================================
+BOTON DEL MENÚ
+============================================
+*/
+.user-menu-button {
+    padding: 10px;
+    color: #fff;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+
+.hamburger {
+    cursor: pointer;
+}
+
+.hamburger input {
+    display: none;
+}
+
+.hamburger svg {
+    height: 2em;
+    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+    fill: none;
+    stroke: black;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+        stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+    stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked+svg {
+    transform: rotate(-45deg);
+}
+
+.hamburger input:checked+svg .line-top-bottom {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: -32.42;
+}
+
+
+/*
+===========================================
+FOOTER
+===========================================
+*/
+
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f3f3;
+    color: #fff;
+    bottom: 0;
+}
+
+.content2 {
+    overflow-y: auto;
+    height: 100%;
+}
+
