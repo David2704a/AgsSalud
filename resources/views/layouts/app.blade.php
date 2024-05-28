@@ -179,25 +179,25 @@
         </div>
         <ul class="menu_lateral">
             <li class="{{ Request::is('dashboard') ? 'active' : '' }}" onclick="showLoader()">
-                <a href="/dashboard"><i class="fa-solid fa-house-chimney"></i> <span>Inicio</span></a>
+                <a href="{{url('/dashboard')}}"><i class="fa-solid fa-house-chimney"></i> <span>Inicio</span></a>
             </li>
             <li class="{{ Request::is('procedimiento') ? 'active' : '' }}" onclick="showLoader()">
-                <a href="/procedimiento"><i class="fa-solid fa-diagram-project"></i> <span>Procedimientos</span></a>
+                <a href="{{url('/procedimiento')}}"><i class="fa-solid fa-diagram-project"></i> <span>Procedimientos</span></a>
             </li>
             <li class="{{ Request::is('elementos') ? 'active' : '' }}" onclick="showLoader()">
-                <a href="/elementos"><i class="fa-brands fa-elementor"></i> <span>Elementos</span></a>
+                <a href="{{url('/elementos')}}"><i class="fa-brands fa-elementor"></i> <span>Elementos</span></a>
             </li>
             <li class="{{ Request::is('categorias') ? 'active' : '' }}" onclick="showLoader()">
-                <a href="/categorias"><i class="fas fa-list"></i> <span>Categorías</span></a>
+                <a href="{{url('/categorias')}}"><i class="fas fa-list"></i> <span>Categorías</span></a>
             </li>
             <li class="{{ Request::is('reporte') ? 'active' : '' }}" onclick="showLoader()">
-                <a href="/reporte"><i class="fas fa-file-alt"></i> <span>Reportes</span></a>
+                <a href="{{url('/reporte')}}"><i class="fas fa-file-alt"></i> <span>Reportes</span></a>
             </li>
             <li class="{{ Request::is('usuarios') ? 'active' : '' }}" onclick="showLoader()">
-                <a href="/usuarios"><i class="fas fa-users-gear"></i> <span>Usuarios</span></a>
+                <a href="{{url('/usuarios')}}"><i class="fas fa-users-gear"></i> <span>Usuarios</span></a>
             </li>
             <li class="{{ Request::is('Miperfil') ? 'active' : '' }}" onclick="showLoader()">
-                <a href="/Miperfil"><i class="fas fa-user-pen"></i> <span>Perfil</span></a>
+                <a href="{{url('/Miperfil')}}"><i class="fas fa-user-pen"></i> <span>Perfil</span></a>
             </li>
         </ul>
     </div>
