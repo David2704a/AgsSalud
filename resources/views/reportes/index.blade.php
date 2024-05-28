@@ -12,7 +12,7 @@
 
 
 @endsection
-@include('components.loader-component')
+{{-- @include('components.loader-component') --}}
 <div class="content2">
 
     <div class="validaciones_title">

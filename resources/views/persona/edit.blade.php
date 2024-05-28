@@ -15,7 +15,7 @@
 
 @section('content')
     <div class="content2">
-        <h1 class="page-title">Editar Usuario</h1>
+        <h1 class="page-title" style="display: flex;justify-content:center;">Editar Usuario</h1>
         <div class="green-line"></div>
 
 

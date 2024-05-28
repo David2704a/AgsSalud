@@ -76,7 +76,9 @@
             });
         }
     </script>
-
+    <div id="loader-wrapper" class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
     <header>
         <div class="btn_menuL">
             <button class="toggle-btn" id="toggleBtn">☰</button>
@@ -101,9 +103,46 @@
                     <i class="material-symbols-outlined">expand_more</i>
                 </div>
             </button>
+            <div class="card dropdown-menu" id="user-dropdown" >
 
+                @include('components.svg-fondo-perfil')
+                @auth
+                    @if (Auth::user()->persona && in_array(Auth::user()->persona->sexo, ['M', 'F', 'O', 'null']))
+                        @if (Auth::user()->persona->sexo === 'M')
+                            {{-- @include('components.svg-perfil-masculino') --}}
+                            <div class="card_photoDiv" style="position: absolute;top:120px; width:0%; padding:0; height:150px; justify-content:center;   flex-direction: column;
+                            align-items: center; display:flex;">
+                                <div class="card-photo"></div>
+
+                            </div>
+                        @elseif(Auth::user()->persona->sexo === 'F')
+                            @include('components.svg-perfil-femenino')
+                        @elseif (Auth::user()->persona->sexo === 'O')
+                            @include('components.svg-perfil-masculino')
+                        @endif
+                    @endif
+                @endauth
+
+                <div class="card__title"> @auth
+                        {{ Auth::user()->name }}
+                    @endauth
+                </div>
+                <div class="card__subtitle">
+                    {{ ucwords(preg_replace('/(?<!^)([A-Z])/', ' $1', Auth::user()->getRoleNames()->first())) }}
+
+
+                </div>
+                <div class="card__wrapper">
+                    <a class="perfiledit" href="{{ route('ActualizarPerfil') }}">Perfil</a>
+                    <form class="formulario_logout" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="card__btn card__btn-solid" type="submit"><i
+                                class="fa-solid fa-right-from-bracket"></i>Cerrar Sesión</button>
+                    </form>
+                </div>
+            </div>
             <!-- Opciones de usuario -->
-            <div id="user-dropdown" class="dropdown-menu">
+            {{-- <div id="user-dropdown" class="dropdown-menu">
                 <a class="perfiledit" href="{{ route('ActualizarPerfil') }}">Perfil</a>
 
 
@@ -113,7 +152,7 @@
                     <button class="btonCerrarSe" type="submit">Cerrar sesión</button>
                 </form>
 
-            </div>
+            </div> --}}
         </div>
     </header>
     @php
@@ -139,26 +178,26 @@
             </div>
         </div>
         <ul class="menu_lateral">
-            <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
-                <a href="/dashboard"><i class="fas fa-home"></i> <span>Inicio</span></a>
+            <li class="{{ Request::is('dashboard') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="/dashboard"><i class="fa-solid fa-house-chimney"></i> <span>Inicio</span></a>
             </li>
-            <li class="{{ Request::is('procedimiento') ? 'active' : '' }}">
-                <a href="/procedimiento"><i class="fas fa-procedures"></i> <span>Procedimientos</span></a>
+            <li class="{{ Request::is('procedimiento') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="/procedimiento"><i class="fa-solid fa-diagram-project"></i> <span>Procedimientos</span></a>
             </li>
-            <li class="{{ Request::is('elementos') ? 'active' : '' }}">
-                <a href="/elementos"><i class="fas fa-cogs"></i> <span>Elementos</span></a>
+            <li class="{{ Request::is('elementos') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="/elementos"><i class="fa-brands fa-elementor"></i> <span>Elementos</span></a>
             </li>
-            <li class="{{ Request::is('categorias') ? 'active' : '' }}">
+            <li class="{{ Request::is('categorias') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="/categorias"><i class="fas fa-list"></i> <span>Categorías</span></a>
             </li>
-            <li class="{{ Request::is('reporte') ? 'active' : '' }}">
+            <li class="{{ Request::is('reporte') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="/reporte"><i class="fas fa-file-alt"></i> <span>Reportes</span></a>
             </li>
-            <li class="{{ Request::is('usuarios') ? 'active' : '' }}">
-                <a href="/usuarios"><i class="fas fa-users"></i> <span>Usuarios</span></a>
+            <li class="{{ Request::is('usuarios') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="/usuarios"><i class="fas fa-users-gear"></i> <span>Usuarios</span></a>
             </li>
-            <li class="{{ Request::is('Miperfil') ? 'active' : '' }}">
-                <a href="/Miperfil"><i class="fas fa-user"></i> <span>Perfil</span></a>
+            <li class="{{ Request::is('Miperfil') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="/Miperfil"><i class="fas fa-user-pen"></i> <span>Perfil</span></a>
             </li>
         </ul>
     </div>
@@ -193,6 +232,19 @@
         </div>
     </footer>
     <script>
+        function showLoader() {
+            const loaderWrapper = document.getElementById("loader-wrapper");
+            loaderWrapper.style.display = "flex";
+
+            document.body.style.overflow = "hidden";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const loaderWrapper = document.getElementById("loader-wrapper");
+            loaderWrapper.style.display = "none";
+            document.body.style.overflow = "auto";
+        });
+
         document.getElementById('toggleBtn').addEventListener('click', function() {
             var sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('collapsed');
@@ -214,4 +266,5 @@
     <script src="{{ asset('js/layout.js') }}"></script>
     <script src="{{ asset('js/layout.js') }}"></script>
 </body>
+
 </html>
