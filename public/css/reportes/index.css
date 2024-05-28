@@ -104,6 +104,23 @@
         font-size: 25px;
     }
 }
+@media (max-width: 1350px) {
+    .validaciones_title {
+        width: 12em;
+    }
+
+    .validaciones_title h3 {
+        font-size: 28px;
+    }
+
+    .container {
+        width: 60rem;
+    }
+
+    .titulo h1 {
+        font-size: 23px;
+    }
+}
 
 
 
@@ -500,7 +517,7 @@ FOOTER
 
 @media (max-width: 1250px) {
     .container {
-        width: 60rem;
+        width: 50rem;
     }
 
     .menu-container {
