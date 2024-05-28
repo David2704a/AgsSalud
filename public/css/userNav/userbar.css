@@ -14,7 +14,9 @@
     align-items: center;
     display: none;
     position: absolute;
-
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.25s ease-out, transform 0.3s ease;
     padding: 10px;
     right: 0;
     top: 100%;
@@ -81,6 +83,8 @@ text-align: center;
 
 .card.dropdown-menu.show {
     display: flex;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .card__img {
@@ -137,7 +141,7 @@ text-align: center;
     background-color: #fff;
     border: 2px solid #343D7C;
     text-transform: uppercase;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -162,7 +166,7 @@ text-align: center;
     color: brown;
     background: #fff;
     text-transform: uppercase;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
     letter-spacing: 0.5px;
     align-items: center;
 }
