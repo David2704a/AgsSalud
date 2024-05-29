@@ -1,16 +1,16 @@
-.user-menu {
+.user_menu {
     position: relative;
     /* Cambiado a position: relative */
     display: flex;
 }
 
-.user-name {
+.user_name {
     font-size: 15px;
     color: #2d518d;
 
 }
 
-.dropdown-menu {
+.card_drop {
     align-items: center;
     display: none;
     position: absolute;
@@ -60,7 +60,7 @@ text-align: center;
 }
 
 
-.card {
+.card_panel {
     display: none;
     position: absolute;
     --main-color: #000;
@@ -79,9 +79,10 @@ text-align: center;
     background: var(--bg-color);
     z-index: 2;
     box-shadow: 0 5px 5px 2px rgba(0, 0, 0, 0.13);
+
 }
 
-.card.dropdown-menu.show {
+.card_panel.card_drop.show {
     display: flex;
     opacity: 1;
     transform: translateY(0);

@@ -21,39 +21,33 @@ class UserAjustesController extends Controller
 }
 
      public function Miperfil(){
-        
+
         return view('persona.index');
     }
 
 
 
-    
+
     public function actualizar(Request $request, $id)
     {
-        
-
+        $idPersona = DB::table('users')
+        ->where('id', $id)
+        ->select('idPersona')
+        ->first();
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
         ]);
 
-
         $user = User::find($id);
-    
+
         if (!$user) {
             return redirect()->route("users.index")->with('error', 'Usuario no encontrado');
         }
-    
 
         $nombreC = explode(' ',$request->input('name'));
-    
-
         try {
-            // Obtener la instancia de Persona asociada al usuario
-            $rta = $user->persona;
-    
-            // Si no existe la instancia, no hacemos nada
-            $rta = Persona::where('id',$id)
+            Persona::where('id', $idPersona->idPersona)
             ->update([
                 'nombre1' => isset($nombreC[0]) ? $nombreC[0] : NULL,
                 'nombre2' => isset($nombreC[1]) ? $nombreC[1] : NULL,
@@ -61,16 +55,21 @@ class UserAjustesController extends Controller
                 'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
                 'updated_at' => Carbon::now(),
             ]);
-    
-            // Actualizar datos del usuario
-            $user->update([ 
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-               
-            ]);
+            if($request->input('password') === null){
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email')
+                ]);
+            } else {
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => bcrypt($request->input('password')),
+                ]);
+            }
 
 
-    
+
             return redirect()->route('ActualizarPerfil', ['id' => $user->id])->with('success', 'Perfil actualizado correctamente.');
         } catch (\Exception $e) {
             return redirect()->route('ActualizarPerfil', ['id' => $user->id])->with('error', 'Error al actualizar el perfil.');
@@ -82,7 +81,7 @@ class UserAjustesController extends Controller
 
     public function actualizarperfilderegistrouser(Request $request, $id)
     {
-        
+
     // try {
 
         if (auth()->user()->hasRole(['superAdmin','administrador'])) {
@@ -91,20 +90,20 @@ class UserAjustesController extends Controller
             $user->update([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
-                
-                'password' => Hash::make($request->input('password')), 
+
+                'password' => Hash::make($request->input('password')),
             ]);
            $act = DB::table('model_has_roles')->select('model_id')->where('model_id',$id)->first();
 
 
                 if( isset($act)){
-        
+
                     $roles = $request->input('role');
                     $user->syncRoles($roles);
-                
+
                     }
                     else{
-                     
+
             $idRol=DB::table('roles')->select('id')->where('name',$request->input('role')[0])->first();
                     DB::table('model_has_roles')->
                 insert([[
@@ -125,17 +124,18 @@ class UserAjustesController extends Controller
             //     'model_id' => $id
             // ]
             // ]);
-                
+
             }
 
         }
+
+
         else {
             User::where('id', $id )->update([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
             ]);
         }
-
         // Actualizar datos de la persona
         $nombreC = explode(' ', $request->input('name'));
         Persona::where('id', $id)
@@ -146,7 +146,7 @@ class UserAjustesController extends Controller
                 'apellido2' => isset($nombreC[3]) ? $nombreC[3] : NULL,
                 'updated_at' => Carbon::now(),
             ]);
-         
+
 
         return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
 
@@ -156,8 +156,8 @@ class UserAjustesController extends Controller
 
     }
 
-    
-    
+
+
 
 
     public function perfil()
@@ -166,7 +166,7 @@ class UserAjustesController extends Controller
     }
 
 
-    
+
     public function actualizarUsuarioVista($id)
     {
         $usuario = User::find($id);

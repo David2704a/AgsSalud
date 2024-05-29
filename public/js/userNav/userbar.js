@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
             userDropdown.classList.remove('show');
             setTimeout(() => {
                 userDropdown.style.display = 'none';
-            }, 300); // Tiempo de la transición en milisegundos
+            }, 300);
         } else {
             userDropdown.style.display = 'flex';
             setTimeout(() => {
                 userDropdown.classList.add('show');
-            }, 10); // Pequeña demora para que el navegador registre el cambio de display
+            }, 10);
         }
     });
 

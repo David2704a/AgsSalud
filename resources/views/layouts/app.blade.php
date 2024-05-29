@@ -92,9 +92,9 @@
             </a>
         </div> --}}
 
-        <div class="user-menu">
+        <div class="user_menu">
             <button id="user-menu-button" class="user-menu-button">
-                <div class="user-name">
+                <div class="user_name">
                     @auth
                         {{ Auth::user()->name }}
                     @endauth
@@ -103,7 +103,7 @@
                     <i class="material-symbols-outlined">expand_more</i>
                 </div>
             </button>
-            <div class="card dropdown-menu" id="user-dropdown">
+            <div class="card_panel card_drop" id="user-dropdown">
 
                 @include('components.svg-fondo-perfil')
                 @auth
@@ -151,8 +151,6 @@
                 </div>
             </div>
         </div>
-
-
     </header>
     @php
         use Illuminate\Support\Facades\Request;

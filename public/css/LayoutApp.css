@@ -45,31 +45,9 @@ header {
     align-items: center;
 }
 
-.notifications img,
-.user-avatar {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-}
-
-.user-name {
+.user_name {
     font-weight: bold;
 }
-.home {
-    font-size: 30px;
-    margin: 10px;
-}
-
-.home a {
-    color: #01A497;
-    text-decoration: none;
-    transition: color 0.3s ease-in-out;
-}
-
-.home a:hover {
-    color: #037c72;
-}
-
 
 
  /*
