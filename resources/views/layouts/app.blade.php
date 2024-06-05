@@ -137,6 +137,9 @@
                     @endauth
                 </div>
                 <div class="card__subtitle">
+                    {{ Auth::user()->email}}
+                </div>
+                <div class="card__subtitle" style="text-transform: uppercase;">
                     {{ ucwords(preg_replace('/(?<!^)([A-Z])/', ' $1', Auth::user()->getRoleNames()->first())) }}
 
 
@@ -159,7 +162,6 @@
     <div class="sidebar collapsed" id="sidebar">
         <div class="button_logo">
             <div class="logo">
-                {{-- <img src="{{ asset('imgs/logos/Ags.png') }}" alt="Logo de la empresa"> --}}
                 <img src="{{ asset('img/Sage.png') }}" alt="Logo del Aplicativo">
             </div>
             <div class="button_close">
@@ -184,14 +186,13 @@
             </li>
             <li class="{{ Request::is('elementos') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/elementos') }}"><i class="fa-brands fa-elementor"></i> <span>Elementos</span></a>
-            </li>
             <li class="{{ Request::is('categorias') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/categorias') }}"><i class="fas fa-list"></i> <span>Categorías</span></a>
             </li>
             <li class="{{ Request::is('reporte') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/reporte') }}"><i class="fas fa-file-alt"></i> <span>Reportes</span></a>
             </li>
-            <li class="{{ Request::is('usuarios') ? 'active' : '' }}" onclick="showLoader()">
+            <li class="{{ Request::is('usuarios') || Request::is('user/*/edit') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/usuarios') }}"><i class="fas fa-users-gear"></i> <span>Usuarios</span></a>
             </li>
             <li class="{{ Request::is('Miperfil') ? 'active' : '' }}" onclick="showLoader()">
