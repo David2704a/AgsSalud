@@ -96,29 +96,29 @@
         </div>
 
         <div class="form-part active" id="parte1">
-            <label for="marca">Marca del producto</label>
-            <input type="text" name="marca" id="marca" class="input" required>
+            <label for="marca">Marca del producto (*)</label>
+            <input type="text" name="marca" id="marca" class="input">
             <label for="idDispo">Id Dispositivo</label>
-            <input type="text" name="id_dispo" id="id_dispo" class="input" required>
-            <label for="referencia">Referencia del producto</label>
-            <input type="text" name="referencia" id="referencia" class="input" required>
-            <label for="serial">Serial del producto</label>
-            <input type="text" name="serial" id="serial" class="input" required>
+            <input type="text" name="id_dispo" id="id_dispo" class="input">
+            <label for="referencia">Referencia del producto (*)</label>
+            <input type="text" name="referencia" id="referencia" class="input">
+            <label for="serial">Serial del producto (*)</label>
+            <input type="text" name="serial" id="serial" class="input">
             <label for="modelo">Modelo del producto</label>
-            <input type="text" name="modelo" id="modelo" class="input" required>
+            <input type="text" name="modelo" id="modelo" class="input">
 
             <button type="button" onclick="mostrarParte('parte2')">Siguiente</button>
         </div>
 
         <div class="form-part" id="parte2">
             <label for="garantia">Tiempo de garantia (meses)</label>
-            <input type="text" name="garantia" id="garantia" class="input" required>
+            <input type="text" name="garantia" id="garantia" class="input">
             <label for="ram">Ram del elemento</label>
-            <input type="text" name="ram" id="ram" class="input" required>
+            <input type="text" name="ram" id="ram" class="input">
             <label for="descripcion">Descripcion del producto</label>
-            <input type="text" name="descripcion" id="descripcion" class="input" required>
+            <input type="text" name="descripcion" id="descripcion" class="input">
             <label for="procesador">Procesador del elemento</label>
-            <input type="text" name="procesador" id="procesador" class="input" required>
+            <input type="text" name="procesador" id="procesador" class="input" >
 
             <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
             <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
@@ -127,12 +127,12 @@
 
         <div class="form-part" id="parte3">
             <label for="disco_duro">Disco duro del elemento</label>
-            <input type="text" name="disco_duro" id="disco_duro" class="input" required>
+            <input type="text" name="disco_duro" id="disco_duro" class="input" >
             <label for="tarjeta_grafica">Tarjeta gráfica del elemento</label>
-            <input type="text" name="tarjeta_grafica" id="tarjeta_grafica" class="input" required>
+            <input type="text" name="tarjeta_grafica" id="tarjeta_grafica" class="input" >
 
             <label for="idEstadoEquipo">Estado del producto</label>
-            <select name="idEstadoEquipo" id="idEstadoEquipo" class="input" required>
+            <select name="idEstadoEquipo" id="idEstadoEquipo" class="input" >
                 <option value="">Seleccionar el estado</option>
                 @foreach ($estados as $estado)
                     <option value="{{$estado->idEstadoE}}">{{ $estado->estado}}</option>
@@ -144,17 +144,8 @@
         </div>
 
         <div class="form-part" id="parte4">
-
-            <label for="idTipoElemento">Tipo de elemento</label>
-            <select name="idTipoElemento" id="idTipoElemento" class="input" required>
-                <option value="">Seleccionar el tipo de elemento</option>
-                @foreach ($tipoElementos as $tipo)
-                    <option value="{{ $tipo->idTipoElemento}}">{{ $tipo->tipo}}
-                @endforeach
-            </select>
-
             <label for="idCategoria">Categoria</label>
-            <select name="idCategoria" id="idCategoria" class="input" required>
+            <select name="idCategoria" id="idCategoria" class="input" >
                 <option value="">Seleccionar la Categoria </option>
                 @foreach ($categorias as $categoria)
                     <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre}}
@@ -162,7 +153,7 @@
             </select>
 
             <label for="idFactura">Pertenece a Factura</label>
-            <select name="idFactura" id="idFactura" class="input" required>
+            <select name="idFactura" id="idFactura" class="input" >
                 <option value="">Seleccionar el codigo de factura</option>
                 @foreach ($facturas as $factura)
                     <option value="{{ $factura->idFactura }}">{{ $factura->codigoFactura}}
@@ -170,8 +161,8 @@
             </select>
 
             <label for="idUsuario">Asignado A:</label>
-            <select name="idUsuario" id="idUsuario" class="input" required>
-                <option value="">Seleccionar una opcion</option>
+            <select name="idUsuario" id="idUsuario" class="input">
+                <option value="">Seleccionar una opción</option>
                 @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name}}
                 @endforeach

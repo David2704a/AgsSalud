@@ -61,10 +61,6 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'idEstadoEquipo' => 'required',
-            'idTipoElemento' => 'required',
-            'idCategoria' => 'required',
-            'idFactura' => 'required',
         ]);
 
         $data = $request->all();
@@ -80,121 +76,121 @@ class ElementoController extends Controller
         return redirect()->route("elementos.index")->with('success', 'Elemento creado correctamente');
     }
 
-    private function generarNuevoIdEquipo($categoria)
-    {
-        if ($categoria ==  5) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.P'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    // private function generarNuevoIdEquipo($categoria)
+    // {
+    //     if ($categoria ==  5) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.P'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.P'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.P'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'E.P'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'E.P'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'E.P'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'E.P'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria == 3) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'TCL'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria == 3) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'TCL'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = null;
+    //         $numeroEquipo = null;
 
-            if (isset($ultimoId->id_dispo)) {
-                $numeroEquipoArray = explode("900237674'7'TCL'", $ultimoId->id_dispo);
+    //         if (isset($ultimoId->id_dispo)) {
+    //             $numeroEquipoArray = explode("900237674'7'TCL'", $ultimoId->id_dispo);
 
-                // Verifica si el array resultante tiene al menos 2 elementos antes de acceder a [1]
-                if (count($numeroEquipoArray) >= 2) {
-                    $numeroEquipo = $numeroEquipoArray[1];
-                }
-            }
+    //             // Verifica si el array resultante tiene al menos 2 elementos antes de acceder a [1]
+    //             if (count($numeroEquipoArray) >= 2) {
+    //                 $numeroEquipo = $numeroEquipoArray[1];
+    //             }
+    //         }
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'TCL'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'TCL'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'TCL'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'TCL'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  2) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MS'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  2) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MS'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MS'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MS'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'MS'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'MS'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'MS'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'MS'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  4) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MNT'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  4) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MNT'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MNT'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MNT'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'MNT'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'MNT'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'MNT'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'MNT'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  6) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'C'E'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  6) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'C'E'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'C'E'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'C'E'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'C'E'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'C'E'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'C'E'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'C'E'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  8) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.T.U'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  8) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.T.U'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.T.U'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.T.U'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'E.T.U'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'E.T.U'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'E.T.U'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'E.T.U'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        return null; // Retorna null si la categoría no coincide con ninguna lógica específica
-    }
+    //     return null; // Retorna null si la categoría no coincide con ninguna lógica específica
+    // }
 
     public function show($id)
     {
@@ -227,35 +223,42 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'procesador' => 'required',
-            'ram' => 'required',
-            'disco_duro' => 'required',
-            'tarjeta_grafica' => 'required',
         ]);
 
-        // Verificar y establecer valores por defecto
+        // Establecer valores por defecto utilizando el operador de fusión de null
         $defaults = [
-            'marca' => $request->filled('marca') ? $request->marca : 'NO APLICA',
-            'referencia' => $request->filled('referencia') ? $request->referencia : 'NO APLICA',
-            'serial' => $request->filled('serial') ? $request->serial : 'NO APLICA',
-            'procesador' => $request->filled('procesador') ? $request->procesador : 'NO APLICA',
-            'ram' => $request->filled('ram') ? $request->ram : 'NO APLICA',
-            'disco_duro' => $request->filled('disco_duro') ? $request->disco_duro : 'NO APLICA',
-            'tarjeta_grafica' => $request->filled('tarjeta_grafica') ? $request->tarjeta_grafica : 'NO APLICA',
-            'modelo' => $request->filled('modelo') ? $request->modelo : 'NO APLICA',
-            'garantia' => $request->filled('garantia') ? $request->garantia : 'NO APLICA',
-            'cantidad' => $request->filled('cantidad') ? $request->cantidad : 'NO APLICA',
-            'descripcion' => $request->filled('descripcion') ? $request->descripcion : 'NO APLICA',
-        ];
+            'marca' => $request->marca ?? 'NO APLICA',
+            'referencia' => $request->referencia ?? 'NO APLICA',
+            'serial' => $request->serial ?? 'NO APLICA',
+            'procesador' => $request->procesador ?? 'NO APLICA',
+            'ram' => $request->ram ?? 'NO APLICA',
+            'disco_duro' => $request->disco_duro ?? 'NO APLICA',
+            'tarjeta_grafica' => $request->tarjeta_grafica ?? 'NO APLICA',
+            'modelo' => $request->modelo ?? 'NO APLICA',
+            'garantia' => $request->garantia ?? 'NO APLICA',
+            'cantidad' => $request->cantidad ?? 'NO APLICA',
+            'descripcion' => $request->descripcion ?? 'NO APLICA',
+            'idEstadoEquipo' => $request->idEstadoEquipo ?? null,
+            'idCategoria' => $request->idCategoria ?? null,
+            'idFactura' => $request->idFactura ?? null,
+            'idUsuario' => $request->idUsuario ?? null,
+            ];
+
+        // dd($request);
 
         // Buscar el elemento por su ID
         $elemento = Elemento::findOrFail($idElemento);
 
         // Actualizar los datos del elemento
-        $elemento->update($defaults);
+        $updateResult = $elemento->update($defaults);
 
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
+        if ($updateResult) {
+            // Redirigir con un mensaje de éxito si la actualización fue exitosa
+            return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
+        } else {
+            // Redirigir con un mensaje de error si la actualización falló
+            return back()->with('error', 'Hubo un problema al actualizar el elemento');
+        }
     }
 
     public function destroy($id){
@@ -343,7 +346,11 @@ class ElementoController extends Controller
     public function QRView()
     {
 
-        $datos = DB::table('elemento')->get();
+        $datos = DB::table('elemento')
+                    ->join('categoria','categoria.idCategoria','elemento.idCategoria')
+                    ->select('elemento.*','categoria.nombre')
+                    ->orderBy('elemento.idCategoria','ASC')->get();
+
         $pdf = Pdf::loadView('Qr.lista',compact('datos'));
         $pdf->setPaper('letter','landscape');
 

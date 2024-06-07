@@ -117,17 +117,6 @@
         }
     </style>
     <script>
-        function showLoader() {
-            const loaderWrapper = document.getElementById("loader-wrapper");
-            loaderWrapper.style.display = "flex";
 
-            document.body.style.overflow = "hidden";
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const loaderWrapper = document.getElementById("loader-wrapper");
-            loaderWrapper.style.display = "none";
-            document.body.style.overflow = "auto";
-        });
     </script>
 @endsection

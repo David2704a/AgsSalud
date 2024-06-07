@@ -36,21 +36,27 @@ class FacturaController extends Controller
             "codigoFactura" => "required",
             "fechaCompra" => "required",
             "idProveedor" => "required",
-            "metodoPago" => "required",
-            "rutaFactura" => 'required|mimes:pdf,docx|max:10240',
-            "valor" => "required",
-            "descripcion" => "required",
+            "rutaFactura" => "nullable|file"
         ]);
 
         $data = $request->all();
 
         $factura = new Factura($data);
-        $nombreArchivo = "fac_" . time() . "." . $request->file('rutaFactura')->guessExtension();
-        $request->file('rutaFactura')->storeAs('public/Facturas', $nombreArchivo);
-        $factura->rutaFactura = $nombreArchivo;
-        $factura->save();
 
-        return redirect()->route("facturas.index")->with('success', 'Factura creada correctamente');
+        // Intenta guardar la factura y maneja el resultado
+        try {
+            if ($request->hasFile('rutaFactura')) {
+                $nombreArchivo = "fac_" . time() . "." . $request->file('rutaFactura')->guessExtension();
+                $request->file('rutaFactura')->storeAs('public/Facturas', $nombreArchivo);
+                $factura->rutaFactura = $nombreArchivo;
+            }
+            $factura->save();
+            
+            return redirect()->route("facturas.index")->with('success', 'Factura creada correctamente');
+        } catch (\Exception $e) {
+            // En caso de error, muestra una alerta con el mensaje de error
+            return back()->withInput()->withErrors(['error' => 'Error al guardar la factura: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -86,17 +92,29 @@ class FacturaController extends Controller
         $request->validate([
             "codigoFactura" => "required",
             "fechaCompra" => "required",
-            "idProveedor" => "required",
-            "metodoPago" => "required",
-            "rutaFactura" => 'required|mimes:pdf,docx|max:10240',
-            "valor" => "required",
-            "descripcion" => "required",
+            "rutaFactura" => 'nullable|file', // Permitir que el archivo sea nulo o un archivo válido
         ]);
 
-        $factura->update($request->all());
+        try {
+            // Actualiza los campos de la factura excepto el archivo
+            $factura->fill($request->except('rutaFactura'));
 
-        return redirect()->route('facturas.index')
-            ->with('success', 'Factura actualizada correctamente');
+            // Maneja la actualización del archivo si se proporciona uno
+            if ($request->hasFile('rutaFactura')) {
+                $nombreArchivo = "fac_" . time() . "." . $request->file('rutaFactura')->guessExtension();
+                $request->file('rutaFactura')->storeAs('public/Facturas', $nombreArchivo);
+                $factura->rutaFactura = $nombreArchivo;
+            }
+
+            // Guarda los cambios
+            $factura->save();
+
+            return redirect()->route('facturas.index')
+                ->with('success', 'Factura actualizada correctamente');
+        } catch (\Exception $e) {
+            // En caso de error, muestra una alerta con el mensaje de error
+            return back()->withInput()->withErrors(['error' => 'Error al actualizar la factura: ' . $e->getMessage()]);
+        }
     }
 
     /**

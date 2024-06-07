@@ -12,10 +12,16 @@
 
 
 @endsection
-@include('components.loader-component')
+{{-- @include('components.loader-component') --}}
 <div class="content2">
 
-
+    <div class="validaciones_title">
+        <div class="border-top-container"></div>
+        <div class="border-left-container"></div>
+        <div class="border-sup-container"></div>
+        <div class="border-right-container"></div>
+        <h3>REPORTES</h3>
+    </div>
     <div class="container">
         <div class="menu-container">
             <div class="menu-item active" onclick="cambiarContenido('elemento')">Elementos</div>
@@ -29,136 +35,96 @@
                 ============================================================
             --}}
             <div class="containers " id="elementos">
-                <div class="titulo">
-                    <h1>Informes para Elementos</h1>
-                    <hr>
+                <div class="title_and_inputs">
+                    <div class="titulo">
+                        <h1>Informes para Elementos</h1>
+                        <hr>
+                    </div>
+                    <form class="alo" method="POST" action="{{ url('/exportarElementos') }}" id="exportFormE"
+                        onsubmit="return preSubmitAction()">
+                        @csrf
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="idEstadoEquipo">Seleccionar Estado de Equipo:</label>
+                                    <select name="idEstadoEquipo" id="idEstadoEquipo" class="form-control">
+                                        <option value="">Todos los Estados</option>
+                                        @foreach ($estadosElementos as $estadoEquipo)
+                                            <option value="{{ $estadoEquipo->idEstadoE }}">{{ $estadoEquipo->estado }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="idTipoElemento">Seleccionar un Usuario:</label>
+                                    <select name="idTipoElemento" id="idUsuario" class="form-control">
+                                        <option value="">Todos los Tipos</option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="idCategoria">Seleccionar una Categoria:</label>
+                                    <select name="idCategoria" id="idCategoria" class="form-control">
+                                        <option value="">Todos las Categorias</option>
+                                        @foreach ($categorias as $categoria)
+                                            <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="idElemento">Elemento</label>
+                                    <select class="selectElemento select2" name="idElemento" id="idElemento"
+                                        style="width: 100%">
+                                        <option value="">Seleccionar una opción</option>
+                                        @foreach ($elementos2 as $elemento)
+                                            <option value="{{ $elemento->id_dispo }}">{{ $elemento->id_dispo }} -
+                                                {{ $elemento->categoria->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                    </form>
                 </div>
-                <form class="alo" method="POST" action="{{ url('/exportarElementos') }}" id="exportFormE"
-                    onsubmit="return preSubmitAction()">
-                    @csrf
-                    <div class="filtrosInputs">
-                        <div class="form-row">
+                <div class="tabla-container">
+                    <div class="tableElementos">
+                        <br>
+                        <table id="tablaReportElementos">
+                            <thead>
+                                <th>ID</th>
+                                <th>Referencia</th>
+                                <th>Descripcion</th>
+                                <th>Estado</th>
+                                <th>Categoria</th>
+                                <th>N° Factura</th>
+                                <th>Proveedor</th>
+                                <th>Asignado A:</th>
+                            </thead>
+                            <tbody class="tbodyElementos">
 
-                            <div class="form-group">
-                                <label for="idEstadoEquipo">Seleccionar Estado de Equipo:</label>
-                                <select name="idEstadoEquipo" id="idEstadoEquipo" class="form-control">
-                                    <option value="">Todos los Estados</option>
-                                    @foreach ($estadosElementos as $estadoEquipo)
-                                        <option value="{{ $estadoEquipo->idEstadoE }}">{{ $estadoEquipo->estado }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="idTipoElemento">Seleccionar un Usuario:</label>
-                                <select name="idTipoElemento" id="idUsuario" class="form-control">
-                                    <option value="">Todos los Tipos</option>
-                                    @foreach ($usuarios as $usuario)
-                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="idCategoria">Seleccionar una Categoria:</label>
-                                <select name="idCategoria" id="idCategoria" class="form-control">
-                                    <option value="">Todos las Categorias</option>
-                                    @foreach ($categorias as $categoria)
-                                        <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="idElemento">Elemento</label>
-                                <select class="selectElemento select2" name="idElemento" id="idElemento"
-                                    style="width: 100%">
-                                    <option value="">Seleccionar una opción</option>
-                                    @foreach ($elementos2 as $elemento)
-                                        <option value="{{ $elemento->id_dispo }}">{{ $elemento->id_dispo }} -
-                                            {{ $elemento->categoria->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="pagination">
+                </div>
+                @if (auth()->user()->hasRole(['superAdmin', 'admin', 'tecnico']))
+                    <div class="Options-Exports-Elementos">
+                        <a class="export-button" onclick="OptionsDocumentsElementos()">Exportar Como</a>
+                        <div class="document-options" id="documentOptionsElements">
+                            <button type="button" class="button-with-icon download">
+                                <i class="fa-solid fa-file-excel fa-lg" style="color: #178a13; font-size: 25px;"></i>
+                            </button>
+
                         </div>
                     </div>
-                    <div class="tabla-container">
-                        {{-- <div class="search-container">
-                        <input type="text" id="search-input" placeholder="Buscar...">
-                        <button type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div> --}}
-                        <div class="tableElementos">
-                            <br>
-                            <table id="tablaReportElementos">
-                                <thead>
-                                    <th>ID</th>
-                                    <th>Marca</th>
-                                    <th>Referencia</th>
-                                    <th>Serial</th>
-                                    <th>Procesador</th>
-                                    <th>Ram</th>
-                                    <th>Disco duro</th>
-                                    <th>Tarjeta gráfica</th>
-                                    <th>Modelo</th>
-                                    <th>Garantia</th>
-                                    <th>Descripcion</th>
-                                    <th>Estado</th>
-                                    <th>Tipo</th>
-                                    <th>Categoria</th>
-                                    <th>N° Factura</th>
-                                    <th>Proveedor</th>
-                                    <th>Asignado A:</th>
-                                </thead>
-                                <tbody class="tbodyElementos">
-                                    {{-- @foreach ($elementos as $elemento)
-                                        <tr>
-                                            <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->marca ? $elemento->marca : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->referencia ? $elemento->referencia : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->serial ? $elemento->serial : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->procesador ? $elemento->procesador : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->ram ? $elemento->ram : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->disco_duro ? $elemento->disco_duro : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->tarjeta_grafica ? $elemento->tarjeta_grafica : 'NO APLICA' }}
-                                            </td>
-                                            <td>{{ $elemento->modelo ? $elemento->modelo : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->garantia ? $elemento->garantia : 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->descripcion ? $elemento->descripcion : 'NO APLICA' }}
-                                            </td>
-                                            <td>{{ $elemento->estado->estado ?? 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->tipoElemento->tipo ?? 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->factura->proveedor->nombre ?? 'NO APLICA' }}</td>
-                                            <td>{{ $elemento->user->persona->nombre1 ?? 'NO APLICA' }}
-                                                {{ $elemento->user->persona->apellido1 ?? 'NO APLICA' }}</td>
-                                        </tr>
-                                    @endforeach --}}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="pagination">
-                        {{-- {{ $elementos->links('pagination.custom') }} --}}
-                    </div>
-                    @if (auth()->user()->hasRole(['superAdmin', 'admin', 'tecnico']))
-                        <div class="Options-Exports-Elementos">
-                            <a class="export-button" onclick="OptionsDocumentsElementos()">Exportar Como</a>
-                            <div class="document-options" id="documentOptionsElements">
-                                <button type="button" class="button-with-icon download">
-                                    <i class="fa-solid fa-file-excel fa-lg"
-                                        style="color: #178a13; font-size: 25px;"></i>
-                                </button>
-                                {{-- <button type="submit" class="button-with-icon" onclick="cambioDeRutasElemento('pdf')" >
-                                <i class="fa-solid fa-file-pdf fa-lg" style="color: #ec3d02; font-size: 25px;"></i>
-                            </button> --}}
-                            </div>
-                        </div>
-                    @endif
-                    <input type="hidden" name="exportFormat" id="exportFormat">
-                    {{-- div final de la seccion Elementos --}}
-                </form>
+                @endif
+                <input type="hidden" name="exportFormat" id="exportFormat">
             </div>
+            {{-- div final de la seccion Elementos --}}
 
             {{--
                 ============================================================
@@ -174,63 +140,59 @@
                 <form class="alo" method="get" action="{{ url('/excel/procedimiento') }}" id="exportFormP"
                     onsubmit="return preSubmitAction()">
                     @csrf
-
-                    <div class="filtrosPrestamos">
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="idResponsableEntrega">Responsable de Entrega:</label>
-                            <select name="idResponsableEntrega" id="idResponsableEntrega" class="form-control inputsPrestamos"
-                                onchange="filtroProcedimientos()">
-                                <option value="">Todos las Personas</option>
-                                @foreach ($usuarios as $usuario)
-                                    <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="idResponsableRecibe">Responsable que Recibe:</label>
-                            <select name="idResponsableRecibe" id="idResponsableRecibe" class="form-control inputsPrestamos"
-                                onchange="filtroProcedimientos()">
-                                <option value="">Todos las Personas</option>
-                                @foreach ($usuarios as $usuario)
-                                    <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="idElemento">Elemento</label>
-                            <select class="selectElemento select2 inputsPrestamos" name="idProcedimiento" id="idProcedimiento "
-                                style="width: 100%" onchange="filtroProcedimientos()">
-                                <option value="">Seleccionar una opción</option>
-                                @foreach ($elementos2 as $elemento1)
-                                <option value="{{ $elemento1->id_dispo }}">{{ $elemento1->id_dispo }} -
-                                    {{ $elemento1->categoria->nombre }}</option>
-                            @endforeach
-                            </select>
-                        </div>
-                        <script>
-                            $(document).ready(function() {
-                                $('.select2').select2({
-                                    theme: null
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="idResponsableEntrega">Responsable de Entrega:</label>
+                                <select name="idResponsableEntrega" id="idResponsableEntrega"
+                                    class="form-control inputsPrestamos" onchange="filtroProcedimientos()">
+                                    <option value="">Todos las Personas</option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="idResponsableRecibe">Responsable que Recibe:</label>
+                                <select name="idResponsableRecibe" id="idResponsableRecibe"
+                                    class="form-control inputsPrestamos" onchange="filtroProcedimientos()">
+                                    <option value="">Todos las Personas</option>
+                                    @foreach ($usuarios as $usuario)
+                                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="idElemento">Elemento</label>
+                                <select class="selectElemento select2 inputsPrestamos" name="idProcedimiento"
+                                    id="idProcedimiento " style="width: 100%" onchange="filtroProcedimientos()">
+                                    <option value="">Seleccionar una opción</option>
+                                    @foreach ($elementos2 as $elemento1)
+                                        <option value="{{ $elemento1->id_dispo }}">{{ $elemento1->id_dispo }} -
+                                            {{ $elemento1->categoria->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $('.select2').select2({
+                                        theme: null
+                                    });
                                 });
-                            });
-                        </script>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group" id="fechaInicioContainer">
-                            <label for="fechaInicio">Fecha de Inicio:</label>
-                            <input class="inputsPrestamos" type="date" name="fechaInicio" id="fechaInicio"
-                                onchange="filtroProcedimientos()">
+                            </script>
                         </div>
-                        <div class="form-group" id="fechaFinContainer">
-                            <label for="fechaFin">Fecha de Fin:</label>
-                            <input class="inputsPrestamos" type="date" name="fechaFin" id="fechaFin"
-                                onchange="filtroProcedimientos()">
+                        <div class="form-row">
+                            <div class="form-group" id="fechaInicioContainer">
+                                <label for="fechaInicio">Fecha de Inicio:</label>
+                                <input class="inputsPrestamos" type="date" name="fechaInicio" id="fechaInicio"
+                                    onchange="filtroProcedimientos()">
+                            </div>
+                            <div class="form-group" id="fechaFinContainer">
+                                <label for="fechaFin">Fecha de Fin:</label>
+                                <input class="inputsPrestamos" type="date" name="fechaFin" id="fechaFin"
+                                    onchange="filtroProcedimientos()">
+                            </div>
                         </div>
-                    </div>
-
-                </div>
+                    </form>
                     <div class="tablePrestamos">
                         <table id="tablaReportesPrestamos">
                             <thead>
@@ -249,55 +211,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($procedimientos as $procedimiento)
-                                    @if ($procedimiento->idTipoProcedimiento == 'Prestamo')
-                                        <tr data-idprocedimiento="{{ $procedimiento->idProcedimiento }}"
-                                            data-fechainicio="{{ $procedimiento->fechaInicio ?: '' }}"
-                                            data-idresponsableentrega="{{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->id : '' }}"
-                                            data-idresponsablerecibe="{{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->id : '' }}">
-                                            <td>
-                                                {{ $procedimiento->idProcedimiento }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'NO APLICA' }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->elemento->categoria->nombre ? $procedimiento->elemento->categoria->nombre : 'NO APLICA' }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->elemento->id_dispo ? $procedimiento->elemento->id_dispo : 'NO APLICA' }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->elemento->estado->estado }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'NO APLICA' }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'NO APLICA' }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'NO APLICA' }}
-                                            </td>
-
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->responsableRecibe ? $procedimiento->responsableRecibe->name : 'NO APLICA' }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->responsableEntrega ? $procedimiento->responsableEntrega->name : 'NO APLICA' }}
-                                            </td>
-                                            <td style="border: 1px solid black;">
-                                                {{ $procedimiento->observacion }}
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
-                    {{-- <div class="pagination">
-                        {{ $procedimientos->links('pagination.custom') }}
-                    </div> --}}
                     @if (auth()->user()->hasRole(['superAdmin', 'admin', 'tecnico']))
                         <div class="Options-Exports-Procedimientos">
                             <a class="export-button" onclick="OptionsDocumentsProcedimientos()">Exportar Como</a>
@@ -306,13 +222,9 @@
                                     <i class="fa-solid fa-file-excel fa-lg"
                                         style="color: #178a13; font-size: 25px;"></i>
                                 </button>
-                                {{-- <button type="submit" class="button-proce" onclick="cambioDeRutasProcedimiento('pdf')" >
-                <i class="fa-solid fa-file-pdf fa-lg" style="color: #ec3d02; font-size: 25px;"></i>
-            </button> --}}
                             </div>
                         </div>
                     @endif
-                </form>
             </div>
         </div>
     </div>

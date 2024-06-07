@@ -1,14 +1,128 @@
+.validaciones_title {
+    position: relative;
+    display: flex;
+    width: 17em;
+    /* Ancho deseado */
+    margin: 1em auto 5em auto;
+    /* Centrar horizontalmente */
+    padding: 1em;
+    justify-content: space-around;
+}
+
+.validaciones_title h3 {
+    font-size: 35px;
+    font-weight: bold;
+    color: #01A497;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    margin: 0;
+}
+
+/* Contenedor para el borde superior */
+.border-top-container,
+.border-left-container {
+    position: absolute;
+    background-color: #343D7C;
+    z-index: 1;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.border-top-container {
+    top: 100%;
+    left: 0;
+    width: 20%;
+    height: 0.2em;
+    /* Ajusta el grosor del borde superior aquí */
+}
+
+.border-left-container {
+    top: 50%;
+    left: 0;
+    width: 0.2em;
+    height: 50%;
+}
+
+.border-sup-container,
+.border-right-container {
+    position: absolute;
+    background-color: #343D7C;
+    z-index: 1;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.border-sup-container {
+    top: 0;
+    right: 0;
+    width: 20%;
+    height: 0.2em;
+}
+
+.border-right-container {
+    top: 0;
+    right: 0;
+    width: 0.2em;
+    height: 50%;
+}
+
+
 .container {
     display: flex;
-    height: 100%;
+    height: 1300px;
     width: 80rem;
-    min-height: 40rem;
-    max-height: 500rem;
     margin: 1rem auto;
     background-color: #ffffff00;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+    transition: all 0.2s ease-out;
 }
+
+
+@media (max-width: 1400px) {
+    .validaciones_title {
+        width: 12em;
+    }
+
+    .validaciones_title h3 {
+        font-size: 28px;
+    }
+
+    .container {
+        width: 70rem;
+    }
+
+    #exportFormE,
+    #exportFormP {
+        width: 90% !important;
+    }
+
+    .form-group select,
+    input[type="text"],
+    input[type="date"],
+    input[type="number"] {
+        width: 90%;
+    }
+    .titulo h1 {
+        font-size: 25px;
+    }
+}
+@media (max-width: 1350px) {
+    .validaciones_title {
+        width: 12em;
+    }
+
+    .validaciones_title h3 {
+        font-size: 28px;
+    }
+
+    .container {
+        width: 68rem;
+    }
+
+    .titulo h1 {
+        font-size: 23px;
+    }
+}
+
+
 
 .main-container {
     width: 100%;
@@ -34,7 +148,8 @@
     padding: 10px;
     border-radius: 4px;
     transition: background-color 0.3s ease;
-    width: 100%; /* Ocupar todo el ancho disponible */
+    width: 100%;
+    /* Ocupar todo el ancho disponible */
     box-sizing: border-box;
 }
 
@@ -51,6 +166,15 @@
 .containers {
     width: 100%;
     margin: -10px auto;
+}
+
+.title_and_inputs {
+    width: 100% !important;
+}
+
+.title_and_inputs #exportFormE,
+.title_and_inputs #exportFormP {
+    width: 100% !important;
 }
 
 /* Títulos */
@@ -82,35 +206,36 @@ hr {
     margin: 10px;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 1rem; /* Espacio entre las filas */
+    margin-bottom: 1rem;
 }
 
 .form-group {
     flex: 1;
-    margin-right: 1rem; /* Espacio entre los elementos en una fila */
-    margin-bottom: 1rem; /* Espacio entre las filas */
+    margin-right: 1rem;
+    margin-bottom: 1rem;
 }
 
 label {
     display: inline-block;
-    margin-bottom: 0.5rem; /* Espacio entre la etiqueta y el elemento */
+    margin-bottom: 0.5rem;
 }
 
-.form-group select, input[type="text"], input[type="date"], input[type="number"] {
-    width: 100%; /* Ocupa todo el ancho disponible */
-    padding: 0.5rem; /* Espaciado interno */
-    box-sizing: border-box; /* Incluye el relleno en el ancho y alto total */
+.form-group select,
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-button {
-    width: 100%;
+.user-menu-button {
     padding: 10px;
-    background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 40px;
     cursor: pointer;
 }
 
@@ -119,8 +244,10 @@ button {
     background-color: #21AFA4;
     color: #fff;
     cursor: pointer;
-    width: auto; /* Ajusta el ancho según el contenido */
-    margin: 10px 50px; /* Ajusta el margen superior para separarlo de los otros elementos */
+    width: auto;
+    /* Ajusta el ancho según el contenido */
+    margin: 10px 50px;
+    /* Ajusta el margen superior para separarlo de los otros elementos */
 }
 
 a {
@@ -161,7 +288,8 @@ th::after {
 
 /* Estilos para filas impares */
 tr:nth-child(odd) {
-    background-color: #f2f2f26e !important; /* Color gris claro */
+    background-color: #f2f2f26e !important;
+    /* Color gris claro */
 }
 
 table td {
@@ -169,7 +297,8 @@ table td {
     text-align: center !important;
     border: solid 1px rgba(255, 255, 255, 0) !important;
     padding: 10px !important;
-    word-wrap: break-word !important; /* Agregar esta línea */
+    word-wrap: break-word !important;
+    /* Agregar esta línea */
 }
 
 table tr:last-child td {
@@ -177,7 +306,7 @@ table tr:last-child td {
 }
 
 .tableElementos {
-    width: 100% !important;
+    width: 90% !important;
     margin: auto !important;
     padding: 20px !important;
     overflow: auto !important;
@@ -187,6 +316,7 @@ table tr:last-child td {
     background-repeat: no-repeat !important;
 
 }
+
 .tablePrestamos {
     width: 100% !important;
     margin: auto !important;
@@ -200,7 +330,7 @@ table tr:last-child td {
 }
 
 
-form .select2{
+form .select2 {
     padding: 3px !important;
     margin-bottom: 12px !important;
     border: 1px solid #ccc !important;
@@ -211,7 +341,7 @@ form .select2-container--default .select2-selection--single {
     border: none !important;
     border: none !important;
     border-radius: 0% !important;
-  }
+}
 
 form .select2-selection__rendered {
     font-size: 13px;
@@ -225,7 +355,7 @@ BOTON DE EXPORTAR PARA ELEMENTOS
 */
 
 .Options-Exports-Elementos .export-button {
-    margin:auto;
+    margin: auto;
     background-color: #21AFA4;
     color: #fff;
     padding: 10px;
@@ -245,13 +375,15 @@ BOTON DE EXPORTAR PARA ELEMENTOS
     display: none;
     position: absolute;
     top: 0;
-    left: 100%; /* Aparecerá justo al lado derecho del botón */
+    left: 100%;
+    /* Aparecerá justo al lado derecho del botón */
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 5px;
     z-index: 1;
 }
+
 .Options-Exports-Elementos .button-with-icon {
     margin-bottom: 5px;
     background: none;
@@ -261,7 +393,8 @@ BOTON DE EXPORTAR PARA ELEMENTOS
 
 .Options-Exports-Elementos .button-with-icon i {
     font-size: 25px;
-    margin-right: 5px; /* Ajusta el espacio entre el icono y el texto del botón */
+    margin-right: 5px;
+    /* Ajusta el espacio entre el icono y el texto del botón */
 }
 
 
@@ -273,7 +406,7 @@ BOTON DE EXPORTAR PARA PROCEDIMIENTOS
 */
 
 .Options-Exports-Procedimientos .export-button {
-    margin:auto;
+    margin: auto;
     background-color: #21AFA4;
     color: #fff;
     padding: 10px;
@@ -293,13 +426,15 @@ BOTON DE EXPORTAR PARA PROCEDIMIENTOS
     display: none;
     position: absolute;
     top: 0;
-    left: 100%; /* Aparecerá justo al lado derecho del botón */
+    left: 100%;
+    /* Aparecerá justo al lado derecho del botón */
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 5px;
     z-index: 1;
 }
+
 .Options-Exports-Procedimientos .button-proce {
     margin-bottom: 5px;
     background: none;
@@ -309,11 +444,12 @@ BOTON DE EXPORTAR PARA PROCEDIMIENTOS
 
 .Options-Exports-Procedimientos .button-proce i {
     font-size: 25px;
-    margin-right: 5px; /* Ajusta el espacio entre el icono y el texto del botón */
+    margin-right: 5px;
+    /* Ajusta el espacio entre el icono y el texto del botón */
 }
 
 
-  /*
+/*
 ================================================================
 FOOTER
 ================================================================
@@ -379,24 +515,26 @@ FOOTER
 
 
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
     .container {
-        width: 70rem;
+        width: 50rem;
     }
 
     .menu-container {
         width: 150px;
     }
 }
+
 @media (max-width: 1100px) {
     .container {
-        width: 60rem;
+        width: 40rem;
     }
 
     .menu-container {
         width: 120px;
     }
 }
+
 @media (max-width: 760px) {
     .button-container {
         grid-template-columns: repeat(2, 1fr);
@@ -427,10 +565,10 @@ DATATABLE
     padding-inline: 0.8em !important;
     border-radius: var(--border-radius) !important;
     transition: border-radius 0.5s ease !important;
-    background: var(--input-bg,#fff) !important;
+    background: var(--input-bg, #fff) !important;
 }
 
- .dataTables_filter input[type="text"] {
+.dataTables_filter input[type="text"] {
     font-size: 0.9rem !important;
     background-color: transparent !important;
     width: 100% !important;
@@ -440,21 +578,22 @@ DATATABLE
     border: none !important;
 }
 
- .dataTables_filter input[type="text"]::placeholder {
+.dataTables_filter input[type="text"]::placeholder {
     color: #000000;
     font-size: 13px;
 }
- .dataTables_filter button {
+
+.dataTables_filter button {
     border: none;
     background: none;
     color: #8b8ba7;
 }
 
- .dataTables_filter input[type="text"]:focus {
+.dataTables_filter input[type="text"]:focus {
     outline: none !important;
 }
 
- .dataTables_filter:before {
+.dataTables_filter:before {
     content: "" !important;
     position: absolute !important;
     background: var(--border-color) !important;
@@ -468,31 +607,32 @@ DATATABLE
     transition: transform var(--timing) ease !important;
 }
 
- .dataTables_filter:focus-within {
+.dataTables_filter:focus-within {
     border-radius: var(--after-border-radius) !important;
 }
 
- .dataTables_filter:focus-within:before {
+.dataTables_filter:focus-within:before {
     transform: scale(1) !important;
 }
 
- .dataTables_filter button.reset {
+.dataTables_filter button.reset {
     border: none !important;
     background: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
 }
 
- .dataTables_filter input[type="text"]:not(:placeholder-shown) ~ .reset {
+.dataTables_filter input[type="text"]:not(:placeholder-shown)~.reset {
     opacity: 1 !important;
     visibility: visible !important;
 }
 
- .dataTables_filter input[type="text"]::-ms-clear,
- .dataTables_filter input[type="text"]::-webkit-search-cancel-button {
+.dataTables_filter input[type="text"]::-ms-clear,
+.dataTables_filter input[type="text"]::-webkit-search-cancel-button {
     display: none !important;
 }
- .dataTables_filter svg {
+
+.dataTables_filter svg {
     width: 17px !important;
     margin-top: 3px !important;
 }
@@ -508,7 +648,7 @@ DATATABLE
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.616);
     background-color: #F3F3F3;
     width: 80%;
-    padding: 10px ;
+    padding: 10px;
     padding-right: 35px;
     border-radius: 5px 0 0 5px;
     border: 0;
