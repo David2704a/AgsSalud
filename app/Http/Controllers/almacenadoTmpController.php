@@ -199,8 +199,8 @@ class almacenadoTmpController extends Controller
     public function importarExcel(Request $request)
     {
         almacenadoTmp::truncate();
-        elementonoid::truncate();
-        sincodTmp::truncate();
+        // elementonoid::truncate();
+        // sincodTmp::truncate();
 
         // Validar si se envió un archivo
         if (!$request->hasFile('archivo')) {
@@ -437,14 +437,16 @@ class almacenadoTmpController extends Controller
                 // dd('frena');
                 // Obtener todos los registros con id_dispo que contienen "codigo" o "$SIN CODIGO"
                 $registrosConCodigoSinCodigo = AlmacenadoTmp::where(function ($query) {
-                    $query->where('id_dispo', 'like', 'codigo%')
-                        ->orWhere('id_dispo', 'like', '%SIN CODIGO%')
-                        ->orWhere('id_dispo', 'like', 'AIRE ACONDICIONADO%')
-                        ->orWhere('id_dispo', 'like', 'BAFLE%')
-                        ->orWhere('id_dispo', 'like', 'ADAPTADOR DE MICROFONO%')
-                        ->orWhere('id_dispo', 'like', 'TRANCEIVER%');
-
+                    $query->whereNull('id_dispo')
+                          ->orWhere('id_dispo', '')
+                          ->orWhere('id_dispo', 'like', 'codigo%')
+                          ->orWhere('id_dispo', 'like', '%SIN CODIGO%')
+                          ->orWhere('id_dispo', 'like', 'AIRE ACONDICIONADO%')
+                          ->orWhere('id_dispo', 'like', 'BAFLE%')
+                          ->orWhere('id_dispo', 'like', 'ADAPTADOR DE MICROFONO%')
+                          ->orWhere('id_dispo', 'like', 'TRANCEIVER%');
                 })->get();
+                
 
                 // Si hay registros que cumplan la condición
                 if ($registrosConCodigoSinCodigo->isNotEmpty()) {
@@ -475,7 +477,12 @@ class almacenadoTmpController extends Controller
                     AlmacenadoTmp::whereIn('id', $registrosConCodigoSinCodigo->pluck('id'))->delete();
                 }
                 // Obtener registros de AlmacenadoTmp que cumplan la condición
-                $registrosSinIdDispo = AlmacenadoTmp::whereNull('id_dispo')->get();
+                // $registrosSinIdDispo = AlmacenadoTmp::whereNull('id_dispo')->get();
+
+                $registrosSinIdDispo = AlmacenadoTmp::whereNull('id_dispo')
+                                    ->whereNull('ram')
+                                    ->whereNull('procesador')
+                                    ->get();
 
                 // Si hay registros que cumplan la condición
                 if ($registrosSinIdDispo->isNotEmpty()) {
@@ -520,6 +527,7 @@ class almacenadoTmpController extends Controller
                     ->where('id_dispo', "900237674-7-U-")
                     ->orWhere('id_dispo', 'LIKE', "900237674-7-U-OTRA%")
                     ->orWhere('id_dispo', 'LIKE', "900237674-7-U-0?%")
+                    ->orWhere('id_dispo', null)
                     ->orderBy('id_dispo', 'DESC')
                     ->get();
 
@@ -541,6 +549,7 @@ class almacenadoTmpController extends Controller
         $registrosActualizarAR = AlmacenadoTmp::where('dispositivo', 'ADAPTADOR DE RED')
                     ->where('id_dispo', "900237674-7-AR-")
                     ->orWhere('id_dispo', 'LIKE', "900237674-7-AR-0?%")
+                    ->orWhere('id_dispo', null)
                     ->orderBy('id_dispo', 'DESC')
                     ->get();
 
@@ -600,6 +609,7 @@ class almacenadoTmpController extends Controller
         // Obtener los registros de "PC PORTATIL" con la etiqueta "SIN CODIGO" en su ID_DISPO
         $registrosSinCodigoPCPortatil = AlmacenadoTmp::where('dispositivo', 'PC PORTATIL')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->get();
 
         // Obtener los ID_DISPO existentes para dispositivos "PC PORTATIL" con formato numérico
@@ -642,6 +652,7 @@ class almacenadoTmpController extends Controller
         // Obtener los registros de "CARGADOR PORTATIL" con la etiqueta "SIN CODIGO" en su ID_DISPO
         $registrosSinCodigoCargadorPortatil = AlmacenadoTmp::where('dispositivo', 'CARGADOR PORTATIL')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->get();
 
         // Obtener los ID_DISPO existentes para dispositivos "CARGADOR PORTATIL" con formato numérico
@@ -686,6 +697,7 @@ class almacenadoTmpController extends Controller
         // Obtener los registros de "IMPRESORA" con la etiqueta "SIN CODIGO" en su ID_DISPO
         $registrosSinCodigoImpresora = AlmacenadoTmp::where('dispositivo', 'IMPRESORA')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->get();
 
         // Obtener el número de serie de las impresoras
@@ -716,6 +728,7 @@ class almacenadoTmpController extends Controller
         // Obtener los registros de "MODEM WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO
         $registrosSinCodigoModemWifi = AlmacenadoTmp::where('dispositivo', 'MODEN WI-FI')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->get();
 
         // Iterar sobre los registros de "MODEN WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
@@ -738,6 +751,7 @@ class almacenadoTmpController extends Controller
         // Obtener los registros de "MODEM WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO
         $registrosSinCodigoRouter = AlmacenadoTmp::where('dispositivo', 'ROUTER')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->get();
 
         // Iterar sobre los registros de "MODEN WI-FI" con la etiqueta "SIN CODIGO" en su ID_DISPO para asignarles nuevos ID_DISPO
@@ -760,6 +774,7 @@ class almacenadoTmpController extends Controller
         // Obtener los registros de "DVR" con la etiqueta "SIN CODIGO" en su ID_DISPO
         $registrosSinCodigoDVR = AlmacenadoTmp::where('dispositivo', 'DVR')
             ->where('id_dispo', 'LIKE', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->get();
 
         // Obtener los ID_DISPO existentes para dispositivos "DVR"
@@ -798,6 +813,7 @@ class almacenadoTmpController extends Controller
     {
         $registrosIncompletos = AlmacenadoTmp::where('dispositivo', 'SWITCH')
             ->where([['id_dispo', '<>', '900237674-7-SW-'],['id_dispo', 'not like', '%' . '900237674-7-SW-NUEVO' . '%'],['id_dispo', 'like', '%' . '900237674-7-SW-' . '%']])
+            ->orWhere('id_dispo', null)
             ->orderBy('id_dispo', 'DESC')
             ->first();
 
@@ -825,6 +841,7 @@ class almacenadoTmpController extends Controller
 
         $registrosActualizar = AlmacenadoTmp::where('dispositivo', 'DIADEMA')
             ->where('id_dispo','like', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->orderBy('id_dispo', 'DESC')
             ->get();
 
@@ -846,6 +863,7 @@ class almacenadoTmpController extends Controller
 
         $registrosActualizarT = AlmacenadoTmp::where('dispositivo', 'TECLADO')
             ->where('id_dispo','like', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->orderBy('id_dispo', 'DESC')
             ->get();
 
@@ -868,6 +886,7 @@ class almacenadoTmpController extends Controller
 
         $registrosActualizarPADMOUSE= AlmacenadoTmp::where('dispositivo', 'PAD MOUSE')
             ->where('id_dispo','like', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->orderBy('id_dispo', 'DESC')
             ->get();
 
@@ -878,6 +897,7 @@ class almacenadoTmpController extends Controller
 
         $registrosActualizarPADMOUSEERGONOMICO= AlmacenadoTmp::where('dispositivo', 'PAD MOUSE ERGONOMICO')
             ->where('id_dispo','like', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->orderBy('id_dispo', 'DESC')
             ->get();
 
@@ -888,6 +908,7 @@ class almacenadoTmpController extends Controller
 
         $registrosActualizarPADTeclado= AlmacenadoTmp::where('dispositivo', 'PAD TECLADO')
             ->where('id_dispo','like', '%PADTECLADO%')
+            ->orWhere('id_dispo', null)
             ->orderBy('id_dispo', 'DESC')
             ->get();
 
@@ -947,6 +968,7 @@ class almacenadoTmpController extends Controller
     {
         $registrosIncompletos = AlmacenadoTmp::where('dispositivo', 'BASE REFRIGERANTE')
             ->where([['id_dispo', '<>', "900237674'7'B.R'"],['id_dispo', 'not like', '%' . "900237674'7'B.R'NUEVO" . '%'],['id_dispo', 'not like', '%' . "Sincodigo" . '%'],['id_dispo', 'like', '%' . "900237674'7'B.R'" . '%']])
+            ->orWhere('id_dispo', null)
             ->orderBy('id_dispo', 'DESC')
             ->first();
 
@@ -987,7 +1009,8 @@ class almacenadoTmpController extends Controller
             ->where(function ($query) {
                 $query->where('id_dispo', "900237674'7' MOUSE'")
                     ->orWhere('id_dispo', 'LIKE', "900237674'7' MOUSE''sincodigo%")
-                    ->orWhere('id_dispo', 'LIKE', '%SIN CODIGO%');
+                    ->orWhere('id_dispo', 'LIKE', '%SIN CODIGO%')
+                    ->orWhere('id_dispo', null);
             })->get();
 
             foreach ($registrosActualizar as $registro) {
@@ -1018,6 +1041,7 @@ class almacenadoTmpController extends Controller
         // Obtener los registros con "SIN CODIGO" para el dispositivo "MONITOR"
         $registrosSinCodigo = AlmacenadoTmp::where('dispositivo', 'MONITOR')
             ->where('id_dispo', 'like', '%SIN CODIGO%')
+            ->orWhere('id_dispo', null)
             ->get();
 
         // Actualizar los registros con "SIN CODIGO" de manera incremental
