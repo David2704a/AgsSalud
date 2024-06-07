@@ -311,6 +311,10 @@ class almacenadoTmpController extends Controller
 
                             } else {
                                 $valor = ($columna === 'nombres_apellidos') ? $cadenaNombres : $datosFila[$index];
+                        
+                                if ($columna === 'documento') {
+                                    $valor = preg_replace('/[.,-]/', '', $valor);
+                                }
 
                                 // Convertir fecha si es la columna 'fecha_compra'
                                 if ($columna === 'fecha_compra') {
@@ -335,9 +339,9 @@ class almacenadoTmpController extends Controller
                                         }
                                     }
                                 }
-
-                                $almacenadoTmp->{$columna} = $valor;
-
+                        
+                                $almacenadoTmp->{$columna} = empty(trim($valor)) ? null : $valor;
+                             
 
                             }
                         }
