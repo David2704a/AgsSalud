@@ -1,9 +1,10 @@
 $(document).ready(function () {
     filtrarElementos();
     filtroProcedimientos();
-    $('.filtrosInputs select').on('change', function () {
+    $('.filtrosInputsElementos select').on('change', function () {
         filtrarElementos();
     });
+
 });
 
 

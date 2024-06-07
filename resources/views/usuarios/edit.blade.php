@@ -55,10 +55,11 @@
                     'patternId' => 'pattern_b',
                 ])
                 <div class="card_photoEditP">
-                    @if($usuario->persona->sexo == 'M' ||$usuario->persona->sexo == 'O' ||$usuario->persona->sexo == null)
-                    <div class="card-photo"></div>
-                    @elseif($usuario->persona->sexo == 'F')
-                    @include('components.svg-perfil-femenino')
+                    
+                    @if ($usuario->persona && ($usuario->persona->sexo == 'M' || $usuario->persona->sexo == 'O' || $usuario->persona->sexo == null))
+                        <div class="card-photo"></div>
+                    @elseif($usuario->persona && $usuario->persona->sexo == 'F')
+                        @include('components.svg-perfil-femenino')
                     @endif
                 </div>
             </div>

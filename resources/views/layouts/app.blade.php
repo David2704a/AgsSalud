@@ -180,13 +180,13 @@
             <li class="{{ Request::is('dashboard') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/dashboard') }}"><i class="fa-solid fa-house-chimney"></i> <span>Inicio</span></a>
             </li>
-            <li class="{{ Request::is('procedimiento') ? 'active' : '' }}" onclick="showLoader()">
+            <li class="{{ Request::is('procedimiento') || Request::is('procedimiento/*') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/procedimiento') }}"><i class="fa-solid fa-diagram-project"></i>
                     <span>Procedimientos</span></a>
             </li>
-            <li class="{{ Request::is('elementos') ? 'active' : '' }}" onclick="showLoader()">
+            <li class="{{ Request::is('elementos') || Request::is('elementos/*') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/elementos') }}"><i class="fa-brands fa-elementor"></i> <span>Elementos</span></a>
-            <li class="{{ Request::is('categorias') ? 'active' : '' }}" onclick="showLoader()">
+            <li class="{{ Request::is('categorias') || Request::is('categorias/*') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/categorias') }}"><i class="fas fa-list"></i> <span>Categorías</span></a>
             </li>
             <li class="{{ Request::is('reporte') ? 'active' : '' }}" onclick="showLoader()">
@@ -195,7 +195,7 @@
             <li class="{{ Request::is('usuarios') || Request::is('user/*/edit') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/usuarios') }}"><i class="fas fa-users-gear"></i> <span>Usuarios</span></a>
             </li>
-            <li class="{{ Request::is('Miperfil') ? 'active' : '' }}" onclick="showLoader()">
+            <li class="{{ Request::is('Miperfil') || Request::is('editar/*') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/Miperfil') }}"><i class="fas fa-user-pen"></i> <span>Perfil</span></a>
             </li>
         </ul>

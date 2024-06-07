@@ -301,7 +301,9 @@ ESTILOS PARA LOS CARDS DE LOS ROLES
 */
 
 .roles {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;

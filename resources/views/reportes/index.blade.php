@@ -40,7 +40,7 @@
                         <h1>Informes para Elementos</h1>
                         <hr>
                     </div>
-                    <form class="alo" method="POST" action="{{ url('/exportarElementos') }}" id="exportFormE"
+                    <form class="filtrosInputsElementos" method="POST" action="{{ url('/exportarElementos') }}" id="exportFormE"
                         onsubmit="return preSubmitAction()">
                         @csrf
                             <div class="form-row">
