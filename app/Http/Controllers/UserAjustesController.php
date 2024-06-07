@@ -86,12 +86,18 @@ class UserAjustesController extends Controller
         if (auth()->user()->hasRole(['superAdmin', 'administrador'])) {
             $user = User::find($id);
 
-            $user->update([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-
-                'password' => Hash::make($request->input('password')),
-            ]);
+            if ($request->input('password') === null) {
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email')
+                ]);
+            } else {
+                $user->update([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => bcrypt($request->input('password')),
+                ]);
+            }
 
             $act = DB::table('model_has_roles')->select('model_id')->where('model_id', $id)->first();
 
