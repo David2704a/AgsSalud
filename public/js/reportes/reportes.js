@@ -1,9 +1,10 @@
 $(document).ready(function () {
     filtrarElementos();
     filtroProcedimientos();
-    $('.filtrosInputs select').on('change', function () {
+    $('.filtrosInputsElementos select').on('change', function () {
         filtrarElementos();
     });
+
 });
 
 
@@ -56,18 +57,9 @@ function filtrarElementos() {
                 $('#tablaReportElementos tbody').append(
                     `<tr>
                         <td>${elemento.id_dispo ? elemento.id_dispo : 'NO APLICA'}</td>
-                        <td>${elemento.marca ? elemento.marca : 'NO APLICA'}</td>
                         <td>${elemento.referencia ? elemento.referencia : 'NO APLICA'}</td>
-                        <td>${elemento.serial ? elemento.serial : 'NO APLICA'}</td>
-                        <td>${elemento.procesador ? elemento.procesador : 'NO APLICA'}</td>
-                        <td>${elemento.ram ? elemento.ram : 'NO APLICA'}</td>
-                        <td>${elemento.disco_duro ? elemento.disco_duro : 'NO APLICA'}</td>
-                        <td>${elemento.tarjeta_grafica ? elemento.tarjeta_grafica : 'NO APLICA'}</td>
-                        <td>${elemento.modelo ? elemento.modelo : 'NO APLICA'}</td>
-                        <td>${elemento.garantia ? elemento.garantia : 'NO APLICA'}</td>
                         <td>${elemento.descripcion ? elemento.descripcion : 'NO APLICA'}</td>
                         <td>${elemento.estadoElemento ? elemento.estadoElemento : 'NO APLICA'}</td>
-                        <td>${elemento.tipoElemento ? elemento.tipoElemento : 'NO APLICA'}</td>
                         <td>${elemento.nameCategoria ? elemento.nameCategoria : 'NO APLICA'}</td>
                         <td>${elemento.codigoFactura ? elemento.codigoFactura : 'NO APLICA'}</td>
                         <td>${elemento.nameProveedor ? elemento.nameProveedor : 'NO APLICA'}</td>

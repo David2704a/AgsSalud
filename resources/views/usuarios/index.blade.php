@@ -5,7 +5,7 @@
 @section('links')
     <link rel="stylesheet" href="{{ asset('/css/categoria/categoria.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{asset('js/user/user.js')}}"></script>
+    <script src="{{ asset('js/user/user.js') }}"></script>
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
         </div>
 
         <div class="button-container">
-            <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left">
+            <a href="{{ url('/dashboard') }}" class="button-izquierda arrow-left">
                 <i class="fa-solid fa-circle-arrow-left"></i> Regresar
             </a>
             <a href="{{ route('auth.register') }}" class="button-derecha">
@@ -24,16 +24,16 @@
             </a>
         </div>
 
-        @if(session('success'))
+        @if (session('success'))
             <div id="alert" class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        @if($errors->any())
+        @if ($errors->any())
             <div id="error-alert" class="alert alert-danger">
                 <ul>
-                    @foreach($errors->all() as $error)
+                    @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
@@ -53,7 +53,9 @@
                             <th>Usuario</th>
                             <th>Correo</th>
                             <th>Rol</th>
-                            <th>Acciones</th>
+                            @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                <th>Acciones</th>
+                            @endif
                         </thead>
                         <tbody>
                             @foreach ($users as $usuario)
@@ -63,16 +65,17 @@
                                     <td>{{ $usuario->user_name }}</td>
                                     <td>{{ $usuario->email }}</td>
                                     <td>{{ $usuario->rol }}</td>
-                                    
+
+                                    @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                     <td>
-                                        @if(auth()->user()->hasRole(['superAdmin','administrador']))
+                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                             <a class="edit-button" method="POST"
                                                 href="{{ route('usuarios.edit', ['id' => $usuario->id]) }}"
                                                 title="Editar"><i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                         @endif
 
-                                        @if(auth()->user()->hasRole(['superAdmin']))
+                                        @if (auth()->user()->hasRole(['superAdmin']))
                                             <button type="button" class="delete-button" title="Eliminar"
                                                 data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}">
                                                 <i data-id="{{ $usuario->id }}" data-name="{{ $usuario->nombre }}"
@@ -100,6 +103,7 @@
                                             </div>
                                         @endif
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -118,8 +122,7 @@
             <p id="modalMessage"></p>
             <div class="button-container">
                 <button id="cancelButton" class="modal-button">Cancelar</button>
-                <form id="deleteForm"
-                    action="{{ route('destroyUser', ['id' => $usuario->id]) }}" method="POST">
+                <form id="deleteForm" action="{{ route('destroyUser', ['id' => $usuario->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>

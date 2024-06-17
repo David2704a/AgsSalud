@@ -65,3 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+/*
+===========================================
+FUNCION PARA LA ANIMACION DE CARGA
+===========================================
+*/
+
+

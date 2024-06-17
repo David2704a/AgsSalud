@@ -76,7 +76,9 @@
             });
         }
     </script>
-
+    <div id="loader-wrapper" class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
     <header>
         <div class="btn_menuL">
             <button class="toggle-btn" id="toggleBtn">☰</button>
@@ -90,9 +92,9 @@
             </a>
         </div> --}}
 
-        <div class="user-menu">
+        <div class="user_menu">
             <button id="user-menu-button" class="user-menu-button">
-                <div class="user-name">
+                <div class="user_name">
                     @auth
                         {{ Auth::user()->name }}
                     @endauth
@@ -101,18 +103,55 @@
                     <i class="material-symbols-outlined">expand_more</i>
                 </div>
             </button>
+            <div class="card_panel card_drop" id="user-dropdown">
 
-            <!-- Opciones de usuario -->
-            <div id="user-dropdown" class="dropdown-menu">
-                <a class="perfiledit" href="{{ route('ActualizarPerfil') }}">Perfil</a>
+                @include('components.svg-fondo-perfil')
+                @auth
+                    @if (Auth::user()->persona && in_array(Auth::user()->persona->sexo, ['M', 'F', 'O', null]))
+                        @if (Auth::user()->persona->sexo === 'M')
+                            <div class="card_photoDiv"
+                                style="position: absolute;top:120px; width:0%; padding:0; height:150px; justify-content:center;   flex-direction: column;
+                            align-items: center; display:flex;">
+                                <div class="card-photo"></div>
+                            </div>
+                        @elseif(Auth::user()->persona->sexo === 'F')
+                            @include('components.svg-perfil-femenino')
+                        @elseif (Auth::user()->persona->sexo === 'O')
+                            <div class="card_photoDiv"
+                                style="position: absolute;top:120px; width:0%; padding:0; height:150px; justify-content:center;   flex-direction: column;
+                            align-items: center; display:flex;">
+                                <div class="card-photo"></div>
+                            </div>
+                        @elseif (Auth::user()->persona->sexo === null)
+                            <div class="card_photoDiv"
+                                style="position: absolute;top:120px; width:0%; padding:0; height:150px; justify-content:center;   flex-direction: column;
+                            align-items: center; display:flex;">
+                                <div class="card-photo"></div>
+                            </div>
+                        @endif
+                    @endif
+                @endauth
+
+                <div class="card__title"> @auth
+                        {{ Auth::user()->name }}
+                    @endauth
+                </div>
+                <div class="card__subtitle">
+                    {{ Auth::user()->email}}
+                </div>
+                <div class="card__subtitle" style="text-transform: uppercase;">
+                    {{ ucwords(preg_replace('/(?<!^)([A-Z])/', ' $1', Auth::user()->getRoleNames()->first())) }}
 
 
-                <br>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="btonCerrarSe" type="submit">Cerrar sesión</button>
-                </form>
-
+                </div>
+                <div class="card__wrapper">
+                    <a class="perfiledit" href="{{ route('ActualizarPerfil') }}">Perfil</a>
+                    <form class="formulario_logout" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="card__btn card__btn-solid" type="submit"><i
+                                class="fa-solid fa-right-from-bracket"></i>Cerrar Sesión</button>
+                    </form>
+                </div>
             </div>
         </div>
     </header>
@@ -123,7 +162,6 @@
     <div class="sidebar collapsed" id="sidebar">
         <div class="button_logo">
             <div class="logo">
-                {{-- <img src="{{ asset('imgs/logos/Ags.png') }}" alt="Logo de la empresa"> --}}
                 <img src="{{ asset('img/Sage.png') }}" alt="Logo del Aplicativo">
             </div>
             <div class="button_close">
@@ -139,26 +177,26 @@
             </div>
         </div>
         <ul class="menu_lateral">
-            <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
-                <a href="/dashboard"><i class="fas fa-home"></i> <span>Inicio</span></a>
+            <li class="{{ Request::is('dashboard') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/dashboard') }}"><i class="fa-solid fa-house-chimney"></i> <span>Inicio</span></a>
             </li>
-            <li class="{{ Request::is('procedimiento') ? 'active' : '' }}">
-                <a href="/procedimiento"><i class="fas fa-procedures"></i> <span>Procedimientos</span></a>
+            <li class="{{ Request::is('procedimiento') || Request::is('procedimiento/*') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/procedimiento') }}"><i class="fa-solid fa-diagram-project"></i>
+                    <span>Procedimientos</span></a>
             </li>
-            <li class="{{ Request::is('elementos') ? 'active' : '' }}">
-                <a href="/elementos"><i class="fas fa-cogs"></i> <span>Elementos</span></a>
+            <li class="{{ Request::is('elementos') || Request::is('elementos/*') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/elementos') }}"><i class="fa-brands fa-elementor"></i> <span>Elementos</span></a>
+            <li class="{{ Request::is('categorias') || Request::is('categorias/*') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/categorias') }}"><i class="fas fa-list"></i> <span>Categorías</span></a>
             </li>
-            <li class="{{ Request::is('categorias') ? 'active' : '' }}">
-                <a href="/categorias"><i class="fas fa-list"></i> <span>Categorías</span></a>
+            <li class="{{ Request::is('reporte') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/reporte') }}"><i class="fas fa-file-alt"></i> <span>Reportes</span></a>
             </li>
-            <li class="{{ Request::is('reporte') ? 'active' : '' }}">
-                <a href="/reporte"><i class="fas fa-file-alt"></i> <span>Reportes</span></a>
+            <li class="{{ Request::is('usuarios') || Request::is('user/*/edit') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/usuarios') }}"><i class="fas fa-users-gear"></i> <span>Usuarios</span></a>
             </li>
-            <li class="{{ Request::is('usuarios') ? 'active' : '' }}">
-                <a href="/usuarios"><i class="fas fa-users"></i> <span>Usuarios</span></a>
-            </li>
-            <li class="{{ Request::is('Miperfil') ? 'active' : '' }}">
-                <a href="/Miperfil"><i class="fas fa-user"></i> <span>Perfil</span></a>
+            <li class="{{ Request::is('Miperfil') || Request::is('editar/*') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/Miperfil') }}"><i class="fas fa-user-pen"></i> <span>Perfil</span></a>
             </li>
         </ul>
     </div>
@@ -193,6 +231,19 @@
         </div>
     </footer>
     <script>
+        function showLoader() {
+            const loaderWrapper = document.getElementById("loader-wrapper");
+            loaderWrapper.style.display = "flex";
+
+            document.body.style.overflow = "hidden";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const loaderWrapper = document.getElementById("loader-wrapper");
+            loaderWrapper.style.display = "none";
+            document.body.style.overflow = "auto";
+        });
+
         document.getElementById('toggleBtn').addEventListener('click', function() {
             var sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('collapsed');
@@ -214,4 +265,5 @@
     <script src="{{ asset('js/layout.js') }}"></script>
     <script src="{{ asset('js/layout.js') }}"></script>
 </body>
+
 </html>
