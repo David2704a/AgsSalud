@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/procedimiento/{id}/update', [ProcedimientoController::class, 'update'])->name('updateProcedimiento');
     Route::delete('/procedimiento/{id}/destroy', [ProcedimientoController::class, 'destroy'])->name('destroyProcedimiento');
     Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])->name('buscarProcedimientos');
+    Route::get('/traerElementosSinUsuarios', [ProcedimientoController::class, 'traerElementosSinUsuarios']);
+
 
     //rutas para proveedores
     Route::resource('proveedores', ProveedorController::class)->names('proveedores');

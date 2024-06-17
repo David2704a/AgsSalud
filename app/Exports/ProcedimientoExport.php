@@ -95,11 +95,11 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents, WithS
                 $event->sheet->getColumnDimension('C')->setWidth('12')->setAutoSize(false);
                 $event->sheet->getColumnDimension('D')->setWidth('22')->setAutoSize(false);
                 $event->sheet->getColumnDimension('E')->setWidth('12')->setAutoSize(false);
-                $event->sheet->getColumnDimension('F')->setWidth('20')->setAutoSize(false);
-                $event->sheet->getColumnDimension('G')->setWidth('14.5')->setAutoSize(false);
+                $event->sheet->getColumnDimension('F')->setWidth('24')->setAutoSize(false);
+                $event->sheet->getColumnDimension('G')->setWidth('24')->setAutoSize(false);
                 $event->sheet->getColumnDimension('H')->setWidth('14.5')->setAutoSize(false);
-                $event->sheet->getColumnDimension('I')->setWidth('14.5')->setAutoSize(false);
-                $event->sheet->getColumnDimension('J')->setWidth('14.5')->setAutoSize(false);
+                $event->sheet->getColumnDimension('I')->setWidth('24')->setAutoSize(false);
+                $event->sheet->getColumnDimension('J')->setWidth('24')->setAutoSize(false);
                 $event->sheet->getColumnDimension('K')->setWidth('22')->setAutoSize(false);
                 $event->sheet->getRowDimension(1)->setRowHeight(15);
                 $event->sheet->getRowDimension(2)->setRowHeight(8);
@@ -107,7 +107,7 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents, WithS
                 $event->sheet->getRowDimension(4)->setRowHeight(8);
                 $event->sheet->getRowDimension(5)->setRowHeight(15);
                 $event->sheet->getRowDimension(6)->setRowHeight(8);
-                $event->sheet->getRowDimension(7)->setRowHeight(380);
+                $event->sheet->getRowDimension(7)->setRowHeight(38);
                 $event->sheet->setTitle('Prestamos');
 
                 //combinacion de celdas
@@ -120,11 +120,11 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents, WithS
                 $event->sheet->mergeCells('A6:K6');
 
                 //insercion en las celdas combinadas
-                $event->sheet->setCellValue('C1', 'TICS Y ELEMENTOS');
-                $event->sheet->setCellValue('C3', 'REGISTRO PRESTAMO DE DISPOSITIVOS TECNOLÓGICOS Y ELEMENTOS');
+                $event->sheet->setCellValue('C1', 'TICS E INNOVACIÓN');
+                $event->sheet->setCellValue('C3', 'REGISTRO PRESTAMO DE DISPOSITIVOS TECNOLÓGICOS');
                 $event->sheet->setCellValue('C5', 'Código: TEI-F-06 ');
-                $event->sheet->setCellValue('G5', 'Versión:04');
-                $event->sheet->setCellValue('K1', 'Fecha de Modificación: ' . $fechaActual);
+                $event->sheet->setCellValue('G5', 'Versión:03');
+                $event->sheet->setCellValue('K1', 'Fecha de Modificación: 10/06/2021');
 
 
                 $event->sheet->getRowDimension(7)->setRowHeight(-1);

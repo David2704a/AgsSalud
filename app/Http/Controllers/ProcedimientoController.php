@@ -35,7 +35,7 @@ class ProcedimientoController extends Controller
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();
         // dd($elementos[100]);
-       return view('procedimientos.procedimiento.create', compact('elementos','estadoProcedimiento','tipoProcedimiento','usuariosEntrega','usuariosRecibe'));
+        return view('procedimientos.procedimiento.create', compact('elementos', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe'));
     }
 
     /**
@@ -50,14 +50,14 @@ class ProcedimientoController extends Controller
             "idElemento" => "required",
             "idEstadoProcedimiento" => "required",
             "idTipoProcedimiento" => "required",
-        ],[
+        ], [
             'observacion.required' => 'El campo Observación es obligatorio',
             'idElemento.required' => 'El campo Elemento es obligatorio',
             'idEstadoProcedimiento.required' => 'El campo Estado de Procedimiento es obligatirio',
             'idTipoProcedimiento.required' => 'El campo Tipo de Procedimiento es obligatorio'
         ]);
 
-    $procedimiento = new Procedimiento();
+        $procedimiento = new Procedimiento();
         $procedimiento->observacion = $request->input('observacion');
         $procedimiento->idElemento = $request->input('idElemento');
         $procedimiento->idEstadoProcedimiento = $request->input('idEstadoProcedimiento');
@@ -72,7 +72,6 @@ class ProcedimientoController extends Controller
 
         $procedimiento->save();
         return redirect()->route('mostrarProcedimiento')->with('success', 'Procedimiento creado correctamente');
-
     }
 
     /**
@@ -84,7 +83,6 @@ class ProcedimientoController extends Controller
 
         if (!$procedimiento) {
             return redirect()->route("mostrarProcedimiento")->with('error', 'El procedimiento no existe');
-
         }
 
         return view('procedimientos.procedimiento.show', compact('procedimiento'));
@@ -103,7 +101,7 @@ class ProcedimientoController extends Controller
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();
 
-        return view('procedimientos.procedimiento.edit', compact('procedimiento','tipoProcedimiento','estadoProcedimiento','elemento','usuariosEntrega','usuariosRecibe'));
+        return view('procedimientos.procedimiento.edit', compact('procedimiento', 'tipoProcedimiento', 'estadoProcedimiento', 'elemento', 'usuariosEntrega', 'usuariosRecibe'));
     }
 
     /**
@@ -153,7 +151,6 @@ class ProcedimientoController extends Controller
         $procedimiento->delete();
 
         return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento eliminado correctamente');
-
     }
 
 
@@ -216,16 +213,29 @@ class ProcedimientoController extends Controller
     //     return Excel::download(new ProcedimientoExport($filtros), 'procedimiento.xlsx');
     // }
 
-    public function mostrarResponsableEntrega(Request $request) {
+    public function mostrarResponsableEntrega(Request $request)
+    {
 
         $idElemento = $request->input('idElemento', true);
         $resultado = DB::table('elemento')
-        ->where('idElemento', $idElemento)
-        ->join('users','elemento.idUsuario', 'users.id')
-        ->select('users.name', 'users.id')
-        ->first();
-
+            ->where('idElemento', $idElemento)
+            ->join('users', 'elemento.idUsuario', 'users.id')
+            ->select('users.name', 'users.id')
+            ->first();
+        // dd($resultado);
         return $resultado;
     }
 
+
+    public function traerElementosSinUsuarios()
+    {
+        $elementos = DB::table('elemento')
+            ->where('idUsuario', NULL)
+            ->join('categoria', 'elemento.idCategoria', 'categoria.idCategoria')
+            ->select('elemento.id_dispo', 'elemento.idElemento', 'categoria.nombre')
+            ->get();
+
+            // dd($elementos);
+        return $elementos;
+    }
 }

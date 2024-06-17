@@ -25,44 +25,55 @@
             {{-- <th style="background-color: #343D7C; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;"><b>ID</b></th> --}}
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>FECHA DE PRESTAMO</b></th>
+                <b>FECHA DE PRESTAMO</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>DISPOSITIVO</b></th>
+                <b>DISPOSITIVO</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>CANTIDAD</b></th>
+                <b>CANTIDAD</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>CARACTERISTICAS</b></th>
+                <b>CARACTERISTICAS</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>ESTADO</b></th>
+                <b>ESTADO</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>ENTREGA</b></th>
+                <b>ENTREGA</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>RECIBE</b></th>
+                <b>RECIBE</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>FECHA DE DEVOLUCION</b></th>
+                <b>FECHA DE DEVOLUCION</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>ENTREGA</b></th>
+                <b>ENTREGA</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>RECIBE</b></th>
+                <b>RECIBE</b>
+            </th>
             <th
                 style="background-color: #1F4E78; font-family: Arial; border: 1px solid black; text-align: center; vertical-align: middle;">
-                <b>OBSERVACION</b></th>
+                <b>OBSERVACION</b>
+            </th>
 
         </tr>
     </thead>
     <tbody>
         @foreach ($procedimientos as $procedimiento)
             <tr>
-                <td style="border: 1px solid black;">
+                <td style="border: 1px solid black; margin:5em;">
                     {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica' }}
                 </td>
                 <td style="border: 1px solid black;">
@@ -103,12 +114,7 @@
             <th></th>
             <th></th>
             <th></th>
-                {{-- <th><img src="{{ public_path('imgs/logos/iso-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
-                <th><img src="{{ public_path('imgs/logos/iqnet-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th> --}}
-                {{-- <th><img src="{{ public_path('imgs/logos/escudo-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
-                <th><img src="{{ public_path('imgs/logos/enterritorio-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
-                <th><img src="{{ public_path('imgs/logos/fondo-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th>
-                <th><img src="{{ public_path('imgs/logos/sena-export.png') }}" alt="LOGO-AGS" style="border: 1px solid black; align-items: center; vertical-align: middle;"></th> --}}
+            <th></th>
             <th>
                 <img src="{{ public_path('imgs/logos/logosPrestamos.png') }}" alt="LOGO-AGS" width="400"
                     style="border: 1px solid black; align-items: center; vertical-align: middle;">
