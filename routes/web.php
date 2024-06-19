@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/procedimiento/{id}/destroy', [ProcedimientoController::class, 'destroy'])->name('destroyProcedimiento');
     Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])->name('buscarProcedimientos');
     Route::get('/traerElementosSinUsuarios', [ProcedimientoController::class, 'traerElementosSinUsuarios']);
+    Route::get('/generatePDF', [ProcedimientoController::class, 'generatePDF']);
 
 
     //rutas para proveedores

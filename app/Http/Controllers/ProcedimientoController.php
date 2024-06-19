@@ -9,10 +9,12 @@ use App\Models\EstadoProcedimiento;
 use App\Models\Procedimiento;
 use App\Models\TipoProcedimiento;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use stdClass;
 
 class ProcedimientoController extends Controller
 {
@@ -154,65 +156,6 @@ class ProcedimientoController extends Controller
     }
 
 
-    // public function buscar(Request $request)
-    // {
-    //     // Obtén el valor del filtro desde la solicitud
-    //     $filtro = $request->input('filtro');
-
-    //     // Realiza la búsqueda en varios campos del modelo
-    //     $procedimientos = Procedimiento::where(function ($query) use ($filtro) {
-    //         $query->where('fechaInicio', 'like', '%' . $filtro . '%')
-    //             ->orWhere('fechaFin', 'like', '%' . $filtro . '%')
-    //             ->orWhere('hora', 'like', '%' . $filtro . '%')
-    //             ->orWhere('fechaReprogramada', 'like', '%' . $filtro . '%')
-    //             ->orWhere('observacion', 'like', '%' . $filtro . '%')
-    //             ->orWhereHas('responsableEntrega', function ($subquery) use ($filtro) {
-    //                 $subquery->where('name', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('responsableRecibe', function ($subquery) use ($filtro) {
-    //                 $subquery->where('name', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('elemento', function ($subquery) use ($filtro) {
-    //                 $subquery->where('modelo', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('estadoProcedimiento', function ($subquery) use ($filtro) {
-    //                 $subquery->where('estado', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('tipoProcedimiento', function ($subquery) use ($filtro) {
-    //                 $subquery->where('tipo', 'like', '%' . $filtro . '%');
-    //             });
-    //     })->paginate(10);
-
-
-
-
-    //     // Devuelve la vista parcial con los resultados paginados
-    //     return view('procedimientos.partials.procedimiento.resultados', compact('procedimientos'))->render();
-
-
-    // }
-
-
-
-    // public function excelProcedimiento(Request $request)
-    // {
-    //     // Obtener los valores de los filtros desde la solicitud
-    //     $filtros = [
-    //         'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
-    //         'idTipoElemento' => $request->input('idTipoElemento', null),
-    //         'fechaInicio' => $request->input('fechaInicio', null),
-    //         'fechaFin' => $request->input('fechaFin', null),
-    //         'idEstadoProcedimiento' => $request->input('idEstadoProcedimiento', null),
-    //         'idProcedimiento' => $request->input('idProcedimiento', null),
-    //         'idResponsableEntrega' => $request->input('idResponsableEntrega', null),
-    //         'idResponsableRecibe' => $request->input('idResponsableRecibe', null)
-    //     ];
-
-
-    //     // Descargar el informe en formato Excel con los filtros aplicados
-    //     return Excel::download(new ProcedimientoExport($filtros), 'procedimiento.xlsx');
-    // }
-
     public function mostrarResponsableEntrega(Request $request)
     {
 
@@ -235,7 +178,34 @@ class ProcedimientoController extends Controller
             ->select('elemento.id_dispo', 'elemento.idElemento', 'categoria.nombre')
             ->get();
 
-            // dd($elementos);
+        // dd($elementos);
         return $elementos;
     }
+
+    // public function generatePDF(Request $request)
+    // {
+    //     $prestamo = json_decode($request->input('datos'), true);
+
+    //     $pdf = PDF::loadView('pdf/registro_prestamo', $prestamo)
+    //         ->setPaper('letter', 'landscape');
+
+    //     return $pdf->download('registro_prestamo.pdf');
+    // }
+
+
+
+        public function generatePDF(Request $request)
+        {
+            $datos = $request->input('datos');
+            $objetos = [];
+            foreach ($datos as $dato) {
+                $objeto = (object) $dato;
+                $objetos[] = $objeto;
+            }
+            $pdf = PDF::loadView('pdf.registro_prestamo', compact('objetos'))
+                ->setPaper('letter', 'landscape');
+
+            return $pdf->download('registro_prestamo.pdf');
+        }
+
 }

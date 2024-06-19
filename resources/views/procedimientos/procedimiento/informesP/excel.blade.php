@@ -73,44 +73,43 @@
     <tbody>
         @foreach ($procedimientos as $procedimiento)
             <tr>
-                <td style="border: 1px solid black; margin:5em;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->fechaInicio ? $procedimiento->fechaInicio : 'No aplica' }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->id_dispo ? $procedimiento->id_dispo : 'NO APLICA' }}
                 </td>
-                <td style="border: 1px solid black;">
-                    {{-- {{ $procedimiento->id_dispo ? $procedimiento->id_dispo : 'NO APLICA' }} --}}
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     1
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->nameCategoria }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->estado ? $procedimiento->estado : 'NO APLICA' }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->nameEntrega ? $procedimiento->nameEntrega : 'NO APLICA' }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->nameRecibe ? $procedimiento->nameRecibe : 'NO APLICA' }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->fechaFin ? $procedimiento->fechaFin : 'NO APLICA' }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->nameRecibeDev ? $procedimiento->nameRecibeDev : 'NO APLICA' }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->nameEntregaDev ? $procedimiento->nameEntregaDev : 'NO APLICA' }}
                 </td>
-                <td style="border: 1px solid black;">
+                <td style="vertical-align: middle;border: 1px solid black; word-wrap: break-word;">
                     {{ $procedimiento->observacion ? $procedimiento->observacion : 'NO APLICA' }}
                 </td>
+
             </tr>
         @endforeach
         <tr>
-            <th></th>
             <th></th>
             <th></th>
             <th></th>

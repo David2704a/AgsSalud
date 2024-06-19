@@ -85,22 +85,22 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents, WithS
         //    Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
         //    Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
 
-
+        
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $fechaActual = Carbon::now()->format('d/m/Y');
 
-                $event->sheet->getColumnDimension('A')->setWidth('14')->setAutoSize(false);
+                $event->sheet->getColumnDimension('A')->setWidth('13.7')->setAutoSize(false);
                 $event->sheet->getColumnDimension('B')->setWidth('14')->setAutoSize(false);
-                $event->sheet->getColumnDimension('C')->setWidth('12')->setAutoSize(false);
-                $event->sheet->getColumnDimension('D')->setWidth('22')->setAutoSize(false);
-                $event->sheet->getColumnDimension('E')->setWidth('12')->setAutoSize(false);
-                $event->sheet->getColumnDimension('F')->setWidth('24')->setAutoSize(false);
-                $event->sheet->getColumnDimension('G')->setWidth('24')->setAutoSize(false);
-                $event->sheet->getColumnDimension('H')->setWidth('14.5')->setAutoSize(false);
-                $event->sheet->getColumnDimension('I')->setWidth('24')->setAutoSize(false);
-                $event->sheet->getColumnDimension('J')->setWidth('24')->setAutoSize(false);
-                $event->sheet->getColumnDimension('K')->setWidth('22')->setAutoSize(false);
+                $event->sheet->getColumnDimension('C')->setWidth('10')->setAutoSize(false);
+                $event->sheet->getColumnDimension('D')->setWidth('21')->setAutoSize(false);
+                $event->sheet->getColumnDimension('E')->setWidth('9.3')->setAutoSize(false);
+                $event->sheet->getColumnDimension('F')->setWidth('13.3')->setAutoSize(false);
+                $event->sheet->getColumnDimension('G')->setWidth('10.5')->setAutoSize(false);
+                $event->sheet->getColumnDimension('H')->setWidth('16.5')->setAutoSize(false);
+                $event->sheet->getColumnDimension('I')->setWidth('14.3')->setAutoSize(false);
+                $event->sheet->getColumnDimension('J')->setWidth('15')->setAutoSize(false);
+                $event->sheet->getColumnDimension('K')->setWidth('21')->setAutoSize(false);
                 $event->sheet->getRowDimension(1)->setRowHeight(15);
                 $event->sheet->getRowDimension(2)->setRowHeight(8);
                 $event->sheet->getRowDimension(3)->setRowHeight(15);
@@ -114,8 +114,8 @@ class ProcedimientoExport implements FromView, ShouldAutoSize, WithEvents, WithS
                 $event->sheet->mergeCells('A1:B5');
                 $event->sheet->mergeCells('C1:J2');
                 $event->sheet->mergeCells('C3:J4');
-                $event->sheet->mergeCells('C5:F5');
-                $event->sheet->mergeCells('G5:J5');
+                $event->sheet->mergeCells('C5:G5');
+                $event->sheet->mergeCells('H5:J5');
                 $event->sheet->mergeCells('K1:K5');
                 $event->sheet->mergeCells('A6:K6');
 
