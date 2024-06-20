@@ -190,7 +190,7 @@ MODAL
 ================================================
 */
 
-.modal {
+.modalEliminar {
     display: none;
     position: fixed;
     top: 0;
@@ -200,7 +200,7 @@ MODAL
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.modal_content {
     width: 35rem;
     height: 10rem;
     position: absolute;
@@ -211,7 +211,7 @@ MODAL
     text-align: center;
 }
 
-.modal-content .button-container {
+.modal_content .button-container {
     display: flex;
     justify-content: center;
     margin: 1rem -3rem;
@@ -230,7 +230,7 @@ MODAL
     background-color: #037c72;
 }
 
-.modal .btn-link {
+.modalEliminar .btn-link {
     padding: 5px 10px;
     background-color: #DC3545;
     color: #fff;
@@ -238,7 +238,7 @@ MODAL
     border-radius: 4px;
 }
 
-.modal .btn-link:hover {
+.modalEliminar .btn-link:hover {
     background-color: #FF5722;
 }
 

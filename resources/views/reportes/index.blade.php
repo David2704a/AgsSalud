@@ -222,6 +222,10 @@
                                     <i class="fa-solid fa-file-excel fa-lg"
                                         style="color: #178a13; font-size: 25px;"></i>
                                 </button>
+                                <button type="button" class="button-proce downloadPDF" >
+                                    <i class="fa-solid fa-file-excel fa-lg"
+                                        style="color: #8a1313; font-size: 25px;"></i>
+                                </button>
                             </div>
                         </div>
                     @endif
