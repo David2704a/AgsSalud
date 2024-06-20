@@ -159,7 +159,9 @@ return [
          * Package Service Providers...
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        
     ],
+
 
 
     'providers' => ServiceProvider::defaultProviders()->merge([
@@ -177,6 +179,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        
 
     ])->toArray(),
 
@@ -203,6 +207,11 @@ return [
     'aliases' => [
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
     ],
+
+    
+
+    
 
 ];
