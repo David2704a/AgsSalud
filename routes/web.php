@@ -12,12 +12,14 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\pruebaController;
 use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
 use App\Models\Elemento;
 use App\Models\TipoElemento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,6 +33,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+  Route::get('/test',[pruebaController::class,'index'])->name('test');
+  Route::get('/view',[pruebaController::class,'view'])->name('view.pdf');
 
 Route::get('/', function () {
     return view('auth/login');
