@@ -350,6 +350,22 @@ FORMULARIO DE INGRESO Y DE SALIDA DE EQUIPOS
 ================================================
 */
 
+/*
+BOTONES ABAJO DEL TITULO
+*/
+
+.acciones_buttons {
+    margin-top: 2em;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.acciones_buttons button {
+    height: 2.5em;
+    padding: 5px !important;
+}
+
 .conainerPrincipalIngresoSalida {
     width: 80%;
     margin: 5em auto;
@@ -547,6 +563,153 @@ MOTIVO DE INGRESO Y/O SALIDA
 
 .checkMotivo input {
     margin-right: 5px;
-    width: 18px;
+    width: 20px;
     cursor: pointer;
+}
+
+
+/*
+ESTILOS PARA LA TABLA DEL EQUIPO
+*/
+.tituloPrinDescripcion {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1em 0;
+}
+
+.tituloTamDescrip {
+    display: flex;
+    justify-content: center;
+    width: 100em;
+}
+
+.tituloDescripcion {
+    width: 40%;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #343D7C;
+    color: #fff;
+    padding: 4px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    left: 1em;
+    position: relative;
+}
+
+@media (max-width: 1546px){
+    .tituloDescripcion {
+        width: 50%;
+    }
+}
+
+@media (max-width: 1480px){
+    .tituloMotivo {
+        width: 50%;
+    }
+}
+
+@media (max-width: 1243px){
+    .tituloDescripcion {
+        width: 60%;
+    }
+}
+
+@media (max-width: 1194px){
+    .tituloMotivo {
+        width: 70%;
+    }
+}
+
+@media (max-width: 1052px){
+    .tituloDescripcion {
+        width: 80%;
+    }
+}
+@media (max-width: 867px){
+    .tituloMotivo {
+        width: 90%;
+    }
+}
+
+.tituloDescripcion h6 {
+    margin-top: 0.5em;
+}
+
+.containerBtnAdd {
+    /* width: 50%; */
+    position: relative;
+    /* margin-left: 20em; */
+}
+
+.tableContainerPrin table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableContainerPrin th, td {
+    border: 1px solid #000;
+    text-align: left;
+    padding: 8px;
+}
+
+.tableContainerPrin th {
+    background-color: #f2f2f2;
+}
+
+.tableContainerPrin td {
+    background-color: #f2f2f2 !important;
+}
+
+
+
+.tableContainerPrin th:nth-child(1), .tableContainerPrin td:nth-child(1) {
+    width: 30%;
+}
+
+.tableContainerPrin th:nth-child(2), .tableContainerPrin td:nth-child(2) {
+    width: 15%;
+}
+
+.tableContainerPrin th:nth-child(3), .tableContainerPrin td:nth-child(3) {
+    width: 15%;
+}
+
+.tableContainerPrin th:nth-child(4), .tableContainerPrin td:nth-child(4) {
+    width: 15%;
+}
+
+.tableContainerPrin th:nth-child(5), .tableContainerPrin td:nth-child(5) {
+    width: 15%;
+}
+
+/* Prevent columns from growing beyond the defined width */
+.tableContainerPrin th, .tableContainerPrin td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*
+ESTILOS PARA LA TABLA DE LOS ELEMENTOS FILTRADOS
+*/
+.tableContainerElements th, .tableContainerElements td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid rgb(97, 97, 97) !important;
+}
+
+.tableContainerElements th:nth-child(1), .tableContainerElements td:nth-child(1) {
+    width: 30%;
+}
+
+.tableContainerElements th:nth-child(2), .tableContainerElements td:nth-child(2) {
+    width: 15%;
+}
+
+.tableContainerElements th:nth-child(3), .tableContainerElements td:nth-child(3) {
+    width: 15%;
 }

@@ -10,13 +10,13 @@ body {
     padding: 0;
     width: 100vw;
     height: 100vh;
-    /* background: linear-gradient(rgba(255, 255, 255, 0.741), rgba(255, 255, 255, 0.741)), url("../imgs/logos/Ags.png"); */
     background-size: auto;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     font-family: 'Lato', sans-serif;
     display: flex;
+    overflow-x: hidden !important;
     flex-direction: column;
 }
 
