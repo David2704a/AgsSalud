@@ -154,12 +154,12 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-    'providers' => [
-        /*
-         * Package Service Providers...
-         */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
-    ],
+    // 'providers' => [
+    //     /*
+    //      * Package Service Providers...
+    //      */
+    //     Maatwebsite\Excel\ExcelServiceProvider::class,
+    // ],
 
 
     'providers' => ServiceProvider::defaultProviders()->merge([
@@ -191,9 +191,6 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
 
 
     // 'providers' => [
