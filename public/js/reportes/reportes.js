@@ -294,6 +294,10 @@ function filtroProcedimientos() {
                 e.preventDefault();
                 exportarReportePro(responseGetPro);
             });
+            $('.downloadPDF').click(function (e) {
+                e.preventDefault();
+                exportarReportePDF(responseGetPro);
+            });
         }
     })
 }
@@ -311,10 +315,42 @@ function exportarReportePro(data) {
     $(document.body).append(form);
     form.submit();
     form.remove();
-    setTimeout(function() {
+    setTimeout(function () {
         $('#loading-overlay').hide();
     }, 1000);
 }
+
+
+function exportarReportePDF(datos) {
+    // var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    console.log(datos);
+    $.ajax({
+        type: 'GET',
+        url: urlBase + '/generatePDF',
+        data: {
+            // _token: csrfToken,
+            datos: datos
+        },
+        success: function (response) {
+
+            var baseUrl = urlBase + '/generatePDF';
+
+            var url = baseUrl + '?' + $.param({ datos: datos });
+
+            var a = document.createElement('a');
+            a.href = url;
+            a.setAttribute('target', '_blank');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        },
+        error: function (xhr, status, error) {
+            console.error('Error al exportar el PDF:', error);
+        }
+    });
+}
+
+
 /*
 ================================================================
 DATATABLE PARA LA TABLA DE ELEMENTOS

@@ -49,24 +49,78 @@
             @csrf
 
             <div class="progress-bar">
-                <div class="progress" id="progress" style="width: 33.33%;"></div>
+                <div class="progress" id="progress" style="width: 50%;"></div>
                 <div class="markers">
-                    <span class="marker filled" style="left: 33.33%;">1</span>
-                    <span class="marker" style="left: 66.66%;">2</span>
-                    <span class="marker" style="left: 100%;">3</span>
+                    <span class="marker filled" style="left: 50%;">1</span>
+                    <span class="marker" style="left: 100%;">2</span>
+                    {{-- <span class="marker" style="left: 100%;">3</span> --}}
                 </div>
             </div>
 
             <!-- Parte 1 -->
             <div class="form-part active" id="parte1">
-                <label for="fechaInicio">Fecha Inicio</label>
-                <input type="date" name="fechaInicio" id="fechaInicio">
+
+                <label for="idTipoProcedimiento">Tipo Procedimiento</label>
+                <select name="idTipoProcedimiento" id="idTipoProcedimiento" onchange="traerElementosSinUsuario()">
+                    <option value="">Seleccionar una opción</option>
+                    @foreach ($tipoProcedimiento as $tipoProcedimiento)
+                        <option value="{{ $tipoProcedimiento->idTipoProcedimiento }}"
+                            data-tipo="{{ $tipoProcedimiento->tipo }}">{{ $tipoProcedimiento->tipo }}
+                        </option>
+                    @endforeach
+                </select>
                 <br>
-                <label for="fechaFin">Fecha Fin</label>
-                <input type="date" name="fechaFin" id="fechaFin">
-                <br>
-                <label for="hora">Hora</label>
-                <input type="time" name="hora" id="hora">
+
+                <div class="elementoSelect" style="flex: 1;min-width: 640px">
+                    <label for="idElemento">Elemento</label>
+                    <select class="selectElemento select2" name="idElemento" onchange="changeElemento()" id="idElemento"
+                        style="max-width: 10%;">
+                        <option value="">Seleccionar un Elemento</option>
+                        @foreach ($elementos as $elemento)
+                            <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo }}
+                                {{ $elemento->categoria->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <label for="idResponsableEntrega">Responsable Entrega</label>
+                <select name="idResponsableEntrega" id="idResponsableEntrega" class="selectEntregaTodos">
+                    <option value="">Seleccionar una opción</option>
+                    @foreach ($usuariosEntrega as $usuario)
+                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                    @endforeach
+                </select>
+                <select name="idResponsableEntrega" hidden id="idResponsableEntrega" class="selectEntregaTecnico">
+                    <option value="">Seleccionar una opción</option>
+                    @foreach ($usuariosRecibe as $usuario)
+                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                    @endforeach
+                </select>
+
+
+                <label for="idResponsableRecibe">Responsable Recibe</label>
+                <select name="idResponsableRecibe" id="idResponsableRecibe" class="selectRecibeTecnico">
+                    <option value="">Seleccionar una opción</option>
+                    @foreach ($usuariosRecibe as $usuario)
+                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                    @endforeach
+                </select>
+                <select name="idResponsableRecibe" hidden id="idResponsableRecibe" class="selectRecibeTodos">
+                    <option value="">Seleccionar una opción</option>
+                    @foreach ($usuariosEntrega as $usuario)
+                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                    @endforeach
+                </select>
+
+
+                <label for="idEstadoProcedimiento">Estado Procedimiento</label>
+                <select name="idEstadoProcedimiento" id="idEstadoProcedimiento">
+                    <option value="">Seleccionar una opción</option>
+                    @foreach ($estadoProcedimiento as $estadoProcedimiento)
+                        <option value="{{ $estadoProcedimiento->idEstadoP }}">{{ $estadoProcedimiento->estado }}</option>
+                    @endforeach
+                </select>
+
                 <br>
                 <button type="button" onclick="mostrarParte('parte2')">Siguiente</button>
             </div>
@@ -82,43 +136,25 @@
                     placeholder="Escriba aqui una observación sobre el procedimiento...">
 
 
-                <div class="elementoSelect" style=" flex: 1;">
-                    <label for="idElemento">Elemento</label>
-                    <select class="selectElemento select2" name="idElemento" onchange="changeElemento()" id="idElemento"
-                        style="width: 10%:">
-                        <option value="">Seleccionar una opción</option>
-                        @foreach ($elementos as $elemento)
-                            <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo }}
-                                {{ $elemento->categoria->nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <label for="fechaInicio">Fecha Inicio</label>
+                <input type="date" name="fechaInicio" id="fechaInicio">
 
-                <label for="idResponsableEntrega">Responsable Entrega</label>
-                <select name="idResponsableEntrega" id="idResponsableEntrega" >
-                    <option value="">Seleccionar una opción</option>
-                    @foreach ($usuariosEntrega as $usuario)
-                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                    @endforeach
-                </select>
+                <label for="fechaFin">Fecha Fin</label>
+                <input type="date" name="fechaFin" id="fechaFin">
+                <br>
+                <label for="hora">Hora</label>
+                <input type="time" name="hora" id="hora">
+                <br>
+
                 <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
-                <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
+                <button type="submit">Crear</button>
             </div>
 
             <!-- Parte 3 -->
 
 
-            <div class="form-part" id="parte3">
+            {{-- <div class="form-part" id="parte3">
 
-
-
-                <label for="idResponsableRecibe">Responsable Recibe</label>
-                <select name="idResponsableRecibe" id="idResponsableRecibe">
-                    <option value="">Seleccionar una opción</option>
-                    @foreach ($usuariosRecibe as $usuario)
-                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                    @endforeach
-                </select>
                 <script>
                     $(document).ready(function() {
                         $('.select2').select2({
@@ -135,20 +171,11 @@
                     @endforeach
                 </select>
                 <br>
-                <label for="idTipoProcedimiento">Tipo Procedimiento</label>
-                <select name="idTipoProcedimiento" id="idTipoProcedimiento">
-                    <option value="">Seleccionar una opción</option>
-                    @foreach ($tipoProcedimiento as $tipoProcedimiento)
-                        <option value="{{ $tipoProcedimiento->idTipoProcedimiento }}">{{ $tipoProcedimiento->tipo }}
-                        </option>
-                    @endforeach
-                </select>
-                <br>
                 <div class="button-container">
                     <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
                     <button type="submit">Crear</button>
                 </div>
-            </div>
+            </div> --}}
         </form>
 
         <script>
@@ -162,12 +189,13 @@
                         idElemento: idElemento
                     },
                     success: function(data) {
+                        if (data !== '') {
                         $('#idResponsableEntrega').empty();
                         $('#idResponsableEntrega').append('<option value="">Seleccionar una opción</option>');
-
-                        $('#idResponsableEntrega').append('<option value="' + data.id + '" selected>' + data
-                            .name +
-                            '</option>');
+                            $('#idResponsableEntrega').append('<option value="' + data.id + '" selected>' + data
+                                .name +
+                                '</option>');
+                        }
                     }
                 })
             }

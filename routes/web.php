@@ -76,6 +76,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/procedimiento/{id}/update', [ProcedimientoController::class, 'update'])->name('updateProcedimiento');
     Route::delete('/procedimiento/{id}/destroy', [ProcedimientoController::class, 'destroy'])->name('destroyProcedimiento');
     Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])->name('buscarProcedimientos');
+    Route::get('/traerElementosSinUsuarios', [ProcedimientoController::class, 'traerElementosSinUsuarios']);
+    Route::get('/generatePDF', [ProcedimientoController::class, 'generatePDF']);
+
 
     //rutas para proveedores
     Route::resource('proveedores', ProveedorController::class)->names('proveedores');
@@ -113,6 +116,7 @@ Route::middleware('auth')->group(function () {
     //rutas para elementos
     Route::resource('elementos',ElementoController::class)->names('elementos');
     Route::get('/elemento/buscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
+    Route::get('/ingreso_salida/{idElemento}', [ElementoController::class, 'indexSalidaIngresos']);
 
 // funciona y visualiza a uno como usuario su perfil
 Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
