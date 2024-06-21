@@ -155,7 +155,7 @@
                                         @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                             <a class="pdf-button" title="Mostrar"
                                                 href="{{ route('elementos.pdf', $elemento->idElemento) }}">
-
+                                                <i class="fa-solid fa-file-pdf"></i>
                                             </a>
                                         @endif
                                         @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
