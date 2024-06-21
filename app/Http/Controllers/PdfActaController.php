@@ -12,7 +12,7 @@ use App\Models\Elemento;
 
 
 
-class PdfController extends Controller
+class PdfActaController extends Controller
 {
     public function generarPdf($id)
     {

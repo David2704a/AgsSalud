@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ACTA DE ENTREGA DE EQUIPOS TEGNOLOGICOS
     </title>
-    <link rel="stylesheet" href="{{ public_path('/css/pdf/pdf.css') }}">
+    <link rel="stylesheet" href="{{ public_path('/css/pdf/pdfActa.css') }}">
 </head>
     <body>
         <table id="table">
