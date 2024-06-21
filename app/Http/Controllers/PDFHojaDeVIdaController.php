@@ -15,7 +15,7 @@ class PDFHojaDeVIdaController extends Controller
         if (!$elemento) {
             return redirect()->route("elementos.index")->with('error', 'Elemento no encontrado');
         }
-        return PDF::loadView('pdf.pdf',compact('elemento'))
+        return PDF::loadView('pdf.pdfHojDeVida',compact('elemento'))
         ->setPaper('letter', 'landscape')
             ->stream('HOJA DE VIDA EQUIPOS TECNOLOGICOS.pdf');
 

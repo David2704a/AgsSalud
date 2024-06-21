@@ -55,7 +55,7 @@
                     'patternId' => 'pattern_b',
                 ])
                 <div class="card_photoEditP">
-                    
+
                     @if ($usuario->persona && ($usuario->persona->sexo == 'M' || $usuario->persona->sexo == 'O' || $usuario->persona->sexo == null))
                         <div class="card-photo"></div>
                     @elseif($usuario->persona && $usuario->persona->sexo == 'F')
@@ -72,7 +72,8 @@
                         <p id="mostrarRolAsignado"></p>
                     @endif
 
-                    <button type="button" id="openModal" class="btnModalEditP">
+                    <button type="button" id="openModal" class="btnModalEditP" data-bs-toggle="modal"
+                    data-bs-target="#modalAsignarRolBoots">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="none" d="M0 0h24v24H0z"></path>
                             <path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path>
@@ -218,30 +219,30 @@
 
 
         $(document).ready(function() {
-            $("#openModal").click(function() {
-                $("#modalAsignarRol").fadeIn();
-            });
+            // $("#openModal").click(function() {
+            //     $("#modalAsignarRol").fadeIn();
+            // });
 
-            $(".close").click(function() {
-                $("#modalAsignarRol").fadeOut(100);
-            });
+            // $(".close").click(function() {
+            //     $("#modalAsignarRol").fadeOut(100);
+            // });
 
-            $(window).click(function(event) {
-                if (event.target.id === "modalAsignarRol") {
-                    $("#modalAsignarRol").fadeOut(100);
-                }
-            });
+            // $(window).click(function(event) {
+            //     if (event.target.id === "modalAsignarRol") {
+            //         $("#modalAsignarRol").fadeOut(100);
+            //     }
+            // });
 
-            $(document).on('keydown', function(event) {
-                if (event.key === "Escape") {
-                    $('#modalAsignarRol').fadeOut(100);
-                }
-            });
+            // $(document).on('keydown', function(event) {
+            //     if (event.key === "Escape") {
+            //         $('#modalAsignarRol').fadeOut(100);
+            //     }
+            // });
 
         });
 
         $('.action_has.has_liked').click(function() {
-            $('#modalAsignarRol').fadeOut(100);
+            $('#modalAsignarRolBoots').modal('hide');
             var idRol = $(this).data('idrol');
             var nameRol = $(this).data('namerol');
             var nombreRolFormateado = nameRol.replace(/(?<!^)([A-Z])/g, ' $1');

@@ -235,7 +235,7 @@ ESTILOS PARA EL MODAL DE ASIGNAR ROL
 ===================================================
 */
 
-.modal_roles {
+/* .modal-roles {
     display: none;
     position: fixed;
     z-index: 1;
@@ -246,25 +246,25 @@ ESTILOS PARA EL MODAL DE ASIGNAR ROL
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
-}
+} */
 
 
-.modal_content {
+/* .modal-content {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 15% auto;
     width: 80%;
-}
+} */
 
-.modal_header {
+.modal-header {
     background-color: #3B4480;
     color: #fff;
     border-radius: 8px 8px 0 0;
     height: 50px;
 }
 
-.modal_header .close {
+.modal-header .close {
     color: #fff;
     float: right;
     font-size: 28px;
@@ -280,17 +280,17 @@ ESTILOS PARA EL MODAL DE ASIGNAR ROL
     cursor: pointer;
 }
 
-.modal_title {
+.modal-title {
     display: flex;
     margin-left: 30%;
     letter-spacing: 1px;
     font-size: 20px;
 }
 
-.modal_title h3 {
+.modal-title h3 {
     margin-top: 8px;
 }
-.modal_body {
+.modal-body {
     margin: 2em;
 }
 

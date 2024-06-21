@@ -104,25 +104,12 @@ class InformesController extends Controller
             $resultado->where('categoria.idCategoria', $datos['idCategoria']);
         }
         $resultado = $resultado->select(
-            // 'elemento.id_dispo',
-            // 'elemento.marca',
-            // 'elemento.referencia',
-            // 'elemento.serial',
-            // 'elemento.procesador',
-            // 'elemento.ram',
-            // 'elemento.disco_duro',
-            // 'elemento.tarjeta_grafica',
-            // 'elemento.modelo',
-            // 'elemento.garantia',
-            // 'elemento.descripcion',
             'estadoElemento.estado as estadoElemento',
             'tipoElemento.tipo as tipoElemento',
             'categoria.nombre as nameCategoria',
             'factura.codigoFactura',
             'factura.fechaCompra',
             'proveedor.nombre as nameProveedor',
-            // 'users.name',
-
             'elemento.*',
             'persona.*'
 
@@ -135,10 +122,8 @@ class InformesController extends Controller
 
     public function exportarElementos(Request $request)
     {
-        // dd($request->input('data'));
         $data = $request->input('data');
         $datos = json_decode($data, true);
-        // dd($datos);
         if ($datos === null && json_last_error() !== JSON_ERROR_NONE) {
             $error = json_last_error_msg();
             echo "Error de JSON: $error";

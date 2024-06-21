@@ -9,9 +9,11 @@ use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\InformesController;
 use App\Http\Controllers\PDFHojaDeVIdaController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\pruebaController;
 use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
@@ -32,6 +34,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+  Route::get('/test',[pruebaController::class,'index'])->name('test');
+  Route::get('/view',[pruebaController::class,'view'])->name('view.pdf');
 
 Route::get('/', function () {
     return view('auth/login');
@@ -72,6 +77,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/procedimiento/{id}/update', [ProcedimientoController::class, 'update'])->name('updateProcedimiento');
     Route::delete('/procedimiento/{id}/destroy', [ProcedimientoController::class, 'destroy'])->name('destroyProcedimiento');
     Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])->name('buscarProcedimientos');
+    Route::get('/traerElementosSinUsuarios', [ProcedimientoController::class, 'traerElementosSinUsuarios']);
+    Route::get('/generatePDF', [ProcedimientoController::class, 'generatePDF']);
+
 
     //rutas para proveedores
     Route::resource('proveedores', ProveedorController::class)->names('proveedores');
@@ -109,6 +117,12 @@ Route::middleware('auth')->group(function () {
     //rutas para elementos
     Route::resource('elementos',ElementoController::class)->names('elementos');
     Route::get('/elemento/buscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
+    Route::get('/ingreso_salida/{idElemento}', [ElementoController::class, 'indexSalidaIngresos']);
+    Route::get('/traerElementosfiltrados', [ElementoController::class, 'traerElementosfiltrados']);
+    Route::get('/traerDatosElementoFil', [ElementoController::class, 'traerDatosElementoFil']);
+    Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme']);
+    Route::get('/exportarpdf/{idElemento}',[ElementoController::class,'ExportarPDF']);
+
 
 // funciona y visualiza a uno como usuario su perfil
 Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
@@ -240,3 +254,10 @@ Route::get('/lista-qr',[ElementoController::class,'QRView']);
 Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostrarResponsableEntrega']);
 
 Route::get('/pdfElemento/{id}',[PDFHojaDeVIdaController::class,'getPDF'])->name('elementos.pdf');
+
+// ---PDF--------
+
+Route::get('/pdf/{idElemento}/view', [PDFController::class, 'view'])->name('pdf.view');
+Route::get('/pdfdownload', [PDFController::class, 'orientacion'])->name('pdf.index');
+Route::get('/pdf1', [PDFController::class, 'index'])->name('pdf.index');
+Route::get('pdf/datos', [PDFController::class, 'datos'])->name('pdf.datos');

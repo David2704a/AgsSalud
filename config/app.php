@@ -163,6 +163,7 @@ return [
     ],
 
 
+
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
          * Package Service Providers...
@@ -179,6 +180,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        
 
     ])->toArray(),
 
@@ -193,10 +196,13 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'aliases' => Facade::defaultAliases()->merge([
         
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
+=======
+>>>>>>> 0ede2e5f2ec628ce27911c88e6a62a4dcca272db
 
 
     // 'providers' => [
@@ -207,6 +213,11 @@ return [
 
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
     ],
+
+    
+
+    
 
 ];
