@@ -18,10 +18,13 @@ use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PdfActaController;
 use App\Models\Elemento;
 use App\Models\TipoElemento;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 /*
@@ -255,6 +258,11 @@ Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostr
 
 Route::get('/pdfElemento/{id}',[PDFHojaDeVIdaController::class,'getPDF'])->name('elementos.pdf');
 
+//Generar pdf
+
+//Acta de entrega de dipositivos tegnologicos
+
+Route::get('/generar-pdf/{id}', [PdfActaController::class, 'generarPdf'])->name('generar.pdf');
 // ---PDF--------
 
 Route::get('/pdf/{idElemento}/view', [PDFController::class, 'view'])->name('pdf.view');
