@@ -6,7 +6,7 @@ use App\Models\Elemento;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class PDFController extends Controller
+class PDFHojaDeVIdaController extends Controller
 {
     public function getPDF($id){
 
