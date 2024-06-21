@@ -32,6 +32,11 @@
                         class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                         target="_blank">QR'S</a></p>
             @endif
+
+            {{-- <a href="{{route('generar.pdf')}}" class="button-izquierda arrow-left">
+            ActaEntrega PDF</a> --}}
+
+
         </div>
         <div class="menu-container">
             <ul class="menu">
@@ -141,6 +146,13 @@
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                         @endif
+                                
+                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                            <a class="edit-button" style="background-color: rgb(37, 162, 194)" title="ActaEntrega"
+                                                href="{{route('generar.pdf', $elemento->idElemento)}}" target="_blank">
+                                                <i class="fa-solid fa-file-pdf"></i>
+                                            </a>
+                                        @endif
                                         @if (auth()->user()->hasRole('superAdmin'))
                                             <button type="button" class="delete-button" title="Eliminar"
                                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
@@ -149,6 +161,7 @@
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                                             </button>
                                         @endif
+                                        
                                     </td>
                                 @endif
                             </tr>

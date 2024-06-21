@@ -10,7 +10,7 @@
                         @if(auth()->user()->hasRole(['superAdmin','administrador']))
                             <a class="edit-button" method="POST" href="{{ route('tipoElementos.edit', ['idTipoElemento' => $tipoElemento->idTipoElemento]) }}" title="Editar"><i class="fa-regular fa-pen-to-square"></i></a>
                         @endif
-
+                        
                         @if(auth()->user()->hasRole(['superAdmin']))
                             <button type="button" class="delete-button" title="Eliminar" data-id="{{ $tipoElemento->idTipoElemento }}" data-name="{{ $tipoElemento->tipo }}">
                                 <i data-id="{{ $tipoElemento->idTipoElemento }}" data-name="{{ $tipoElemento->tipo }}" class="fas fa-trash-alt"></i>
