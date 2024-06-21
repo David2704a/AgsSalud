@@ -155,11 +155,10 @@
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                                             </button>
                                         @endif
-                                        {{-- @dd($elemento->idUsuario) --}}
-                                        @if ($elemento->idUsuario !== null)
+                                        @if ($elemento->idUsuario !== null && in_array($elemento->categoria->nombre, ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE']))
                                             <a href="{{url('/ingreso_salida/'.$elemento->idElemento)}}" type="button" data-id-user="{{ $elemento->idUsuario }}"
-                                                data-user-identificacion="{{$elemento->user->persona->identificacion}}"
-                                                data-name-user="{{ $elemento->user->name }}" class="btn_ingreso_salida">
+                                                data-user-identificacion="{{$elemento->user->persona->identificacion ?? false}}"
+                                                data-name-user="{{ $elemento->user->name ?? false}}" class="btn_ingreso_salida">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                         @endif

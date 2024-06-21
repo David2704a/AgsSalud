@@ -1,63 +1,96 @@
-<div id="modalAsignarRol" class="modal_roles">
+{{-- <div id="modalAsignarRol" class="modal_roles">
     <div class="modal_content">
         <div class="modal_header">
-            <span class="close">&times;</span>
+
             <div class="modal_title">
                 <h3>ASIGNAR ROL</h2>
             </div>
         </div>
         <div class="modal_body">
-            <div class="roles">
-                @foreach ($roles as $rol)
-                    <div class="card_rol">
-                        <div class="icon_rol">
-                            @include('components.svg-fondo-edit-p', [
-                                'gradientId' => 'gradient_new_a',
-                                'patternId' => 'pattern_new_b',
-                            ])
-                            <div class="img">
-                                @if ($rol->name === 'superAdmin')
-                                    <img src="{{ asset('img/admin.png') }}" width="90px" alt="">
-                                @elseif ($rol->name === 'administrador')
-                                    <img src="{{ asset('img/admin2.png') }}" width="90px" alt="">
-                                @elseif ($rol->name === 'tecnico')
-                                    <img src="{{ asset('img/tecnico.png') }}" width="90px" alt="">
-                                @elseif ($rol->name === 'colaborador')
-                                    <img src="{{ asset('img/colaborador.png') }}" width="90px" alt="">
-                                @endif
-                            </div>
-                        </div>
-                        <div class="card_body">
-                            <div class="body_title">
-                                <h6>
-                                    {{ ucwords(preg_replace('/(?<!^)([A-Z])/', ' $1', $rol->name)) }}
 
-                                </h6>
-                            </div>
-                            <div class="card_button">
-                                <button class="action_has has_liked" id="asginarRolId_{{ $rol->id }}" aria-label="like" type="button"
-                                    data-idrol="{{ $rol->id }}" data-namerol="{{$rol->name}}">
-                                    <span data-icon=""><svg data-icon="aoeri" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            stroke-linejoin="round" stroke-linecap="round" stroke-width="2"
-                                            viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                            <path
-                                                d="m8.05,11.99c0-.84.28-1.07,1.2-1.25,1.6-.31,2.35-.74,3.14-1.54,1.19-1.21,1.58-1.97,2.18-3.24.66-1.69,1.55-2.82,3.04-2.76.9.03,2.33.8,1.67,2.72-.31.9-1.98,3.61-2.23,4.23-.18.46.4.8.8.8h2.5c1.2,0,2.2,1,2.2,2.2l-1.1,5.6c-.3,1.5-1.02,2.23-2.2,2.2h-7.6c-2,0-3.6-1.6-3.6-3.6v-5.35Z"
-                                                data-d="thumb"></path>
-                                            <path
-                                                d="m5.4,19.9c0,.6-.5,1.1-1.1,1.1h-1c-1,0-1.9-.9-1.9-1.9v-6.3c0-1,.9-1.9,1.9-1.9h.9c.7,0,1.2.6,1.2,1.2v7.7Z"
-                                                data-d="sleeves"></path>
-                                        </svg></span> <span class="letters">Asignar</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
         </div>
         <br>
     </div>
+</div> --}}
+
+<div class="modal fade" style="width: width: 100%;
+    height: 100%;" id="modalAsignarRolBoots" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
+    aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: space-between;">
+                <h5 class="modal-title" id="modalTitleId">
+                    ASIGNAR ROL
+                </h5>
+                {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button> --}}
+                <span data-bs-dismiss="modal" aria-label="Close" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="roles">
+                    @foreach ($roles as $rol)
+                        <div class="card_rol">
+                            <div class="icon_rol">
+                                @include('components.svg-fondo-edit-p', [
+                                    'gradientId' => 'gradient_new_a',
+                                    'patternId' => 'pattern_new_b',
+                                ])
+                                <div class="img">
+                                    @if ($rol->name === 'superAdmin')
+                                        <img src="{{ asset('img/admin.png') }}" width="90px" alt="">
+                                    @elseif ($rol->name === 'administrador')
+                                        <img src="{{ asset('img/admin2.png') }}" width="90px" alt="">
+                                    @elseif ($rol->name === 'tecnico')
+                                        <img src="{{ asset('img/tecnico.png') }}" width="90px" alt="">
+                                    @elseif ($rol->name === 'colaborador')
+                                        <img src="{{ asset('img/colaborador.png') }}" width="90px" alt="">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="card_body">
+                                <div class="body_title">
+                                    <h6>
+                                        {{ ucwords(preg_replace('/(?<!^)([A-Z])/', ' $1', $rol->name)) }}
+
+                                    </h6>
+                                </div>
+                                <div class="card_button">
+                                    <button class="action_has has_liked" id="asginarRolId_{{ $rol->id }}" aria-label="like" type="button"
+                                        data-idrol="{{ $rol->id }}" data-namerol="{{$rol->name}}">
+                                        <span data-icon=""><svg data-icon="aoeri" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                stroke-linejoin="round" stroke-linecap="round" stroke-width="2"
+                                                viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                                <path
+                                                    d="m8.05,11.99c0-.84.28-1.07,1.2-1.25,1.6-.31,2.35-.74,3.14-1.54,1.19-1.21,1.58-1.97,2.18-3.24.66-1.69,1.55-2.82,3.04-2.76.9.03,2.33.8,1.67,2.72-.31.9-1.98,3.61-2.23,4.23-.18.46.4.8.8.8h2.5c1.2,0,2.2,1,2.2,2.2l-1.1,5.6c-.3,1.5-1.02,2.23-2.2,2.2h-7.6c-2,0-3.6-1.6-3.6-3.6v-5.35Z"
+                                                    data-d="thumb"></path>
+                                                <path
+                                                    d="m5.4,19.9c0,.6-.5,1.1-1.1,1.1h-1c-1,0-1.9-.9-1.9-1.9v-6.3c0-1,.9-1.9,1.9-1.9h.9c.7,0,1.2.6,1.2,1.2v7.7Z"
+                                                    data-d="sleeves"></path>
+                                            </svg></span> <span class="letters">Asignar</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Optional: Place to the bottom of scripts -->
+<script>
+    const myModal = new bootstrap.Modal(
+        document.getElementById("modalId"),
+        options,
+    );
+</script>
+
 
 <style>
     .action_has {
