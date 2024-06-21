@@ -183,7 +183,7 @@ a:hover{
     height: 50px;
     border-radius: 25px;
     outline: none;
-    border: none;   
+    border: none;
     font-size: 1.2rem;
     color: #fff!important;
     font-family: 'Poppins', sans-serif;
@@ -252,10 +252,10 @@ a:hover{
     margin-top: -60px;
 }
 .view{
-    width: 100%; 
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;    
+    justify-content: flex-end;
 }
 
 

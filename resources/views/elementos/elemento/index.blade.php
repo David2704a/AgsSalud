@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="{{ asset('/css/elemento/elemento.css') }}">
     <script src="{{ asset('js/elemento/elemento.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 
 @endsection
 @section('content')
@@ -150,16 +155,41 @@
                                         @endif
                                         @if (auth()->user()->hasRole('superAdmin'))
                                             <button type="button" class="delete-button" title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#myModal"
                                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
 
                                                 <i data-id="{{ $elemento->idElemento }}"
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                                             </button>
-                                               @endif
+                                        @endif
 
-                                      
-                                  </td>
-                             @endif
+
+
+                                        @if (
+                                            $elemento->idUsuario !== null &&
+                                                in_array($elemento->categoria->nombre, [
+                                                    'PC PORTATIL',
+                                                    'CARGADOR PORTATIL',
+                                                    'EQUIPO TODO EN UNO',
+                                                    'TECLADO',
+                                                    'MOUSE',
+                                                    'PAD MOUSE',
+                                                ]))
+                                            <a href="{{ url('/ingreso_salida/' . $elemento->idElemento) }}" type="button"
+                                                data-id-user="{{ $elemento->idUsuario }}"
+                                                data-user-identificacion="{{ $elemento->user->persona->identificacion ?? false }}"
+                                                data-name-user="{{ $elemento->user->name ?? false }}"
+                                                class="btn_ingreso_salida">
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            </a>
+                                        @endif
+
+                                        <a href="{{ url('/exportarpdf/' . $elemento->idElemento) }}" type="button">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </a>
+
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -173,24 +203,61 @@
         </div>
     </div>
 
+    {{-- @include('components.modal-form-salida-i-n') --}}
 
-    <!-- Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <p id="modalMessage"></p>
-            <div class="button-container">
-                <button id="cancelButton" class="modal-button">Cancelar</button>
-                <form id="deleteForm" action="{{ route('elementos.destroy', 'REPLACE_ID') }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>
-                </form>
+
+    {{--
+        ================================================
+        MODAL PARA ELEGIR SI ELIMINAR O NO
+        ================================================
+
+    --}}
+
+    <div class="modal fade" id="myModal" ia-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="modalTitleId">
+                        ¿Deseas Eliminar el Registro?
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage"></p>
+                    <div class="button-container" style="display: flex; justify-content: center; margin: 1rem -3rem;">
+                        <button id="cancelButton" class="modal-button" style="">Cancelar</button>
+                        <form id="deleteForm" action="{{ route('elementos.destroy', 'REPLACE_ID') }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button id="confirmDelete" type="submit" class="modal-button"
+                                style="padding: 5px 10px; background-color: #DC3545; color: #fff; border: none; border-radius: 4px;">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
     </div>
+
     <script>
-        //         $(document).ready(function() {
-        //     $('#tableElementos').DataTable();
-        // });
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+        $('#tableElementos').on('click', '.btn_ingreso_salida', function() {
+            var idUserAutorizado = $(this).data('id-user');
+            var nameUserAutorizado = $(this).data('name-user');
+            var identiUserAutorizado = $(this).data('user-identificacion');
+
+
+            $('#hola1').val(idUserAutorizado)
+            $('#nameUserAutorizado').val(nameUserAutorizado)
+            $('#identiUserAutorizado').val(identiUserAutorizado)
+        })
     </script>
 @endsection
