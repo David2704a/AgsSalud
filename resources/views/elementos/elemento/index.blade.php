@@ -158,6 +158,12 @@
                                                 <i class="fa-solid fa-file-pdf"></i>
                                             </a>
                                         @endif
+                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                            <a class="pdf-button" title="Mostrar"
+                                                href="{{ route('elementos.pdf', $elemento->idElemento) }}">
+                                                <i class="fa-solid fa-file-pdf"></i>
+                                            </a>
+                                        @endif
                                         @if (auth()->user()->hasRole('superAdmin'))
                                             <button type="button" class="delete-button" title="Eliminar"
                                                 data-bs-toggle="modal" data-bs-target="#myModal"
@@ -167,18 +173,32 @@
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                                             </button>
                                         @endif
-                                        @if ($elemento->idUsuario !== null && in_array($elemento->categoria->nombre, ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE']))
-                                            <a href="{{url('/ingreso_salida/'.$elemento->idElemento)}}" type="button" data-id-user="{{ $elemento->idUsuario }}"
-                                                data-user-identificacion="{{$elemento->user->persona->identificacion ?? false}}"
-                                                data-name-user="{{ $elemento->user->name ?? false}}" class="btn_ingreso_salida">
+
+
+
+                                        @if (
+                                            $elemento->idUsuario !== null &&
+                                                in_array($elemento->categoria->nombre, [
+                                                    'PC PORTATIL',
+                                                    'CARGADOR PORTATIL',
+                                                    'EQUIPO TODO EN UNO',
+                                                    'TECLADO',
+                                                    'MOUSE',
+                                                    'PAD MOUSE',
+                                                ]))
+                                            <a href="{{ url('/ingreso_salida/' . $elemento->idElemento) }}" type="button"
+                                                data-id-user="{{ $elemento->idUsuario }}"
+                                                data-user-identificacion="{{ $elemento->user->persona->identificacion ?? false }}"
+                                                data-name-user="{{ $elemento->user->name ?? false }}"
+                                                class="btn_ingreso_salida">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                         @endif
-                                        
-                                            <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button">                                                
-                                                    <i class="fas fa-file-pdf"></i>                                           
-                                            </a>
-                                        
+
+                                        <a href="{{ url('/exportarpdf/' . $elemento->idElemento) }}" type="button">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </a>
+
                                     </td>
                                 @endif
                             </tr>

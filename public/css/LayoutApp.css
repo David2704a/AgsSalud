@@ -151,6 +151,26 @@ BUTTONS EDIT AND DELETE
     margin-bottom: 0.5rem;
 }
 
+.pdf-button {
+    font-size: 15px;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #3B4480;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.pdf-button:hover {
+    background-color: #2b325c;
+}
+
+.pdf-button:hover {
+    background-color: #3B4480;
+}
+
+
 .show-button {
     font-size: 15px;
     display: inline-block;

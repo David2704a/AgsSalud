@@ -37,6 +37,14 @@
                                 <i class="fa-solid fa-file-pdf"></i>
                             </a>
                         @endif
+
+                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                            <a class="pdf-button" title="Mostrar"
+                                                href="{{ route('elementos.pdf', $elemento->idElemento) }}">
+                                                <i class="fa-solid fa-file-pdf"></i>
+                                            </a>
+                                        @endif
+                                        
                         @if (auth()->user()->hasRole('superAdmin'))
                             <button type="button" class="delete-button" title="Eliminar"
                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">

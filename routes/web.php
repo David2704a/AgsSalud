@@ -8,6 +8,7 @@ use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\InformesController;
+use App\Http\Controllers\PDFHojaDeVIdaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
@@ -255,6 +256,7 @@ Route::get('/lista-qr',[ElementoController::class,'QRView']);
 
 Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostrarResponsableEntrega']);
 
+Route::get('/pdfElemento/{id}',[PDFHojaDeVIdaController::class,'getPDF'])->name('elementos.pdf');
 
 //Generar pdf
 
