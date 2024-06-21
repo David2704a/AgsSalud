@@ -45,6 +45,13 @@
                                             </a>
                                         @endif
                                         
+
+                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                            <a class="edit-button" style="background-color: rgb(37, 162, 194)" title="ActaEntrega"
+                                href="{{route('generar.pdf', $elemento->idElemento)}}" target="_blank">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </a>
+                        @endif
                         @if (auth()->user()->hasRole('superAdmin'))
                             <button type="button" class="delete-button" title="Eliminar"
                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
@@ -60,8 +67,8 @@
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     @endif
-                    <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button">                                                
-                        <button type="button" class="export-button" title="Exportar pdf"><i data-id="{{ $elemento->idElemento }}" class="fas fa-file-pdf"></i>   </button>                                        
+                    <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button">
+                        <button type="button" class="export-button" title="Exportar pdf"><i data-id="{{ $elemento->idElemento }}" class="fas fa-file-pdf"></i>   </button>
                     </a>
                     </td>
                 @endif
