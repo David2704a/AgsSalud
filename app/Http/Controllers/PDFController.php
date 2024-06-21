@@ -3,11 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Elemento;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class PDFController extends Controller
 {
+
+    public function datos() {
+
+        $elementos = Elemento::with('estado')->get();
+
+        return view('pdf.datosPDF', compact('elementos'));
+
+    }
+
+
+
+
     public function descargar() {
 
         $pdf = app('dompdf.wrapper');
@@ -21,18 +34,11 @@ class PDFController extends Controller
         return $pdf->download('Ingreso_y_salida_equipos.pdf');
     }
 
-    public function download() {
+    public function view($idElemento) {
 
-        $data = [
-            [
-                'quantity' => 1,
-                'description' => '1 Year Subscription',
-                'price' => '129.00'
+        $elementos = Elemento::with('estado')->findOrFail($idElemento);
 
-            ]
-        ];
-
-        $pdf = Pdf::loadView('pdf.pdf', ['data' => $data]);
+        $pdf = Pdf::loadView('pdf.pdf', compact('elementos'));
         return $pdf->stream();
     }
 

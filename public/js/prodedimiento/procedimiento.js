@@ -40,43 +40,59 @@ function mostrarParte(idParte) {
 }
 
 /*
-================================================
-FUNTION FILTRO
-================================================
+===================================================================
+FUNCION PARA FILTAR LOS ELEMENTOS SEGUN EL TIPO DE PROCEDIMIENTO
+===================================================================
 */
 
+var originalSelectHtml = $('#idElemento').html();
+function traerElementosSinUsuario(){
+    var tipoProcedimiento = $('#idTipoProcedimiento').val();
+    if($('#idTipoProcedimiento').val() == 3) {
+
+        $('.selectEntregaTodos').hide();
+        $('.selectEntregaTecnico').show();
+
+        $('.selectRecibeTecnico').hide();
+        $('.selectRecibeTodos').show();
 
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     const mensajeVacio = document.querySelector('.mensaje-vacio');
-//     const searchInput = document.getElementById('search-input');
-//     const tableBody = document.querySelector('tbody');
 
+        $.ajax({
+            url: '/traerElementosSinUsuarios',
+            type: 'GET',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                tipoProcedimiento: tipoProcedimiento
+            },
+            success: function (data) {
 
-//     function updateTable(filtro) {
-//       $.ajax({
-//         url:urlBase+'/procedimiento/buscar',
-//         method: 'GET',
-//         data: { filtro: filtro },
-//         success: function (data) {
-//           tableBody.innerHTML = data;
-//         },
-//         error: function (error) {
-//           console.error('Error al realizar la búsqueda:', error);
-//         }
-//       });
-//     }
+                $('#idElemento').empty();
+                $('#idElemento').append('<option value="">Seleccione un elemento</option>');
+                $.each(data, function (key, value) {
+                    $('#idElemento').append('<option value="' + value.idElemento + '">' + value.id_dispo + ' ' +value.nombre + '</option>');
+                });
+            },
+            error: function (data) {
+                console.log('Error en la petición:', data);
+            }
+        });
+    } else {
+        $('.selectEntregaTodos').show();
+        $('.selectEntregaTecnico').hide();
+        $('.selectRecibeTecnico').show();
+        $('.selectRecibeTodos').hide();
+        $('#idElemento').html(originalSelectHtml);
+    }
+}
 
-//     searchInput.addEventListener('input', function () {
-//       const filtro = searchInput.value.trim().toLowerCase();
-//       updateTable(filtro);
-//     });
+// $('#idTipoProcedimiento').change(traerElementosSinUsuario);
 
-//   });
-
-
-//   document.getElementById('fechaReprogramada').disabled = true;
-
+/*
+===================================================================
+FUNCION PARA INICIALIZAR EL DATATABLE DE LA TABLA DE PROCEDIMIENTOS
+===================================================================
+*/
 
 
 function inicializarTablaPrestamos() {

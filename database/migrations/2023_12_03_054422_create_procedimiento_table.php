@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('fechaFin')->nullable();
             $table->time('hora')->nullable();
             $table->date('fechaReprogramada')->nullable();
-            $table->text('observacion');
+            $table->string('observacion',200);
 
             $table->unsignedBigInteger('idResponsableEntrega')->nullable();
             $table->foreign('idResponsableEntrega')->references('id')->on('users');

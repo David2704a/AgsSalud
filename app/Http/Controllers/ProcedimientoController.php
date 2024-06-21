@@ -9,10 +9,12 @@ use App\Models\EstadoProcedimiento;
 use App\Models\Procedimiento;
 use App\Models\TipoProcedimiento;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use stdClass;
 
 class ProcedimientoController extends Controller
 {
@@ -29,13 +31,14 @@ class ProcedimientoController extends Controller
      */
     public function create()
     {
+
         $elementos = Elemento::all();
-        $estadoProcedimiento = EstadoProcedimiento::all();
+        $estadoProcedimiento = EstadoProcedimiento::all(); 
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();
         // dd($elementos[100]);
-       return view('procedimientos.procedimiento.create', compact('elementos','estadoProcedimiento','tipoProcedimiento','usuariosEntrega','usuariosRecibe'));
+        return view('procedimientos.procedimiento.create', compact('elementos', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe'));
     }
 
     /**
@@ -50,14 +53,14 @@ class ProcedimientoController extends Controller
             "idElemento" => "required",
             "idEstadoProcedimiento" => "required",
             "idTipoProcedimiento" => "required",
-        ],[
+        ], [
             'observacion.required' => 'El campo Observación es obligatorio',
             'idElemento.required' => 'El campo Elemento es obligatorio',
             'idEstadoProcedimiento.required' => 'El campo Estado de Procedimiento es obligatirio',
             'idTipoProcedimiento.required' => 'El campo Tipo de Procedimiento es obligatorio'
         ]);
 
-    $procedimiento = new Procedimiento();
+        $procedimiento = new Procedimiento();
         $procedimiento->observacion = $request->input('observacion');
         $procedimiento->idElemento = $request->input('idElemento');
         $procedimiento->idEstadoProcedimiento = $request->input('idEstadoProcedimiento');
@@ -72,7 +75,6 @@ class ProcedimientoController extends Controller
 
         $procedimiento->save();
         return redirect()->route('mostrarProcedimiento')->with('success', 'Procedimiento creado correctamente');
-
     }
 
     /**
@@ -84,7 +86,6 @@ class ProcedimientoController extends Controller
 
         if (!$procedimiento) {
             return redirect()->route("mostrarProcedimiento")->with('error', 'El procedimiento no existe');
-
         }
 
         return view('procedimientos.procedimiento.show', compact('procedimiento'));
@@ -103,7 +104,7 @@ class ProcedimientoController extends Controller
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();
 
-        return view('procedimientos.procedimiento.edit', compact('procedimiento','tipoProcedimiento','estadoProcedimiento','elemento','usuariosEntrega','usuariosRecibe'));
+        return view('procedimientos.procedimiento.edit', compact('procedimiento', 'tipoProcedimiento', 'estadoProcedimiento', 'elemento', 'usuariosEntrega', 'usuariosRecibe'));
     }
 
     /**
@@ -153,79 +154,59 @@ class ProcedimientoController extends Controller
         $procedimiento->delete();
 
         return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento eliminado correctamente');
-
     }
 
 
-    // public function buscar(Request $request)
-    // {
-    //     // Obtén el valor del filtro desde la solicitud
-    //     $filtro = $request->input('filtro');
-
-    //     // Realiza la búsqueda en varios campos del modelo
-    //     $procedimientos = Procedimiento::where(function ($query) use ($filtro) {
-    //         $query->where('fechaInicio', 'like', '%' . $filtro . '%')
-    //             ->orWhere('fechaFin', 'like', '%' . $filtro . '%')
-    //             ->orWhere('hora', 'like', '%' . $filtro . '%')
-    //             ->orWhere('fechaReprogramada', 'like', '%' . $filtro . '%')
-    //             ->orWhere('observacion', 'like', '%' . $filtro . '%')
-    //             ->orWhereHas('responsableEntrega', function ($subquery) use ($filtro) {
-    //                 $subquery->where('name', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('responsableRecibe', function ($subquery) use ($filtro) {
-    //                 $subquery->where('name', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('elemento', function ($subquery) use ($filtro) {
-    //                 $subquery->where('modelo', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('estadoProcedimiento', function ($subquery) use ($filtro) {
-    //                 $subquery->where('estado', 'like', '%' . $filtro . '%');
-    //             })
-    //             ->orWhereHas('tipoProcedimiento', function ($subquery) use ($filtro) {
-    //                 $subquery->where('tipo', 'like', '%' . $filtro . '%');
-    //             });
-    //     })->paginate(10);
-
-
-
-
-    //     // Devuelve la vista parcial con los resultados paginados
-    //     return view('procedimientos.partials.procedimiento.resultados', compact('procedimientos'))->render();
-
-
-    // }
-
-
-
-    // public function excelProcedimiento(Request $request)
-    // {
-    //     // Obtener los valores de los filtros desde la solicitud
-    //     $filtros = [
-    //         'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
-    //         'idTipoElemento' => $request->input('idTipoElemento', null),
-    //         'fechaInicio' => $request->input('fechaInicio', null),
-    //         'fechaFin' => $request->input('fechaFin', null),
-    //         'idEstadoProcedimiento' => $request->input('idEstadoProcedimiento', null),
-    //         'idProcedimiento' => $request->input('idProcedimiento', null),
-    //         'idResponsableEntrega' => $request->input('idResponsableEntrega', null),
-    //         'idResponsableRecibe' => $request->input('idResponsableRecibe', null)
-    //     ];
-
-
-    //     // Descargar el informe en formato Excel con los filtros aplicados
-    //     return Excel::download(new ProcedimientoExport($filtros), 'procedimiento.xlsx');
-    // }
-
-    public function mostrarResponsableEntrega(Request $request) {
+    public function mostrarResponsableEntrega(Request $request)
+    {
 
         $idElemento = $request->input('idElemento', true);
         $resultado = DB::table('elemento')
-        ->where('idElemento', $idElemento)
-        ->join('users','elemento.idUsuario', 'users.id')
-        ->select('users.name', 'users.id')
-        ->first();
-
+            ->where('idElemento', $idElemento)
+            ->join('users', 'elemento.idUsuario', 'users.id')
+            ->select('users.name', 'users.id')
+            ->first();
+        // dd($resultado);
         return $resultado;
     }
+
+
+    public function traerElementosSinUsuarios()
+    {
+        $elementos = DB::table('elemento')
+            ->where('idUsuario', NULL)
+            ->join('categoria', 'elemento.idCategoria', 'categoria.idCategoria')
+            ->select('elemento.id_dispo', 'elemento.idElemento', 'categoria.nombre')
+            ->get();
+
+        // dd($elementos);
+        return $elementos;
+    }
+
+    // public function generatePDF(Request $request)
+    // {
+    //     $prestamo = json_decode($request->input('datos'), true);
+
+    //     $pdf = PDF::loadView('pdf/registro_prestamo', $prestamo)
+    //         ->setPaper('letter', 'landscape');
+
+    //     return $pdf->download('registro_prestamo.pdf');
+    // }
+
+
+
+        public function generatePDF(Request $request)
+        {
+            $datos = $request->input('datos');
+            $objetos = [];
+            foreach ($datos as $dato) {
+                $objeto = (object) $dato;
+                $objetos[] = $objeto;
+            }
+            $pdf = PDF::loadView('pdf.registro_prestamo', compact('objetos'))
+                ->setPaper('letter', 'landscape');
+
+            return $pdf->download('registro_prestamo.pdf');
+        }
 
 }

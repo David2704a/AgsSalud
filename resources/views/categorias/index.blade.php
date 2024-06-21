@@ -112,8 +112,8 @@
 
 
 
-<div id="myModal" class="modal">
-    <div class="modal-content">
+<div id="myModal" class="modalEliminar">
+    <div class="modal_content">
         <p id="modalMessage"></p>
         <div class="button-container">
             <button id="cancelButton" class="modal-button">Cancelar</button>
