@@ -8,9 +8,11 @@ use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\InformesController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\pruebaController;
 use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PdfActaController;
 use App\Models\Elemento;
 use App\Models\TipoElemento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,6 +36,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+  Route::get('/test',[pruebaController::class,'index'])->name('test');
+  Route::get('/view',[pruebaController::class,'view'])->name('view.pdf');
 
 Route::get('/', function () {
     return view('auth/login');
@@ -246,3 +252,8 @@ Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostr
 //Acta de entrega de dipositivos tegnologicos
 
 Route::get('/generar-pdf/{id}', [PdfActaController::class, 'generarPdf'])->name('generar.pdf');
+// ---PDF--------
+
+Route::get('/pdf', [PDFController::class, 'download'])->name('pdf.index');
+Route::get('/pdfdownload', [PDFController::class, 'orientacion'])->name('pdf.index');
+Route::get('/pdf1', [PDFController::class, 'index'])->name('pdf.index');
