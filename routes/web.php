@@ -111,7 +111,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('elementos',ElementoController::class)->names('elementos');
     Route::get('/elemento/buscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
     Route::get('/ingreso_salida/{idElemento}', [ElementoController::class, 'indexSalidaIngresos']);
-
+    // Route::get('/exportar/{idElemento}', [ElementoController::class,'indexPDF']);
+    Route::get('/exportarpdf/{idElemento}',[ElementoController::class,'ExportarPDF']);
 // funciona y visualiza a uno como usuario su perfil
 Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
 

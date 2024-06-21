@@ -39,6 +39,9 @@
                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                             </button>
                         @endif
+                        <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button">                                                
+                            <button type="button" class="export-button" title="Exportar pdf"><i data-id="{{ $elemento->idElemento }}" class="fas fa-file-pdf"></i>   </button>                                        
+                        </a>
                     </td>
                 @endif
                 </tr>

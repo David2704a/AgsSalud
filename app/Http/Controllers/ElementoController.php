@@ -364,4 +364,16 @@ class ElementoController extends Controller
         return view('elementos.elemento.salidaIngresos', compact('elementos'));
     }
 
+    public function ExportarPDF($idElemento)
+    {
+        $elemento = Elemento::where('idElemento', $idElemento)->get(['*']);
+        $pdf = Pdf::loadView('elementos.elemento.pdf', compact('elemento'));
+        // $pdf->setPaper('letter','landscape');
+        
+        $pdf->setPaper('letter','portrait');
+        
+        return $pdf->stream('elementos.elemento.pdf');
+    }
+
+    
 }

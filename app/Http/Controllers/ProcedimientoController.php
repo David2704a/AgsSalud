@@ -31,8 +31,9 @@ class ProcedimientoController extends Controller
      */
     public function create()
     {
+
         $elementos = Elemento::all();
-        $estadoProcedimiento = EstadoProcedimiento::all();
+        $estadoProcedimiento = EstadoProcedimiento::all(); 
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();

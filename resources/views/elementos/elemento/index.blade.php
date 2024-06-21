@@ -163,6 +163,11 @@
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                         @endif
+                                        
+                                            <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button">                                                
+                                                    <i class="fas fa-file-pdf"></i>                                           
+                                            </a>
+                                        
                                     </td>
                                 @endif
                             </tr>
