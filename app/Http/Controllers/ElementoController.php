@@ -359,9 +359,76 @@ class ElementoController extends Controller
     }
 
     public function indexSalidaIngresos($idElemento){
-        $elementos = Elemento::where('idElemento', $idElemento)->first();
+
+        // $elementos = Elemento::where('idElemento', $idElemento)->first();
+
+        $elementos = Elemento::with('estado')->findOrFail($idElemento);
 
         return view('elementos.elemento.salidaIngresos', compact('elementos'));
+    }
+
+
+    public function traerElementosFiltrados(Request $request)
+    {
+        $idUsuario = $request->input('idUsuario');
+        $categorias = ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE'];
+
+        $elementos = Elemento::join('categoria', 'elemento.idCategoria', '=', 'categoria.idCategoria')
+            ->where(function ($query) use ($idUsuario) {
+                $query->where('elemento.idUsuario', $idUsuario)
+                      ->orWhereNull('elemento.idUsuario');
+            })
+            ->whereIn('categoria.nombre', $categorias)
+            ->select('categoria.nombre', 'elemento.idUsuario', 'elemento.id_dispo', 'elemento.idElemento')
+            ->get();
+
+        return $elementos;
+    }
+
+    public function traerDatosElementoFil(Request $request) {
+        $idElemento = $request->input('idElemento');
+
+        $elemento = Elemento::where('idElemento', $idElemento)
+        ->join('estadoElemento', 'elemento.idEstadoEquipo', 'estadoElemento.idEstadoE')
+        ->select('elemento.*', 'estadoElemento.estado')
+        ->first();
+
+        return $elemento;
+    }
+
+    public function guardarDatosInforme(Request $request){
+        $data = $request->input('datos');
+
+        $datos = [
+            'motivo_ingreso' => $data['motivoIngreso'] ,
+            'descripcion_equipo_ingreso' => $data['descripcionIngreso'] ,
+            'fecha_in_salida' => $data['fechaInicioIngreso'] ,
+            'fecha_fin_salida' => $data['fechaFinSalida'] ,
+            'hora_in_salida' => $data['horaInicioIngreso'] ,
+            'prestamo' => $data['prestamo'] ,
+            'id_userAutoriza' => $data['idUserAutoriza'] ,
+            'id_userAutorizado' => $data['idUserAutorizado'] ,
+            'id_elemento' => $data['idElemento']
+        ];
+
+        for ($i = 2; $i <= 5; $i++) {
+            $descripcionKey = 'descripcion_equipo_ingreso_' . $i;
+            if (isset($data[$descripcionKey]) && !empty($data[$descripcionKey])) {
+                $datos[$descripcionKey] = $data[$descripcionKey];
+            }
+        }
+        for ($i = 2; $i <= 5; $i++) {
+            $id_elementoKey = 'id_elemento_' . $i;
+            if (isset($data[$id_elementoKey]) && !empty($data[$id_elementoKey])) {
+                $datos[$id_elementoKey] = $data[$id_elementoKey];
+            }
+        }
+        // dd($datos);
+
+
+        $resultado = DB::table('ingreso_y_o_salida')->insert($datos);
+
+        return $resultado;
     }
 
     public function ExportarPDF($idElemento)
@@ -375,5 +442,4 @@ class ElementoController extends Controller
         return $pdf->stream('elementos.elemento.pdf');
     }
 
-    
 }
