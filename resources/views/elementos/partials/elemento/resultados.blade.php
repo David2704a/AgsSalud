@@ -38,13 +38,14 @@
                             </a>
                         @endif
 
-                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                                            <a class="pdf-button" title="Mostrar"
-                                                href="{{ route('elementos.pdf', $elemento->idElemento) }}">
-                                                <i class="fa-solid fa-file-pdf"></i>
-                                            </a>
-                                        @endif
-                                        
+
+                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']) && ($elemento->categoria->nombre=='PC PORTATIL')||($elemento->categoria->nombre=='EQUIPO TODO EN UNO'))
+                        <a class="pdf-button" title="Mostrar"
+                            href="{{ route('elementos.pdf', $elemento->idElemento)}}" target="_blank">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </a>
+
+                    @endif
 
                         @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                             <a class="edit-button" style="background-color: rgb(37, 162, 194)" title="ActaEntrega"
