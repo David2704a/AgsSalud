@@ -10,7 +10,7 @@
 
 @endsection
 @section('content')
-    
+
     <div class="content2">
         <div class="content" style="text-align: center">
             <h1 class="page-title">Elementos</h1>
@@ -141,6 +141,13 @@
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                         @endif
+
+                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                            <a class="pdf-button" title="Mostrar"
+                                                href="{{ route('elementos.pdf', $elemento->idElemento) }}">
+                                                <i class="fa-solid fa-file-pdf"></i>
+                                            </a>
+                                        @endif
                                         @if (auth()->user()->hasRole('superAdmin'))
                                             <button type="button" class="delete-button" title="Eliminar"
                                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
@@ -148,9 +155,11 @@
                                                 <i data-id="{{ $elemento->idElemento }}"
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                                             </button>
-                                        @endif
-                                    </td>
-                                @endif
+                                               @endif
+
+                                      
+                                  </td>
+                             @endif
                             </tr>
                         @endforeach
                     </tbody>

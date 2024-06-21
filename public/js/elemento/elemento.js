@@ -15,6 +15,7 @@ function mostrarParte(idParte) {
     });
   }
 
+
   function actualizarProgreso() {
   const partes = document.querySelectorAll('.form-part');
   const marcadores = document.querySelectorAll('.marker');

@@ -8,6 +8,7 @@ use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\InformesController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
 use App\Models\Elemento;
 use App\Models\TipoElemento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 
@@ -236,3 +238,5 @@ Route::get('/elemento/qr/{id_dispo}',[ElementoController::class,'elementoQR']);
 Route::get('/lista-qr',[ElementoController::class,'QRView']);
 
 Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostrarResponsableEntrega']);
+
+Route::get('/pdfElemento/{id}',[PDFController::class,'getPDF'])->name('elementos.pdf');

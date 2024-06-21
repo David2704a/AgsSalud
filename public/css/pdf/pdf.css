@@ -1,0 +1,138 @@
+*{
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 16px;
+}
+
+@page {
+    margin: 110px 80px;
+    margin-top: 150px;
+}
+
+header{
+
+    position: fixed;
+    top: -120px;
+    width:100%;
+}
+
+hr {
+    border:#18a49c;
+    height: 4px;
+    background-color: #18a49c;
+  }
+
+
+.separator{
+    height: 3px;
+}
+
+table,th,td,tr{
+    border-collapse: collapse;
+    border: 1px black solid;
+    text-align: center;
+    margin: 0 auto;
+    width:100%;
+
+}
+
+.table-header{
+    border: hidden;
+    opacity: 0.8;
+}
+
+#border{
+    border-top: hidden;
+}
+
+#celda{
+    width: 110px;
+}
+#numero{
+    width: 80px;
+}
+
+#fecha{
+    width: 70px;
+}
+
+#date{
+    width: 80px;
+}
+
+#alineacion{
+    text-align: right;
+}
+
+#codigo{
+    width: 220px;
+    padding: 3px;
+}
+
+#serial{
+    width: 280px;
+    padding: 3px;
+}
+
+#recibe{
+    width: 180px;
+}
+
+#entrega{
+    width: 100px;
+}
+
+#observacion{
+    text-align: left;
+    padding: 5px;
+    vertical-align:baseline;
+    height: 120px;
+}
+
+td,th{
+
+    height:26px;
+
+}
+
+footer{
+    opacity: 0.9;
+    text-align: center;
+    position: fixed;
+    bottom: -113px;
+    left: -30px;
+    right: 0px;
+    height: -40px;
+}
+
+.logos{
+    width: 850px;
+    height: 100px;
+}
+
+.celdas{
+    text-align: left;
+    padding: 5px;
+}
+
+
+.contenedor{
+    text-align: center;
+}
+
+.page-break {
+    page-break-after: always;
+}
+
+.page-number:after{
+    content: counter(page);
+}
+
+.agsLogo{
+    width:191px;
+    height: 95px;
+}
+
+
+
