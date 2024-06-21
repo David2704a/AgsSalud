@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HOJA DE VIDA EQUIPOS TECNOLOGICOS</title>
-    <link rel="stylesheet" href="{{ public_path('/css/pdf/pdf.css') }}">
+    <link rel="stylesheet" href="{{ public_path('/css/pdf/pdfHojaDeVida.css') }}">
 </head>
 <body>
 
