@@ -129,12 +129,21 @@
 
         <tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{$elementos->descripcion}}</td>
+                <td>{{$elementos->marca}}</td>
+                <td>{{$elementos->modelo}}</td>
+                <td>{{$elementos->serial}}</td>
+                @if($elementos->estado)
+                    @if ($elementos->estado->estado == 'BUENO')
+                        <td>{{$elementos->estado->estado}}</td>
+                        <td></td>
+                    @elseif($elementos->estado->estado == 'MALO')
+                        <td>{{$elementos->estado->estado}}</td>
+                        <td></td>
+                    @endif  
+                @else
+                    <td colspan="2">Sin Estado</td>
+                @endif
             </tr>
             <tr>
                 <td></td>

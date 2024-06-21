@@ -147,7 +147,65 @@
                     </div>
                 </div>
             </div>
+
+{{-- --------------------------------------------- --}}
+
+            <table id="table-descripcion" class="table">
+                <thead>
+                    <tr>
+                        <th rowspan="2" style="width: 100px;">DESCRIPCIÓN</th>
+                        <th rowspan="2" style="width: 100px;">MARCA</th>
+                        <th rowspan="2" style="width: 100px;">MODELO</th>
+                        <th rowspan="2" style="width: 100px;">N° SERIAL</th>
+                        <th colspan="2" style="width: 100px;">ESTADO</th>
+                    </tr>
+                    <tr>
+                        <th style="padding: 2px 0; width: 100px;">B</th>
+                        <th style="padding: 2px 0; width: 100px;">M</th>
+                    </tr>
+                </thead>
+        
+                <tbody>
+                    <tr>
+                        {{-- <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td> --}}
+                        <td>{{$elementos->descripcion}}</td>
+                        <td>{{$elementos->marca}}</td>
+                        <td>{{$elementos->modelo}}</td>
+                        <td>{{$elementos->serial}}</td>
+                        @if($elementos->estado)
+                        @if ($elementos->estado->estado == 'BUENO')
+                            <td>{{$elementos->estado->estado}}</td>
+                            <td></td>
+                        @elseif($elementos->estado->estado == 'MALO')
+                            <td>{{$elementos->estado->estado}}</td>
+                            <td></td>
+                        @endif  
+                        @else
+                            <td colspan="2">Sin Estado</td>
+                        @endif
+                    </tr>
+                </tbody>
+            </table>
+
+            <br><br>
+            <a class="btn btn-success" href="{{route('pdf.view', $elementos->idElemento)}}">Generar PDF</a>
+
+
+            
+
+
+{{-- -------------------------------------------------- --}}
+        
+
         </div>
 
     </div>
+
+
+
 @endsection

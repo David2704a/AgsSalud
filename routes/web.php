@@ -250,6 +250,7 @@ Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostr
 
 // ---PDF--------
 
-Route::get('/pdf', [PDFController::class, 'download'])->name('pdf.index');
+Route::get('/pdf/{idElemento}/view', [PDFController::class, 'view'])->name('pdf.view');
 Route::get('/pdfdownload', [PDFController::class, 'orientacion'])->name('pdf.index');
 Route::get('/pdf1', [PDFController::class, 'index'])->name('pdf.index');
+Route::get('pdf/datos', [PDFController::class, 'datos'])->name('pdf.datos');

@@ -359,7 +359,10 @@ class ElementoController extends Controller
     }
 
     public function indexSalidaIngresos($idElemento){
-        $elementos = Elemento::where('idElemento', $idElemento)->first();
+
+        // $elementos = Elemento::where('idElemento', $idElemento)->first();
+
+        $elementos = Elemento::with('estado')->findOrFail($idElemento);
 
         return view('elementos.elemento.salidaIngresos', compact('elementos'));
     }
