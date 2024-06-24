@@ -137,7 +137,14 @@ $('#btnGenerarInforme').on('click', function () {
             },
             success: function (response) {
                 console.log(response);
-
+                $('#descripcionIngreso').val('');
+                $('#fechaInicioIngreso').val('');
+                $('#fechaFinSalida').val('');
+                $('#horaInicioIngreso').val('');
+                $('#duracionDesde').val('');
+                $('input[name="prestamo"]').prop('checked', false);
+                $('input[name="motivo_ingreso"]').prop('checked', false);
+                
                 alertSwitch('success', 'Datos del Informe Guardados con Éxito')
             }
         });

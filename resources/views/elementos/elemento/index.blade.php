@@ -141,9 +141,11 @@
                                 @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                     <td>
                                         @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                                            <a class="edit-button" title="Editar"
+                                            <a class="edit-button tooltips" title="Editar"
                                                 href="{{ route('elementos.edit', $elemento->idElemento) }}">
                                                 <i class="fa-regular fa-pen-to-square"></i>
+                                                <span class="tooltiptext">Editar Elemento</span>
+
                                             </a>
                                         @endif
 
@@ -154,12 +156,14 @@
                                             </a>
                                         @endif
                                         @if (auth()->user()->hasRole('superAdmin'))
-                                            <button type="button" class="delete-button" title="Eliminar"
+                                            <button type="button" class="delete-button tooltips" title="Eliminar"
                                                 data-bs-toggle="modal" data-bs-target="#myModal"
                                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
 
                                                 <i data-id="{{ $elemento->idElemento }}"
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
+                                                <span class="tooltiptext">Eliminar Elemento</span>
+
                                             </button>
                                         @endif
 
@@ -179,9 +183,10 @@
                                                 data-id-user="{{ $elemento->idUsuario }}"
                                                 data-user-identificacion="{{ $elemento->user->persona->identificacion ?? false }}"
                                                 data-name-user="{{ $elemento->user->name ?? false }}"
-                                                class="btn_ingreso_salida">
-                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                            </a>
+                                                class="btn_ingreso_salida tooltips btn btn-info btn-sm">
+                                                 <i class="fa-solid fa-arrow-up-right-from-square" style="color: #e7e5e5;"></i>
+                                                 <span class="tooltiptext">Ingreso / Salida</span>
+                                             </a>
                                         @endif
 
                                         <a href="{{ url('/exportarpdf/' . $elemento->idElemento) }}" type="button">

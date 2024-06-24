@@ -12,7 +12,11 @@
     border-radius: 1rem;
 }
 
-
+.edit-button, .delete-button {
+    position: relative; /* Necesario para el tooltip */
+    display: inline-block; /* Necesario para el tooltip */
+    cursor: pointer; /* Cursor de puntero para mejor UX */
+}
 
 .btn_ingreso_salida {
     margin: 4px;
@@ -22,7 +26,47 @@
     color: #fff;
     border: none;
     border-radius: 4px;
+    position: relative; /* Necesario para el tooltip */
+    display: inline-block; /* Necesario para el tooltip */
+    cursor: pointer; /* Cursor de puntero para mejor UX */
 }
+
+/* Estilo del tooltip */
+.tooltips .tooltiptext {
+    visibility: hidden;
+    width: 120px; /* Ancho del tooltip */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Posiciona el tooltip arriba del botón */
+    left: 50%;
+    margin-left: -60px; /* Ancho del tooltip dividido por 2 */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Flecha del tooltip */
+.tooltips .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* En la parte inferior del tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+/* Mostrar el tooltip al pasar el ratón sobre el botón */
+.tooltips:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 /*
 ================================================================
