@@ -77,6 +77,13 @@
                     </a>
                 @endif
 
+                <a href="{{ route('elementos-fisicos.index') }}" class="button-link">
+                    <div class="circle-button btn-background-circle">
+                        <img src="{{ asset('img/elef1.png') }}" alt="alo" >
+                    </div>
+                    <span>ELEMENTOS FISICOS</span>
+                </a>                
+
             </div>
 
         </div>

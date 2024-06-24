@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ElementoController;
+use App\Http\Controllers\elementosFisicosController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\InformesController;
@@ -108,28 +109,27 @@ Route::middleware('auth')->group(function () {
     Route::resource('elementos',ElementoController::class)->names('elementos');
     Route::get('/elemento/buscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
 
-// funciona y visualiza a uno como usuario su perfil
-Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
+    // funciona y visualiza a uno como usuario su perfil
+    Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
 
-    // Ruta para procesar el formulario de actualización
-Route::post('/actualizar-perfil/{id}', [UserAjustesController::class, 'actualizar'])->name('Actualizar');
-
-
-
-
-// redirecciona persona.edit vista
-Route::get('/editar/{id}', [PersonaController::class, 'edit'])->name('editarPerfil');
+        // Ruta para procesar el formulario de actualización
+    Route::post('/actualizar-perfil/{id}', [UserAjustesController::class, 'actualizar'])->name('Actualizar');
 
 
 
 
-Route::get('register/vista', [UserController::class, 'showRegistrationForm'])->name('auth.register');
+    // redirecciona persona.edit vista
+    Route::get('/editar/{id}', [PersonaController::class, 'edit'])->name('editarPerfil');
 
 
-Route::post('register/create', [RegisteredUserController::class, 'register'])->name('register.create');
 
-Route::post('register', [RegisteredUserController::class, 'register'])
-    ->middleware('guest');
+
+    Route::get('register/vista', [UserController::class, 'showRegistrationForm'])->name('auth.register');
+
+
+    Route::post('register/create', [RegisteredUserController::class, 'register'])->name('register.create');
+
+    Route::post('register', [RegisteredUserController::class, 'register'])->middleware('guest');
 
     Route::get('/usuariosBuscar', [UserController::class, 'buscar'])->name('usuarios.search');
     Route::get('/categoriaBuscar', [CategoriaController::class, 'buscarCategorias'])->name('categorias.search');
@@ -140,8 +140,8 @@ Route::post('register', [RegisteredUserController::class, 'register'])
 
 
 
-// Route::get('/reportes/filtro', [InformesController::class, 'filtrarTablaElementos']);
-Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestamos']);
+    // Route::get('/reportes/filtro', [InformesController::class, 'filtrarTablaElementos']);
+    Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestamos']);
 
 
 
@@ -207,27 +207,31 @@ Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestam
 });
 
 
-Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.update');
+    Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.update');
 
 
-Route::post('/importar-excel', [almacenadoTmpController::class, 'importarExcel'])->name('excel.import');
+    Route::post('/importar-excel', [almacenadoTmpController::class, 'importarExcel'])->name('excel.import');
 
 
 
-Route::get('ejecutarProcedimiento', [almacenadoTmpController::class, 'ejecutarProcedimiento'])->name('procedureTmp');
+    Route::get('ejecutarProcedimiento', [almacenadoTmpController::class, 'ejecutarProcedimiento'])->name('procedureTmp');
 
 
-// usuarios  desde regisro normal ya funcional
-Route::get('usuarios', [UserController::class,'index'])->name('users.index');
-Route::get('/user/{id}/edit', [UserAjustesController::class, 'actualizarUsuarioVista'])->name('usuarios.edit');
+    // usuarios  desde regisro normal ya funcional
+    Route::get('usuarios', [UserController::class,'index'])->name('users.index');
+    Route::get('/user/{id}/edit', [UserAjustesController::class, 'actualizarUsuarioVista'])->name('usuarios.edit');
 
-// Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
+    // Route::get('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'Actualizar'])->name('editarPerfiluser');
 
-Route::delete('/user/{id}/destroy', [UserController::class, 'destroy'])->name('destroyUser');
+    Route::delete('/user/{id}/destroy', [UserController::class, 'destroy'])->name('destroyUser');
 
 
-Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizarperfilderegistrouser'])->name('editarPerfilusersR');
+    Route::put('/editar/{id}', [App\Http\Controllers\UserAjustesController::class, 'actualizarperfilderegistrouser'])->name('editarPerfilusersR');
 
+
+
+    Route::resource('/elementos-fisicos', elementosFisicosController::class);
+    Route::post('/import', [elementosFisicosController::class, 'import'])->name('import');
 
 require __DIR__.'/auth.php';
 
