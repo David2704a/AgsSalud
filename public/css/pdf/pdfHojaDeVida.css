@@ -1,4 +1,4 @@
-*{
+* {
 
     font-family: Arial, Helvetica, sans-serif;
 
@@ -10,93 +10,98 @@
     margin-top: 150px;
 }
 
-header{
+header {
 
     position: fixed;
     top: -120px;
-    width:100%;
+    width: 100%;
 }
 
 hr {
-    border:#18a49c;
+    border: #18a49c;
     height: 4px;
     background-color: #18a49c;
-  }
+}
 
 
-.separator{
+.separator {
     height: 3px;
 }
 
-table,th,td,tr{
+table,
+th,
+td,
+tr {
     border-collapse: collapse;
     border: 1px black solid;
     text-align: center;
     margin: 0 auto;
-    width:100%;
+    width: 100%;
 
 }
 
-.table-header{
+.table-header {
     border: hidden;
     opacity: 0.8;
 }
 
-#border{
+#border {
     border-top: hidden;
 }
 
-#celda{
+#celda {
     width: 110px;
 }
-#numero{
+
+#numero {
     width: 80px;
 }
 
-#fecha{
+#fecha {
     width: 70px;
 }
 
-#date{
+#date {
     width: 80px;
 }
 
-#alineacion{
+#alineacion {
     text-align: right;
 }
 
-#codigo{
+#codigo {
     width: 220px;
     padding: 3px;
 }
 
-#serial{
+#serial {
     width: 280px;
     padding: 3px;
 }
 
-#recibe{
+#recibe {
     width: 180px;
 }
 
-#entrega{
+#entrega {
     width: 100px;
 }
 
-#observacion{
+#observacion {
     text-align: left;
     padding: 5px;
-    vertical-align:baseline;
+    vertical-align: baseline;
     height: 120px;
 }
 
-td,th{
+td,
+th {
 
-    height:26px;
+    height: 26px;
 
 }
 
-footer{
+footer {
     opacity: 0.9;
     text-align: center;
     position: fixed;
@@ -106,18 +111,28 @@ footer{
     height: -40px;
 }
 
-.logos{
+.logos {
     width: 850px;
     height: 100px;
 }
 
-.celdas{
+.celdas {
     text-align: left;
     padding: 5px;
 }
 
+.factura{
+        text-align: left;
+        padding: 5px;
+        width:110px;
+}
 
-.contenedor{
+.fechacompra{
+    text-align: left;
+    padding: 5px;
+    width:150px;
+}
+.contenedor {
     text-align: center;
 }
 
@@ -125,14 +140,11 @@ footer{
     page-break-after: always;
 }
 
-.page-number:after{
+.page-number:after {
     content: counter(page);
 }
 
-.agsLogo{
-    width:191px;
+.agsLogo {
+    width: 191px;
     height: 95px;
 }
-
-
-

@@ -154,7 +154,7 @@
 
 
                                         @if (auth()->user()->hasRole(['superAdmin', 'administrador']) && ($elemento->categoria->nombre=='PC PORTATIL')||($elemento->categoria->nombre=='EQUIPO TODO EN UNO'))
-                                            <a class="pdf-button" title="Mostrar"
+                                            <a class="pdf-button" title="EquipoTecno"
                                                 href="{{ route('elementos.pdf', $elemento->idElemento)}}" target="_blank">
                                                 <i class="fa-solid fa-file-pdf"></i>
                                             </a>
