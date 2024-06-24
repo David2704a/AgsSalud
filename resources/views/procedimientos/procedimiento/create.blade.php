@@ -76,7 +76,7 @@
                     <select class="selectElemento select2" name="idElemento" onchange="changeElemento()" id="idElemento"
                         style="max-width: 10%;">
                         <option value="">Seleccionar un Elemento</option>
-                        @foreach ($elementos as $elemento)
+                        @foreach ($elementosSinPrestamo as $elemento)
                             <option value="{{ $elemento->idElemento }}">{{ $elemento->id_dispo }}
                                 {{ $elemento->categoria->nombre }}</option>
                         @endforeach

@@ -91,7 +91,6 @@
                             <button type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $tipoElemento->idTipoElemento }}"
                              data-name="{{ $tipoElemento->tipo }}">
-
                                 <i data-id="{{ $tipoElemento->idTipoElemento }}" data-name="{{ $tipoElemento->tipo }}" class="fas fa-trash-alt"></i>
                             </button>
                             @endif

@@ -163,8 +163,11 @@
                                             </a>
                                         @endif
                                         
-                                            <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button">                                                
-                                                    <i class="fas fa-file-pdf"></i>                                           
+                                            <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button" target="_blank">                                                
+                                                    <span class="fa-stack fa-lg">
+                                                        <i class="fas fa-square fa-stack-2x pdf-background"></i>
+                                                        <i class="fas fa-file-pdf fa-stack-1x fa-inverse" style="margin-left: 3px;"></i>
+                                                    </span>
                                             </a>
                                         
                                     </td>

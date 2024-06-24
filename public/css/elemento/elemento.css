@@ -713,3 +713,22 @@ ESTILOS PARA LA TABLA DE LOS ELEMENTOS FILTRADOS
 .tableContainerElements th:nth-child(3), .tableContainerElements td:nth-child(3) {
     width: 15%;
 }
+
+/***********************/
+.pdf-link {
+    text-decoration: none; 
+    color: #000; 
+}
+
+.pdf-icon-container {
+    display: inline-block;
+    background-color: #007bff; 
+    padding: 10px; 
+    border-radius: 5px; 
+}
+
+.pdf-icon-container i {
+    color: #fff; 
+    font-size: 1.5em; 
+}
+/***********************/

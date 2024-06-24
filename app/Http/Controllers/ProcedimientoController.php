@@ -37,8 +37,16 @@ class ProcedimientoController extends Controller
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();
-        // dd($elementos[100]);
-        return view('procedimientos.procedimiento.create', compact('elementos', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe'));
+
+        $elementosSinPrestamo = Elemento::whereDoesntHave('procedimiento', function ($query) {
+            $query->whereHas('tipoProcedimiento', function ($query) {
+                $query->where('tipo', 'Prestamo');
+            });
+        })->get();
+
+        
+
+        return view('procedimientos.procedimiento.create', compact('elementosSinPrestamo', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe'));
     }
 
     /**

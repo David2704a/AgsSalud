@@ -423,7 +423,7 @@ class ElementoController extends Controller
                 $datos[$id_elementoKey] = $data[$id_elementoKey];
             }
         }
-        // dd($datos);
+
 
 
         $resultado = DB::table('ingreso_y_o_salida')->insert($datos);
