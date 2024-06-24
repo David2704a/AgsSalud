@@ -184,7 +184,7 @@
                                                 data-user-identificacion="{{ $elemento->user->persona->identificacion ?? false }}"
                                                 data-name-user="{{ $elemento->user->name ?? false }}"
                                                 class="btn_ingreso_salida tooltips btn btn-info btn-sm">
-                                                 <i class="fa-solid fa-arrow-up-right-from-square" style="color: #e7e5e5;"></i>
+                                                 <i class="fa-solid fa-arrow-up-right-from-square" style="color: #fff;"></i>
                                                  <span class="tooltiptext">Ingreso / Salida</span>
                                              </a>
                                         @endif
