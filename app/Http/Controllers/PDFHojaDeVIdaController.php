@@ -11,12 +11,12 @@ class PDFHojaDeVIdaController extends Controller
     public function getPDF($id)
     {
 
-
+        $elementos=Elemento::all();
         $elemento = Elemento::find($id);
         if (!$elemento) {
             return redirect()->route("elementos.index")->with('error', 'Elemento no encontrado');
         }
-        return PDF::loadView('pdf.pdfHojDeVida', compact('elemento'))
+        return PDF::loadView('pdf.pdfHojDeVida', compact('elemento','elementos'))
             ->setPaper('letter', 'landscape')
             ->stream('HOJA DE VIDA EQUIPOS TECNOLOGICOS.pdf');
     }

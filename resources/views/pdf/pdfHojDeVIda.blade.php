@@ -54,7 +54,16 @@
 
             <tr id="border">
                 <th id="codigo">CODIGO DEL CARGADOR:</th>
-                <th></th>
+
+                <th>
+                    @foreach ($elementos as $cargador)
+                        @if ($cargador->categoria->nombre == 'CARGADOR PORTATIL' && $cargador->serial == $elemento->serial)
+                            {{ $cargador->id_dispo }}
+                        @endif
+                    @endforeach
+
+                </th>
+
                 <th id="serial">{{ $elemento->serial ?? 'NO APLICA' }}</th>
             </tr>
         </table>
@@ -64,15 +73,15 @@
                 <td colspan="6" class="separator"></td>
             </tr>
         </table>
-    <table>
-    <tr id="border">
-        <th class="factura">Factura:</th>
-        <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
-        <th class="fechacompra">Fecha de compra:</th>
-        <td class="factura">{{ $elemento->factura->fechaCompra ?? 'NO APLICA' }}</td>
-        <th class="fechacompra">Fecha de baja:</th>
-        <td class="factura"></td>
-        </tr>
+        <table>
+            <tr id="border">
+                <th class="factura">Factura:</th>
+                <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
+                <th class="fechacompra">Fecha de compra:</th>
+                <td class="factura">{{ $elemento->factura->fechaCompra ?? 'NO APLICA' }}</td>
+                <th class="fechacompra">Fecha de baja:</th>
+                <td class="factura"></td>
+            </tr>
         </table>
         <table>
             <tr id="border">
