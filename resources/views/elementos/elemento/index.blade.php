@@ -152,7 +152,6 @@
                                             </a>
                                         @endif
 
-
                                         @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                             <a class="pdf-button" title="Mostrar"
                                                 href="{{ route('elementos.pdf', $elemento->idElemento) }}">
@@ -160,24 +159,14 @@
                                             </a>
                                         @endif
                                 
-                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                                            <a class="edit-button" style="background-color: rgb(37, 162, 194)" title="ActaEntrega"
-                                                href="{{route('generar.pdf', $elemento->idElemento)}}" target="_blank">
-
-                                                <i class="fa-solid fa-file-pdf"></i>
-                                            </a>
-                                        @endif
                                         @if (auth()->user()->hasRole('superAdmin'))
                                             <button type="button" class="delete-button" title="Eliminar"
                                                 data-bs-toggle="modal" data-bs-target="#myModal"
                                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
-
                                                 <i data-id="{{ $elemento->idElemento }}"
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                                             </button>
                                         @endif
-
-
 
                                         @if (
                                             $elemento->idUsuario !== null &&
@@ -188,7 +177,19 @@
                                                     'TECLADO',
                                                     'MOUSE',
                                                     'PAD MOUSE',
+                                                    'DIADEMA',
+                                                    'MICROFONO',
+                                                    'BASE REFRIGERANTE',
+                                                    'ADAPTADOR DE RED',
+                                                    'DVR',
+                                                    'CELULAR',
                                                 ]))
+                                            @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                                <a class="edit-button" style="background-color: rgb(37, 162, 194); margin-top:0.5em" title="ActaDeEntrega"
+                                                    href="{{route('generar.pdf', $elemento->idUsuario)}}" target="_blank">
+                                                    <i class="fa-solid fa-file-pdf"></i>
+                                                </a>
+                                            @endif
                                             <a href="{{ url('/ingreso_salida/' . $elemento->idElemento) }}" type="button"
                                                 data-id-user="{{ $elemento->idUsuario }}"
                                                 data-user-identificacion="{{ $elemento->user->persona->identificacion ?? false }}"

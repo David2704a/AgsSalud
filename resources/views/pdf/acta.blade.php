@@ -64,23 +64,24 @@
                 <tr>
                     <th colspan="20" class="fondo">2. DATOS GENERALES DEL TRABAJADOR</th>
                 </tr>
+                @foreach ($users as $user)
                 <tr>
                     <td colspan="2"><b>NOMBRE:</b></td>
-                    <td colspan="8">{{$elemento->user->name}}</td>
+                    <td colspan="8"> {{$user->name}}</td>
                     <td colspan="4"><b>CEDULA:</b></td>
-                    <td colspan="6">{{$elemento->user->persona->identificacion}}</td>
+                    <td colspan="6">{{$user->persona->identificacion}}</td>
                 </tr>
                 <tr>
                     <td colspan="2"><b>CARGO:</b></td>
                     <td colspan="8"></td>
                     <td colspan="4"><b>DIRECCIÓN:</b></td>
-                    <td colspan="6">{{$elemento->user->persona->direccion}}</td>
+                    <td colspan="6">{{$user->persona->direccion}}</td>
                 </tr>
                 <tr>
                     <td colspan="2"><b>PROCESO:</b></td>
                     <td colspan="8"></td>
                     <td colspan="4"><b>TELÉFONO:</b></td>
-                    <td colspan="6">{{$elemento->user->persona->celular}}</td>
+                    <td colspan="6">{{$user->persona->celular}}</td>
                 </tr>
                 <tr>
                     <th colspan="20" class="fondo">3. DESCRIPCIÓN DE LA ENTREGA</th>
@@ -91,55 +92,59 @@
                     <th colspan="2">ESTADO DE ENTREGA</th>
                     <th colspan="12">OBSERVACIÓN</th>
                 </tr>
-                <tr>
-                    <th colspan="4"></th>
-                    <th colspan="2"></th>
+                @foreach($user->elementos as $elementos)
+                    @if(($elementos->categoria->nombre !== 'CARGADOR PORTATIL') && ($elementos->categoria->nombre !== 'PC PORTATIL'))
+                        <tr>
+                            <td colspan="4">{{$elementos->id_dispo}}</td>
+                            <td colspan="2"></td>
+                            <th colspan="1">B</th>
+                            <th colspan="1">R</th>
+                            <td colspan="12"></td>
+                        </tr>
+                    @endif
+                @endforeach    
+                {{-- <tr>
+                    <td colspan="4"></td>
+                    <td colspan="2"></td>
                     <th colspan="1">B</th>
                     <th colspan="1">R</th>
-                    <th colspan="12"></th>
+                    <td colspan="12"></td>
                 </tr>
                 <tr>
-                    <th colspan="4"></th>
-                    <th colspan="2"></th>
+                    <td colspan="4"></td>
+                    <td colspan="2"></td>
                     <th colspan="1">B</th>
                     <th colspan="1">R</th>
-                    <th colspan="12"></th>
+                    <td colspan="12"></td>
+                </tr> --}}
+                {{-- <tr>
+                    <td colspan="4"></td>
+                    <td colspan="2"></td>
+                    <th colspan="1">B</th>
+                    <th colspan="1">R</th>
+                    <td colspan="12"></td>
                 </tr>
                 <tr>
-                    <th colspan="4"></th>
-                    <th colspan="2"></th>
+                    <td colspan="4"></td>
+                    <td colspan="2"></td>
                     <th colspan="1">B</th>
                     <th colspan="1">R</th>
-                    <th colspan="12"></th>
+                    <td colspan="12"></td>
                 </tr>
                 <tr>
-                    <th colspan="4"></th>
-                    <th colspan="2"></th>
+                    <td colspan="4"></td>
+                    <td colspan="2"></td>
                     <th colspan="1">B</th>
                     <th colspan="1">R</th>
-                    <th colspan="12"></th>
+                    <td colspan="12"></td>
                 </tr>
                 <tr>
-                    <th colspan="4"></th>
-                    <th colspan="2"></th>
+                    <td colspan="4"></td>
+                    <td colspan="2"></td>
                     <th colspan="1">B</th>
                     <th colspan="1">R</th>
-                    <th colspan="12"></th>
-                </tr>
-                <tr>
-                    <th colspan="4"></th>
-                    <th colspan="2"></th>
-                    <th colspan="1">B</th>
-                    <th colspan="1">R</th>
-                    <th colspan="12"></th>
-                </tr>
-                <tr>
-                    <th colspan="4"></th>
-                    <th colspan="2"></th>
-                    <th colspan="1">B</th>
-                    <th colspan="1">R</th>
-                    <th colspan="12"></th>
-                </tr>
+                    <td colspan="12"></td>
+                </tr> --}}
                 <tr>
                     <th colspan="20" class="separator"></th>
                 </tr>
@@ -363,7 +368,7 @@
                     <td rowspan="1" colspan="7"><b>FECHA DE DEVOLUCIÓN:</b></td>
                 </tr>
                 <tr>
-                    <td rowspan="1" colspan="7">QUIEN RECIBE: {{$elemento->user->name}}</td>
+                    <td rowspan="1" colspan="7">QUIEN RECIBE: {{$user->name}}</td>
                     <td rowspan="1" colspan="7">QUIEN ENTREGA:</td>
                 </tr>
                 <tr>
@@ -374,6 +379,8 @@
                     <td rowspan="1" colspan="7">PROCESO: </td>
                     <td rowspan="1" colspan="7">PROCESO: </td>
                 </tr>
+
+                @endforeach
             </tbody>
             <tbody id="firma">
                 <tr>

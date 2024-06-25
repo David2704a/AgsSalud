@@ -39,7 +39,7 @@ class ElementoController extends Controller
 
         // dd($elementos);
 
-        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
+        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos', 'user'));
 
     }
 

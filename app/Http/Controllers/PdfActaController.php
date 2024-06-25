@@ -6,8 +6,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Elemento;
-// use App\Models\User;
-// use App\Models\Persona;
+use App\Models\User;
+use App\Models\Persona;
 
 
 
@@ -16,14 +16,10 @@ class PdfActaController extends Controller
 {
     public function generarPdf($id)
     {
-        $elemento = Elemento::find($id);
-        
-        return Pdf::loadView('pdf.acta', compact('elemento'))
+        $users = User::where('id',$id)->with('elementos')->get();
+
+        return Pdf::loadView('pdf.acta', compact('users'))
         ->setPaper('letter','landscape')
-            ->stream('ActaDeEntrega.pdf'); 
+            ->stream('ActaDeEntrega.pdf');
     }
 }
-
-// if(!$elemento){
-        //     return redirect()->route("elementos.index");
-        // }
