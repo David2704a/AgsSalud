@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/traerDatosElementoFil', [ElementoController::class, 'traerDatosElementoFil']);
     Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme']);
     Route::get('/exportarpdf/{idElemento}',[ElementoController::class,'ExportarPDF']);
+    Route::get('/viewpdf/{datos}',[ElementoController::class,'view'])->name('pdfingresoysalidaequipos');
 
 
 // funciona y visualiza a uno como usuario su perfil

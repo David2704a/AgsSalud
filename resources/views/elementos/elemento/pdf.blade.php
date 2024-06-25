@@ -145,7 +145,7 @@
         <table id="table-identificacion-equipo" style="width: 100%; border-top:1px solid #fff; margin-top: -1px; padding_bottom: 10px;">
             <tr>
                 <td style="padding-right: 20px; border-top:1px solid #fff;">Descripción</td>
-                <td style="border-bottom:1px solid black; width: 580px; max-width: 580px;"></td>
+                <td style="border-bottom:1px solid black; width: 580px; max-width: 580px; text-align:center; font-weight:normal;"></td>
             </tr>
         </table>           
         <p id="section-title">

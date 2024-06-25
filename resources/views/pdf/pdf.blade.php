@@ -33,24 +33,19 @@
         </header>
         
     <div id="info-tiempo">
-        {{-- <table id="table-identificacion-equipo" style="width: 100%; border-bottom:1px solid #fff">
-            <tbody>
-                <tr>
-                    <td style="padding-right: 30px;">Fecha Salida:</td>
-                    <td style="border-bottom:1px solid black; width: 70px; max-width:80px;"></td>
-                    <td style="padding-right: 30px;">Hora: </td>
-                    <td style="border-bottom:1px solid black; width: 70px; max-width:80px;"></td>                </tr>
-            </tbody>
-        </table> --}}
 
         <div id="fechas">
-            <p>Fecha Salida: ______________</p>
-            <p>Hora: ______________</p>
+            @foreach ($datos as $dato)
+            <p>Fecha Salida: <u style="font-weight: normal;">{{$dato->fecha_in_salida}}</u></p>
+            <p>Hora: <u style="font-weight: normal;">{{$dato->hora_in_salida}}</u></p>
+                
         </div>
 
         <div id="info-prestamo">
-                <p><i>Prestamo temporal: </i><p><i>si ____</i></p> <p><i>no ____</i></p></p>
-                <p><i>Desde: 12/02/2024</i></p><p><i>Hasta: </i></p>
+                <p><i>Prestamo temporal:</i><p>
+                <i>si <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{$dato->prestamo == 'SI' ? 'X' : ''}}</span></i></p>
+                <p><i>no <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{$dato->prestamo == 'NO' ? 'X' : ''}}</span></i></p></p>
+                <p><i>Desde: {{$dato->fecha_in_salida}}</i></p> <p><i>Hasta: {{$dato->fecha_fin_salida}}</i></p>
         </div>
     </div>
 
@@ -61,21 +56,20 @@
     <section>
         <table id="tabla-casillas">
             <tr>
-                <th>Mantenimiento y/o reparación</th>
-                <th><div class="checkbox"></div></th>
+                <th>Mantenimiento y/o reparación'</th>
+                <th><div class="checkbox">{{$dato->motivo_ingreso == 'Mantenimiento y/o Reparación' ? 'X' : ''}}</div></th>
                 <th>Capacitación</th>
-                <th><div class="checkbox"></div></th>
+                <th><div class="checkbox">{{$dato->motivo_ingreso == 'Capacitación' ? 'X' : ''}}</div></th>
                 <th>Por ser de su propiedad</th>
-                <th><div class="checkbox"></div></th>
+                <th><div class="checkbox">{{$dato->motivo_ingreso == 'Por Ser de su Propiedad' ? 'X' : ''}}</div></th>
             </tr>
-
             <tr>
                 <th>Reunión externa</th>
-                <th><div class="checkbox"></div></th>
+                <th><div class="checkbox">{{$dato->motivo_ingreso == 'Reunion Externa' ? 'X' : ''}}</div></th>
                 <th>Realizar un trabajo laboral</th>
-                <th><div class="checkbox"></div></th>
+                <th><div class="checkbox">{{$dato->motivo_ingreso == 'Realizar un Trabajo Laboral' ? 'X' : ''}}</div></th>
                 <th>Otros</th>
-                <th><div class="checkbox"></th>
+                <th><div class="checkbox">{{$dato->motivo_ingreso == 'Otros' ? 'X' : ''}}</th>
             </tr>
         </table>
     </section>
@@ -94,16 +88,16 @@
 
         <tbody>
             <tr>
-                <td>NOMBRE: </td>
-                <td>NOMBRE: </td>
+                <td>NOMBRE: <span style="font-weight: normal;"></span></td>
+                <td>NOMBRE: <span style="font-weight:normal;">{{ auth()->user()->name }}</span></td>
             </tr>
             <tr>
-                <td>CARGO:</td>
-                <td>CARGO:</td>
+                <td>CARGO: <span style="font-weight:normal;"></td>
+                <td>CARGO: <span style="font-weight:normal;"></td>
             </tr>
             <tr>
-                <td>IDENTIFICACIÓN:</td>
-                <td>IDENTIFICACIÓN:</td>
+                <td>IDENTIFICACIÓN: <span style="font-weight:normal;">{{$dato->identificacion}}</span></td>
+                <td>IDENTIFICACIÓN: <span style="font-weight:normal;"></span></td>
             </tr>
         </tbody>
     </table>
@@ -129,23 +123,18 @@
 
         <tbody>
             <tr>
-                <td>{{$elementos->descripcion}}</td>
-                <td>{{$elementos->marca}}</td>
-                <td>{{$elementos->modelo}}</td>
-                <td>{{$elementos->serial}}</td>
-                @if($elementos->estado)
-                    @if ($elementos->estado->estado == 'BUENO')
-                        <td>{{$elementos->estado->estado}}</td>
-                        <td></td>
-                    @elseif($elementos->estado->estado == 'MALO')
-                        <td>{{$elementos->estado->estado}}</td>
-                        <td></td>
-                    @endif  
-                @else
-                    <td colspan="2">Sin Estado</td>
-                @endif
+                <td>{{$dato->descripcion_equipo_ingreso}}</td>
+                <td>{{$dato->marca}}</td>
+                <td>{{$dato->modelo}}</td>
+                <td>{{$dato->id_dispo}}</td>
+                <td>
+                    {{$dato->estado == 'BUENO' || $dato->estado == 'REGULAR' || $dato->estado == 'DEVOLUCION' || $dato->estado == 'NUEVO' || $dato->estado == 'NUEVA' ? 'X' : ''}}
+                </td>             
+                <td>
+                    {{$dato->estado == 'BAJA' || $dato->estado == 'MALO' || $dato->estado == 'NO APLICA' || $dato->estado == 'MALA' || $dato->estado == 'PERDIDA' || $dato->estado == 'NO HAY DATOS' || $dato->estado == 'OBSOLETO' ? 'X' : ''}}
+                </td>
             </tr>
-            <tr>
+            <tr>                
                 <td></td>
                 <td></td>
                 <td></td>
@@ -171,6 +160,9 @@
             </tr>
         </tbody>
     </table>
+
+    @endforeach
+
 
     <p id="section-title">
         4. FIRMA DE ENTREGA Y RECIBE EL ELEMENTO Y LEE EL COMPROMISO

@@ -51,11 +51,13 @@
         #fechas{
             text-align: right;
             font-weight: bold;
-            margin: 10px 59% 10px 0;
+            margin: 10px 62% 10px 0;
+            padding: 0 50px;
         }
         #info-prestamo{
             white-space: nowrap;
             font-weight: bold;
+            margin-left: 32px;
         }
         #info-prestamo > p ,i {
             display: inline;
@@ -85,6 +87,7 @@
         .checkbox {
             width: 28px;
             height: 30px;
+            line-height: 22px;
             border: 1px solid #000;
             margin: 0 20px;
         }
