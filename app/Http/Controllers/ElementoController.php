@@ -379,7 +379,7 @@ class ElementoController extends Controller
         $elementos = Elemento::join('categoria', 'elemento.idCategoria', '=', 'categoria.idCategoria')
             ->where(function ($query) use ($idUsuario) {
                 $query->where('elemento.idUsuario', $idUsuario)
-                      ->orWhereNull('elemento.idUsuario');
+                ->orWhereNull('elemento.idUsuario');
             })
             ->whereIn('categoria.nombre', $categorias)
             ->select('categoria.nombre', 'elemento.idUsuario', 'elemento.id_dispo', 'elemento.idElemento')
@@ -443,7 +443,6 @@ class ElementoController extends Controller
 
         $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
         return response()->json(['id' => $resultado]);
-         
 }
 
     public function view($id) {
