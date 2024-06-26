@@ -263,7 +263,8 @@ Route::get('/pdfElemento/{id}',[PDFHojaDeVIdaController::class,'getPDF'])->name(
 
 //Acta de entrega de dipositivos tegnologicos
 
-Route::get('/generar-pdf/{id}', [PdfActaController::class, 'generarPdf'])->name('generar.pdf');
+Route::get('/generar-pdf/{idUsuario}', [PdfActaController::class, 'generarPdf'])->name('generar.pdf');
+
 // ---PDF--------
 
 Route::get('/pdf/{idElemento}/view', [PDFController::class, 'view'])->name('pdf.view');
