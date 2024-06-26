@@ -450,7 +450,7 @@ class ElementoController extends Controller
         $ingresoSalida = DB::table('ingreso_y_o_salida')->where('id_ingreso', $id)->first();
         $elementos = DB::table('elemento')->where('idElemento', $ingresoSalida->id_elemento)->first();
         $estadoElemento = DB::table('estadoElemento')->where('idEstadoE', $elementos->idEstadoEquipo)->first();
-        $usuarioAutoriza = DB::table('users')->where('id', $ingresoSalida->id_userAutoriza)->first();
+        $usuarioAutoriza = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
         $personaAutorizada = DB::table('persona')->where('id', $usuarioAutoriza->idPersona)->first();
 
         if (!$ingresoSalida) {
