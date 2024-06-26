@@ -52,7 +52,7 @@ class TipoProcedimientoController extends Controller
 
     public function show($id)
     {
-       $tipoProcedimiento = TipoProcedimiento::find($id);
+        $tipoProcedimiento = TipoProcedimiento::find($id);
 
         if (!$tipoProcedimiento) {
             return redirect()->route("mostrarTipoP")->with('error', 'Tipo de procedimiento no encontrado');

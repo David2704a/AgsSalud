@@ -20,40 +20,67 @@
                     <td>{{ $elemento->procedimiento->estadoProcedimiento->estado ?? 'NO APLICA' }}</td>
                     <td>{{ $elemento->categoria->nombre ?? 'NO APLICA' }}</td>
                     <td>{{ $elemento->factura->codigoFactura ?? 'NO APLICA' }}</td>
-                    <td>{{ $elemento->user->name ?? 'NO REGISTRADO'}}</td>
-
+                    <td>{{ $elemento->user->name ?? 'NO REGISTRADO' }}</td>
 
                     @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                    <td>
-                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                            <a class="edit-button" title="Editar"
-                                href="{{ route('elementos.edit', $elemento->idElemento) }}">
-                                <i class="fa-regular fa-pen-to-square"></i>
+                        <td>
+                            @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                <a class="edit-button" title="Editar"
+                                    href="{{ route('elementos.edit', $elemento->idElemento) }}">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                            @endif
+                            @if (auth()->user()->hasRole('superAdmin'))
+                                <button type="button" class="delete-button" title="Eliminar"
+                                    data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
+                                    <i data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}"
+                                        class="fas fa-trash-alt"></i>
+                                </button>
+                            @endif
+                            @if (
+                                $elemento->idUsuario !== null &&
+                                    in_array($elemento->categoria->nombre, [
+                                        'PC PORTATIL',
+                                        'CARGADOR PORTATIL',
+                                        'EQUIPO TODO EN UNO',
+                                        'TECLADO',
+                                        'MOUSE',
+                                        'PAD MOUSE',
+                                        'DIADEMA',
+                                        'MICROFONO',
+                                        'BASE REFRIGERANTE',
+                                        'ADAPTADOR DE RED',
+                                        'DVR',
+                                        'CELULAR',
+                                    ]))
+                                @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                    <a class="edit-button" style="background-color: rgb(37, 162, 194); margin-top:0.5em" title="ActaDeEntrega"
+                                        href="{{route('generar.pdf', $elemento->idUsuario)}}" target="_blank">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </a>
+                                @endif
+                            @endif
+                            <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button"  target="_blank" class="btn_export_button" title="Exportar pdf">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-square fa-stack-2x pdf-background"></i>
+                                    <i class="fas fa-file-pdf fa-stack-1x fa-inverse" style="margin-left: 3px;"></i>
+                                </span>
                             </a>
-                        @endif
-                        @if (auth()->user()->hasRole('superAdmin'))
-                            <button type="button" class="delete-button" title="Eliminar"
-                                data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
-
-                                <i data-id="{{ $elemento->idElemento }}"
-                                    data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
-                            </button>
+                            @if (auth()->user()->hasRole(['superAdmin', 'administrador']) && ($elemento->categoria->nombre=='PC PORTATIL')||($elemento->categoria->nombre=='EQUIPO TODO EN UNO'))
+                            <a class="pdf-button" title="EquipoTecno"
+                                href="{{ route('elementos.pdf', $elemento->idElemento)}}" target="_blank">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </a>
+                            @endif
                         @endif
                         @if ($elemento->idUsuario !== null && in_array($elemento->categoria->nombre, ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE']))
-                        <a href="{{url('/ingreso_salida/'.$elemento->idElemento . '/' . $elemento->idUsuario)}}" type="button" data-id-user="{{ $elemento->idUsuario }}"
-                            data-user-identificacion="{{$elemento->user->persona->identificacion ?? false}}"
-                            data-name-user="{{ $elemento->user->name ?? false}}" class="btn_ingreso_salida">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-                    @endif
-                        <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button"  target="_blank" class="btn_export_button" title="Exportar pdf">
-                            <span class="fa-stack fa-lg">
-                                <i class="fas fa-square fa-stack-2x pdf-background"></i>
-                                <i class="fas fa-file-pdf fa-stack-1x fa-inverse" style="margin-left: 3px;"></i>
-                            </span>
-                        </a>
+                            <a href="{{url('/ingreso_salida/'.$elemento->idElemento . '/' . $elemento->idUsuario)}}" type="button" data-id-user="{{ $elemento->idUsuario }}"
+                                data-user-identificacion="{{$elemento->user->persona->identificacion ?? false}}"
+                                data-name-user="{{ $elemento->user->name ?? false}}" class="btn_ingreso_salida">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                        @endif
                     </td>
-                @endif
                 </tr>
             @endforeach
         </tbody>

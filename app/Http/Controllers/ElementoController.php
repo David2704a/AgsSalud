@@ -43,9 +43,7 @@ class ElementoController extends Controller
 
         // dd($elementos);
 
-
-        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
-
+        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos', 'user'));
     }
 
     public function create(){
@@ -367,7 +365,7 @@ class ElementoController extends Controller
 
         // $elementos = Elemento::where('idElemento', $idElemento)->first();
         $elementos = Elemento::with('estado')->findOrFail($idElemento);
-        return view('elementos.elemento.salidaIngresos', compact('elementos'));        
+        return view('elementos.elemento.salidaIngresos', compact('elementos'));
     }
 
 
@@ -414,13 +412,6 @@ class ElementoController extends Controller
             'id_elemento' => $data['idElemento']
         ];
 
-        // $usuarioExist = DB::table('ingreso_y_o_salida as ios')
-        // ->where('ios.id_userAutorizado', $datos['id_userAutorizado'])
-        // ->where('ios.prestamo', 'SI')
-        // ->where('ios.fecha_fin_salida', '<', now())
-        // ->exists();
-
-
         for ($i = 2; $i <= 5; $i++) {
             $descripcionKey = 'descripcion_equipo_ingreso_' . $i;
             if (isset($data[$descripcionKey]) && !empty($data[$descripcionKey])) {
@@ -433,6 +424,7 @@ class ElementoController extends Controller
                 $datos[$id_elementoKey] = $data[$id_elementoKey];
             }
         }
+
 
 
         // if ($usuarioExist) {
@@ -475,6 +467,70 @@ class ElementoController extends Controller
                 ->firstOrFail();
         
         $pdf = Pdf::loadView('pdf.pdf', compact('datos', 'usuario'));
+        DD($datos);
+
+        $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
+        return response()->json(['id' => $resultado]);
+    }
+
+    public function view($id) {
+
+        $ingresoSalida = DB::table('ingreso_y_o_salida')->where('id_ingreso', $id)->first();
+        $elementos = DB::table('elemento')->where('idElemento', $ingresoSalida->id_elemento)->first();
+        $estadoElemento = DB::table('estadoElemento')->where('idEstadoE', $elementos->idEstadoEquipo)->first();
+        $usuarioAutoriza = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
+        $personaAutorizada = DB::table('persona')->where('id', $usuarioAutoriza->idPersona)->first();
+
+        if (!$ingresoSalida) {
+        abort(404);
+        }
+
+        $datosPdf = [
+            'motivoIngreso' => $ingresoSalida->motivo_ingreso,
+            'descripcionIngreso' => $ingresoSalida->descripcion_equipo_ingreso,
+            'fechaInicioIngreso' => $ingresoSalida->fecha_in_salida,
+            'fechaFinSalida' => $ingresoSalida->fecha_fin_salida,
+            'horaInicioIngreso' => $ingresoSalida->hora_in_salida,
+            'prestamo' => $ingresoSalida->prestamo,
+            'idUserAutoriza' => $ingresoSalida->id_userAutoriza,
+            'idUserAutorizado' => $ingresoSalida->id_userAutorizado,
+            'idElemento' => $ingresoSalida->id_elemento,
+            'marca' => $elementos->marca,
+            'modelo' => $elementos->modelo,
+            'id_dispo' => $elementos->id_dispo,
+            'estadoElemento' => $estadoElemento ? $estadoElemento->estado : 'Sin estado',
+            'usuarioAutoriza' => $usuarioAutoriza->name,
+            'idenAutorizado' => $personaAutorizada->identificacion,
+        ];
+
+        $elementosInfo = [];
+
+        for ($i = 1; $i <= 5; $i++) {
+            $campoElemento = 'id_elemento_' . $i;
+
+            if (!empty($ingresoSalida->$campoElemento)) {
+                $elemento = DB::table('elemento')->where('idElemento', $ingresoSalida->$campoElemento)->first();
+
+                if ($elemento) {
+                    $usuarioAutorizado = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
+                    $personaAutorizada = DB::table('persona')->where('id', $usuarioAutorizado->idPersona)->first();
+                    $estadoElemento = DB::table('estadoElemento')->where('idEstadoE', $elemento->idEstadoEquipo)->first();
+                    $elementosInfo[] = [
+                        'marca' => $elemento->marca,
+                        'modelo' => $elemento->modelo,
+                        'id_dispo' => $elemento->id_dispo,
+                        'estadoElemento' => $estadoElemento ? $estadoElemento->estado : 'No tiene estado',
+                        'usuarioAutorizado' => $usuarioAutorizado->name,
+                        'idenAutorizado' => $personaAutorizada->identificacion,
+                    ];
+                }
+            }
+        }
+
+        $datosPdf['elementos'] = $elementosInfo;
+
+        // dd($datosPdf);
+        $pdf = PDF::loadView('pdf.pdf', $datosPdf);
         return $pdf->stream();
     }
 
@@ -483,7 +539,7 @@ class ElementoController extends Controller
         $elemento = Elemento::where('idElemento', $idElemento)->get(['*']);
         $pdf = Pdf::loadView('elementos.elemento.pdf', compact('elemento'));
         $pdf->setPaper('letter','portrait');
-        
+
         return $pdf->stream('elementos.elemento.pdf');
     }
 

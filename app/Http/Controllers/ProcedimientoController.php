@@ -27,22 +27,33 @@ class ProcedimientoController extends Controller
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }
 
+
     public function create()
     {
-        $elementosSinPrestamo = Elemento::whereDoesntHave('procedimiento', function ($query) {
-                $query->whereHas('tipoProcedimiento', function ($subquery) {
-                    $subquery->where('tipo', 'Prestamo');
-                });
-            })
-            ->get();
+        $estadoEnProcesoId = DB::table('estadoProcedimiento')
+        ->where('estado', 'En proceso')
+        ->select('idEstadoP')
+        ->limit(1);
 
-        $estadoProcedimiento = EstadoProcedimiento::all();
-        $tipoProcedimiento = TipoProcedimiento::all();
-        $usuariosEntrega = User::all();
-        $usuariosRecibe = User::role('tecnico')->get();
-    
-        return view('procedimientos.procedimiento.create', compact('elementosSinPrestamo', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe'));
-    }
+    $tipoPrestamoId = DB::table('tipoProcedimiento')
+        ->where('tipo', 'Prestamo')
+        ->select('idTipoProcedimiento')
+        ->limit(1);
+
+    $usuariosConProcedimientoActivo = DB::table('procedimiento')
+        ->where('idEstadoProcedimiento', '=', $estadoEnProcesoId)
+        ->where('idTipoProcedimiento', '=', $tipoPrestamoId)
+        ->pluck('idResponsableRecibe')
+        ->toArray();
+
+    $usuariosEntregaFiltrados = $usuariosEntrega->filter(function($usuario) use ($usuariosConProcedimientoActivo) {
+        return !in_array($usuario->id, $usuariosConProcedimientoActivo);
+    });
+
+    return view('procedimientos.procedimiento.create', compact('elementos', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntregaFiltrados', 'usuariosRecibe'));
+}
+
+
     /**
      * Store the newly created resource in storage.
      */

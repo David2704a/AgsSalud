@@ -139,12 +139,11 @@ $('#btnGenerarInforme').on('click', function () {
             success: function (response) {
                 console.log(response);
                 alertSwitch('success', 'Datos del Informe Guardados con Éxito');
-                
+
                 if (response.mensaje) {
                     alertSwitch('error', response.mensaje);
                 } else {
                     window.open(urlBase + '/viewpdf/' + response.id, '_blank');
-
                     alertSwitch('success', 'Datos del Informe Guardados con Éxito');
                 }
 
@@ -157,7 +156,7 @@ $('#btnGenerarInforme').on('click', function () {
         });
 
     }
-    
+
 })
 
 
