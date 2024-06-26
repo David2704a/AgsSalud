@@ -13,7 +13,6 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-
     {
         // $users = User::paginate(10);
         $users = User::leftJoin('model_has_roles', 'users.id', 'model_has_roles.model_id')
@@ -21,7 +20,7 @@ class UserController extends Controller
                 ->select('users.name as user_name', 'roles.name as rol','users.*')
                 ->paginate(10);
 
-        return view ('usuarios.index', compact('users'));
+        return view('usuarios.index', compact('users'));
 
     }
 
@@ -34,10 +33,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -45,10 +44,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
@@ -56,10 +55,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -67,10 +66,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    // public function edit($id)
+    // {
 
-    }
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -79,9 +78,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-    }
+    // public function update(Request $request, $id)
+    // {
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -92,8 +91,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $users = User::find($id)->delete();
-        return redirect()->route('users.index')
-        ->with('success', 'usuario eliminado correctamente');
+        return redirect()->route('users.index')->with('success', 'usuario eliminado correctamente');
     }
 
 

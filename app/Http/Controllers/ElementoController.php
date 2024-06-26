@@ -361,10 +361,8 @@ class ElementoController extends Controller
     public function indexSalidaIngresos($idElemento){
 
         // $elementos = Elemento::where('idElemento', $idElemento)->first();
-
         $elementos = Elemento::with('estado')->findOrFail($idElemento);
-
-        return view('elementos.elemento.salidaIngresos', compact('elementos'));
+        return view('elementos.elemento.salidaIngresos', compact('elementos'));        
     }
 
 
@@ -411,6 +409,15 @@ class ElementoController extends Controller
             'id_elemento' => $data['idElemento']
         ];
 
+        $usuarioExist = DB::table('users as u')
+                ->select('u.*', 'p.*', 'tp.*')
+                ->leftJoin('procedimiento as p', 'p.idResponsableRecibe', '=', 'u.id')
+                ->leftJoin('tipoProcedimiento as tp', 'p.idTipoProcedimiento', '=', 'tp.idTipoProcedimiento')
+                ->where('tp.tipo', 'Prestamo')
+                ->where('p.fechaFin', '<', now())
+                ->where('u.id', $datos['id_userAutorizado'])
+                ->exists();
+
         for ($i = 2; $i <= 5; $i++) {
             $descripcionKey = 'descripcion_equipo_ingreso_' . $i;
             if (isset($data[$descripcionKey]) && !empty($data[$descripcionKey])) {
@@ -423,20 +430,29 @@ class ElementoController extends Controller
                 $datos[$id_elementoKey] = $data[$id_elementoKey];
             }
         }
-        // dd($datos);
 
 
-        $resultado = DB::table('ingreso_y_o_salida')->insert($datos);
+        if ($usuarioExist) {
+            return response()->json(['mensaje' => 'El usuario ya tiene procedimiento de tipo Prestamo.']);
+        }
 
-        return $resultado;
+        $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
+        return response()->json($resultado);
+         
+}
+
+    public function view($id) {
+
+        // Obtener el primer registro encontrado
+        $pdf = Pdf::loadView('pdf.pdf', compact('datos'));
+        return $pdf->stream();
+
     }
 
     public function ExportarPDF($idElemento)
     {
         $elemento = Elemento::where('idElemento', $idElemento)->get(['*']);
         $pdf = Pdf::loadView('elementos.elemento.pdf', compact('elemento'));
-        // $pdf->setPaper('letter','landscape');
-        
         $pdf->setPaper('letter','portrait');
         
         return $pdf->stream('elementos.elemento.pdf');

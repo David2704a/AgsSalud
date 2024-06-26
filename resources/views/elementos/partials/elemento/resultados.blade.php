@@ -76,6 +76,14 @@
                             </a>
                         </td>
                     @endif
+                        <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button"  target="_blank" class="btn_export_button" title="Exportar pdf">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-square fa-stack-2x pdf-background"></i>
+                                <i class="fas fa-file-pdf fa-stack-1x fa-inverse" style="margin-left: 3px;"></i>
+                            </span>
+                        </a>
+                    </td>
+                @endif
                 </tr>
             @endforeach
         </tbody>

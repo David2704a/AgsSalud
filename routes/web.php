@@ -123,8 +123,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/ingreso_salida/{idElemento}', [ElementoController::class, 'indexSalidaIngresos']);
     Route::get('/traerElementosfiltrados', [ElementoController::class, 'traerElementosfiltrados']);
     Route::get('/traerDatosElementoFil', [ElementoController::class, 'traerDatosElementoFil']);
-    Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme']);
+    Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme'])->name('prueba');
     Route::get('/exportarpdf/{idElemento}',[ElementoController::class,'ExportarPDF']);
+    Route::get('/viewpdf/{datos}',[ElementoController::class,'view'])->name('pdfingresoysalidaequipos');
 
 
 // funciona y visualiza a uno como usuario su perfil
@@ -210,7 +211,7 @@ Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestam
     Route::post('/filtroProcedimientos', [InformesController::class, 'filtroProcedimientos']);
     Route::post('/exportarPrestamos', [InformesController::class,'exportarPrestamos']);
 
-    Route::get('/getElementos', [InformesController::class, 'getElementos']);
+
     Route::post('/filtroElementos', [InformesController::class, 'filtroElementos']);
     Route::post('/exportarElementos', [InformesController::class,'exportarElementos']);
 

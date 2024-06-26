@@ -50,7 +50,7 @@
                     <div class="input-container">
                         <label for="id">IDENTIFICACIÓN:</label>
                         <input type="text" id="identiUserAutorizado" name="id"
-                            value="{{ $elementos->user->persona->identificacion }}">
+                            value="{{ $elementos->user->persona->identificacion}}">
                     </div>
                 </div>
                 <div class="personaQueAutoriza">
