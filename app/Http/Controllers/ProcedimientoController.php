@@ -62,8 +62,7 @@ class ProcedimientoController extends Controller
     })
     ->get();
 
-
-    return view('procedimientos.procedimiento.create', compact('elementosSinPrestamo', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe'));
+    return view('procedimientos.procedimiento.create', compact('elementosSinPrestamo', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe','usuariosEntregaFiltrados'));
 }
 
 
