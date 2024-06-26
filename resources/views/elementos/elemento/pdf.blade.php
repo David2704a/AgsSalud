@@ -153,8 +153,8 @@
         </table>
         <table id="table-identificacion-equipo" style="width: 100%; border-top:1px solid #fff; margin-top: -1px; padding_bottom: 10px;">
             <tr>
-                <td style="padding-right: 20px; border-top:1px solid #fff; line-height: 1.3;">Descripción</td>
-                <td style="border-bottom:1px solid black; width: 580px; max-width: 580px;text-align: center; white-space: nowrap; z-index: 1; overflow: hidden; text-overflow: ellipsis; font-weight: normal;"> {{$Elemento->descripcion}}</td>
+                <td style="padding-right: 20px; border-top:1px solid #fff;">Descripción</td>
+                <td style="border-bottom:1px solid black; width: 580px; max-width: 580px;"></td>
             </tr>
         </table>           
         <p id="section-title">

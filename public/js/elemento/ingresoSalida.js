@@ -127,7 +127,8 @@ $('#btnGenerarInforme').on('click', function () {
         alertSwitch('error', 'Debe Seleccionar si es un Prestamo o no')
     } else if (!data['motivoIngreso']) {
         alertSwitch('error', 'Debe Seleccionar un Motivo de Ingreso y/o Salida')
-    } else {
+    }
+     else {
         $.ajax({
             type: 'POST',
             url: urlBase + '/guardarDatosInforme',
@@ -136,13 +137,26 @@ $('#btnGenerarInforme').on('click', function () {
                 _token: csrfToken,
             },
             success: function (response) {
-                console.log(response);
+                alertSwitch('success', 'Datos del Informe Guardados con Éxito');
+                
+                if (response.mensaje) {
+                    alertSwitch('error', response.mensaje);
+                } else {
+                    window.open(urlBase + '/viewpdf/' + response.id, '_blank');
+                    
+                    alertSwitch('success', 'Datos del Informe Guardados con Éxito');
+                }
 
-                alertSwitch('success', 'Datos del Informe Guardados con Éxito')
+            },
+            error: function (error) {
+                console.error(error);
+                var errorMessage = error.responseJSON && error.responseJSON.error ? error.responseJSON.error : 'Error desconocido';
+                alertSwitch('error', errorMessage);
             }
         });
-    }
 
+    }
+    
 })
 
 
