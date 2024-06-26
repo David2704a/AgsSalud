@@ -436,43 +436,6 @@ class ElementoController extends Controller
         $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
         return response()->json(['id' => $resultado]);
 }
-
-    public function view($id) {
-
-        $datos = DB::table('ingreso_y_o_salida as ios')
-        ->select(
-            'ios.*',
-            'users.id as user_id',
-            'users.name as nombreUsuario',
-            'users.idPersona as persona_id',
-            'persona.identificacion',
-            'elemento.descripcion as descripcion',
-            'elemento.marca as marca',
-            'elemento.modelo as modelo',
-            'elemento.id_dispo as id_dispo',
-            'estadoElemento.estado as estado'
-        )
-        ->join('users', 'ios.id_userAutorizado', '=', 'users.id')
-        ->join('persona', 'users.idPersona', '=', 'persona.id')
-        ->join('elemento', 'ios.id_elemento', '=', 'elemento.idElemento')
-        ->join('elemento as elementoU', 'users.id', '=', 'elementoU.idUsuario')
-        ->join('estadoElemento', 'elemento.idEstadoEquipo', '=', 'estadoElemento.idEstadoE')
-        ->where('ios.id_ingreso', 1)
-        ->where('ios.id_userAutorizado', 2)
-        ->groupBy('id_dispo')
-        ->get();
-
-        $usuario = User::with(['persona', 'elementos.estadoElemento'])
-                ->where('id', $id)
-                ->firstOrFail();
-        
-        $pdf = Pdf::loadView('pdf.pdf', compact('datos', 'usuario'));
-        DD($datos);
-
-        $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
-        return response()->json(['id' => $resultado]);
-    }
-
     public function view($id) {
 
         $ingresoSalida = DB::table('ingreso_y_o_salida')->where('id_ingreso', $id)->first();

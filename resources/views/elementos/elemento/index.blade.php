@@ -145,8 +145,6 @@
                                             <a class="edit-button tooltips" title="Editar"
                                                 href="{{ route('elementos.edit', $elemento->idElemento) }}">
                                                 <i class="fa-regular fa-pen-to-square"></i>
-                                                <span class="tooltiptext">Editar Elemento</span>
-
                                             </a>
                                         @endif
 
@@ -165,8 +163,6 @@
                                                 data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
                                                 <i data-id="{{ $elemento->idElemento }}"
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
-                                                <span class="tooltiptext">Eliminar Elemento</span>
-
                                             </button>
                                         @endif
                                         @if (
