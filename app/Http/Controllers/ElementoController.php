@@ -8,12 +8,14 @@ use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
 use App\Models\Factura;
+use App\Models\Procedimiento;
 use App\Models\TipoElemento;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
@@ -37,7 +39,10 @@ class ElementoController extends Controller
         // Obtener estados de elementos
         $estadosEquipos = EstadoElemento::all();
 
+
+
         // dd($elementos);
+
 
         return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
 
@@ -358,7 +363,7 @@ class ElementoController extends Controller
 
     }
 
-    public function indexSalidaIngresos($idElemento){
+    public function indexSalidaIngresos($idElemento, $idUsuario){
 
         // $elementos = Elemento::where('idElemento', $idElemento)->first();
         $elementos = Elemento::with('estado')->findOrFail($idElemento);
@@ -409,14 +414,12 @@ class ElementoController extends Controller
             'id_elemento' => $data['idElemento']
         ];
 
-        $usuarioExist = DB::table('users as u')
-                ->select('u.*', 'p.*', 'tp.*')
-                ->leftJoin('procedimiento as p', 'p.idResponsableRecibe', '=', 'u.id')
-                ->leftJoin('tipoProcedimiento as tp', 'p.idTipoProcedimiento', '=', 'tp.idTipoProcedimiento')
-                ->where('tp.tipo', 'Prestamo')
-                ->where('p.fechaFin', '<', now())
-                ->where('u.id', $datos['id_userAutorizado'])
-                ->exists();
+        // $usuarioExist = DB::table('ingreso_y_o_salida as ios')
+        // ->where('ios.id_userAutorizado', $datos['id_userAutorizado'])
+        // ->where('ios.prestamo', 'SI')
+        // ->where('ios.fecha_fin_salida', '<', now())
+        // ->exists();
+
 
         for ($i = 2; $i <= 5; $i++) {
             $descripcionKey = 'descripcion_equipo_ingreso_' . $i;
@@ -432,21 +435,48 @@ class ElementoController extends Controller
         }
 
 
-        if ($usuarioExist) {
-            return response()->json(['mensaje' => 'El usuario ya tiene procedimiento de tipo Prestamo.']);
-        }
+        // if ($usuarioExist) {
+        //     return response()->json(['mensaje' => 'El usuario ya tiene procedimiento de tipo Prestamo.']);
+        // }
+
+        // dd($datos);
 
         $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
-        return response()->json($resultado);
+        return response()->json(['id' => $resultado]);
          
 }
 
     public function view($id) {
 
-        // Obtener el primer registro encontrado
-        $pdf = Pdf::loadView('pdf.pdf', compact('datos'));
-        return $pdf->stream();
+        $datos = DB::table('ingreso_y_o_salida as ios')
+        ->select(
+            'ios.*',
+            'users.id as user_id',
+            'users.name as nombreUsuario',
+            'users.idPersona as persona_id',
+            'persona.identificacion',
+            'elemento.descripcion as descripcion',
+            'elemento.marca as marca',
+            'elemento.modelo as modelo',
+            'elemento.id_dispo as id_dispo',
+            'estadoElemento.estado as estado'
+        )
+        ->join('users', 'ios.id_userAutorizado', '=', 'users.id')
+        ->join('persona', 'users.idPersona', '=', 'persona.id')
+        ->join('elemento', 'ios.id_elemento', '=', 'elemento.idElemento')
+        ->join('elemento as elementoU', 'users.id', '=', 'elementoU.idUsuario')
+        ->join('estadoElemento', 'elemento.idEstadoEquipo', '=', 'estadoElemento.idEstadoE')
+        ->where('ios.id_ingreso', 1)
+        ->where('ios.id_userAutorizado', 2)
+        ->groupBy('id_dispo')
+        ->get();
 
+        $usuario = User::with(['persona', 'elementos.estadoElemento'])
+                ->where('id', $id)
+                ->firstOrFail();
+        
+        $pdf = Pdf::loadView('pdf.pdf', compact('datos', 'usuario'));
+        return $pdf->stream();
     }
 
     public function ExportarPDF($idElemento)

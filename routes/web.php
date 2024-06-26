@@ -114,14 +114,39 @@ Route::middleware('auth')->group(function () {
     Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('buscarFacturas');
 
     //rutas para elementos
-    Route::resource('elementos',ElementoController::class)->names('elementos');
+    // Route::resource('elementos',ElementoController::class)->names('elementos');
+    // Ruta para mostrar la lista de elementos
+    Route::get('/elementos', [ElementoController::class, 'index'])->name('elementos.index');
+
+    // Ruta para mostrar el formulario de creación de un elemento
+    Route::get('/elementos/create', [ElementoController::class, 'create'])->name('elementos.create');
+
+    // Ruta para almacenar un nuevo elemento
+    Route::post('/elementos', [ElementoController::class, 'store'])->name('elementos.store');
+
+    // Ruta para mostrar un elemento específico
+    Route::get('/elementos/{elemento}', [ElementoController::class, 'show'])->name('elementos.show');
+
+    // Ruta para mostrar el formulario de edición de un elemento
+    Route::get('/elementos/{elemento}/edit', [ElementoController::class, 'edit'])->name('elementos.edit');
+
+    // Ruta para actualizar un elemento específico
+    Route::put('/elementos/{elemento}', [ElementoController::class, 'update'])->name('elementos.update');
+
+    // Ruta para eliminar un elemento específico
+    Route::delete('/elementos/{elemento}', [ElementoController::class, 'destroy'])->name('elementos.destroy');
+
     Route::get('/elemento/buscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
-    Route::get('/ingreso_salida/{idElemento}', [ElementoController::class, 'indexSalidaIngresos']);
+    Route::get('/ingreso_salida/{idElemento}/{idUsuario}', [ElementoController::class, 'indexSalidaIngresos']);
     Route::get('/traerElementosfiltrados', [ElementoController::class, 'traerElementosfiltrados']);
     Route::get('/traerDatosElementoFil', [ElementoController::class, 'traerDatosElementoFil']);
     Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme'])->name('prueba');
     Route::get('/exportarpdf/{idElemento}',[ElementoController::class,'ExportarPDF']);
-    Route::get('/viewpdf/{datos}',[ElementoController::class,'view'])->name('pdfingresoysalidaequipos');
+    Route::get('/viewpdf/{id}/',[ElementoController::class,'view'])->name('pdfingresoysalidaequipos');
+
+
+
+
 
 
 // funciona y visualiza a uno como usuario su perfil
