@@ -36,9 +36,12 @@
 
 
         <div id="fechas">
+            @foreach ($datos as $dato)
+            <p>Fecha Salida: <u style="font-weight: normal;">{{ $dato->fecha_in_salida}}</u></p>
+            <p>Hora: <u style="font-weight: normal;">{{ $dato->hora_in_salida}}</u></p>
             <p>Fecha Salida: <u style="font-weight: normal;">{{$fechaFinSalida}}</u></p>
             <p>Hora: <u style="font-weight: normal;">{{$horaInicioIngreso}}</u></p>
-                
+              
         </div>
 
         <div id="info-prestamo">
@@ -280,14 +283,15 @@
     <div id="info-tiempo">
 
         <div id="fechas">
-            @foreach ($datos as $dato)
-            <p>Fecha Salida: <u style="font-weight: normal;">{{$dato->fecha_in_salida}}</u></p>
-            <p>Hora: <u style="font-weight: normal;">{{$dato->hora_in_salida}}</u></p>
+            @foreach ($data as $dato)
+            <p>Fecha Salida: <u style="font-weight: normal;">{{ }}</u></p>
+            <p>Hora: <u style="font-weight: normal;">{{ $dato->hora_in_salida}}</u></p>
                 
         </div>
 
         <div id="info-prestamo">
                 <p><i>Prestamo temporal:</i><p>
+>>>>>>> 1afc44751871857dae880d960459598984d9fc1f
                 <i>si <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{ $dato->prestamo == 'SI' ? 'X' : ''}}</span></i></p>
                 <p><i>no <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{ $dato->prestamo == 'NO' ? 'X' : ''}}</span></i></p></p>
                 <p><i>Desde: {{ $dato->fecha_in_salida}}</i></p> <p><i>Hasta: {{ $dato->fecha_fin_salida}}</i></p>
@@ -488,4 +492,8 @@
     </div>
 </div>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html> --}}
+>>>>>>> 1afc44751871857dae880d960459598984d9fc1f
