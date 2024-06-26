@@ -8,12 +8,14 @@ use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
 use App\Models\Factura;
+use App\Models\Procedimiento;
 use App\Models\TipoElemento;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
@@ -37,10 +39,11 @@ class ElementoController extends Controller
         // Obtener estados de elementos
         $estadosEquipos = EstadoElemento::all();
 
+
+
         // dd($elementos);
 
         return view('elementos.elemento.index', compact('elementos', 'estadosEquipos', 'user'));
-
     }
 
     public function create(){
@@ -358,11 +361,11 @@ class ElementoController extends Controller
 
     }
 
-    public function indexSalidaIngresos($idElemento){
+    public function indexSalidaIngresos($idElemento, $idUsuario){
 
         // $elementos = Elemento::where('idElemento', $idElemento)->first();
         $elementos = Elemento::with('estado')->findOrFail($idElemento);
-        return view('elementos.elemento.salidaIngresos', compact('elementos'));        
+        return view('elementos.elemento.salidaIngresos', compact('elementos'));
     }
 
 
@@ -409,15 +412,6 @@ class ElementoController extends Controller
             'id_elemento' => $data['idElemento']
         ];
 
-        $usuarioExist = DB::table('users as u')
-                ->select('u.*', 'p.*', 'tp.*')
-                ->leftJoin('procedimiento as p', 'p.idResponsableRecibe', '=', 'u.id')
-                ->leftJoin('tipoProcedimiento as tp', 'p.idTipoProcedimiento', '=', 'tp.idTipoProcedimiento')
-                ->where('tp.tipo', 'Prestamo')
-                ->where('p.fechaFin', '<', now())
-                ->where('u.id', $datos['id_userAutorizado'])
-                ->exists();
-
         for ($i = 2; $i <= 5; $i++) {
             $descripcionKey = 'descripcion_equipo_ingreso_' . $i;
             if (isset($data[$descripcionKey]) && !empty($data[$descripcionKey])) {
@@ -431,22 +425,71 @@ class ElementoController extends Controller
             }
         }
 
-
-        if ($usuarioExist) {
-            return response()->json(['mensaje' => 'El usuario ya tiene procedimiento de tipo Prestamo.']);
-        }
+        DD($datos);
 
         $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
-        return response()->json($resultado);
-         
-}
+        return response()->json(['id' => $resultado]);
+    }
 
     public function view($id) {
 
-        // Obtener el primer registro encontrado
-        $pdf = Pdf::loadView('pdf.pdf', compact('datos'));
-        return $pdf->stream();
+        $ingresoSalida = DB::table('ingreso_y_o_salida')->where('id_ingreso', $id)->first();
+        $elementos = DB::table('elemento')->where('idElemento', $ingresoSalida->id_elemento)->first();
+        $estadoElemento = DB::table('estadoElemento')->where('idEstadoE', $elementos->idEstadoEquipo)->first();
+        $usuarioAutoriza = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
+        $personaAutorizada = DB::table('persona')->where('id', $usuarioAutoriza->idPersona)->first();
 
+        if (!$ingresoSalida) {
+        abort(404);
+        }
+
+        $datosPdf = [
+            'motivoIngreso' => $ingresoSalida->motivo_ingreso,
+            'descripcionIngreso' => $ingresoSalida->descripcion_equipo_ingreso,
+            'fechaInicioIngreso' => $ingresoSalida->fecha_in_salida,
+            'fechaFinSalida' => $ingresoSalida->fecha_fin_salida,
+            'horaInicioIngreso' => $ingresoSalida->hora_in_salida,
+            'prestamo' => $ingresoSalida->prestamo,
+            'idUserAutoriza' => $ingresoSalida->id_userAutoriza,
+            'idUserAutorizado' => $ingresoSalida->id_userAutorizado,
+            'idElemento' => $ingresoSalida->id_elemento,
+            'marca' => $elementos->marca,
+            'modelo' => $elementos->modelo,
+            'id_dispo' => $elementos->id_dispo,
+            'estadoElemento' => $estadoElemento ? $estadoElemento->estado : 'Sin estado',
+            'usuarioAutoriza' => $usuarioAutoriza->name,
+            'idenAutorizado' => $personaAutorizada->identificacion,
+        ];
+
+        $elementosInfo = [];
+
+        for ($i = 1; $i <= 5; $i++) {
+            $campoElemento = 'id_elemento_' . $i;
+
+            if (!empty($ingresoSalida->$campoElemento)) {
+                $elemento = DB::table('elemento')->where('idElemento', $ingresoSalida->$campoElemento)->first();
+
+                if ($elemento) {
+                    $usuarioAutorizado = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
+                    $personaAutorizada = DB::table('persona')->where('id', $usuarioAutorizado->idPersona)->first();
+                    $estadoElemento = DB::table('estadoElemento')->where('idEstadoE', $elemento->idEstadoEquipo)->first();
+                    $elementosInfo[] = [
+                        'marca' => $elemento->marca,
+                        'modelo' => $elemento->modelo,
+                        'id_dispo' => $elemento->id_dispo,
+                        'estadoElemento' => $estadoElemento ? $estadoElemento->estado : 'No tiene estado',
+                        'usuarioAutorizado' => $usuarioAutorizado->name,
+                        'idenAutorizado' => $personaAutorizada->identificacion,
+                    ];
+                }
+            }
+        }
+
+        $datosPdf['elementos'] = $elementosInfo;
+
+        // dd($datosPdf);
+        $pdf = PDF::loadView('pdf.pdf', $datosPdf);
+        return $pdf->stream();
     }
 
     public function ExportarPDF($idElemento)
@@ -454,7 +497,7 @@ class ElementoController extends Controller
         $elemento = Elemento::where('idElemento', $idElemento)->get(['*']);
         $pdf = Pdf::loadView('elementos.elemento.pdf', compact('elemento'));
         $pdf->setPaper('letter','portrait');
-        
+
         return $pdf->stream('elementos.elemento.pdf');
     }
 

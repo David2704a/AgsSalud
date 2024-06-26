@@ -116,6 +116,10 @@ function obtenerParteNombre(nombreCompleto) {
 
 
 
+
+
+
+
 // inicializarTablaElementos()
 
 // function inicializarTablaElementos() {
