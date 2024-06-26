@@ -30,12 +30,6 @@
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </a>
                             @endif
-                            @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                                <a class="pdf-button" title="Mostrar"
-                                    href="{{ route('elementos.pdf', $elemento->idElemento) }}">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </a>
-                            @endif
                             @if (auth()->user()->hasRole('superAdmin'))
                                 <button type="button" class="delete-button" title="Eliminar"
                                     data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
@@ -80,6 +74,12 @@
                                     <i class="fas fa-file-pdf fa-stack-1x fa-inverse" style="margin-left: 3px;"></i>
                                 </span>
                             </a>
+                            @if (auth()->user()->hasRole(['superAdmin', 'administrador']) && ($elemento->categoria->nombre=='PC PORTATIL')||($elemento->categoria->nombre=='EQUIPO TODO EN UNO'))
+                            <a class="pdf-button" title="EquipoTecno"
+                                href="{{ route('elementos.pdf', $elemento->idElemento)}}" target="_blank">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </a>
+                            @endif
                         </td>
                     @endif
                 </tr>

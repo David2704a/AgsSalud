@@ -50,7 +50,7 @@ header {
 }
 
 
- /*
+/*
 ================================================================
 PAGINACION
 ================================================================
@@ -181,6 +181,7 @@ BUTTONS EDIT AND DELETE
     border-radius: 4px;
     margin-bottom: 0.5rem;
 }
+
 .edit-button:hover {
     background-color: #045e15;
 }
@@ -293,10 +294,10 @@ ESTILOS DATAFILTER
     padding-inline: 0.8em !important;
     border-radius: var(--border-radius) !important;
     transition: border-radius 0.5s ease !important;
-    background: var(--input-bg,#fff) !important;
+    background: var(--input-bg, #fff) !important;
 }
 
- .dataTables_filter input[type="text"] {
+.dataTables_filter input[type="text"] {
     font-size: 0.9rem !important;
     background-color: transparent !important;
     width: 100% !important;
@@ -306,21 +307,22 @@ ESTILOS DATAFILTER
     border: none !important;
 }
 
- .dataTables_filter input[type="text"]::placeholder {
+.dataTables_filter input[type="text"]::placeholder {
     color: #000000;
     font-size: 13px;
 }
- .dataTables_filter button {
+
+.dataTables_filter button {
     border: none;
     background: none;
     color: #8b8ba7;
 }
 
- .dataTables_filter input[type="text"]:focus {
+.dataTables_filter input[type="text"]:focus {
     outline: none !important;
 }
 
- .dataTables_filter:before {
+.dataTables_filter:before {
     content: "" !important;
     position: absolute !important;
     background: var(--border-color) !important;
@@ -334,31 +336,32 @@ ESTILOS DATAFILTER
     transition: transform var(--timing) ease !important;
 }
 
- .dataTables_filter:focus-within {
+.dataTables_filter:focus-within {
     border-radius: var(--after-border-radius) !important;
 }
 
- .dataTables_filter:focus-within:before {
+.dataTables_filter:focus-within:before {
     transform: scale(1) !important;
 }
 
- .dataTables_filter button.reset {
+.dataTables_filter button.reset {
     border: none !important;
     background: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
 }
 
- .dataTables_filter input[type="text"]:not(:placeholder-shown) ~ .reset {
+.dataTables_filter input[type="text"]:not(:placeholder-shown)~.reset {
     opacity: 1 !important;
     visibility: visible !important;
 }
 
- .dataTables_filter input[type="text"]::-ms-clear,
- .dataTables_filter input[type="text"]::-webkit-search-cancel-button {
+.dataTables_filter input[type="text"]::-ms-clear,
+.dataTables_filter input[type="text"]::-webkit-search-cancel-button {
     display: none !important;
 }
- .dataTables_filter svg {
+
+.dataTables_filter svg {
     width: 17px !important;
     margin-top: 3px !important;
 }

@@ -149,12 +149,15 @@
                                             </a>
                                         @endif
 
-                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                                            <a class="pdf-button" title="Mostrar"
-                                                href="{{ route('elementos.pdf', $elemento->idElemento) }}">
+
+                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']) && ($elemento->categoria->nombre=='PC PORTATIL')||($elemento->categoria->nombre=='EQUIPO TODO EN UNO'))
+                                            <a class="pdf-button" title="EquipoTecno"
+                                                href="{{ route('elementos.pdf', $elemento->idElemento)}}" target="_blank">
                                                 <i class="fa-solid fa-file-pdf"></i>
                                             </a>
+
                                         @endif
+
                                         @if (auth()->user()->hasRole('superAdmin'))
                                             <button type="button" class="delete-button tooltips" title="Eliminar"
                                                 data-bs-toggle="modal" data-bs-target="#myModal"
