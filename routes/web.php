@@ -8,6 +8,7 @@ use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\InformesController;
+use App\Http\Controllers\PDFHojaDeVIdaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
@@ -17,10 +18,13 @@ use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PdfActaController;
 use App\Models\Elemento;
 use App\Models\TipoElemento;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 /*
@@ -140,7 +144,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ingreso_salida/{idElemento}/{idUsuario}', [ElementoController::class, 'indexSalidaIngresos']);
     Route::get('/traerElementosfiltrados', [ElementoController::class, 'traerElementosfiltrados']);
     Route::get('/traerDatosElementoFil', [ElementoController::class, 'traerDatosElementoFil']);
-    Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme']);
+    Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme'])->name('prueba');
     Route::get('/exportarpdf/{idElemento}',[ElementoController::class,'ExportarPDF']);
     Route::get('/viewpdf/{id}/',[ElementoController::class,'view'])->name('pdfingresoysalidaequipos');
 
@@ -232,7 +236,7 @@ Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestam
     Route::post('/filtroProcedimientos', [InformesController::class, 'filtroProcedimientos']);
     Route::post('/exportarPrestamos', [InformesController::class,'exportarPrestamos']);
 
-    Route::get('/getElementos', [InformesController::class, 'getElementos']);
+
     Route::post('/filtroElementos', [InformesController::class, 'filtroElementos']);
     Route::post('/exportarElementos', [InformesController::class,'exportarElementos']);
 
@@ -278,6 +282,13 @@ Route::get('/lista-qr',[ElementoController::class,'QRView']);
 
 Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostrarResponsableEntrega']);
 
+Route::get('/pdfElemento/{id}',[PDFHojaDeVIdaController::class,'getPDF'])->name('elementos.pdf');
+
+//Generar pdf
+
+//Acta de entrega de dipositivos tegnologicos
+
+Route::get('/generar-pdf/{idUsuario}', [PdfActaController::class, 'generarPdf'])->name('generar.pdf');
 
 // ---PDF--------
 

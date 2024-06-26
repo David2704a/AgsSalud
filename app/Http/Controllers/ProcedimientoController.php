@@ -26,17 +26,15 @@ class ProcedimientoController extends Controller
 
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }
-    /**
-     * Show the form for creating the resource.
-     */
+
     public function create()
     {
         $elementos = Elemento::all();
-        $estadoProcedimiento = EstadoProcedimiento::all(); 
+        $estadoProcedimiento = EstadoProcedimiento::all();
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();
-        
+
         $estadoEnProcesoId = DB::table('estadoProcedimiento')
         ->where('estado', 'En proceso')
         ->select('idEstadoP')

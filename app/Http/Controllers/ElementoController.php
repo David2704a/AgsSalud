@@ -43,9 +43,7 @@ class ElementoController extends Controller
 
         // dd($elementos);
 
-
-        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
-
+        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos', 'user'));
     }
 
     public function create(){
@@ -367,7 +365,7 @@ class ElementoController extends Controller
 
         // $elementos = Elemento::where('idElemento', $idElemento)->first();
         $elementos = Elemento::with('estado')->findOrFail($idElemento);
-        return view('elementos.elemento.salidaIngresos', compact('elementos'));        
+        return view('elementos.elemento.salidaIngresos', compact('elementos'));
     }
 
 
@@ -414,13 +412,6 @@ class ElementoController extends Controller
             'id_elemento' => $data['idElemento']
         ];
 
-        // $usuarioExist = DB::table('ingreso_y_o_salida as ios')
-        // ->where('ios.id_userAutorizado', $datos['id_userAutorizado'])
-        // ->where('ios.prestamo', 'SI')
-        // ->where('ios.fecha_fin_salida', '<', now())
-        // ->exists();
-
-
         for ($i = 2; $i <= 5; $i++) {
             $descripcionKey = 'descripcion_equipo_ingreso_' . $i;
             if (isset($data[$descripcionKey]) && !empty($data[$descripcionKey])) {
@@ -434,16 +425,11 @@ class ElementoController extends Controller
             }
         }
 
-        // if ($usuarioExist) {
-        //     return response()->json(['mensaje' => 'El usuario ya tiene procedimiento de tipo Prestamo.']);
-        // }
-
-        // dd($datos);
+        DD($datos);
 
         $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
         return response()->json(['id' => $resultado]);
-         
-}
+    }
 
     public function view($id) {
 
@@ -479,10 +465,10 @@ class ElementoController extends Controller
 
         for ($i = 1; $i <= 5; $i++) {
             $campoElemento = 'id_elemento_' . $i;
-            
+
             if (!empty($ingresoSalida->$campoElemento)) {
                 $elemento = DB::table('elemento')->where('idElemento', $ingresoSalida->$campoElemento)->first();
-    
+
                 if ($elemento) {
                     $usuarioAutorizado = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
                     $personaAutorizada = DB::table('persona')->where('id', $usuarioAutorizado->idPersona)->first();
@@ -498,7 +484,7 @@ class ElementoController extends Controller
                 }
             }
         }
-    
+
         $datosPdf['elementos'] = $elementosInfo;
 
         // dd($datosPdf);
@@ -510,10 +496,8 @@ class ElementoController extends Controller
     {
         $elemento = Elemento::where('idElemento', $idElemento)->get(['*']);
         $pdf = Pdf::loadView('elementos.elemento.pdf', compact('elemento'));
-        // $pdf->setPaper('letter','landscape');
-        
         $pdf->setPaper('letter','portrait');
-        
+
         return $pdf->stream('elementos.elemento.pdf');
     }
 

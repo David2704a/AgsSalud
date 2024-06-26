@@ -139,7 +139,7 @@ $('#btnGenerarInforme').on('click', function () {
             success: function (response) {
                 console.log(response);
                 alertSwitch('success', 'Datos del Informe Guardados con Éxito');
-                // console.log(response);
+
                 if (response.mensaje) {
                     alertSwitch('error', response.mensaje);
                 } else {
@@ -156,7 +156,7 @@ $('#btnGenerarInforme').on('click', function () {
         });
 
     }
-    
+
 })
 
 
