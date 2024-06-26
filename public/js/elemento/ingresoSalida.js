@@ -26,7 +26,7 @@ $('#btnTraerElementosfiltrados').on('click', function () {
                     '<tr>' +
                     '<td>' + dato.id_dispo + '</td>' +
                     '<td>' + dato.nombre + '</td>' +
-                    '<td> <button class="btn btn-success btnBajarDatosElm" type="button"><i class="fa-solid fa-circle-arrow-down"></i> </button> </td>' +
+                    '<td> <button class="btn btn-success btnBajarDatosElm" type="button"> <div class="rellenoIcon"><i class="fa-solid fa-arrow-down"></i></div> </button> </td>' +
                     '<input type="hidden" class="idElementoTableFil" value="' + dato.idElemento + '">' +
                     '</tr>'
                 );
@@ -144,7 +144,7 @@ $('#btnGenerarInforme').on('click', function () {
                 $('#duracionDesde').val('');
                 $('input[name="prestamo"]').prop('checked', false);
                 $('input[name="motivo_ingreso"]').prop('checked', false);
-                
+
                 alertSwitch('success', 'Datos del Informe Guardados con Éxito')
             }
         });
@@ -223,3 +223,12 @@ function textoEspañolTables() {
 
     }
 }
+
+
+// document.getElementById('door').addEventListener('mouseenter', function () {
+//     this.classList.add('open');
+// });
+
+// document.getElementById('door').addEventListener('mouseleave', function () {
+//     this.classList.remove('open');
+// });

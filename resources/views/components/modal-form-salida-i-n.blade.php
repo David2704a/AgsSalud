@@ -6,7 +6,10 @@
                 <h5 class="modal-title" id="modalTitleId">
                     Añadir Elementos
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color: #fff;"></button> --}}
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times" style="color: #fff"></i></span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="tableContainerElements">
@@ -25,8 +28,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-danger tooltips" data-bs-dismiss="modal">
                     Cerrar
+                    <span class="tooltiptext">Ingreso / Salida</span>
                 </button>
             </div>
         </div>

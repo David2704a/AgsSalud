@@ -13,9 +13,9 @@
 }
 
 .edit-button, .delete-button {
-    position: relative; /* Necesario para el tooltip */
-    display: inline-block; /* Necesario para el tooltip */
-    cursor: pointer; /* Cursor de puntero para mejor UX */
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .btn_ingreso_salida {
@@ -26,15 +26,14 @@
     color: #fff;
     border: none;
     border-radius: 4px;
-    position: relative; /* Necesario para el tooltip */
-    display: inline-block; /* Necesario para el tooltip */
-    cursor: pointer; /* Cursor de puntero para mejor UX */
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
 }
 
-/* Estilo del tooltip */
 .tooltips .tooltiptext {
     visibility: hidden;
-    width: 120px; /* Ancho del tooltip */
+    width: 120px;
     background-color: black;
     color: #fff;
     text-align: center;
@@ -42,9 +41,9 @@
     padding: 5px;
     position: absolute;
     z-index: 1;
-    bottom: 125%; /* Posiciona el tooltip arriba del botón */
+    bottom: 125%;
     left: 50%;
-    margin-left: -60px; /* Ancho del tooltip dividido por 2 */
+    margin-left: -60px;
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -53,7 +52,7 @@
 .tooltips .tooltiptext::after {
     content: "";
     position: absolute;
-    top: 100%; /* En la parte inferior del tooltip */
+    top: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
@@ -61,7 +60,6 @@
     border-color: black transparent transparent transparent;
 }
 
-/* Mostrar el tooltip al pasar el ratón sobre el botón */
 .tooltips:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
@@ -145,12 +143,31 @@ MENU
     padding: 10px 20px;
     cursor: pointer;
     font-size: 1.4rem;
+    text-decoration: none;
 }
 
 .button-izquierda i {
     font-size: 1.2rem;
 }
 
+/* .button-izquierda.arrow-left {
+    transition: all 1s ease-in;
+    transform: rotate(360deg);
+} */
+
+.button-izquierda:hover.arrow-left {
+    animation: leftAnim 0.6s infinite alternate;
+
+}
+
+@keyframes leftAnim {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(10px);
+    }
+}
 .button-derecha {
     --color: #28A745;
     line-height: 2.5em;
@@ -593,8 +610,9 @@ MOTIVO DE INGRESO Y/O SALIDA
 }
 
 .checkMotivo {
-    width: 60%;
-    display: grid;
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
 }
@@ -615,6 +633,79 @@ MOTIVO DE INGRESO Y/O SALIDA
 /*
 ESTILOS PARA LA TABLA DEL EQUIPO
 */
+
+
+#btnTraerElementosfiltrados i {
+    transition: all 0.4s ease-in;
+    transform: rotate(0deg);
+}
+
+/* Estilo del ícono cuando se hace hover */
+#btnTraerElementosfiltrados:hover i {
+
+    transform: rotate(180deg);
+}
+
+.modal-header,
+.modal-footer {
+    background-color: #343D7C;
+    color: #fff;
+}
+
+.modal-header .close {
+    padding: calc(var(--bs-modal-header-padding-y)* .5) calc(var(--bs-modal-header-padding-x)* .5);
+    margin: calc(-.5* var(--bs-modal-header-padding-y)) calc(-.5* var(--bs-modal-header-padding-x)) calc(-.5* var(--bs-modal-header-padding-y)) auto;
+}
+
+.btnBajarDatosElm {
+    transition: all 1s ease-in;
+}
+
+.btnBajarDatosElm:hover i {
+    animation: bounce 0.6s infinite alternate;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(2px);
+    }
+}
+
+.rellenoIcon {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 1.2em;
+    height: 1.2em;
+    color: #3f3e3e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+.close {
+    color: #fff !important;
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    background: transparent center / 1em auto no-repeat;
+    border: 0;
+    border-radius: .375rem;
+    opacity: 0.5;
+    transition: all 0.2s ease-in;
+}
+
+.close:hover {
+    opacity: 1;
+}
+
+.close i {
+    font-size: 20px !important;
+}
+
 .tituloPrinDescripcion {
     width: 100%;
     display: flex;
@@ -756,4 +847,71 @@ ESTILOS PARA LA TABLA DE LOS ELEMENTOS FILTRADOS
 
 .tableContainerElements th:nth-child(3), .tableContainerElements td:nth-child(3) {
     width: 15%;
+}
+
+
+/*
+====================================================
+ESTILOS PARA LOS CHECKSBOX
+====================================================
+*/
+
+/* Ocultar el checkbox original */
+.custom-checkbox input[type="radio"] {
+    display: none;
+}
+
+/* Estilo del contenedor del checkbox */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Estilo del checkmark */
+.custom-checkbox .checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #35a7dc;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Pseudo-elemento para el fondo del checkmark */
+.custom-checkbox .checkmark::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #35a7dc;
+    transform: scale(0) rotate(0deg);
+    transform-origin: center;
+    transition: all 0.3s ease-in-out;
+    border-radius: 2px;
+}
+
+/* Pseudo-elemento para el check (chulito) */
+.custom-checkbox .checkmark::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 5px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(300deg) scale(0) scaleX(-1);
+    transform-origin: center;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Estilo cuando el checkbox está marcado */
+.custom-checkbox input[type="radio"]:checked + .checkmark::before {
+    transform: scale(1) rotate(360deg);
+}
+
+.custom-checkbox input[type="radio"]:checked + .checkmark::after {
+    transform: translate(-50%, -50%) rotate(300deg) scale(1) scaleX(-1);
 }

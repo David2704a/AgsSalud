@@ -198,6 +198,25 @@
             <li class="{{ Request::is('Miperfil') || Request::is('editar/*') ? 'active' : '' }}" onclick="showLoader()">
                 <a href="{{ url('/Miperfil') }}"><i class="fas fa-user-pen"></i> <span>Perfil</span></a>
             </li>
+            {{-- <li class="{{ Request::is('Miperfil') || Request::is('editar/*') ? 'active' : '' }}" onclick="showLoader()">
+                <a href="{{ url('/Miperfil') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="svgHouse" viewBox="0 0 100 100" width="35" height="35">
+                    <!-- Casa -->
+                    <path d="M 10 80 L 10 40 L 50 10 L 90 40 L 90 80 Z" fill="#343D7C"  />
+
+                    <!-- Techo -->
+                    <rect  x="70" y="10" width="10" height="28" fill="#343D7C" />
+                    <polygon points="5,40 50,5 95,40" fill="#343D7C" />
+
+                    <!-- Puerta -->
+                    <rect  x="40" y="48" width="20" height="30" fill="#fff" />
+                    <rect  id="door" x="40" y="48" width="20" height="30" fill="#8d6e63" />
+
+
+                    <!-- Manija de la puerta -->
+                    <circle id="circledoor" cx="55" cy="65" r="1" fill="#000"/>
+                  </svg> <span>Perfil</span></a>
+            </li> --}}
         </ul>
     </div>
 
