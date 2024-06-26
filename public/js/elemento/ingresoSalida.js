@@ -137,12 +137,13 @@ $('#btnGenerarInforme').on('click', function () {
                 _token: csrfToken,
             },
             success: function (response) {
+                console.log(response);
                 alertSwitch('success', 'Datos del Informe Guardados con Éxito');
                 // console.log(response);
                 if (response.mensaje) {
                     alertSwitch('error', response.mensaje);
                 } else {
-                    window.open(urlBase + '/viewpdf/' + response, '_blank');
+                    window.open(urlBase + '/viewpdf/' + response.id, '_blank');
                     alertSwitch('success', 'Datos del Informe Guardados con Éxito');
                 }
 

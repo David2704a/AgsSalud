@@ -111,6 +111,7 @@
                     </thead>
                     <tbody>
                         @foreach ($elementos as $elemento)
+                           
                             {{-- @dd($elemento) --}}
                             {{-- @dd($elemento->user->name) --}}
 
@@ -156,11 +157,11 @@
                                             </button>
                                         @endif
                                         @if ($elemento->idUsuario !== null && in_array($elemento->categoria->nombre, ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE']))
-                                            <a href="{{url('/ingreso_salida/'.$elemento->idElemento)}}" type="button" data-id-user="{{ $elemento->idUsuario }}"
+                                            <a href="{{url('/ingreso_salida/'.$elemento->idElemento . '/' . $elemento->idUsuario)}}" type="button" data-id-user="{{ $elemento->idUsuario }}"
                                                 data-user-identificacion="{{$elemento->user->persona->identificacion ?? false}}"
                                                 data-name-user="{{ $elemento->user->name ?? false}}" class="btn_ingreso_salida">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                            </a>
+                                            </a>        
                                         @endif
                                         
                                             <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button">                                                
@@ -173,6 +174,8 @@
                         @endforeach
                     </tbody>
                 </table>
+
+               
 
             </div>
 
@@ -237,6 +240,8 @@
             $('#hola1').val(idUserAutorizado)
             $('#nameUserAutorizado').val(nameUserAutorizado)
             $('#identiUserAutorizado').val(identiUserAutorizado)
+
+            
         })
     </script>
 @endsection

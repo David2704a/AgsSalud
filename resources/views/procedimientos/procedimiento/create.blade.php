@@ -86,7 +86,7 @@
                 <label for="idResponsableEntrega">Responsable Entrega</label>
                 <select name="idResponsableEntrega" id="idResponsableEntrega" class="selectEntregaTodos">
                     <option value="">Seleccionar una opción</option>
-                    @foreach ($usuariosEntrega as $usuario)
+                    @foreach ($usuariosEntregaFiltrados as $usuario)
                         <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
                     @endforeach
                 </select>
@@ -107,7 +107,7 @@
                 </select>
                 <select name="idResponsableRecibe" hidden id="idResponsableRecibe" class="selectRecibeTodos">
                     <option value="">Seleccionar una opción</option>
-                    @foreach ($usuariosEntrega as $usuario)
+                    @foreach ($usuariosEntregaFiltrados as $usuario)
                         <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
                     @endforeach
                 </select>
