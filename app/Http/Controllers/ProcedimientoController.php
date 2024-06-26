@@ -26,29 +26,23 @@ class ProcedimientoController extends Controller
 
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }
-    /**
-     * Show the form for creating the resource.
-     */
+
     public function create()
     {
+        $elementosSinPrestamo = Elemento::whereDoesntHave('procedimiento', function ($query) {
+                $query->whereHas('tipoProcedimiento', function ($subquery) {
+                    $subquery->where('tipo', 'Prestamo');
+                });
+            })
+            ->get();
 
-        $elementos = Elemento::all();
-        $estadoProcedimiento = EstadoProcedimiento::all(); 
+        $estadoProcedimiento = EstadoProcedimiento::all();
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
         $usuariosRecibe = User::role('tecnico')->get();
-
-        $elementosSinPrestamo = Elemento::whereDoesntHave('procedimiento', function ($query) {
-            $query->whereHas('tipoProcedimiento', function ($query) {
-                $query->where('tipo', 'Prestamo');
-            });
-        })->get();
-
-        
-
+    
         return view('procedimientos.procedimiento.create', compact('elementosSinPrestamo', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe'));
     }
-
     /**
      * Store the newly created resource in storage.
      */
