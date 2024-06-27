@@ -75,7 +75,7 @@ FILTRO
 //   });
 
 
-  function inicializarTablaEstadosP() {
+function inicializarTablaEstadosP() {
     var table = $('#tableEstadosP').DataTable({
 
         language: textoEspañolTables(),

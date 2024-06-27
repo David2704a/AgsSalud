@@ -132,7 +132,7 @@ $('#btnGenerarInforme').on('click', function () {
     } else if (!data['descripcionIngreso']) {
         alertSwitch('error', 'Debe Ingresar una descripción al Equipo/Accesorio')
     }
-     else {
+    else {
         $.ajax({
             type: 'POST',
             url: urlBase + '/guardarDatosInforme',
