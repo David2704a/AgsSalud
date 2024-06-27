@@ -225,8 +225,6 @@ $('#btnGenerarInforme').on('click', function () {
     } else if (!data['prestamo']) {
         $('.checkbox-container').addClass('input-error');
         alertSwitch('error', 'Debe Seleccionar si es un Prestamo o no')
-    // } else if (!data['fechaFinSalida']) {
-        // alertSwitch('error', 'Debe Ingresar una Fecha Limite')
     } else if (!data['motivoIngreso']) {
         $('.checkbox-containerMotivo').addClass('input-error');
         alertSwitch('error', 'Debe Seleccionar un Motivo de Ingreso y/o Salida')
@@ -257,7 +255,6 @@ $('#btnGenerarInforme').on('click', function () {
                     $('#duracionDesde').val('');
                     $('input[name="prestamo"]').prop('checked', false);
                     $('input[name="motivo_ingreso"]').prop('checked', false);
-
                 }
 
             },
