@@ -435,12 +435,6 @@ class ElementoController extends Controller
             }
         }
 
-
-
-        // if ($usuarioExist) {
-        //     return response()->json(['mensaje' => 'El usuario ya tiene procedimiento de tipo Prestamo.']);
-        // }
-
         // dd($datos);
 
         $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
@@ -450,61 +444,30 @@ class ElementoController extends Controller
     {
 
         $ingresoSalida = DB::table('ingreso_y_o_salida')->where('id_ingreso', $id)->first();
-        $elementos = DB::table('elemento')->where('idElemento', $ingresoSalida->id_elemento)->first();
-        $estadoElemento = DB::table('estadoElemento')->where('idEstadoE', $elementos->idEstadoEquipo)->first();
         $usuarioAutoriza = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
         $personaAutorizada = DB::table('persona')->where('id', $usuarioAutoriza->idPersona)->first();
 
-        if (!$ingresoSalida) {
-            abort(404);
-        }
-
-        $datosPdf = [
-            'motivoIngreso' => $ingresoSalida->motivo_ingreso,
-            'descripcionIngreso' => $ingresoSalida->descripcion_equipo_ingreso,
-            'fechaInicioIngreso' => $ingresoSalida->fecha_in_salida,
-            'fechaFinSalida' => $ingresoSalida->fecha_fin_salida,
-            'horaInicioIngreso' => $ingresoSalida->hora_in_salida,
-            'prestamo' => $ingresoSalida->prestamo,
-            'idUserAutoriza' => $ingresoSalida->id_userAutoriza,
-            'idUserAutorizado' => $ingresoSalida->id_userAutorizado,
-            'idElemento' => $ingresoSalida->id_elemento,
-            'marca' => $elementos->marca,
-            'modelo' => $elementos->modelo,
-            'id_dispo' => $elementos->id_dispo,
-            'estadoElemento' => $estadoElemento ? $estadoElemento->estado : 'Sin estado',
-            'usuarioAutoriza' => $usuarioAutoriza->name,
-            'idenAutorizado' => $personaAutorizada->identificacion,
-        ];
-
-        $elementosInfo = [];
-
-        for ($i = 1; $i <= 5; $i++) {
-            $campoElemento = 'id_elemento_' . $i;
-
-            if (!empty($ingresoSalida->$campoElemento)) {
-                $elemento = DB::table('elemento')->where('idElemento', $ingresoSalida->$campoElemento)->first();
+        $elementos = [];
+        $id_elemento = ['id_elemento', 'id_elemento_2', 'id_elemento_3', 'id_elemento_4','id_elemento_5'];
+        foreach ($id_elemento as $column) {
+            $id_elemento = $ingresoSalida->{$column};
+            if ($id_elemento) {
+                $elemento = DB::table('elemento')
+                            ->select(
+                                'elemento.*',
+                                'estadoElemento.estado as estado_elemento'
+                            )
+                            ->leftJoin('estadoElemento', 'elemento.idEstadoEquipo', '=', 'estadoElemento.idEstadoE')
+                            ->where('elemento.idElemento', $id_elemento)
+                            ->first();
 
                 if ($elemento) {
-                    $usuarioAutorizado = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
-                    $personaAutorizada = DB::table('persona')->where('id', $usuarioAutorizado->idPersona)->first();
-                    $estadoElemento = DB::table('estadoElemento')->where('idEstadoE', $elemento->idEstadoEquipo)->first();
-                    $elementosInfo[] = [
-                        'marca' => $elemento->marca,
-                        'modelo' => $elemento->modelo,
-                        'id_dispo' => $elemento->id_dispo,
-                        'estadoElemento' => $estadoElemento ? $estadoElemento->estado : 'No tiene estado',
-                        'usuarioAutorizado' => $usuarioAutorizado->name,
-                        'idenAutorizado' => $personaAutorizada->identificacion,
-                    ];
+                    $elementos[] = $elemento;
                 }
             }
         }
 
-        $datosPdf['elementos'] = $elementosInfo;
-
-        // dd($datosPdf);
-        $pdf = PDF::loadView('pdf.pdf', $datosPdf);
+        $pdf = PDF::loadView('pdf.pdf', compact('ingresoSalida', 'elementos', 'usuarioAutoriza', 'personaAutorizada'));
         return $pdf->stream();
     }
 

@@ -40,16 +40,16 @@ class ProcedimientoController extends Controller
         ->select('idEstadoP')
         ->limit(1);
 
-    $tipoPrestamoId = DB::table('tipoProcedimiento')
-        ->where('tipo', 'Prestamo')
-        ->select('idTipoProcedimiento')
-        ->limit(1);
+        $tipoPrestamoId = DB::table('tipoProcedimiento')
+            ->where('tipo', 'Prestamo')
+            ->select('idTipoProcedimiento')
+            ->limit(1);
 
-    $usuariosConProcedimientoActivo = DB::table('procedimiento')
-        ->where('idEstadoProcedimiento', '=', $estadoEnProcesoId)
-        ->where('idTipoProcedimiento', '=', $tipoPrestamoId)
-        ->pluck('idResponsableRecibe')
-        ->toArray();
+        $usuariosConProcedimientoActivo = DB::table('procedimiento')
+            ->where('idEstadoProcedimiento', '=', $estadoEnProcesoId)
+            ->where('idTipoProcedimiento', '=', $tipoPrestamoId)
+            ->pluck('idResponsableRecibe')
+            ->toArray();
 
     $usuariosEntregaFiltrados = $usuariosEntrega->filter(function($usuario) use ($usuariosConProcedimientoActivo) {
         return !in_array($usuario->id, $usuariosConProcedimientoActivo);

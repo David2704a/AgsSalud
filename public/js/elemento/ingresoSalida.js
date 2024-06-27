@@ -225,9 +225,13 @@ $('#btnGenerarInforme').on('click', function () {
     } else if (!data['prestamo']) {
         $('.checkbox-container').addClass('input-error');
         alertSwitch('error', 'Debe Seleccionar si es un Prestamo o no')
+    } else if (!data['fechaFinSalida']) {
+        alertSwitch('error', 'Debe Ingresar una Fecha Limite')
     } else if (!data['motivoIngreso']) {
         $('.checkbox-containerMotivo').addClass('input-error');
         alertSwitch('error', 'Debe Seleccionar un Motivo de Ingreso y/o Salida')
+    } else if (!data['descripcionIngreso']) {
+        alertSwitch('error', 'Debe Ingresar una descripción al Equipo/Accesorio')
     }
     else {
         $.ajax({
@@ -259,7 +263,7 @@ $('#btnGenerarInforme').on('click', function () {
             },
             error: function (error) {
                 console.error(error);
-                var errorMessage = error.responseJSON && error.responseJSON.error ? error.responseJSON.error : 'Error desconocido';
+                var errorMessage = error.responseJSON && error.responseJSON.error && error.responseJSON.error && error.responseJSON.error ? error.responseJSON.error : 'Error desconocido';
                 alertSwitch('error', errorMessage);
             }
         });

@@ -127,7 +127,7 @@
                             </div>
                             <div class="input-container">
                                 <label for="position">HASTA</label>
-                                <input type="date" id="fechaFinSalida" name="position">
+                                <input type="date" id="fechaFinSalida"  name="position">
                             </div>
                         </div>
                     </div>
