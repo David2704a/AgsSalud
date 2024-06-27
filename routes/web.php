@@ -38,9 +38,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-  Route::get('/test',[pruebaController::class,'index'])->name('test');
-  Route::get('/view',[pruebaController::class,'view'])->name('view.pdf');
-
 Route::get('/', function () {
     return view('auth/login');
 });

@@ -48,7 +48,7 @@
         </div>
     </div>
 
-     <p id="section-title">
+    <p id="section-title">
         1. MOTIVO DE INGRESO Y/O SALIDA DE EQUIPOS DE COMPUTO
     </p>
 
@@ -218,4 +218,7 @@
     </div>
 </div>
 </body>
+<<<<<<< HEAD
+</html>
+=======
 </html>

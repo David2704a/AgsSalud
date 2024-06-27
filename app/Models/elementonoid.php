@@ -14,7 +14,6 @@ class elementonoid extends Model
         'marca',
         'referencia',
         'descripcion',
-  
         
     ];
     public $timestamps = true;
