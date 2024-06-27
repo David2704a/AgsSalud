@@ -112,11 +112,11 @@
             <tr>
                 <td>CARGO: <span style="font-weight:normal;"></td>
                     <td>CARGO: <span style="font-weight:normal;"></td>
-                    </tr>
-                    <tr>
-                        <td>IDENTIFICACIÓN: <span style="font-weight:normal;">{{$idenAutorizado}}</span></td>
-                        <td>IDENTIFICACIÓN: <span style="font-weight:normal;"></span></td>
-                    </tr>
+            </tr>
+            <tr>
+                <td>IDENTIFICACIÓN: <span style="font-weight:normal;">{{$idenAutorizado}}</span></td>
+                <td>IDENTIFICACIÓN: <span style="font-weight:normal;"></span></td>
+            </tr>
         </tbody>
     </table>
 
@@ -233,6 +233,7 @@
                         </div>
                     </th>
                 </tr>
+                
             </tbody>
         </table>
     </div>
