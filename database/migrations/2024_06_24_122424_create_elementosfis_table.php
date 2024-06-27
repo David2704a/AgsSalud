@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('elememtosfis', function (Blueprint $table) {
+        Schema::create('elementosfis', function (Blueprint $table) {
             $table->id();
             $table->string('id_dispo')->unique(); // excel columna A
             $table->unsignedBigInteger('idCategoria')->nullable();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('elememtosfis');
+        Schema::dropIfExists('elementosfis');
     }
 };

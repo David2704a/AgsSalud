@@ -9,7 +9,7 @@ class ElementosFis extends Model
     use HasFactory;
 
     use HasFactory;
-    protected $table = 'elememtosfis';
+    protected $table = 'elementosfis';
     protected $primaryKey = 'id';
     protected $fillable = [
         'id_dispo', 
@@ -24,4 +24,17 @@ class ElementosFis extends Model
         'ubicacion_especifica',
         'codigo'
     ];
+
+    public function categoria() {
+        return $this->belongsTo(Categoria::class, 'idCategoria');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'idUser');
+    }
+    public function estado()
+    {
+        return $this->belongsTo(EstadoElemento::class, 'idEstado', 'idEstadoE');
+    }
+
 }

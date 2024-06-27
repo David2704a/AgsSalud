@@ -232,6 +232,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/elementos-fisicos', elementosFisicosController::class);
     Route::post('/import', [elementosFisicosController::class, 'import'])->name('import');
+    Route::get('/elementos-fisicos/search', [ElementosFisicosController::class, 'search'])->name('elementos.search');
+    Route::post('/generar-id-dispo', [ElementosFisicosController::class, 'generarIdDispo'])->name('elementos.iddispo');
 
 require __DIR__.'/auth.php';
 
