@@ -83,7 +83,7 @@
                     </select>
                 </div>
 
-                <label for="idResponsableEntrega">Responsable Entrega</label>
+                <label for="idResponsableEntrega">Responsable Recibe</label>
                 <select name="idResponsableEntrega" id="idResponsableEntrega" class="selectEntregaTodos">
                     <option value="">Seleccionar una opción</option>
                     @foreach ($usuariosEntregaFiltrados as $usuario)
@@ -98,7 +98,7 @@
                 </select>
 
 
-                <label for="idResponsableRecibe">Responsable Recibe</label>
+                <label for="idResponsableRecibe">Responsable Entrega</label>
                 <select name="idResponsableRecibe" id="idResponsableRecibe" class="selectRecibeTecnico">
                     <option value="">Seleccionar una opción</option>
                     @foreach ($usuariosRecibe as $usuario)

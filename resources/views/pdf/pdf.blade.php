@@ -36,18 +36,15 @@
 
 
         <div id="fechas">
-            @foreach ($datos as $dato)
-            <p>Fecha Salida: <u style="font-weight: normal;">{{ $dato->fecha_in_salida}}</u></p>
-            <p>Hora: <u style="font-weight: normal;">{{ $dato->hora_in_salida}}</u></p>
-            <p>Fecha Salida: <u style="font-weight: normal;">{{$fechaFinSalida}}</u></p>
-            <p>Hora: <u style="font-weight: normal;">{{$horaInicioIngreso}}</u></p> 
+            <p>Fecha Salida: <u style="font-weight: normal;">{{$ingresoSalida->fecha_in_salida}}</u></p>
+            <p>Hora: <u style="font-weight: normal;">{{$ingresoSalida->hora_in_salida}}</u></p>
         </div>
 
         <div id="info-prestamo">
                 <p><i>Prestamo temporal:</i><p>
-                <i>si <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{ $prestamo == 'SI' ? 'X' : ''}}</span></i></p>
-                <p><i>no <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{ $prestamo == 'NO' ? 'X' : ''}}</span></i></p></p>
-                <p><i>Desde: {{$fechaInicioIngreso}}</i></p> <p><i>Hasta: {{$fechaFinSalida}}</i></p>
+                <i>si <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{ $ingresoSalida->prestamo == 'SI' ? 'X' : ''}}</span></i></p>
+                <p><i>no <span style="border-bottom: 1px solid black;">&nbsp;&nbsp;&nbsp;{{ $ingresoSalida->prestamo == 'NO' ? 'X' : ''}}</span></i></p></p>
+                <p><i>Desde: {{$ingresoSalida->fecha_in_salida}}</i></p> <p><i>Hasta: {{$ingresoSalida->fecha_fin_salida}}</i></p>
         </div>
     </div>
 
@@ -58,36 +55,20 @@
     <section>
         <table id="tabla-casillas">
             <tr>
-                {{-- <th><div class="checkbox"></div></th>
-                <th>Mantenimiento y/o reparación</th>
-                <th><div class="checkbox"></div></th>
-                <th>Capacitación</th>
-                <th><div class="checkbox"></div></th>
-                <th>Por ser de su propiedad</th>
-                <th><div class="checkbox"></div></th>
-                <th></th> --}}
                 <th>Mantenimiento y/o reparación'</th>
-                <th><div class="checkbox">{{ $motivoIngreso == 'Mantenimiento y/o Reparación' ? 'X' : ''}}</div></th>
+                <th><div class="checkbox">{{ $ingresoSalida->motivo_ingreso == 'Mantenimiento y/o Reparación' ? 'X' : ''}}</div></th>
                 <th>Capacitación</th>
-                <th><div class="checkbox">{{ $motivoIngreso == 'Capacitación' ? 'X' : ''}}</div></th>
+                <th><div class="checkbox">{{ $ingresoSalida->motivo_ingreso == 'Capacitación' ? 'X' : ''}}</div></th>
                 <th>Por ser de su propiedad</th>
-                <th><div class="checkbox">{{ $motivoIngreso == 'Por Ser de su Propiedad' ? 'X' : ''}}</div></th>
+                <th><div class="checkbox">{{ $ingresoSalida->motivo_ingreso == 'Por Ser de su Propiedad' ? 'X' : ''}}</div></th>
             </tr>
             <tr>
                 <th>Reunión externa</th>
-                <th><div class="checkbox">{{ $motivoIngreso == 'Reunion Externa' ? 'X' : ''}}</div></th>
+                <th><div class="checkbox">{{ $ingresoSalida->motivo_ingreso == 'Reunion Externa' ? 'X' : ''}}</div></th>
                 <th>Realizar un trabajo laboral</th>
-                <th><div class="checkbox">{{ $motivoIngreso == 'Realizar un Trabajo Laboral' ? 'X' : ''}}</div></th>
+                <th><div class="checkbox">{{ $ingresoSalida->motivo_ingreso == 'Realizar un Trabajo Laboral' ? 'X' : ''}}</div></th>
                 <th>Otros</th>
-                <th><div class="checkbox">{{ $motivoIngreso == 'Otros' ? 'X' : ''}}</th>
-                    {{-- <th><div class="checkbox"></div></th>
-                    <th>Reunión externa</th>
-                    <th><div class="checkbox"></div></th>
-                    <th>Realizar un trabajo laboral</th>
-                    <th><div class="checkbox"></div></th>
-                    <th>Otros</th>
-                    <th><div class="checkbox"></div></th>
-                    <th></th> --}}
+                <th><div class="checkbox">{{ $ingresoSalida->motivo_ingreso == 'Otros' ? 'X' : ''}}</th>
                 </tr>
         </table>
     </section>
@@ -106,17 +87,17 @@
 
         <tbody>
             <tr>
-                <td>NOMBRE: <span style="font-weight: normal;">{{$usuarioAutoriza}}</span></td>
+                <td>NOMBRE: <span style="font-weight: normal;">{{$usuarioAutoriza->name}}</span></td>
                 <td>NOMBRE: <span style="font-weight:normal;"></span></td>
             </tr>
             <tr>
                 <td>CARGO: <span style="font-weight:normal;"></td>
                     <td>CARGO: <span style="font-weight:normal;"></td>
-            </tr>
-            <tr>
-                <td>IDENTIFICACIÓN: <span style="font-weight:normal;">{{$idenAutorizado}}</span></td>
-                <td>IDENTIFICACIÓN: <span style="font-weight:normal;"></span></td>
-            </tr>
+                    </tr>
+                    <tr>
+                        <td>IDENTIFICACIÓN: <span style="font-weight:normal;">{{$personaAutorizada->identificacion}}</span></td>
+                        <td>IDENTIFICACIÓN: <span style="font-weight:normal;"></span></td>
+                    </tr>
         </tbody>
     </table>
 
@@ -140,29 +121,28 @@
         </thead>
 
         <tbody>
+
+            @php
+            $descripcionEquipos = [
+                $ingresoSalida->descripcion_equipo_ingreso,
+                $ingresoSalida->descripcion_equipo_ingreso_2,
+                $ingresoSalida->descripcion_equipo_ingreso_3,
+                $ingresoSalida->descripcion_equipo_ingreso_4,
+                $ingresoSalida->descripcion_equipo_ingreso_5,
+            ];
+            @endphp
+
+            @foreach ($elementos as $index => $elemento)
             <tr>
-                <td>{{ $descripcionIngreso }}</td>
-                <td>{{$marca}}</td>
-                <td>{{$modelo}}</td>
-                <td>{{$id_dispo}}</td>
+                <td>{{$descripcionEquipos[$index]}}</td>
+                <td>{{$elemento->marca}}</td>
+                <td>{{$elemento->modelo}}</td>
+                <td>{{$elemento->id_dispo}}</td>
                 <td>
-                    {{ $estadoElemento == 'BUENO' ||  $estadoElemento == 'REGULAR' ||  $estadoElemento == 'DEVOLUCION' ||  $estadoElemento == 'NUEVO' ||  $estadoElemento == 'NUEVA' ? 'X' : ''}}
+                    {{ $elemento->estado_elemento == 'BUENO' ||  $elemento->estado_elemento == 'REGULAR' ||  $elemento->estado_elemento == 'DEVOLUCION' ||  $elemento->estado_elemento == 'NUEVO' ||  $elemento->estado_elemento == 'NUEVA' ? 'X' : ''}}
                 </td>
                 <td>
-                    {{ $estadoElemento == 'BAJA' ||  $estadoElemento == 'MALO' ||  $estadoElemento == 'NO APLICA' ||  $estadoElemento == 'MALA' ||  $estadoElemento == 'PERDIDA' ||  $estadoElemento == 'NO HAY DATOS' ||  $estadoElemento == 'OBSOLETO' ? 'X' : ''}}
-                </td>
-            </tr>
-            @foreach ($elementos as $elemento)
-            <tr>
-                <td>{{ $descripcionIngreso }}</td>
-                <td>{{ $elemento['marca'] }}</td>
-                <td>{{ $elemento['modelo'] }}</td>
-                <td>{{ $elemento['id_dispo'] }}</td>
-                <td>
-                    {{ $elemento['estadoElemento'] == 'BUENO' ||  $elemento['estadoElemento'] == 'REGULAR' ||  $elemento['estadoElemento'] == 'DEVOLUCION' ||  $elemento['estadoElemento'] == 'NUEVO' ||  $elemento['estadoElemento'] == 'NUEVA' ? 'X' : ''}}
-                </td>
-                <td>
-                    {{ $elemento['estadoElemento'] == 'BAJA' ||  $elemento['estadoElemento'] == 'MALO' ||  $elemento['estadoElemento'] == 'NO APLICA' ||  $elemento['estadoElemento'] == 'MALA' ||  $elemento['estadoElemento'] == 'PERDIDA' ||  $elemento['estadoElemento'] == 'NO HAY DATOS' ||  $elemento['estadoElemento'] == 'OBSOLETO' ? 'X' : ''}}
+                    {{ $elemento->estado_elemento == 'BAJA' ||  $elemento->estado_elemento == 'MALO' ||  $elemento->estado_elemento == 'NO APLICA' ||  $elemento->estado_elemento == 'MALA' ||  $elemento->estado_elemento == 'PERDIDA' ||  $elemento->estado_elemento == 'NO HAY DATOS' ||  $elemento->estado_elemento == 'OBSOLETO' ? 'X' : ''}}
                 </td>
             </tr>
             @endforeach
@@ -240,8 +220,3 @@
 </div>
 </body>
 </html>
-
-
-
-
-
