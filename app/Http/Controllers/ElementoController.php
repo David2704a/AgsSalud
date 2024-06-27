@@ -20,8 +20,9 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
 {
-    public function index(){
-    // Obtener el usuario autenticado
+    public function index()
+    {
+        // Obtener el usuario autenticado
         $user = Auth::user();
 
         // Inicializar la variable $elementos
@@ -46,7 +47,8 @@ class ElementoController extends Controller
         return view('elementos.elemento.index', compact('elementos', 'estadosEquipos', 'user'));
     }
 
-    public function create(){
+    public function create()
+    {
 
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
@@ -54,7 +56,7 @@ class ElementoController extends Controller
         $facturas = Factura::all();
         $users = User::all();
 
-        return view('elementos.elemento.create', compact('estados','tipoElementos','categorias', 'facturas', 'users'));
+        return view('elementos.elemento.create', compact('estados', 'tipoElementos', 'categorias', 'facturas', 'users'));
     }
 
 
@@ -204,7 +206,8 @@ class ElementoController extends Controller
         return view("elementos.elemento.show", compact("elemento"));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $elemento = Elemento::find($id);
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
@@ -212,8 +215,10 @@ class ElementoController extends Controller
         $facturas = Factura::all();
         $users = User::all();
 
-        return view('elementos.elemento.edit',
-        compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
+        return view(
+            'elementos.elemento.edit',
+            compact('elemento', 'estados', 'tipoElementos', 'categorias', 'facturas', 'users')
+        );
     }
 
 
@@ -245,7 +250,7 @@ class ElementoController extends Controller
             'idCategoria' => $request->idCategoria ?? null,
             'idFactura' => $request->idFactura ?? null,
             'idUsuario' => $request->idUsuario ?? null,
-            ];
+        ];
 
         // dd($request);
 
@@ -264,9 +269,10 @@ class ElementoController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         Elemento::find($id)->delete();
-        return redirect()->route('elementos.index')->with('success','Elemento eliminado correctamente');
+        return redirect()->route('elementos.index')->with('success', 'Elemento eliminado correctamente');
     }
 
     public function buscar(Request $request)
@@ -274,15 +280,15 @@ class ElementoController extends Controller
         $filtro = $request->input('filtro');
 
         $elementos = Elemento::where(function ($query) use ($filtro) {
-            $query->where('marca', 'like', '%'. $filtro. '%')
-            ->orWhere('referencia', 'like', '%' . $filtro . '%')
-            ->orWhere('serial', 'like', '%' . $filtro . '%')
-            ->orWhere('modelo', 'like', '%' . $filtro . '%')
-            ->orWhere('descripcion', 'like', '%' . $filtro . '%')
-            ->orWhere('id_dispo', 'like', '%' . $filtro . '%')
-            ->orWhereHas('user', function($query) use($filtro){
-                $query->where('name', 'like', '%'. $filtro. '%');
-            });
+            $query->where('marca', 'like', '%' . $filtro . '%')
+                ->orWhere('referencia', 'like', '%' . $filtro . '%')
+                ->orWhere('serial', 'like', '%' . $filtro . '%')
+                ->orWhere('modelo', 'like', '%' . $filtro . '%')
+                ->orWhere('descripcion', 'like', '%' . $filtro . '%')
+                ->orWhere('id_dispo', 'like', '%' . $filtro . '%')
+                ->orWhereHas('user', function ($query) use ($filtro) {
+                    $query->where('name', 'like', '%' . $filtro . '%');
+                });
         })->paginate(7);
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));
@@ -308,9 +314,9 @@ class ElementoController extends Controller
         try {
             // Importar el archivo Excel
             Excel::import(new ElementoImport, $request->file('archivo'));
-        }catch (\Exception $e){
-        // Descargar el informe en formato Excel con los filtros aplicados
-        return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS.xlsx');
+        } catch (\Exception $e) {
+            // Descargar el informe en formato Excel con los filtros aplicados
+            return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS.xlsx');
         }
     }
 
@@ -336,32 +342,31 @@ class ElementoController extends Controller
 
     public function elementoQR(string $id_dispo)
     {
-        $elemento = DB::table('elemento')->where('id_dispo',$id_dispo)
-                    ->leftJoin('categoria','categoria.idCategoria','elemento.idCategoria')
-                    ->leftJoin('users','users.id','elemento.idUsuario')
-                    ->leftJoin('persona','persona.id','users.idPersona')
-                    ->first();
+        $elemento = DB::table('elemento')->where('id_dispo', $id_dispo)
+            ->leftJoin('categoria', 'categoria.idCategoria', 'elemento.idCategoria')
+            ->leftJoin('users', 'users.id', 'elemento.idUsuario')
+            ->leftJoin('persona', 'persona.id', 'users.idPersona')
+            ->first();
 
-        return view('Qr.elemento-qr',compact('elemento'));
-
+        return view('Qr.elemento-qr', compact('elemento'));
     }
 
     public function QRView()
     {
 
         $datos = DB::table('elemento')
-                    ->join('categoria','categoria.idCategoria','elemento.idCategoria')
-                    ->select('elemento.*','categoria.nombre')
-                    ->orderBy('elemento.idCategoria','ASC')->get();
+            ->join('categoria', 'categoria.idCategoria', 'elemento.idCategoria')
+            ->select('elemento.*', 'categoria.nombre')
+            ->orderBy('elemento.idCategoria', 'ASC')->get();
 
-        $pdf = Pdf::loadView('Qr.lista',compact('datos'));
-        $pdf->setPaper('letter','landscape');
+        $pdf = Pdf::loadView('Qr.lista', compact('datos'));
+        $pdf->setPaper('letter', 'landscape');
 
         return $pdf->stream('CODIGOS DE EQUIPOS.pdf');
-
     }
 
-    public function indexSalidaIngresos($idElemento, $idUsuario){
+    public function indexSalidaIngresos($idElemento, $idUsuario)
+    {
 
         // $elementos = Elemento::where('idElemento', $idElemento)->first();
         $elementos = Elemento::with('estado')->findOrFail($idElemento);
@@ -373,42 +378,47 @@ class ElementoController extends Controller
     {
         $idUsuario = $request->input('idUsuario');
         $categorias = ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE'];
-
+        $datosElementos = $request->input('datosElementos');
+        // dd($datosElementos);
+        $elementosExistentes = collect($datosElementos)->pluck('idElemento')->toArray();
         $elementos = Elemento::join('categoria', 'elemento.idCategoria', '=', 'categoria.idCategoria')
             ->where(function ($query) use ($idUsuario) {
                 $query->where('elemento.idUsuario', $idUsuario)
-                ->orWhereNull('elemento.idUsuario');
+                    ->orWhereNull('elemento.idUsuario');
             })
             ->whereIn('categoria.nombre', $categorias)
+            ->whereNotIn('elemento.idElemento', $elementosExistentes)
             ->select('categoria.nombre', 'elemento.idUsuario', 'elemento.id_dispo', 'elemento.idElemento')
             ->get();
 
         return $elementos;
     }
 
-    public function traerDatosElementoFil(Request $request) {
+    public function traerDatosElementoFil(Request $request)
+    {
         $idElemento = $request->input('idElemento');
-
+        // dd($idElemento);
         $elemento = Elemento::where('idElemento', $idElemento)
-        ->join('estadoElemento', 'elemento.idEstadoEquipo', 'estadoElemento.idEstadoE')
-        ->select('elemento.*', 'estadoElemento.estado')
-        ->first();
-
+            ->leftJoin('estadoElemento', 'elemento.idEstadoEquipo', 'estadoElemento.idEstadoE')
+            ->select('elemento.*', 'estadoElemento.estado')
+            ->first();
+        // dd($elemento);
         return $elemento;
     }
 
-    public function guardarDatosInforme(Request $request){
+    public function guardarDatosInforme(Request $request)
+    {
         $data = $request->input('datos');
 
         $datos = [
-            'motivo_ingreso' => $data['motivoIngreso'] ,
-            'descripcion_equipo_ingreso' => $data['descripcionIngreso'] ,
-            'fecha_in_salida' => $data['fechaInicioIngreso'] ,
-            'fecha_fin_salida' => $data['fechaFinSalida'] ,
-            'hora_in_salida' => $data['horaInicioIngreso'] ,
-            'prestamo' => $data['prestamo'] ,
-            'id_userAutoriza' => $data['idUserAutoriza'] ,
-            'id_userAutorizado' => $data['idUserAutorizado'] ,
+            'motivo_ingreso' => $data['motivoIngreso'],
+            'descripcion_equipo_ingreso' => $data['descripcionIngreso'],
+            'fecha_in_salida' => $data['fechaInicioIngreso'],
+            'fecha_fin_salida' => $data['fechaFinSalida'],
+            'hora_in_salida' => $data['horaInicioIngreso'],
+            'prestamo' => $data['prestamo'],
+            'id_userAutoriza' => $data['idUserAutoriza'],
+            'id_userAutorizado' => $data['idUserAutorizado'],
             'id_elemento' => $data['idElemento']
         ];
 
@@ -429,8 +439,9 @@ class ElementoController extends Controller
 
         $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
         return response()->json(['id' => $resultado]);
-}
-    public function view($id) {
+    }
+    public function view($id)
+    {
 
         $ingresoSalida = DB::table('ingreso_y_o_salida')->where('id_ingreso', $id)->first();
         $usuarioAutoriza = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
@@ -464,9 +475,8 @@ class ElementoController extends Controller
     {
         $elemento = Elemento::where('idElemento', $idElemento)->get(['*']);
         $pdf = Pdf::loadView('elementos.elemento.pdf', compact('elemento'));
-        $pdf->setPaper('letter','portrait');
+        $pdf->setPaper('letter', 'portrait');
 
         return $pdf->stream('elementos.elemento.pdf');
     }
-
 }

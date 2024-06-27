@@ -11,22 +11,33 @@ $(document).ready(function () {
 
 $('#btnTraerElementosfiltrados').on('click', function () {
     var idUsuario = $('#idUserAutorizado').val();
+    var datosElementos = [];
+
+    $('#TableDescripcionEquipos tbody tr').each(function () {
+        var idElemento = $(this).find('.inputsAgregadosss').val();
+        if (idElemento) {
+            var elemento = {
+                idElemento: idElemento
+            };
+            datosElementos.push(elemento);
+        }
+    });
     $.ajax({
         type: 'GET',
         url: urlBase + '/traerElementosfiltrados',
         data: {
             idUsuario: idUsuario,
+            datosElementos: datosElementos.length > 0 ? datosElementos : null
         },
         success: function (response) {
             $('#tableElementsModal').DataTable().destroy();
             $('#tableElementsModal tbody').empty();
-
             $.each(response, function (index, dato) {
                 $('#tableElementsModal tbody').append(
                     '<tr>' +
                     '<td>' + dato.id_dispo + '</td>' +
                     '<td>' + dato.nombre + '</td>' +
-                    '<td> <button class="btn btn-success btnBajarDatosElm" type="button"><i class="fa-solid fa-circle-arrow-down"></i> </button> </td>' +
+                    '<td> <button class="btn btn-success btnBajarDatosElm" type="button"> <div class="rellenoIcon"><i class="fa-solid fa-arrow-down"></i></div> </button> </td>' +
                     '<input type="hidden" class="idElementoTableFil" value="' + dato.idElemento + '">' +
                     '</tr>'
                 );
@@ -36,8 +47,17 @@ $('#btnTraerElementosfiltrados').on('click', function () {
         }
     });
 });
+
 $(document).ready(function () {
-    var contador = 1;
+    function actualizarIDs() {
+        $('#TableDescripcionEquipos tbody tr').each(function (index, row) {
+            var contador = index + 1;
+            $(row).find('.input-container.inputsAgregados label').attr('for', 'descripcionIngreso_' + contador).text('DESCRIPCIÓN:');
+            $(row).find('.inputsAgregadoss').attr('id', 'descripcion_equipo_ingreso' + contador).attr('name', 'descripcion_equipo_ingreso' + contador);
+            $(row).find('inputsAgregadosss').attr('id', 'id_elemento' + contador);
+        });
+    }
+
     $('#tableElementsModal').on('click', '.btnBajarDatosElm', function () {
         var idElemento = $(this).closest('tr').find('.idElementoTableFil').val();
 
@@ -48,36 +68,42 @@ $(document).ready(function () {
                 idElemento: idElemento,
             },
             success: function (response) {
-
-
                 var rowCount = $('#TableDescripcionEquipos tbody tr').length;
 
                 if (rowCount >= 5) {
-                    alertSwitch('error', 'Se ha alcanzado el límite máximo de 5 filas.');
+                    alertSwitch('error', 'Unicamente es posible hacer ingreso y/o salida a 5 equipos a la vez.');
                     return;
                 }
-                contador++;
+
+                var contador = rowCount + 1;
 
                 $('#TableDescripcionEquipos tbody').append(
                     '<tr>' +
                     '<td>' +
-                    '<div class="input-container">' +
+                    '<div class="input-container inputsAgregados">' +
                     '<label for="descripcionIngreso_' + contador + '">DESCRIPCIÓN:</label>' +
-                    '<input type="text" id="descripcion_equipo_ingreso' + contador + '" name="descripcion_equipo_ingreso' + contador + '">' +
-                    '<input type="hidden" id="id_elemento' + contador + '" value="' + response.idElemento + '">' +
+                    '<input class="inputsAgregadoss" type="text" id="descripcion_equipo_ingreso' + contador + '" name="descripcion_equipo_ingreso' + contador + '">' +
+                    '<input class="inputsAgregadosss" type="hidden" id="id_elemento' + contador + '" value="' + response.idElemento + '">' +
                     '</div>' +
                     '</td>' +
                     '<td>' + (response.marca ? response.marca : 'NO REGISTRA') + '</td>' +
                     '<td>' + (response.modelo ? response.modelo : 'NO REGISTRA') + '</td>' +
                     '<td>' + (response.serial ? response.id_dispo : 'NO REGISTRA') + '</td>' +
                     '<td>' + (response.estado ? response.estado : 'NO REGISTRA') + '</td>' +
+                    '<td>' + '<button type="button" class="btn btn-danger btn-sm btnBorrarFila"><i class="fa-solid fa-xmark"></i></button>' + '</td>' +
                     '</tr>'
-                )
-                $('#modalFormSalidaIn').modal('hide')
+                );
+                $('#modalFormSalidaIn').modal('hide');
             }
         });
     });
-})
+
+    $('#TableDescripcionEquipos').on('click', '.btnBorrarFila', function () {
+        var row = $(this).closest('tr');
+        row.remove();
+        actualizarIDs();
+    });
+});
 
 
 $('#btnGenerarInforme').on('click', function () {
@@ -119,15 +145,90 @@ $('#btnGenerarInforme').on('click', function () {
             data['descripcion_equipo_ingreso_' + i] = descripcion;
         }
     }
+
+    $(document).ready(function () {
+        /*
+        VALIDACIÓN PARA EL INPUT FECHA INICIO
+        */
+        $('#fechaInicioIngreso').on('change', function () {
+            if ($(this).val()) {
+                $(this).removeClass('input-error').addClass('input-success');
+            } else {
+                $(this).removeClass('input-valid').addClass('input-error');
+                alertSwitch('error', 'Debes ingresar una Fecha de Salida');
+            }
+        });
+        $('#fechaInicioIngreso').on('blur', function () {
+            $(this).removeClass('input-error input-success');
+        });
+
+
+        /*
+        VALIDACIÓN PARA EL INPUT DE HORA INICIO
+        */
+        $('#horaInicioIngreso').on('change', function () {
+            if ($(this).val()) {
+                $(this).removeClass('input-error').addClass('input-success');
+            } else {
+                $(this).removeClass('input-valid').addClass('input-error');
+                alertSwitch('error', 'Debes ingresar una Fecha de Salida');
+            }
+        });
+        $('#horaInicioIngreso').on('blur', function () {
+            $(this).removeClass('input-error input-success');
+        });
+
+        /*
+        VALIDACIÓN PARA LOS CHECKS DE PRESTAMO
+        */
+
+        $('input[name="prestamo"]').change(function () {
+            if ($(this).val()) {
+                $('.checkbox-container').removeClass('input-error');
+            } else {
+                $('.checkbox-container').addClass('input-error');
+                alertSwitch('error', 'Debes ingresar una Fecha de Salida');
+            }
+
+        });
+        $('input[name="prestamo"]').on('blur', function () {
+            $(this).removeClass('input-error input-success');
+        });
+
+        /*
+        VALIDACIÓN PRA LOC CHECKS DE MOTIVO DE INFRESO
+        */
+
+        $('input[name="motivo_ingreso"]').change(function () {
+            if ($(this).val()) {
+                $('.checkbox-container').removeClass('input-error');
+            } else {
+                $('.checkbox-container').addClass('input-error');
+                alertSwitch('error', 'Debes ingresar una Fecha de Salida');
+            }
+
+        });
+        $('input[name="motivo_ingreso"]').on('blur', function () {
+            $(this).removeClass('input-error input-success');
+        });
+    });
+
+    
     if (!data['fechaInicioIngreso']) {
+        $('#fechaInicioIngreso').focus();
+        $('#fechaInicioIngreso').addClass('input-error');
         alertSwitch('error', 'Debes Ingresar una Fecha de Salida')
     } else if (!data['horaInicioIngreso']) {
+        $('#horaInicioIngreso').focus();
+        $('#horaInicioIngreso').addClass('input-error');
         alertSwitch('error', 'Debes Ingresar una Hora de Salida')
     } else if (!data['prestamo']) {
+        $('.checkbox-container').addClass('input-error');
         alertSwitch('error', 'Debe Seleccionar si es un Prestamo o no')
     } else if (!data['fechaFinSalida']) {
         alertSwitch('error', 'Debe Ingresar una Fecha Limite')
     } else if (!data['motivoIngreso']) {
+        $('.checkbox-containerMotivo').addClass('input-error');
         alertSwitch('error', 'Debe Seleccionar un Motivo de Ingreso y/o Salida')
     } else if (!data['descripcionIngreso']) {
         alertSwitch('error', 'Debe Ingresar una descripción al Equipo/Accesorio')
@@ -141,7 +242,6 @@ $('#btnGenerarInforme').on('click', function () {
                 _token: csrfToken,
             },
             success: function (response) {
-                console.log(response);
                 alertSwitch('success', 'Datos del Informe Guardados con Éxito');
 
                 if (response.mensaje) {
@@ -149,6 +249,15 @@ $('#btnGenerarInforme').on('click', function () {
                 } else {
                     window.open(urlBase + '/viewpdf/' + response.id, '_blank');
                     alertSwitch('success', 'Datos del Informe Guardados con Éxito');
+
+                    $('#descripcionIngreso').val('');
+                    $('#fechaInicioIngreso').val('');
+                    $('#fechaFinSalida').val('');
+                    $('#horaInicioIngreso').val('');
+                    $('#duracionDesde').val('');
+                    $('input[name="prestamo"]').prop('checked', false);
+                    $('input[name="motivo_ingreso"]').prop('checked', false);
+
                 }
 
             },
@@ -165,23 +274,11 @@ $('#btnGenerarInforme').on('click', function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function inicializarTablaElementsFil() {
     var table = $('#tableElementsModal').DataTable({
 
         language: textoEspañolTables(),
+        // ordering: false,
 
         initComplete: function (settings, json) {
 
@@ -234,3 +331,12 @@ function textoEspañolTables() {
 
     }
 }
+
+
+// document.getElementById('door').addEventListener('mouseenter', function () {
+//     this.classList.add('open');
+// });
+
+// document.getElementById('door').addEventListener('mouseleave', function () {
+//     this.classList.remove('open');
+// });

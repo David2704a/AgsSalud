@@ -20,13 +20,13 @@
 @section('content')
 
     <div class="content2">
-        <input type="hidden" id="idElementoIngresoS" value="{{$elementos->idElemento}}">
+        <input type="hidden" id="idElementoIngresoS" value="{{ $elementos->idElemento }}">
         <div class="content" style="text-align: center">
             <h1 class="page-title">FORMULARIO DE INGRESO Y/O SALIDA</h1>
             <div class="green-line" style="width: 32em"></div>
         </div>
         <div class="acciones_buttons">
-            <a href="{{route('elementos.index')}}" class="button-izquierda arrow-left"><i
+            <a href="{{ route('elementos.index') }}" class="button-izquierda arrow-left"><i
                     class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
             <button type="button" id="btnGenerarInforme" class="btn btn-success">GENERAR INFORME</button>
         </div>
@@ -50,7 +50,7 @@
                     <div class="input-container">
                         <label for="id">IDENTIFICACIÓN:</label>
                         <input type="text" id="identiUserAutorizado" name="id"
-                            value="{{ $elementos->user->persona->identificacion}}">
+                            value="{{ $elementos->user->persona->identificacion }}">
                     </div>
                 </div>
                 <div class="personaQueAutoriza">
@@ -98,12 +98,21 @@
                         </div>
                         <div class="checkbox-container">
                             <div class="checkPrestamoSi">
-                                <label for="prestamo_si">SI</label>
-                                <input type="checkbox" id="prestamo_si" name="prestamo" value="SI">
+                                {{-- <label for="prestamo_si">SI</label>
+                                <input type="checkbox" id="prestamo_si" name="prestamo" value="SI"> --}}
+                                <label for="prestamo_si" class="custom-checkbox">
+                                    <span class="labelMark" style="margin-right: 0.5em;">SI</span>
+                                    <input type="radio" id="prestamo_si" name="prestamo" value="SI">
+                                    <span class="checkmark"></span>
+                                </label>
+
                             </div>
                             <div class="checkPrestamoNo">
-                                <label for="prestamo_no">NO</label>
-                                <input type="checkbox" id="prestamo_no" name="prestamo" value="NO">
+                                <label for="prestamo_no" class="custom-checkbox">
+                                    <span class="labelMark" style="margin-right: 0.5em">NO</span>
+                                    <input type="radio" id="prestamo_no" name="prestamo" value="NO">
+                                    <span class="checkmark"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -131,31 +140,60 @@
                         <h6>MOTIVO DE INGRESO Y/O SALIDA DE EQUIPOS DE COMPUTO</h6>
                     </div>
                 </div>
-
                 <div class="checkbox-containerMotivo">
                     <div class="checkMotivo">
-                        <label for="mantenimientoRep">Mantenimiento y/o Reparación</label>
-                        <input type="radio" id="mantenimientoRep" name="motivo_ingreso" value="Mantenimiento y/o Reparación">
+                        <label for="mantenimientoRep" class="custom-checkbox">
+                            <span class="labelMark"
+                                style="margin-right: 0.5em; min-width:225px; max-width:225px;">Mantenimiento y/o
+                                Reparación</span>
+                            <input type="radio" id="mantenimientoRep" name="motivo_ingreso"
+                                value="Mantenimiento y/o Reparación">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                     <div class="checkMotivo">
-                        <label for="capacitacion">Capacitación</label>
-                        <input type="radio" id="capacitacion" name="motivo_ingreso" value="Capacitación">
+                        <label for="capacitacion" class="custom-checkbox">
+                            <span class="labelMark"
+                                style="margin-right: 0.5em; min-width:225px; max-width:225px;">Mantenimiento y/o
+                                Reparación</span>
+                            <input type="radio" id="capacitacion" name="motivo_ingreso" value="Capacitación">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                     <div class="checkMotivo">
-                        <label for="noPropiedad">Por Ser de su Propiedad</label>
-                        <input type="radio" id="noPropiedad" name="motivo_ingreso" value="Por Ser de su Propiedad">
+                        <label for="noPropiedad" class="custom-checkbox">
+                            <span class="labelMark" style="margin-right: 0.5em; min-width:225px; max-width:225px;">Por Ser
+                                de su Propiedad</span>
+                            <input type="radio" id="noPropiedad" name="motivo_ingreso"
+                                value="Por Ser de su Propiedad">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                     <div class="checkMotivo">
-                        <label for="reunionExterna">Reunion Externa</label>
-                        <input type="radio" id="reunionExterna" name="motivo_ingreso" value="Reunion Externa">
+                        <label for="reunionExterna" class="custom-checkbox">
+                            <span class="labelMark" style="margin-right: 0.5em; min-width:225px; max-width:225px;">Reunion
+                                Externa</span>
+                            <input type="radio" id="reunionExterna" name="motivo_ingreso" value="Reunion Externa">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                     <div class="checkMotivo">
-                        <label for="trabajoLaboral">Realizar un Trabajo Laboral</label>
-                        <input type="radio" id="trabajoLaboral" name="motivo_ingreso" value="Realizar un Trabajo Laboral">
+                        <label for="trabajoLaboral" class="custom-checkbox">
+                            <span class="labelMark"
+                                style="margin-right: 0.5em; min-width:225px; max-width:225px;">Realizar un Trabajo
+                                Laboral</span>
+                            <input type="radio" id="trabajoLaboral" name="motivo_ingreso"
+                                value="Realizar un Trabajo Laboral">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                     <div class="checkMotivo">
-                        <label for="otrosMotiv">Otros</label>
-                        <input type="radio" id="otrosMotiv" name="motivo_ingreso" value="Otros">
+                        <label for="otrosMotiv" class="custom-checkbox">
+                            <span class="labelMark"
+                                style="margin-right: 0.5em; min-width:225px; max-width:225px;">Otros</span>
+                            <input type="radio" id="otrosMotiv" name="motivo_ingreso" value="Otros">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -169,7 +207,7 @@
                     <div class="containerBtnAdd">
                         <button name="" id="btnTraerElementosfiltrados" class="btn btn-success"
                             data-bs-toggle="modal" data-bs-target="#modalFormSalidaIn">
-                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-plus" style="color: #fff;font-size:15px"></i>
                         </button>
                     </div>
                 </div>
@@ -180,6 +218,7 @@
                         <th>MODELO</th>
                         <th>ID DISPOSITIVO</th>
                         <th>ESTADO</th>
+                        <th>ACCIONES</th>
                     </thead>
                     <tbody>
                         <tr>
@@ -193,14 +232,13 @@
                             <td id="modeloEquipo">{{ $elementos->modelo ?? 'NO APLICA' }}</td>
                             <td id="serialEquipo">{{ $elementos->id_dispo ?? 'NO REGISTRA' }}</td>
                             <td id="estadoEquipo">{{ $elementos->estado->estado ?? 'NO REGISTRA' }}</td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             @include('components.modal-form-salida-i-n')
-
-
         </div>
 
     </div>
