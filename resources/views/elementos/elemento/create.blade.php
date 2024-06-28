@@ -12,7 +12,7 @@
 
 @endsection
 @section('content')
-
+<div class="content2">
 <div class="content">
     <h1 class="page-title">CREAR NUEVO ELEMENTO</h1>
     <div class="green-line"></div>
@@ -34,11 +34,11 @@
             </button>
 
         </form>
-        
+
     </div>
     <div class="textsig">
-        <span class="texto-flecha ">Paso numero 2</span><i class="fas fa-arrow-right"></i> 
-    
+        <span class="texto-flecha ">Paso numero 2</span><i class="fas fa-arrow-right"></i>
+
     </div>
 
     <a href="{{ route('procedureTmp') }}" id="procedure" class="button-derecha" title="Carga masiva" onclick="showLoadingMessage()">
@@ -96,11 +96,13 @@
         </div>
 
         <div class="form-part active" id="parte1">
-            <label for="marca">Marca del producto</label>
+            <label for="marca">Marca del producto (*)</label>
             <input type="text" name="marca" id="marca" class="input">
-            <label for="referencia">Referencia del producto</label>
+            <label for="idDispo">Id Dispositivo</label>
+            <input type="text" name="id_dispo" id="id_dispo" class="input">
+            <label for="referencia">Referencia del producto (*)</label>
             <input type="text" name="referencia" id="referencia" class="input">
-            <label for="serial">Serial del producto</label>
+            <label for="serial">Serial del producto (*)</label>
             <input type="text" name="serial" id="serial" class="input">
             <label for="modelo">Modelo del producto</label>
             <input type="text" name="modelo" id="modelo" class="input">
@@ -116,7 +118,7 @@
             <label for="descripcion">Descripcion del producto</label>
             <input type="text" name="descripcion" id="descripcion" class="input">
             <label for="procesador">Procesador del elemento</label>
-            <input type="text" name="procesador" id="procesador" class="input">
+            <input type="text" name="procesador" id="procesador" class="input" >
 
             <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
             <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
@@ -125,12 +127,12 @@
 
         <div class="form-part" id="parte3">
             <label for="disco_duro">Disco duro del elemento</label>
-            <input type="text" name="disco_duro" id="disco_duro" class="input">
+            <input type="text" name="disco_duro" id="disco_duro" class="input" >
             <label for="tarjeta_grafica">Tarjeta gráfica del elemento</label>
-            <input type="text" name="tarjeta_grafica" id="tarjeta_grafica" class="input">
+            <input type="text" name="tarjeta_grafica" id="tarjeta_grafica" class="input" >
 
             <label for="idEstadoEquipo">Estado del producto</label>
-            <select name="idEstadoEquipo" id="idEstadoEquipo" class="input">
+            <select name="idEstadoEquipo" id="idEstadoEquipo" class="input" >
                 <option value="">Seleccionar el estado</option>
                 @foreach ($estados as $estado)
                     <option value="{{$estado->idEstadoE}}">{{ $estado->estado}}</option>
@@ -142,17 +144,8 @@
         </div>
 
         <div class="form-part" id="parte4">
-
-            <label for="idTipoElemento">Tipo de elemento</label>
-            <select name="idTipoElemento" id="idTipoElemento" class="input">
-                <option value="">Seleccionar el tipo de elemento</option>
-                @foreach ($tipoElementos as $tipo)
-                    <option value="{{ $tipo->idTipoElemento}}">{{ $tipo->tipo}}
-                @endforeach
-            </select>
-
             <label for="idCategoria">Categoria</label>
-            <select name="idCategoria" id="idCategoria" class="input">
+            <select name="idCategoria" id="idCategoria" class="input" >
                 <option value="">Seleccionar la Categoria </option>
                 @foreach ($categorias as $categoria)
                     <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre}}
@@ -160,7 +153,7 @@
             </select>
 
             <label for="idFactura">Pertenece a Factura</label>
-            <select name="idFactura" id="idFactura" class="input">
+            <select name="idFactura" id="idFactura" class="input" >
                 <option value="">Seleccionar el codigo de factura</option>
                 @foreach ($facturas as $factura)
                     <option value="{{ $factura->idFactura }}">{{ $factura->codigoFactura}}
@@ -169,7 +162,7 @@
 
             <label for="idUsuario">Asignado A:</label>
             <select name="idUsuario" id="idUsuario" class="input">
-                <option value="">Seleccionar una opcion</option>
+                <option value="">Seleccionar una opción</option>
                 @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name}}
                 @endforeach
@@ -183,29 +176,5 @@
     </form>
 </div>
 
-
-
-<footer class="footer position-absolute top-100 start-50 translate-middle">
-    <div class="left-images">
-        <div class="column">
-            <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">
-            <img src="{{asset('imgs/logos/ESCUDO COLOMBIA.png')}}" width="45" alt="Imagen 2">
-        </div>
-        <div class="column">
-            <img src="{{asset('imgs/logos/logo_fondo.png')}}" width="130" alt="Imagen 3">
-            <img src="{{asset('imgs/logos/Logo_Enterritorio.png')}}" width="100" alt="Imagen 4">
-        </div>
-    </div>
-    <div class="right-content">
-        <div class="images">
-            {{-- <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5"> --}}
-            {{-- <img src="{{asset('imgs/logos/Logo-IQNet.png')}}" width="75" alt="Imagen 6"> --}}
-        </div>
-        <div class="separator"></div>
-        <div class="text">
-            <p>Copyright © 2023 AGS SALUD SAS</p>
-            <p>Todos los derechos Reservados</p>
-        </div>
-    </div>
-</footer>
+</div>
 @endsection

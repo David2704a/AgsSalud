@@ -10,7 +10,7 @@
 }
 
 .green-line {
-    width: 24rem;
+    width: 9.5rem;
     height: 4px;
     background-color: #01A497;
     margin: -15px auto;
@@ -262,20 +262,6 @@ FOOTER
 */
 
 
-.footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f3f3f3;
-    color: #fff;
-    /* position: absolute; */
-    bottom: -0 !important;
-    flex-shrink: 0;
-    
-}
-
-
 .separator {
     width: 2px;
     height: 40px;
@@ -294,9 +280,6 @@ FOOTER
     flex-direction: column;
 }
 
-.footer img {
-    margin: 5px;
-}
 
 .right-content {
     margin-right: 10rem;

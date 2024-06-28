@@ -3,9 +3,9 @@
 ALERT
 ================================================
 */
-setTimeout(function(){
-    document.getElementById('alert').style.display = 'none';
-}, 5000);
+// setTimeout(function(){
+//     document.getElementById('alert').style.display = 'none';
+// }, 5000);
 /*
 ================================================
 FUNTIONS MODAL
@@ -30,8 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var recordId = buttonOrIcon.getAttribute('data-id');
         var recordName = buttonOrIcon.getAttribute('data-name');
 
-        modalMessage.innerHTML = `<p class="record-id-message">¿Estás seguro de que quieres eliminar el registro con el nombre:
-         <span class="record-id"> ${recordName} </span>?</p>`;
+        modalMessage.innerHTML = `<p class="record-id-message">¿Estás seguro de que quieres eliminar el registro?</p>`;
 
         var deleteForm = document.getElementById('deleteForm');
         var action = deleteForm.getAttribute('action').replace('REPLACE_ID', recordId);
@@ -64,5 +63,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
+
+/*
+===========================================
+FUNCION PARA LA ANIMACION DE CARGA
+===========================================
+*/
 
 

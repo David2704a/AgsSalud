@@ -1,7 +1,7 @@
 
 
 <div class="overlay" id="overlay" style="display:none;">
-  <div class="loader">
+  <div class="ruedita">
     <div class="bar"></div>
     <div class="bar"></div>
     <div class="bar"></div>
@@ -13,8 +13,8 @@
     <div class="bar"></div>
     <div class="bar"></div>
   </div>
-  
-  <div class="loader loader--reflect">
+
+  <div class="ruedita ruedita--reflect">
     <div class="bar"></div>
     <div class="bar"></div>
     <div class="bar"></div>
@@ -40,8 +40,8 @@
     justify-content: center;
     z-index: 1000;
 }
-/* The loader container */
-.loader {
+/* The ruedita container */
+.ruedita {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -53,11 +53,11 @@
   transform-style: preserv3d;
 }
 
-.loader--reflect {
+.ruedita--reflect {
   margin-top: 0;
 }
 
-.loader--reflect:after {
+.ruedita--reflect:after {
   content: '';
   position: absolute;
   top: 0;
@@ -135,7 +135,7 @@
   animation-delay: 450ms;
 }
 
-.loader--reflect .bar {
+.ruedita--reflect .bar {
   animation-name: bar-reflect;
 }
 

@@ -9,51 +9,83 @@ use App\Models\EstadoProcedimiento;
 use App\Models\Procedimiento;
 use App\Models\TipoProcedimiento;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use stdClass;
 
 class ProcedimientoController extends Controller
 {
     public function index(Request $request)
     {
 
-        $procedimiento = Procedimiento::paginate(10);
+        // $procedimiento = Procedimiento::paginate(10);
+        $procedimiento = Procedimiento::all();
 
         return view('procedimientos.procedimiento.index', compact('procedimiento'));
     }
-    /**
-     * Show the form for creating the resource.
-     */
+
+
     public function create()
     {
-        $elementos = Elemento::all();
         $estadoProcedimiento = EstadoProcedimiento::all();
         $tipoProcedimiento = TipoProcedimiento::all();
         $usuariosEntrega = User::all();
-        $usuariosRecibe = User::all();
-        // dd($elementos[100]);
-       return view('procedimientos.procedimiento.create', compact('elementos','estadoProcedimiento','tipoProcedimiento','usuariosEntrega','usuariosRecibe'));
-    }
+        $usuariosRecibe = User::role('tecnico')->get();
+
+        $estadoEnProcesoId = DB::table('estadoProcedimiento')
+        ->where('estado', 'En proceso')
+        ->select('idEstadoP')
+        ->limit(1);
+
+        $tipoPrestamoId = DB::table('tipoProcedimiento')
+            ->where('tipo', 'Prestamo')
+            ->select('idTipoProcedimiento')
+            ->limit(1);
+
+        $usuariosConProcedimientoActivo = DB::table('procedimiento')
+            ->where('idEstadoProcedimiento', '=', $estadoEnProcesoId)
+            ->where('idTipoProcedimiento', '=', $tipoPrestamoId)
+            ->pluck('idResponsableRecibe')
+            ->toArray();
+
+    $usuariosEntregaFiltrados = $usuariosEntrega->filter(function($usuario) use ($usuariosConProcedimientoActivo) {
+        return !in_array($usuario->id, $usuariosConProcedimientoActivo);
+    });
+
+    $elementosSinPrestamo = Elemento::whereDoesntHave('procedimiento', function ($query) {
+        $query->whereHas('tipoProcedimiento', function ($subquery) {
+            $subquery->where('tipo', 'Prestamo');
+        });
+    })
+    ->get();
+
+    return view('procedimientos.procedimiento.create', compact('elementosSinPrestamo', 'estadoProcedimiento', 'tipoProcedimiento', 'usuariosEntrega', 'usuariosRecibe','usuariosEntregaFiltrados'));
+}
+
 
     /**
      * Store the newly created resource in storage.
      */
     public function store(Request $request)
     {
+        // dd($request);
+
         $request->validate([
             "observacion" => "required",
             "idElemento" => "required",
             "idEstadoProcedimiento" => "required",
             "idTipoProcedimiento" => "required",
-        ],[
+        ], [
             'observacion.required' => 'El campo Observación es obligatorio',
             'idElemento.required' => 'El campo Elemento es obligatorio',
             'idEstadoProcedimiento.required' => 'El campo Estado de Procedimiento es obligatirio',
             'idTipoProcedimiento.required' => 'El campo Tipo de Procedimiento es obligatorio'
         ]);
 
-    $procedimiento = new Procedimiento();
+        $procedimiento = new Procedimiento();
         $procedimiento->observacion = $request->input('observacion');
         $procedimiento->idElemento = $request->input('idElemento');
         $procedimiento->idEstadoProcedimiento = $request->input('idEstadoProcedimiento');
@@ -68,7 +100,6 @@ class ProcedimientoController extends Controller
 
         $procedimiento->save();
         return redirect()->route('mostrarProcedimiento')->with('success', 'Procedimiento creado correctamente');
-
     }
 
     /**
@@ -80,7 +111,6 @@ class ProcedimientoController extends Controller
 
         if (!$procedimiento) {
             return redirect()->route("mostrarProcedimiento")->with('error', 'El procedimiento no existe');
-
         }
 
         return view('procedimientos.procedimiento.show', compact('procedimiento'));
@@ -97,8 +127,9 @@ class ProcedimientoController extends Controller
         $estadoProcedimiento = EstadoProcedimiento::all();
         $elemento = Elemento::all();
         $usuariosEntrega = User::all();
-        $usuariosRecibe = User::all();
-        return view('procedimientos.procedimiento.edit', compact('procedimiento','tipoProcedimiento','estadoProcedimiento','elemento','usuariosEntrega','usuariosRecibe'));
+        $usuariosRecibe = User::role('tecnico')->get();
+
+        return view('procedimientos.procedimiento.edit', compact('procedimiento', 'tipoProcedimiento', 'estadoProcedimiento', 'elemento', 'usuariosEntrega', 'usuariosRecibe'));
     }
 
     /**
@@ -132,6 +163,8 @@ class ProcedimientoController extends Controller
             return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento actualizado correctamente');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error al actualizar el procedimiento: ' . $e->getMessage());
+
+            // dd($e->getMessage());
         }
     }
 
@@ -146,67 +179,59 @@ class ProcedimientoController extends Controller
         $procedimiento->delete();
 
         return redirect()->route("mostrarProcedimiento")->with('success', 'Procedimiento eliminado correctamente');
-
     }
 
 
-    public function buscar(Request $request)
+    public function mostrarResponsableEntrega(Request $request)
     {
-        // Obtén el valor del filtro desde la solicitud
-        $filtro = $request->input('filtro');
 
-        // Realiza la búsqueda en varios campos del modelo
-        $procedimientos = Procedimiento::where(function ($query) use ($filtro) {
-            $query->where('fechaInicio', 'like', '%' . $filtro . '%')
-                ->orWhere('fechaFin', 'like', '%' . $filtro . '%')
-                ->orWhere('hora', 'like', '%' . $filtro . '%')
-                ->orWhere('fechaReprogramada', 'like', '%' . $filtro . '%')
-                ->orWhere('observacion', 'like', '%' . $filtro . '%')
-                ->orWhereHas('responsableEntrega', function ($subquery) use ($filtro) {
-                    $subquery->where('name', 'like', '%' . $filtro . '%');
-                })
-                ->orWhereHas('responsableRecibe', function ($subquery) use ($filtro) {
-                    $subquery->where('name', 'like', '%' . $filtro . '%');
-                })
-                ->orWhereHas('elemento', function ($subquery) use ($filtro) {
-                    $subquery->where('modelo', 'like', '%' . $filtro . '%');
-                })
-                ->orWhereHas('estadoProcedimiento', function ($subquery) use ($filtro) {
-                    $subquery->where('estado', 'like', '%' . $filtro . '%');
-                })
-                ->orWhereHas('tipoProcedimiento', function ($subquery) use ($filtro) {
-                    $subquery->where('tipo', 'like', '%' . $filtro . '%');
-                });
-        })->paginate(10);
-
-
-
-
-        // Devuelve la vista parcial con los resultados paginados
-        return view('procedimientos.partials.procedimiento.resultados', compact('procedimientos'))->render();
-
-
+        $idElemento = $request->input('idElemento', true);
+        $resultado = DB::table('elemento')
+            ->where('idElemento', $idElemento)
+            ->join('users', 'elemento.idUsuario', 'users.id')
+            ->select('users.name', 'users.id')
+            ->first();
+        // dd($resultado);
+        return $resultado;
     }
 
 
-
-    public function excelProcedimiento(Request $request)
+    public function traerElementosSinUsuarios()
     {
-        // Obtener los valores de los filtros desde la solicitud
-        $filtros = [
-            'idTipoProcedimiento' => $request->input('idTipoProcedimiento', null),
-            'idTipoElemento' => $request->input('idTipoElemento', null),
-            'fechaInicio' => $request->input('fechaInicio', null),
-            'fechaFin' => $request->input('fechaFin', null),
-            'idEstadoProcedimiento' => $request->input('idEstadoProcedimiento', null),
-            'idProcedimiento' => $request->input('idProcedimiento', null),
-            'idResponsableEntrega' => $request->input('idResponsableEntrega', null),
-            'idResponsableRecibe' => $request->input('idResponsableRecibe', null)
-        ];
+        $elementos = DB::table('elemento')
+            ->where('idUsuario', NULL)
+            ->join('categoria', 'elemento.idCategoria', 'categoria.idCategoria')
+            ->select('elemento.id_dispo', 'elemento.idElemento', 'categoria.nombre')
+            ->get();
 
-
-        // Descargar el informe en formato Excel con los filtros aplicados
-        return Excel::download(new ProcedimientoExport($filtros), 'procedimiento.xlsx');
+        // dd($elementos);
+        return $elementos;
     }
+
+    // public function generatePDF(Request $request)
+    // {
+    //     $prestamo = json_decode($request->input('datos'), true);
+
+    //     $pdf = PDF::loadView('pdf/registro_prestamo', $prestamo)
+    //         ->setPaper('letter', 'landscape');
+
+    //     return $pdf->download('registro_prestamo.pdf');
+    // }
+
+
+
+        public function generatePDF(Request $request)
+        {
+            $datos = $request->input('datos');
+            $objetos = [];
+            foreach ($datos as $dato) {
+                $objeto = (object) $dato;
+                $objetos[] = $objeto;
+            }
+            $pdf = PDF::loadView('pdf.registro_prestamo', compact('objetos'))
+                ->setPaper('letter', 'landscape');
+
+            return $pdf->download('registro_prestamo.pdf');
+        }
 
 }

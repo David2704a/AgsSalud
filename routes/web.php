@@ -8,16 +8,23 @@ use App\Http\Controllers\ElementoController;
 use App\Http\Controllers\EstadoProcedimientoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\InformesController;
+use App\Http\Controllers\PDFHojaDeVIdaController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProcedimientoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\pruebaController;
 use App\Http\Controllers\TipoElementoController;
 use App\Http\Controllers\TipoProcedimientoController;
 use App\Http\Controllers\UserAjustesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PdfActaController;
 use App\Models\Elemento;
 use App\Models\TipoElemento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 /*
@@ -70,6 +77,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/procedimiento/{id}/update', [ProcedimientoController::class, 'update'])->name('updateProcedimiento');
     Route::delete('/procedimiento/{id}/destroy', [ProcedimientoController::class, 'destroy'])->name('destroyProcedimiento');
     Route::get('/procedimiento/buscar', [ProcedimientoController::class, 'buscar'])->name('buscarProcedimientos');
+    Route::get('/traerElementosSinUsuarios', [ProcedimientoController::class, 'traerElementosSinUsuarios']);
+    Route::get('/generatePDF', [ProcedimientoController::class, 'generatePDF']);
+
 
     //rutas para proveedores
     Route::resource('proveedores', ProveedorController::class)->names('proveedores');
@@ -105,8 +115,40 @@ Route::middleware('auth')->group(function () {
     Route::get('/facturasBuscar', [FacturaController::class, 'buscar'])->name('buscarFacturas');
 
     //rutas para elementos
-    Route::resource('elementos',ElementoController::class)->names('elementos');
+    // Route::resource('elementos',ElementoController::class)->names('elementos');
+    // Ruta para mostrar la lista de elementos
+    Route::get('/elementos', [ElementoController::class, 'index'])->name('elementos.index');
+
+    // Ruta para mostrar el formulario de creación de un elemento
+    Route::get('/elementos/create', [ElementoController::class, 'create'])->name('elementos.create');
+
+    // Ruta para almacenar un nuevo elemento
+    Route::post('/elementos', [ElementoController::class, 'store'])->name('elementos.store');
+
+    // Ruta para mostrar un elemento específico
+    Route::get('/elementos/{elemento}', [ElementoController::class, 'show'])->name('elementos.show');
+
+    // Ruta para mostrar el formulario de edición de un elemento
+    Route::get('/elementos/{elemento}/edit', [ElementoController::class, 'edit'])->name('elementos.edit');
+
+    // Ruta para actualizar un elemento específico
+    Route::put('/elementos/{elemento}', [ElementoController::class, 'update'])->name('elementos.update');
+
+    // Ruta para eliminar un elemento específico
+    Route::delete('/elementos/{elemento}', [ElementoController::class, 'destroy'])->name('elementos.destroy');
+
     Route::get('/elemento/buscar', [ElementoController::class, 'buscar'])->name('buscarElementos');
+    Route::get('/ingreso_salida/{idElemento}/{idUsuario}', [ElementoController::class, 'indexSalidaIngresos']);
+    Route::get('/traerElementosfiltrados', [ElementoController::class, 'traerElementosfiltrados']);
+    Route::get('/traerDatosElementoFil', [ElementoController::class, 'traerDatosElementoFil']);
+    Route::post('/guardarDatosInforme', [ElementoController::class, 'guardarDatosInforme'])->name('prueba');
+    Route::get('/exportarpdf/{idElemento}',[ElementoController::class,'ExportarPDF']);
+    Route::get('/viewpdf/{id}/',[ElementoController::class,'view'])->name('pdfingresoysalidaequipos');
+
+
+
+
+
 
 // funciona y visualiza a uno como usuario su perfil
 Route::get('/Miperfil', [App\Http\Controllers\UserAjustesController::class, 'Miperfil'])->name('ActualizarPerfil')->middleware('web', 'auth');
@@ -140,7 +182,7 @@ Route::post('register', [RegisteredUserController::class, 'register'])
 
 
 
-Route::get('/reportes/filtro', [InformesController::class, 'filtrarTablaElementos']);
+// Route::get('/reportes/filtro', [InformesController::class, 'filtrarTablaElementos']);
 Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestamos']);
 
 
@@ -187,6 +229,13 @@ Route::get('/reportes/filtrop', [InformesController::class, 'filtrarTablaPrestam
     Route::resource('/reporte', InformesController::class)->names('reporte');
     Route::get('/buscarReporte', [InformesController::class, 'buscarReporte']);
 
+    Route::get('/getProcedimientos', [InformesController::class, 'getProcedimientos']);
+    Route::post('/filtroProcedimientos', [InformesController::class, 'filtroProcedimientos']);
+    Route::post('/exportarPrestamos', [InformesController::class,'exportarPrestamos']);
+
+
+    Route::post('/filtroElementos', [InformesController::class, 'filtroElementos']);
+    Route::post('/exportarElementos', [InformesController::class,'exportarElementos']);
 
     Route::get('excel/elemento', [ElementoController::class,'excelElemento'])->name('generarInformeE');
 
@@ -227,3 +276,20 @@ require __DIR__.'/auth.php';
 
 Route::get('/elemento/qr/{id_dispo}',[ElementoController::class,'elementoQR']);
 Route::get('/lista-qr',[ElementoController::class,'QRView']);
+
+Route::get('/mostrarResponsableEntrega', [ProcedimientoController::class, 'mostrarResponsableEntrega']);
+
+Route::get('/pdfElemento/{id}',[PDFHojaDeVIdaController::class,'getPDF'])->name('elementos.pdf');
+
+//Generar pdf
+
+//Acta de entrega de dipositivos tegnologicos
+
+Route::get('/generar-pdf/{idUsuario}', [PdfActaController::class, 'generarPdf'])->name('generar.pdf');
+
+// ---PDF--------
+
+Route::get('/pdf/{idElemento}/view', [PDFController::class, 'view'])->name('pdf.view');
+Route::get('/pdfdownload', [PDFController::class, 'orientacion'])->name('pdf.index');
+Route::get('/pdf1', [PDFController::class, 'index'])->name('pdf.index');
+Route::get('pdf/datos', [PDFController::class, 'datos'])->name('pdf.datos');

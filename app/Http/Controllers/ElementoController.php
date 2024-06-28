@@ -8,18 +8,21 @@ use App\Models\Categoria;
 use App\Models\Elemento;
 use App\Models\EstadoElemento;
 use App\Models\Factura;
+use App\Models\Procedimiento;
 use App\Models\TipoElemento;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElementoController extends Controller
 {
-    public function index(){
-    // Obtener el usuario autenticado
+    public function index()
+    {
+        // Obtener el usuario autenticado
         $user = Auth::user();
 
         // Inicializar la variable $elementos
@@ -28,22 +31,24 @@ class ElementoController extends Controller
         // Verificar el rol del usuario
         if ($user->hasRole('colaborador')) {
             // Si el usuario tiene el rol de "colaborador", obtener solo los elementos asignados a ese usuario
-            $elementos = $user->elementos()->paginate(10);
+            $elementos = $user->elementos()->paginate(7);
         } else {
             // Si el usuario no tiene el rol de "colaborador", obtener todos los elementos
-            $elementos = Elemento::paginate(10);
+            $elementos = Elemento::paginate(7);
         }
 
         // Obtener estados de elementos
         $estadosEquipos = EstadoElemento::all();
 
+
+
         // dd($elementos);
 
-        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos'));
-
+        return view('elementos.elemento.index', compact('elementos', 'estadosEquipos', 'user'));
     }
 
-    public function create(){
+    public function create()
+    {
 
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
@@ -51,7 +56,7 @@ class ElementoController extends Controller
         $facturas = Factura::all();
         $users = User::all();
 
-        return view('elementos.elemento.create', compact('estados','tipoElementos','categorias', 'facturas', 'users'));
+        return view('elementos.elemento.create', compact('estados', 'tipoElementos', 'categorias', 'facturas', 'users'));
     }
 
 
@@ -61,140 +66,136 @@ class ElementoController extends Controller
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'idEstadoEquipo' => 'required',
-            'idTipoElemento' => 'required',
-            'idCategoria' => 'required',
-            'idFactura' => 'required',
         ]);
 
         $data = $request->all();
 
         // Lógica para generar el nuevo ID del equipo
-        $nuevoIdEquipo = $this->generarNuevoIdEquipo($data['idCategoria']);
-        $data['id_dispo'] = $nuevoIdEquipo;
+        // $nuevoIdEquipo = $this->generarNuevoIdEquipo($data['idCategoria']);
+        // $data['id_dispo'] = $nuevoIdEquipo;
 
         $elemento = new Elemento($data);
-        $elemento->id_dispo = $nuevoIdEquipo;
+        // $elemento->id_dispo = $nuevoIdEquipo;
         $elemento->save();
 
         return redirect()->route("elementos.index")->with('success', 'Elemento creado correctamente');
     }
 
-    private function generarNuevoIdEquipo($categoria)
-    {
-        if ($categoria ==  5) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.P'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    // private function generarNuevoIdEquipo($categoria)
+    // {
+    //     if ($categoria ==  5) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.P'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.P'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.P'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'E.P'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'E.P'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'E.P'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'E.P'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria == 3) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'TCL'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria == 3) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'TCL'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = null;
+    //         $numeroEquipo = null;
 
-            if (isset($ultimoId->id_dispo)) {
-                $numeroEquipoArray = explode("900237674'7'TCL'", $ultimoId->id_dispo);
+    //         if (isset($ultimoId->id_dispo)) {
+    //             $numeroEquipoArray = explode("900237674'7'TCL'", $ultimoId->id_dispo);
 
-                // Verifica si el array resultante tiene al menos 2 elementos antes de acceder a [1]
-                if (count($numeroEquipoArray) >= 2) {
-                    $numeroEquipo = $numeroEquipoArray[1];
-                }
-            }
+    //             // Verifica si el array resultante tiene al menos 2 elementos antes de acceder a [1]
+    //             if (count($numeroEquipoArray) >= 2) {
+    //                 $numeroEquipo = $numeroEquipoArray[1];
+    //             }
+    //         }
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'TCL'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'TCL'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'TCL'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'TCL'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  2) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MS'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  2) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MS'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MS'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MS'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'MS'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'MS'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'MS'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'MS'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  4) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MNT'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  4) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'MNT'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MNT'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'MNT'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'MNT'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'MNT'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'MNT'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'MNT'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  6) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'C'E'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  6) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'C'E'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'C'E'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'C'E'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'C'E'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'C'E'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'C'E'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'C'E'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        if ($categoria ==  8) {
-            $ultimoId = Elemento::select('id_dispo')
-                ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.T.U'%"]])
-                ->orderBy('id_dispo','DESC')
-                ->first();
+    //     if ($categoria ==  8) {
+    //         $ultimoId = Elemento::select('id_dispo')
+    //             ->where([['id_dispo','not like','%SIN CODIGO%'],['id_dispo','like',"%900237674'7'E.T.U'%"]])
+    //             ->orderBy('id_dispo','DESC')
+    //             ->first();
 
-            $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.T.U'",$ultimoId->id_dispo)[1] : null;
+    //         $numeroEquipo = isset($ultimoId->id_dispo) ? explode("900237674'7'E.T.U'",$ultimoId->id_dispo)[1] : null;
 
-            if ($numeroEquipo === null) {
-                $numeroEquipo = "900237674'7'E.T.U'". 1;
-            } else {
-                $numeroEquipo = "900237674'7'E.T.U'".($numeroEquipo + 1);
-            }
+    //         if ($numeroEquipo === null) {
+    //             $numeroEquipo = "900237674'7'E.T.U'". 1;
+    //         } else {
+    //             $numeroEquipo = "900237674'7'E.T.U'".($numeroEquipo + 1);
+    //         }
 
-            return $numeroEquipo;
-        }
+    //         return $numeroEquipo;
+    //     }
 
-        return null; // Retorna null si la categoría no coincide con ninguna lógica específica
-    }
+    //     return null; // Retorna null si la categoría no coincide con ninguna lógica específica
+    // }
 
     public function show($id)
     {
@@ -205,40 +206,73 @@ class ElementoController extends Controller
         return view("elementos.elemento.show", compact("elemento"));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $elemento = Elemento::find($id);
-
         $estados = EstadoElemento::all();
         $tipoElementos = TipoElemento::all();
         $categorias = Categoria::all();
         $facturas = Factura::all();
         $users = User::all();
 
-        return view('elementos.elemento.edit',
-        compact('elemento','estados','tipoElementos','categorias', 'facturas', 'users'));
+        return view(
+            'elementos.elemento.edit',
+            compact('elemento', 'estados', 'tipoElementos', 'categorias', 'facturas', 'users')
+        );
     }
 
-    public function update(Request $request, $id){
-        $elemento = Elemento::find($id);
 
+
+
+    public function update(Request $request, $idElemento)
+    {
+        // Validar los campos del formulario
         $request->validate([
             'marca' => 'required',
             'referencia' => 'required',
             'serial' => 'required',
-            'idEstadoEquipo' => 'required',
-            'idTipoElemento' => 'required',
-            'idCategoria' => 'required',
-            'idFactura' => 'required',
         ]);
 
-        $elemento->update($request->all());
+        // Establecer valores por defecto utilizando el operador de fusión de null
+        $defaults = [
+            'marca' => $request->marca ?? 'NO APLICA',
+            'referencia' => $request->referencia ?? 'NO APLICA',
+            'serial' => $request->serial ?? 'NO APLICA',
+            'procesador' => $request->procesador ?? 'NO APLICA',
+            'ram' => $request->ram ?? 'NO APLICA',
+            'disco_duro' => $request->disco_duro ?? 'NO APLICA',
+            'tarjeta_grafica' => $request->tarjeta_grafica ?? 'NO APLICA',
+            'modelo' => $request->modelo ?? 'NO APLICA',
+            'garantia' => $request->garantia ?? 'NO APLICA',
+            'cantidad' => $request->cantidad ?? 'NO APLICA',
+            'descripcion' => $request->descripcion ?? 'NO APLICA',
+            'idEstadoEquipo' => $request->idEstadoEquipo ?? null,
+            'idCategoria' => $request->idCategoria ?? null,
+            'idFactura' => $request->idFactura ?? null,
+            'idUsuario' => $request->idUsuario ?? null,
+        ];
 
-        return redirect()->route('elementos.index')->with('success','Elemento actualizado correctamente');
+        // dd($request);
+
+        // Buscar el elemento por su ID
+        $elemento = Elemento::findOrFail($idElemento);
+
+        // Actualizar los datos del elemento
+        $updateResult = $elemento->update($defaults);
+
+        if ($updateResult) {
+            // Redirigir con un mensaje de éxito si la actualización fue exitosa
+            return redirect()->route('elementos.index')->with('success', 'Elemento actualizado correctamente');
+        } else {
+            // Redirigir con un mensaje de error si la actualización falló
+            return back()->with('error', 'Hubo un problema al actualizar el elemento');
+        }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         Elemento::find($id)->delete();
-        return redirect()->route('elementos.index')->with('success','Elemento eliminado correctamente');
+        return redirect()->route('elementos.index')->with('success', 'Elemento eliminado correctamente');
     }
 
     public function buscar(Request $request)
@@ -246,16 +280,16 @@ class ElementoController extends Controller
         $filtro = $request->input('filtro');
 
         $elementos = Elemento::where(function ($query) use ($filtro) {
-            $query->where('marca', 'like', '%'. $filtro. '%')
-            ->orWhere('referencia', 'like', '%' . $filtro . '%')
-            ->orWhere('serial', 'like', '%' . $filtro . '%')
-            ->orWhere('modelo', 'like', '%' . $filtro . '%')
-            ->orWhere('descripcion', 'like', '%' . $filtro . '%')
-            ->orWhere('id_dispo', 'like', '%' . $filtro . '%')
-            ->orWhereHas('user', function($query) use($filtro){
-                $query->where('name', 'like', '%'. $filtro. '%');
-            });
-        })->paginate(10);
+            $query->where('marca', 'like', '%' . $filtro . '%')
+                ->orWhere('referencia', 'like', '%' . $filtro . '%')
+                ->orWhere('serial', 'like', '%' . $filtro . '%')
+                ->orWhere('modelo', 'like', '%' . $filtro . '%')
+                ->orWhere('descripcion', 'like', '%' . $filtro . '%')
+                ->orWhere('id_dispo', 'like', '%' . $filtro . '%')
+                ->orWhereHas('user', function ($query) use ($filtro) {
+                    $query->where('name', 'like', '%' . $filtro . '%');
+                });
+        })->paginate(7);
 
         return view("elementos.partials.elemento.resultados", compact('elementos'));
     }
@@ -280,9 +314,9 @@ class ElementoController extends Controller
         try {
             // Importar el archivo Excel
             Excel::import(new ElementoImport, $request->file('archivo'));
-        }catch (\Exception $e){
-        // Descargar el informe en formato Excel con los filtros aplicados
-        return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNILÓGICOS.xlsx');
+        } catch (\Exception $e) {
+            // Descargar el informe en formato Excel con los filtros aplicados
+            return Excel::download(new ElementoExport($filtros), 'TEI-F-13. INVENTARIO DE DISPOSITIVOS TECNOLÓGICOS.xlsx');
         }
     }
 
@@ -308,25 +342,141 @@ class ElementoController extends Controller
 
     public function elementoQR(string $id_dispo)
     {
-        $elemento = DB::table('elemento')->where('id_dispo',$id_dispo)
-                    ->join('categoria','categoria.idCategoria','elemento.idCategoria')
-                    ->join('users','users.id','elemento.idUsuario')
-                    ->join('persona','persona.id','users.idPersona')
-                    ->first();
+        $elemento = DB::table('elemento')->where('id_dispo', $id_dispo)
+            ->leftJoin('categoria', 'categoria.idCategoria', 'elemento.idCategoria')
+            ->leftJoin('users', 'users.id', 'elemento.idUsuario')
+            ->leftJoin('persona', 'persona.id', 'users.idPersona')
+            ->first();
 
-        return view('Qr.elemento-qr',compact('elemento'));
-
+        return view('Qr.elemento-qr', compact('elemento'));
     }
 
     public function QRView()
     {
 
-        $datos = DB::table('elemento')->get();
-        $pdf = Pdf::loadView('Qr.lista',compact('datos'));
-        $pdf->setPaper('letter','landscape');
+        $datos = DB::table('elemento')
+            ->join('categoria', 'categoria.idCategoria', 'elemento.idCategoria')
+            ->select('elemento.*', 'categoria.nombre')
+            ->orderBy('elemento.idCategoria', 'ASC')->get();
+
+        $pdf = Pdf::loadView('Qr.lista', compact('datos'));
+        $pdf->setPaper('letter', 'landscape');
 
         return $pdf->stream('CODIGOS DE EQUIPOS.pdf');
-
     }
 
+    public function indexSalidaIngresos($idElemento, $idUsuario)
+    {
+
+        // $elementos = Elemento::where('idElemento', $idElemento)->first();
+        $elementos = Elemento::with('estado')->findOrFail($idElemento);
+        return view('elementos.elemento.salidaIngresos', compact('elementos'));
+    }
+
+
+    public function traerElementosFiltrados(Request $request)
+    {
+        $idUsuario = $request->input('idUsuario');
+        $categorias = ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE'];
+        $datosElementos = $request->input('datosElementos');
+        // dd($datosElementos);
+        $elementosExistentes = collect($datosElementos)->pluck('idElemento')->toArray();
+        $elementos = Elemento::join('categoria', 'elemento.idCategoria', '=', 'categoria.idCategoria')
+            ->where(function ($query) use ($idUsuario) {
+                $query->where('elemento.idUsuario', $idUsuario)
+                    ->orWhereNull('elemento.idUsuario');
+            })
+            ->whereIn('categoria.nombre', $categorias)
+            ->whereNotIn('elemento.idElemento', $elementosExistentes)
+            ->select('categoria.nombre', 'elemento.idUsuario', 'elemento.id_dispo', 'elemento.idElemento')
+            ->get();
+
+        return $elementos;
+    }
+
+    public function traerDatosElementoFil(Request $request)
+    {
+        $idElemento = $request->input('idElemento');
+        // dd($idElemento);
+        $elemento = Elemento::where('idElemento', $idElemento)
+            ->leftJoin('estadoElemento', 'elemento.idEstadoEquipo', 'estadoElemento.idEstadoE')
+            ->select('elemento.*', 'estadoElemento.estado')
+            ->first();
+        // dd($elemento);
+        return $elemento;
+    }
+
+    public function guardarDatosInforme(Request $request)
+    {
+        $data = $request->input('datos');
+
+        $datos = [
+            'motivo_ingreso' => $data['motivoIngreso'],
+            'descripcion_equipo_ingreso' => $data['descripcionIngreso'],
+            'fecha_in_salida' => $data['fechaInicioIngreso'],
+            'fecha_fin_salida' => $data['fechaFinSalida'],
+            'hora_in_salida' => $data['horaInicioIngreso'],
+            'prestamo' => $data['prestamo'],
+            'id_userAutoriza' => $data['idUserAutoriza'],
+            'id_userAutorizado' => $data['idUserAutorizado'],
+            'id_elemento' => $data['idElemento']
+        ];
+
+        for ($i = 2; $i <= 5; $i++) {
+            $descripcionKey = 'descripcion_equipo_ingreso_' . $i;
+            if (isset($data[$descripcionKey]) && !empty($data[$descripcionKey])) {
+                $datos[$descripcionKey] = $data[$descripcionKey];
+            }
+        }
+        for ($i = 2; $i <= 5; $i++) {
+            $id_elementoKey = 'id_elemento_' . $i;
+            if (isset($data[$id_elementoKey]) && !empty($data[$id_elementoKey])) {
+                $datos[$id_elementoKey] = $data[$id_elementoKey];
+            }
+        }
+
+        // dd($datos);
+
+        $resultado = DB::table('ingreso_y_o_salida')->insertGetId($datos);
+        return response()->json(['id' => $resultado]);
+    }
+    public function view($id)
+    {
+
+        $ingresoSalida = DB::table('ingreso_y_o_salida')->where('id_ingreso', $id)->first();
+        $usuarioAutoriza = DB::table('users')->where('id', $ingresoSalida->id_userAutorizado)->first();
+        $personaAutorizada = DB::table('persona')->where('id', $usuarioAutoriza->idPersona)->first();
+
+        $elementos = [];
+        $id_elemento = ['id_elemento', 'id_elemento_2', 'id_elemento_3', 'id_elemento_4','id_elemento_5'];
+        foreach ($id_elemento as $column) {
+            $id_elemento = $ingresoSalida->{$column};
+            if ($id_elemento) {
+                $elemento = DB::table('elemento')
+                            ->select(
+                                'elemento.*',
+                                'estadoElemento.estado as estado_elemento'
+                            )
+                            ->leftJoin('estadoElemento', 'elemento.idEstadoEquipo', '=', 'estadoElemento.idEstadoE')
+                            ->where('elemento.idElemento', $id_elemento)
+                            ->first();
+
+                if ($elemento) {
+                    $elementos[] = $elemento;
+                }
+            }
+        }
+
+        $pdf = PDF::loadView('pdf.pdf', compact('ingresoSalida', 'elementos', 'usuarioAutoriza', 'personaAutorizada'));
+        return $pdf->stream();
+    }
+
+    public function ExportarPDF($idElemento)
+    {
+        $elemento = Elemento::where('idElemento', $idElemento)->get(['*']);
+        $pdf = Pdf::loadView('elementos.elemento.pdf', compact('elemento'));
+        $pdf->setPaper('letter', 'portrait');
+
+        return $pdf->stream('elementos.elemento.pdf');
+    }
 }

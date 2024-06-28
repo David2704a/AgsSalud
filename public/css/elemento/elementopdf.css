@@ -1,0 +1,168 @@
+@page {
+    size: letter;
+    margin: 1cm; 
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 11pt; 
+    line-height: 1.1; 
+    margin: 0; 
+    padding: 0; 
+}
+
+
+
+/*____________________________*/
+#content-font {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+    font-weight: bold;
+    height: max-content;
+    width: max-content;
+}
+#table4licencias tbody tr td{       
+    text-align: center;
+    line-height: 0.7;
+} 
+#table4licencias tbody tr td{       
+    text-align: center;
+} 
+#tablehead
+{
+    border-collapse: collapse;
+    border: 0;    
+}
+#tablehead tbody tr td
+{
+    font-size: 9pt;
+    text-align: center;
+    border-collapse: collapse; 
+    
+}
+
+/*-------------------------------*/
+#border-content{
+    border: 1px solid black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#table-header th {
+    border-bottom: 1px solid black;
+    padding: 0px;
+}
+#table-header th:first-child {
+    width: 155px;
+    height: 68px;
+    border-right: 1px solid black;
+    padding: 0 4px 0 1px;
+}
+#table-header thead tr th:nth-child(3) {
+    width: 20%;
+    text-align: center;
+    font-family: normal;
+    padding: 0 4px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.codigo-version span:first-child{
+    padding: 16px 60px 13px 20px;
+    border-right: 1px solid black;
+    margin: -7px;
+}
+.codigo-version span:nth-child(2){
+    padding: 6px 35px 6px 40px;
+}
+/* --------------------------------- */
+#section-title{
+    background-color: #244062;    
+    color: #fff;
+    text-align: center;
+    font-size: 10px;
+    margin: 0;
+    width: 100%;}
+/* -------------------------------------- */
+#table-hoja {
+    width: 100%;
+    border-collapse: collapse;
+}
+#table-hoja th ,td{
+    border: 1px solid black;
+    text-align: right;
+    font-size: 11px;
+}
+/* ---------------------- */
+
+#logo
+{
+    height: 55px;
+    width: 120px;
+    padding: 0;
+    margin: 0;
+    padding-right: 0;
+    padding-left: 0;
+    margin: 0;
+}
+/* -------------------------------------- */
+#item1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: 0;
+}
+#itemf {
+    margin: 0;
+}
+#idcodigo {
+    text-align: center;
+    margin: 0;
+}
+#item5
+{
+    text-align: center;
+}
+.grid-container {
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-family: bold;
+    padding: 0;
+}
+/********************/
+#table-identificacion-equipo {
+    border: 1px solid black;
+}
+#table-identificacion-equipo td {
+    border: 1px solid #fff;
+}
+#table-identificacion-equipo th {
+    padding: 0 0 0 90px;
+}
+/********************/
+#tabla-casillas tbody tr th{
+
+    text-align: left;
+    font-size: 9pt;
+    line-height: 1 !important;
+}
+#tabla-casillas {
+    
+    border-collapse: collapse;
+    border: 1px solid;
+}
+.checkbox {
+    width: 50px;
+    height: 17px;
+    border: 0.1px solid #000000b2;
+    margin-top: -1px;
+    margin-left: 28px;
+    text-align: center;
+    font-weight: normal;
+
+}
+#border-content2
+{
+    border: 1px solid #fff;
+    gap: 0;
+}
+

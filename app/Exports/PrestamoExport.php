@@ -62,16 +62,16 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
     public function registerEvents(): array
     {
 
-        
-        Image::make(public_path('imgs/logos/Ags.png'))->resize(180, 70)->save(public_path('imgs/logos/ags-export.png'));
-        Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
-        Image::make(public_path('imgs/logos/logo-IQNet.png'))->resize(80, 80)->save(public_path('imgs/logos/iqnet-export.png'));
-        Image::make(public_path('imgs/logos/escudo.png'))->resize(80, 80)->save(public_path('imgs/logos/escudo-export.png'));
-        Image::make(public_path('imgs/logos/logo_Enterritorio.png'))->resize(100, 80)->save(public_path('imgs/logos/enterritorio-export.png'));
-        Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
-        Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
 
-        
+        // Image::make(public_path('imgs/logos/Ags.png'))->resize(180, 70)->save(public_path('imgs/logos/ags-export.png'));
+        // Image::make(public_path('imgs/logos/iso.png'))->resize(80, 80)->save(public_path('imgs/logos/iso-export.png'));
+        // Image::make(public_path('imgs/logos/Logo-IQNet.png'))->resize(80, 80)->save(public_path('imgs/logos/iqnet-export.png'));
+        // Image::make(public_path('imgs/logos/escudo.png'))->resize(80, 80)->save(public_path('imgs/logos/escudo-export.png'));
+        // Image::make(public_path('imgs/logos/logo_Enterritorio.png'))->resize(100, 80)->save(public_path('imgs/logos/enterritorio-export.png'));
+        // Image::make(public_path('imgs/logos/logo_fondo.png'))->resize(100, 100)->save(public_path('imgs/logos/fondo-export.png'));
+        // Image::make(public_path('imgs/logos/logo-sena.png'))->resize(80, 80)->save(public_path('imgs/logos/sena-export.png'));
+
+
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $fechaActual = Carbon::now()->format('d/m/Y');
@@ -95,7 +95,7 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
                 $event->sheet->getRowDimension(6)->setRowHeight(8);
                 $event->sheet->getRowDimension(7)->setRowHeight(38);
                 $event->sheet->setTitle('Prestamos');
-                
+
                 //combinacion de celdas
                 $event->sheet->mergeCells('A1:B5');
                 $event->sheet->mergeCells('C1:J2');
@@ -139,7 +139,7 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
                         ],
                     ],
                 ]);
-    
+
                 $event->sheet->getStyle('C1:J2')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -155,7 +155,7 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
                         ],
                     ],
                 ]);
-    
+
                 $event->sheet->getStyle('C3:J4')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -171,7 +171,7 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
                         ],
                     ],
                 ]);
-    
+
                 $event->sheet->getStyle('C5:F5')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -187,7 +187,7 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
                         ],
                     ],
                 ]);
-    
+
                 $event->sheet->getStyle('F5:J5')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -203,7 +203,7 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
                         ],
                     ],
                 ]);
-    
+
                 $event->sheet->getStyle('K1:K5')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -232,7 +232,7 @@ class PrestamoExport implements FromView, ShouldAutoSize, WithEvents ,WithStyles
                 ],
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
-                    'color' => ['rgb' => 'FFFFFF'], // Color de fondo 
+                    'color' => ['rgb' => 'FFFFFF'], // Color de fondo
                 ],
                 'borders' => [
                     'allBorders' => [

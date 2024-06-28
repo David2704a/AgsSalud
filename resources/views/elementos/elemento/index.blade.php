@@ -6,29 +6,37 @@
 
     <link rel="stylesheet" href="{{ asset('/css/elemento/elemento.css') }}">
     <script src="{{ asset('js/elemento/elemento.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {{-- <link href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css"> --}}
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 
 @endsection
 @section('content')
 
-    <div class="contents">
-        <h1 class="page-title">Elementos</h1>
-        <div class="green-line"></div>
+    <div class="content2">
+        <div class="content" style="text-align: center">
+            <h1 class="page-title">Elementos</h1>
+            <div class="green-line"></div>
+        </div>
 
 
         <div class="button-container">
-            <a href="{{ url('/dashboard') }}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i>
+            <a href="{{ url('/dashboard') }}" class="button-izquierda arrow-left"><i
+                    class="fa-solid fa-circle-arrow-left"></i>
                 Regresar</a>
             @if (auth()->user()->hasRole(['superAdmin', 'administrador', 'tecnico']))
                 <a href="{{ route('elementos.create') }}" class="button-derecha"><i class="fas fa-file"></i> Nuevo
                     Elemento</a>
             @endif
 
-            <p><a href="{{ url('/lista-qr') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="_blank">QR'S</a></p>
-
+            @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                <p><a href="{{ url('/lista-qr') }}"
+                        class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        target="_blank">QR'S</a></p>
+            @endif
         </div>
         <div class="menu-container">
             <ul class="menu">
@@ -53,7 +61,7 @@
 
 
         {{-- <a href="{{ url('excel?idEstadoEquipo=1') }}" class="btn btn-success btn-lg" target="_blank" title="Ver Excel"><i
-    class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i></a> --}}
+        class="fa-solid fa-file-excel fa-lg" style="color: #178a13;"></i></a> --}}
 
 
 
@@ -103,13 +111,14 @@
                     </thead>
                     <tbody>
                         @foreach ($elementos as $elemento)
+
+                            {{-- @dd($elemento) --}}
                             {{-- @dd($elemento->user->name) --}}
 
                             {{-- @dd($elementos) --}}
-                            {{-- @if ($elemento->idElemento == 2052)
-                            @dd($elemento->estado) --}}
-
-                            {{-- @endif --}}
+                            @if ($elemento->id_disp0 == "900237674'7'E.T. EN. U'12")
+                                @dd($elemento)
+                            @endif
                             <tr>
                                 <td>{{ $elemento->idElemento ? $elemento->idElemento : 'NO APLICA' }}</td>
                                 <td>{{ $elemento->id_dispo ? $elemento->id_dispo : 'NO APLICA' }}</td>
@@ -133,18 +142,64 @@
                                 @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
                                     <td>
                                         @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
-                                            <a class="edit-button" title="Editar"
+                                            <a class="edit-button tooltips" title="Editar"
                                                 href="{{ route('elementos.edit', $elemento->idElemento) }}">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                         @endif
-                                        @if (auth()->user()->hasRole('superAdmin'))
-                                            <button type="button" class="delete-button" title="Eliminar"
-                                                data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
 
+
+                                        @if (auth()->user()->hasRole(['superAdmin', 'administrador']) && ($elemento->categoria->nombre=='PC PORTATIL')||($elemento->categoria->nombre=='EQUIPO TODO EN UNO'))
+                                            <a class="pdf-button" title="EquipoTecno"
+                                                href="{{ route('elementos.pdf', $elemento->idElemento)}}" target="_blank">
+                                                <i class="fa-solid fa-file-pdf"></i>
+                                            </a>
+
+                                        @endif
+
+                                        @if (auth()->user()->hasRole('superAdmin'))
+                                            <button type="button" class="delete-button tooltips" title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#myModal"
+                                                data-id="{{ $elemento->idElemento }}" data-name="{{ $elemento->modelo }}">
                                                 <i data-id="{{ $elemento->idElemento }}"
                                                     data-name="{{ $elemento->modelo }}" class="fas fa-trash-alt"></i>
                                             </button>
+                                        @endif
+                                        @if (
+                                            $elemento->idUsuario !== null &&
+                                                in_array($elemento->categoria->nombre, [
+                                                    'PC PORTATIL',
+                                                    'CARGADOR PORTATIL',
+                                                    'EQUIPO TODO EN UNO',
+                                                    'TECLADO',
+                                                    'MOUSE',
+                                                    'PAD MOUSE',
+                                                    'DIADEMA',
+                                                    'MICROFONO',
+                                                    'BASE REFRIGERANTE',
+                                                    'ADAPTADOR DE RED',
+                                                    'DVR',
+                                                    'CELULAR',
+                                                ]))
+                                            @if (auth()->user()->hasRole(['superAdmin', 'administrador']))
+                                                <a class="edit-button" style="background-color: rgb(37, 162, 194); margin-top:0.5em" title="ActaDeEntrega"
+                                                    href="{{route('generar.pdf', $elemento->idUsuario)}}" target="_blank">
+                                                    <i class="fa-solid fa-file-pdf"></i>
+                                                </a>
+                                            @endif
+                                            @if ($elemento->idUsuario !== null && in_array($elemento->categoria->nombre, ['PC PORTATIL', 'CARGADOR PORTATIL', 'EQUIPO TODO EN UNO', 'TECLADO', 'MOUSE', 'PAD MOUSE']))
+                                                <a href="{{url('/ingreso_salida/'.$elemento->idElemento . '/' . $elemento->idUsuario)}}" type="button" data-id-user="{{ $elemento->idUsuario }}"
+                                                    data-user-identificacion="{{$elemento->user->persona->identificacion ?? false}}"
+                                                    data-name-user="{{ $elemento->user->name ?? false}}" class="btn_ingreso_salida">
+                                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                                </a>
+                                            @endif
+                                            <a href="{{url('/exportarpdf/'.$elemento->idElemento)}}" type="button" target="_blank">
+                                                <span class="fa-stack fa-lg">
+                                                    <i class="fas fa-square fa-stack-2x pdf-background"></i>
+                                                    <i class="fas fa-file-pdf fa-stack-1x fa-inverse" style="margin-left: 3px;"></i>
+                                                </span>
+                                            </a>
                                         @endif
                                     </td>
                                 @endif
@@ -152,6 +207,8 @@
                         @endforeach
                     </tbody>
                 </table>
+
+
 
             </div>
 
@@ -161,48 +218,63 @@
         </div>
     </div>
 
+    {{-- @include('components.modal-form-salida-i-n') --}}
 
 
-    <!-- Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <p id="modalMessage"></p>
-            <div class="button-container">
-                <button id="cancelButton" class="modal-button">Cancelar</button>
-                <form id="deleteForm" action="{{ route('elementos.destroy', 'REPLACE_ID') }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>
-                </form>
+    {{--
+        ================================================
+        MODAL PARA ELEGIR SI ELIMINAR O NO
+        ================================================
+
+    --}}
+
+    <div class="modal fade" id="myModal" ia-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="modalTitleId">
+                        ¿Deseas Eliminar el Registro?
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage"></p>
+                    <div class="button-container" style="display: flex; justify-content: center; margin: 1rem -3rem;">
+                        <button id="cancelButton" class="modal-button" style="">Cancelar</button>
+                        <form id="deleteForm" action="{{ route('elementos.destroy', 'REPLACE_ID') }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button id="confirmDelete" type="submit" class="modal-button"
+                                style="padding: 5px 10px; background-color: #DC3545; color: #fff; border: none; border-radius: 4px;">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <br>
-    <br>
-    <br>
-    <footer class="footer position-absolute top-100 start-50 translate-middle mt-4">
-        <div class="left-images">
-            <div class="column">
-                <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
-                <img src="{{ asset('imgs/logos/ESCUDO COLOMBIA.png') }}" width="45" alt="Imagen 2">
-            </div>
-            <div class="column">
-                <img src="{{ asset('imgs/logos/logo_fondo.png') }}" width="130" alt="Imagen 3">
-                <img src="{{ asset('imgs/logos/Logo_Enterritorio.png') }}" width="100" alt="Imagen 4">
-            </div>
-        </div>
-        <div class="right-content">
-            <div class="images">
-                {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
-                {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
-            </div>
-            <div class="separator"></div>
-            <div class="text">
-                <p>Copyright © 2023 AGS SALUD SAS</p>
-                <p>Todos los derechos Reservados</p>
-            </div>
-        </div>
-    </footer>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+        $('#tableElementos').on('click', '.btn_ingreso_salida', function() {
+            var idUserAutorizado = $(this).data('id-user');
+            var nameUserAutorizado = $(this).data('name-user');
+            var identiUserAutorizado = $(this).data('user-identificacion');
 
+
+            $('#hola1').val(idUserAutorizado)
+            $('#nameUserAutorizado').val(nameUserAutorizado)
+            $('#identiUserAutorizado').val(identiUserAutorizado)
+
+
+        })
+    </script>
 @endsection

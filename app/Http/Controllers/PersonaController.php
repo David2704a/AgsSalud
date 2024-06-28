@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PersonaController extends Controller
 {
-    
+
 
 
     Public function index(){
-        
+
         $user = Auth::user();
         if ($user && $user->persona) {
             // Pasar el usuario a la vista
@@ -32,7 +32,7 @@ class PersonaController extends Controller
         $usuario = User::find($id);
         $persona = $usuario->persona;
         $tiposIdentificacion = TipoIdentificacion::all(); // Asegúrate de obtener una colección de objetos aquí
-    
+
         return view('persona.edit', compact('usuario', 'persona', 'tiposIdentificacion'));
     }
 
@@ -56,28 +56,28 @@ class PersonaController extends Controller
 
         // Actualiza la información de la persona
         $persona->update([
-            'nombre1' => $request->input('nombre1') ? ucwords(strtolower($request->input('nombre1'))) : null,
-                    'nombre2' => $request->input('nombre2') ? ucwords(strtolower($request->input('nombre2'))) : null,
-                    'apellido1' => $request->input('apellido1') ? ucwords(strtolower($request->input('apellido1'))) : null,
-                    'apellido2' => $request->input('apellido2') ? ucwords(strtolower($request->input('apellido2'))) : null,
+            'nombre1' => $request->input('nombre1') ? strtoupper($request->input('nombre1')) : null,
+                    'nombre2' => $request->input('nombre2') ? strtoupper($request->input('nombre2')) : null,
+                    'apellido1' => $request->input('apellido1') ? strtoupper($request->input('apellido1')) : null,
+                    'apellido2' => $request->input('apellido2') ? strtoupper($request->input('apellido2')) : null,
                     'idTipoIdentificacion' => $request->input('idTipoIdentificacion'),
                     'identificacion' => $request->input('identificacion'),
                     'fechaNac' => $request->input('fechaNac'),
-                    'direccion' => $request->input('direccion') ? ucwords(strtolower($request->input('direccion'))) : null,
+                    'direccion' => $request->input('direccion') ? strtoupper($request->input('direccion')) : null,
                     'celular' => $request->input('celular'),
                     'sexo' => $request->input('sexo'),
         ]);
 
         // Actualiza el nombre del usuario si es necesario
         $user->update([
-            'name' => ucfirst(strtolower($request->input('nombre1'))) . ' ' .
-                    ucfirst(strtolower($request->input('nombre2'))) . ' ' .
-                    ucfirst(strtolower($request->input('apellido1'))) . ' ' .
-                    ucfirst(strtolower($request->input('apellido2'))),
+            'name' => strtoupper($request->input('nombre1')) . ' ' .
+                    strtoupper($request->input('nombre2')) . ' ' .
+                    strtoupper($request->input('apellido1')) . ' ' .
+                    strtoupper($request->input('apellido2')),
         ]);
 
         // Redirige con mensaje de éxito
-        return redirect()->route('persona.index')->with('success', 'Información de persona y usuario actualizada correctamente.');
+        return redirect()->route('persona.index')->with('successInfoPer', 'Información de persona y usuario actualizada correctamente.');
     }
 
 

@@ -3,102 +3,129 @@
 @section('title', 'Perfil')
 
 @php
-use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Auth;
 @endphp
 
 
 
 @section('links')
-<link rel="stylesheet" href="{{ asset('/css/categoria/categoria.css') }}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('/css/persona.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
 
 @section('content')
-<div class="content">
-    <h1 class="page-title">Actualizar perfil</h1>
-    <div class="green-line"></div>
+    <div class="content2">
+        <div class="content">
+            <h1 class="page-title">ACTUALIZAR USUARIO</h1>
+            <div class="green-line"></div>
+        </div>
 
 
-    <div class="button-container">
-        <a href="{{url('/dashboard')}}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
-    </div>
+        <div class="button-container">
+            <a href="{{ url('/dashboard') }}" class="button-izquierda arrow-left"><i class="fa-solid fa-circle-arrow-left"></i>
+                Regresar</a>
+        </div>
 
-    @if(session('success'))
-    <div id="alert" class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
 
-    @if($errors->any())
-    <div id="error-alert" class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
-    <form id="updateProfileForm" class="form" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}" method="POST">                    @csrf
-
-        <label for="name">Nombre usuario</label>
-        <br>
-        <input type="text" name="name" id="name" value="{{  Auth::user()->name }}">
-        <br>
-
-        <label for="email">Correo</label>
-        <br>
-        <input type="text" name="email" id="email" value="{{ Auth::user()->email }}">
-        <br>
-        <br>
-        <br>
-
-        @if(auth()->user()->hasRole(['superAdmin','admin']))
-            <button type="botton"  class="edit-button" href="{{ route('ActualizarPerfil') }} "title="Guardar cambios"  >Guardar cambios <i class="fas fa-sync-alt"></i></button>
+        @if (session('success'))
+            <script>
+                alertSwitch('success', 'El Usuario ha sido actualizado con éxito', 3500)
+            </script>
         @endif
-            <a class="edit-button" href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}"  >
-                <i class="fa-regular fa-pen-to-square icon"></i>
-                <span class="texts">
-                <span class="text-1">Actualizar informacion</span>
-                {{-- <span class="text-2">Información</span> --}}
-                </span>
-            </a>
-                                        {{-- <a  href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}" title="Actualizar Información">Actualizar Información<i class="fa-regular fa-pen-to-square"></i>                        </div> --}}
-            <br>
-            <br>
-            <br>
-    </form>
+        @if (session('successInfoPer'))
+            <script>
+                alertSwitch('success', 'La información personal del usuario ha sido actualizada con éxito', 3500)
+            </script>
+        @endif
+        @if ($errors->any())
+            <div id="error-alert" class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <br>
-    <br>
-    <br>
-</div>
-
-
-<!-- Resto del contenido -->
-<footer class="footer resources/views/categorias/index.blade.php">
-    <div class="left-images">
-        <div class="column">
-            <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
-            <img src="{{ asset('imgs/logos/ESCUDO COLOMBIA.png') }}" width="45" alt="Imagen 2">
-        </div>
-        <div class="column">
-            <img src="{{ asset('imgs/logos/logo_fondo.png') }}" width="130" alt="Imagen 3">
-            <img src="{{ asset('imgs/logos/Logo_Enterritorio.png') }}" width="100" alt="Imagen 4">
+        <div class="contenidoForm">
+            <div class="container">
+                <div class="form-container">
+                    <h1>Actualizar Usuario</h1>
+                    <form id="updateProfileForm" action="{{ route('Actualizar', ['id' => Auth::user()->id]) }}"
+                        method="POST">
+                        @csrf
+                        <div class="input-group">
+                            <div class="icon">
+                                <img src="https://img.icons8.com/material-outlined/24/ffffff/user.png" alt="Username Icon">
+                            </div>
+                            <input  type="text" placeholder="Usuario" name="name" id="name"
+                                value="{{ Auth::user()->name }}">
+                        </div>
+                        <div class="input-group">
+                            <div class="icon">
+                                <img src="https://img.icons8.com/material-outlined/24/ffffff/email.png" alt="Email Icon">
+                            </div>
+                            <input type="email" placeholder="E-mail" name="email" id="email"
+                                value="{{ Auth::user()->email }}">
+                        </div>
+                        @if (auth()->user()->hasRole(['superAdmin', 'admin']))
+                            <div class="input-group">
+                                <div class="icon" id="iconPassword">
+                                    <img src="https://img.icons8.com/material-outlined/24/ffffff/lock.png"
+                                        alt="Password Icon">
+                                </div>
+                                <input type="password" placeholder="Contraseña" name="password" id="password">
+                                <div id="btnEyes" class="password-toggle">
+                                    <img
+                                        src="https://img.icons8.com/material-outlined/24/ffffff/invisible.png"alt="Toggle Password Visibility">
+                                </div>
+                            </div>
+                        @endif
+                        <div class="div_btn_actualizarP">
+                            <a class="btn_actualizarP" href="{{ route('editarPerfil', ['id' => Auth::user()->id]) }}"
+                                style="float: right;">Actualizar Información Personal</a>
+                        </div>
+                        @if (auth()->user()->hasRole(['superAdmin', 'admin']))
+                            <button type="submit" href="{{ route('ActualizarPerfil') }} ">Guardar cambios</button>
+                        @else
+                            <button class="btn_guardarC" id="btn_guardarC">Guardar cambios</button>
+                        @endif
+                    </form>
+                </div>
+                <div class="illustration-container">
+                    @auth
+                        @if (Auth::user()->persona && in_array(Auth::user()->persona->sexo, ['M', 'F', 'O', null]))
+                            @if (Auth::user()->persona->sexo === 'M')
+                                <img src="{{ asset('img/undraw_Progress_indicator_re_4o4n.png') }}" alt="Illustration">
+                            @elseif (Auth::user()->persona->sexo === 'F')
+                                <img src="{{ asset('img/undraw_subscriptions_re_k7jj.png') }}" alt="Illustration">
+                            @elseif(Auth::user()->persona->sexo === 'O')
+                                <img src="{{ asset('img/undraw_Progress_indicator_re_4o4n.png') }}" alt="Illustration">
+                            @elseif (Auth::user()->persona->sexo === null)
+                                <img src="{{ asset('img/undraw_Progress_indicator_re_4o4n.png') }}" alt="Illustration">
+                            @endif
+                        @endif
+                    @endauth
+                </div>
+            </div>
         </div>
     </div>
-    <div class="right-content">
-        <div class="images">
-            {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
-            {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
-        </div>
-        <div class="separator"></div>
-        <div class="text">
-            <p>Copyright © 2023 AGS SALUD SAS</p>
-            <p>Todos los derechos Reservados</p>
-        </div>
-    </div>
-</footer>
+    <script>
+        $('#btnEyes').on('click', function() {
+            if ($('#password').attr('type') === 'password') {
+                $('#password').attr('type', 'text');
+                $('#btnEyes img').attr('src', 'https://img.icons8.com/material-outlined/24/ffffff/visible.png');
+            } else {
+                $('#password').attr('type', 'password');
+                $('#btnEyes img').attr('src', 'https://img.icons8.com/material-outlined/24/ffffff/invisible.png');
+            }
+        })
+
+        $('#btn_guardarC').on('click', function() {
+            $('#btn_guardarC').attr('type', 'button');
+            alertSwitch('error', 'El rol que posees no tiene permitido realizar esta acción. Por favor comunícate con un administrador', 4500)
+        })
+    </script>
 @endsection

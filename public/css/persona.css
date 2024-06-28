@@ -1,0 +1,337 @@
+/*
+=====================================================
+ESTILOS PARA EL TÍTULO
+=====================================================
+*/
+.content {
+    text-align: center;
+
+}
+
+.page-title {
+    font-size: 28px;
+    color: #343D7C;
+    margin-top: 20px;
+}
+
+.green-line {
+    width: 28rem;
+    height: 4px;
+    background-color: #01A497;
+    margin: -15px auto;
+    border-radius: 5px;
+}
+
+/*
+==========================================================
+ESTILOS PARA EL FORMULARIO DE ACTUALIZAR USUARIO
+==========================================================
+*/
+.contenidoForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    margin: 3em 0 0 0;
+    font-family: Arial, sans-serif;
+}
+
+.contenidoForm .container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 1000px;
+    width: 100%;
+    overflow: hidden;
+    height: 500px;
+}
+
+.form-container {
+    padding: 40px;
+    flex: 1;
+}
+
+.form-container h1 {
+    margin-bottom: 24px;
+    color: #343D7C;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+.input-group .icon {
+    margin: 0;
+    background-color: #adbbba9a;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-group .icon img {
+    fill: #343D7C;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) saturate(100%) invert(20%) sepia(28%) saturate(2418%) hue-rotate(206deg) brightness(95%) contrast(88%);
+}
+
+.input-group .password-toggle {
+    background-color: #adbbba9a;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#iconPassword {
+    padding: 12px;
+}
+
+.input-group .password-toggle img {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(28%) saturate(2418%) hue-rotate(206deg) brightness(95%) contrast(88%);
+}
+
+.form-container .div_btn_actualizarP .btn_actualizarP {
+    margin-top: 0.5em;
+    color: #343D7C;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.form-container .div_btn_actualizarP .btn_actualizarP:hover {
+    color: #038177;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    color: #01A497;
+    border: 2px solid #01A497;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 2.5em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-out;
+}
+
+.form-container button:hover {
+    background-color: #01A497;
+    color: #fff;
+}
+
+.illustration-container {
+    background-color: #f9fbfd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration-container img {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/*
+===================================================================
+ESTILOS PARA LA FLECHA DE REGRESAR
+===================================================================
+*/
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 40rem;
+    margin: 2rem auto;
+}
+
+.button-container a {
+    text-decoration: none;
+}
+
+.button-izquierda {
+    color: #343D7C;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+.button-izquierda i {
+    font-size: 1.2rem;
+}
+
+/*
+========================================================
+ESTILOS FORMULARIO
+========================================================
+*/
+
+.formUpadateP {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    width: 100%;
+    box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.247), 0px -2px 10px rgba(0, 0, 0, 0.247);
+    padding: 2em;
+    margin: 2rem auto;
+}
+
+.formUpadateP .row {
+    max-width: 924px;
+    min-width: 924px;
+    margin: 1em 0 1em 0;
+}
+
+
+.button_container_save {
+    display: flex;
+    justify-content: center;
+    width: 40rem;
+    margin: 2rem auto;
+}
+
+.button_container_save .btn_saveE {
+    color: #01A497;
+    border: 2px solid #01A497;
+    background: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 5px 9px 5px 9px;
+    letter-spacing: 1px;
+    transition: all 0.2s ease-in;
+}
+
+.button_container_save .btn_saveE:hover {
+    color: #fff;
+    background-color: #01A497;
+}
+
+.formUpadateP input,
+.formUpadateP select {
+    border:1px solid #747586a6;
+}
+
+.formUpadateP input[type="text"] {
+    text-transform: uppercase;
+}
+.formUpadateP label {
+    font-size: 15px;
+    color: #343D7C;
+    font-weight: 600;
+}
+
+.formUpadateP input::placeholder {
+    color: #343c7cad;
+}
+
+
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+.input-group input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+.input-group .icon {
+    background-color: #adbbba9a;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input-group .icon img {
+    height: 20px;
+    width: 20px;
+    filter: brightness(0) saturate(100%) invert(20%) sepia(28%) saturate(2418%) hue-rotate(206deg) brightness(95%) contrast(88%);
+}
+.invalid-feedback {
+    color: red;
+    font-size: 14px;
+}
+
+/*
+=============================================
+ESTILOS PARA EL FOOTER
+=============================================
+*/
+
+.separator {
+    width: 2px;
+    height: 40px;
+    background-color: #a1a1a1;
+    margin: 0 10px;
+}
+
+.left-images {
+    margin-left: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.right-content {
+    margin-right: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+.images img {
+    margin-right: 10px;
+}
+
+
+
+.text {
+
+    margin-right: 10px;
+}
+
+.text p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #777777;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -9,8 +9,8 @@
 
 @endsection
 @section('content')
-
-<div class="content">
+<div class="content2">
+<div class="content" style="text-align: center">
     <h1 class="page-title">EDITAR ELEMENTO</h1>
 <div class="green-line"></div>
 </div>
@@ -32,6 +32,7 @@
 </div>
 
 
+
     <form class="form" action="{{route('elementos.update', $elemento->idElemento)}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -48,25 +49,25 @@
 
     <div class="form-part active" id="parte1">
         <label for="marca">Marca del producto</label>
-        <input type="text" name="marca" id="marca" class="input" value="{{$elemento->marca}}">
+        <input type="text" name="marca" id="marca" class="input" value="{{$elemento->marca}}" >
         <label for="referencia">Referencia del producto</label>
-        <input type="text" name="referencia" id="referencia" class="input"value="{{$elemento->referencia}}">
+        <input type="text" name="referencia" id="referencia" class="input"value="{{$elemento->referencia}}" >
         <label for="serial">Serial del producto</label>
-        <input type="text" name="serial" id="serial" class="input" value="{{$elemento->serial}}">
+        <input type="text" name="serial" id="serial" class="input" value="{{$elemento->serial}}" >
         <label for="modelo">Modelo del producto</label>
-        <input type="text" name="modelo" id="modelo" class="input"value="{{$elemento->modelo}}">
+        <input type="text" name="modelo" id="modelo" class="input"value="{{$elemento->modelo}}" >
         <button type="button" onclick="mostrarParte('parte2')">Siguiente</button>
     </div>
 
     <div class="form-part" id="parte2">
         <label for="garantia">Tiempo de garantia (meses)</label>
-        <input type="text" name="garantia" id="garantia" class="input" value="{{$elemento->garantia}}">
+        <input type="text" name="garantia" id="garantia" class="input" value="{{$elemento->garantia}}" >
         <label for="ram">Ram del elemento</label>
-        <input type="ram" name="ram" id="ram" class="input" value="{{$elemento->ram}}">
+        <input type="ram" name="ram" id="ram" class="input" value="{{$elemento->ram}}" >
         <label for="descripcion">Descripcion del producto</label>
-        <input type="text" name="descripcion" id="descripcion" class="input" value="{{$elemento->descripcion}}">
+        <input type="text" name="descripcion" id="descripcion" class="input" value="{{$elemento->descripcion}}" >
         <label for="procesador">Procesador del elemento</label>
-        <input type="text" name="procesador" id="procesador" class="input" value="{{$elemento->procesador}}">
+        <input type="text" name="procesador" id="procesador" class="input" value="{{$elemento->procesador}}" >
 
         <button type="button" onclick="mostrarParte('parte1')">Anterior</button>
         <button type="button" onclick="mostrarParte('parte3')">Siguiente</button>
@@ -76,14 +77,16 @@
         <label for="disco_duro">Disco duro del elemento</label>
         <input type="text" name="disco_duro" id="disco_duro" class="input" value="{{$elemento->disco_duro}}">
         <label for="tarjeta_grafica">Tarjeta gráfica del elemento</label>
-        <input type="text" name="tarjeta_grafica" id="tarjeta_grafica" class="input" value="{{$elemento->tarjeta_grafica}}">
+        <input type="text" name="tarjeta_grafica" id="tarjeta_grafica" class="input" value="{{$elemento->tarjeta_grafica}}" >
 
         <label for="idEstadoEquipo">Estado del producto</label>
-        <select name="idEstadoEquipo" id="idEstadoEquipo" class="input">
+        <select name="idEstadoEquipo" id="idEstadoEquipo" class="input" >
+            @if($elemento->estado)
+                <option selected value="{{ $elemento->estado->idEstadoE }}">{{ $elemento->estado->estado }}</option>
+            @endif
             @foreach ($estados as $estado)
                 <option value="{{$estado->idEstadoE}}">{{ $estado->estado}}</option>
             @endforeach
-            <option value="">Seleccione una opcion</option>
         </select>
 
         <button type="button" onclick="mostrarParte('parte2')">Anterior</button>
@@ -92,18 +95,11 @@
 
     <div class="form-part" id="parte4">
 
-
-
-        <label for="idTipoElemento">Tipo de elemento</label>
-        <select name="idTipoElemento" id="idTipoElemento" class="input">
-            @foreach ($tipoElementos as $tipo)
-                <option value="{{ $tipo->idTipoElemento}}">{{ $tipo->tipo}}
-            @endforeach
-            <option value="">Seleccione una opcion</option>
-        </select>
-
         <label for="idCategoria">Categoria</label>
-        <select name="idCategoria" id="idCategoria" class="input">
+        <select name="idCategoria" id="idCategoria" class="input" >
+            @if($elemento->categoria)
+                <option selected value="{{ $elemento->categoria->idCategoria }}">{{ $elemento->categoria->nombre }}</option>
+            @endif
             @foreach ($categorias as $categoria)
                 <option value="{{ $categoria->idCategoria }}">{{ $categoria->nombre}}
             @endforeach
@@ -111,20 +107,25 @@
         </select>
 
         <label for="idFactura">Pertenece a Factura</label>
-        <select name="idFactura" id="idFactura" class="input">
+        <select name="idFactura" id="idFactura" class="input" >
+            @if($elemento->factura)
+                <option selected value="{{ $elemento->factura->idFactura }}">{{ $elemento->factura->codigoFactura }}</option>
+            @endif
             @foreach ($facturas as $factura)
                 <option value="{{ $factura->idFactura }}">{{ $factura->codigoFactura}}
             @endforeach
             <option value="">Seleccione una opcion</option>
         </select>
 
-
         <label for="idUsuario">Asignado A:</label>
-        <select name="idUsuario" id="idUsuario" class="input">
+        <select name="idUsuario" id="idUsuario" class="input" >
+            @if($elemento->user)
+                <option selected value="{{ $elemento->user->id }}">{{ $elemento->user->name }}</option>
+            @endif
+            <option value="">Sin asignar</option>
             @foreach ($users as $user)
                 <option value="{{$user->id }}">{{ $user->name}}</option>
             @endforeach
-            <option value="">Seleccione una opcion</option>
         </select>
         <div class="button-container">
             <button type="button" onclick="mostrarParte('parte3')">Anterior</button>
@@ -133,30 +134,5 @@
     </div>
 
     </form>
-
-    <footer class="footer">
-        <div class="left-images">
-            <div class="column">
-                <img src="{{asset('imgs/logos/logo-sena.png')}}" width="45" alt="Imagen 1">
-                <img src="{{asset('imgs/logos/ESCUDO COLOMBIA.png')}}" width="45" alt="Imagen 2">
-            </div>
-            <div class="column">
-                <img src="{{asset('imgs/logos/logo_fondo.png')}}" width="130" alt="Imagen 3">
-                <img src="{{asset('imgs/logos/Logo_Enterritorio.png')}}" width="100" alt="Imagen 4">
-            </div>
-        </div>
-        <div class="right-content">
-            <div class="images">
-                {{-- <img src="{{asset('imgs/logos/LOGO ISO.png')}}" width="50" alt="Imagen 5"> --}}
-                {{-- <img src="{{asset('imgs/logos/Logo-IQNet .png')}}" width="75" alt="Imagen 6"> --}}
-            </div>
-            <div class="separator"></div>
-            <div class="text">
-                <p>Copyright © 2023 AGS SALUD SAS</p>
-                <p>Todos los derechos Reservados</p>
-            </div>
-        </div>
-    </footer>
-
-
+</div>
 @endsection

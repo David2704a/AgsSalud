@@ -91,7 +91,6 @@
                             <button type="button" class="delete-button" title="Eliminar"
                             data-id="{{ $tipoElemento->idTipoElemento }}"
                              data-name="{{ $tipoElemento->tipo }}">
-
                                 <i data-id="{{ $tipoElemento->idTipoElemento }}" data-name="{{ $tipoElemento->tipo }}" class="fas fa-trash-alt"></i>
                             </button>
                             @endif
@@ -115,48 +114,17 @@
 </div>
 
 
-<div id="myModal" class="modal">
-    <div class="modal-content">
+<div id="myModal" class="modalEliminar">
+    <div class="modal_content">
         <p id="modalMessage"></p>
         <div class="button-container">
             <button id="cancelButton" class="modal-button">Cancelar</button>
             <form id="deleteForm" action="{{ route('tipoElementos.destroy',  'REPLACE_ID') }}" method="POST">
-                @csrf 
+                @csrf
                 @method('DELETE')
                 <button id="confirmDelete" type="submit" class="btn-link modal-button">Eliminar</button>
             </form>
         </div>
     </div>
 </div>
-
-<br>
-<br>
-<br>
-
-
-
-
-<footer class="footer position-absolute top-100 start-50 translate-middle">
-    <div class="left-images">
-        <div class="column">
-            <img src="{{ asset('imgs/logos/logo-sena.png') }}" width="45" alt="Imagen 1">
-            <img src="{{ asset('imgs/logos/ESCUDO COLOMBIA.png') }}" width="45" alt="Imagen 2">
-        </div>
-        <div class="column">
-            <img src="{{ asset('imgs/logos/logo_fondo.png') }}" width="130" alt="Imagen 3">
-            <img src="{{ asset('imgs/logos/Logo_Enterritorio.png') }}" width="100" alt="Imagen 4">
-        </div>
-    </div>
-    <div class="right-content">
-        <div class="images">
-            {{-- <img src="{{ asset('imgs/logos/LOGO ISO.png') }}" width="50" alt="Imagen 5"> --}}
-            {{-- <img src="{{ asset('imgs/logos/Logo-IQNet.png') }}" width="75" alt="Imagen 6"> --}}
-        </div>
-        <div class="separator"></div>
-        <div class="text">
-            <p>Copyright © 2023 AGS SALUD SAS</p>
-            <p>Todos los derechos Reservados</p>
-        </div>
-    </div>
-</footer>
 @endsection

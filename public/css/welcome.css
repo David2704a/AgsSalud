@@ -137,8 +137,8 @@ FOOTER
 ================================================================
 */
 
-.footer {
-    padding: 20px 0;
+/* .footer {
+    margin-top: -50px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -146,9 +146,9 @@ FOOTER
     background-color: #f3f3f3;
     color: #fff;
     bottom: 0;
-   
+    position: absolute;
 }
-
+ */
 
 
 .separator {
