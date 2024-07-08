@@ -68,6 +68,7 @@
                 <table class="table table-striped" id="tableElementos">
                     <thead class="thead-dark">
                         <tr>
+                            <th>Id</th>
                             <th>Id_dispo</th>
                             <th>Categoria</th>
                             <th>Marca</th>
@@ -84,6 +85,7 @@
                     <tbody id="elementos-body">
                         @foreach($elementosf as $elemento)
                         <tr>
+                            <td>{{$loop->iteration}}</td>
                             <td>{{$elemento->id_dispo}}</td>
                             <td>{{ $elemento->categoria->nombre }}</td>
                             <td>{{$elemento->marca ?? 'NO APLICA' }}</td>

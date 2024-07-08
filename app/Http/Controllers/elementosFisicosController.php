@@ -232,6 +232,11 @@ class elementosFisicosController extends Controller
             $estado = EstadoElemento::where('estado', $row['6'])->first();
             $estadoId = $estado ? $estado->idEstadoE : null;
           
+                    // Verificar si id_dispo ya existe en la tabla 'elementosfis'
+            if (ElementosFis::where('id_dispo', $row['0'])->exists()) {
+                // Si existe, saltar al siguiente registro
+                continue;
+            }
 
             // Crear el registro en la tabla 'elementosfis'
             $qr = (new QRCode)->render(url('/elemento/qr/'.$row['0']));
@@ -250,7 +255,7 @@ class elementosFisicosController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Data imported successfully!');
+        return redirect()->route('elementos-fisicos.index')->with('success', 'Elementos físicos cargados satisfactoriamente ;)');
     }
 
     public function search(Request $request)
