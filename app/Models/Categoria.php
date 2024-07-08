@@ -13,7 +13,8 @@ class Categoria extends Model
     protected $primaryKey = 'idCategoria';
     protected $fillable = [
         'nombre',
-        'descripcion'
+        'descripcion',
+        'tipo'
     ];
     public $timestamps = true;
 }
